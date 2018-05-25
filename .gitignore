@@ -27,3 +27,6 @@ Desktop.ini
 #########################
 
 .mailmap
+*.app
+*.dSYM
+bin/.tmp
