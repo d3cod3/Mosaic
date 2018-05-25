@@ -34,21 +34,33 @@
 
 #include "ofMain.h"
 
+#include "config.h"
+
 class ofApp : public ofBaseApp{
 
 public:
     void setup();
     void update();
     void draw();
+    void exit();
 
+    // Sound Stream
+    void audioIn(ofSoundBuffer & input);
+    void audioOut(ofSoundBuffer & output);
+
+    // Keyboard Events
     void keyPressed(int key);
     void keyReleased(int key);
+
+    // Mouse Events
     void mouseMoved(int x, int y );
     void mouseDragged(int x, int y, int button);
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
     void mouseEntered(int x, int y);
     void mouseExited(int x, int y);
+
+    // Misc Events
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
@@ -56,5 +68,11 @@ public:
 
     // Command line arguments
     vector<string>  arguments;
+
+
+private:
+
+
+protected:
 
 };

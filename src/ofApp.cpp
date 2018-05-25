@@ -44,6 +44,26 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofBackground(20,20,20,255);
+
+    ofSetColor(255);
+    stringstream ss;
+    ss << PACKAGE << " " << VERSION << " | " << DESCRIPTION << endl;
+    ofDrawBitmapStringHighlight(ss.str().c_str(),10,20);
+}
+
+//--------------------------------------------------------------
+void ofApp::exit() {
+
+}
+
+//--------------------------------------------------------------
+void ofApp::audioIn(ofSoundBuffer & input){
+
+}
+
+//--------------------------------------------------------------
+void ofApp::audioOut(ofSoundBuffer & output){
 
 }
 
