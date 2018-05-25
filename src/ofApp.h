@@ -54,5 +54,7 @@ public:
     void gotMessage(ofMessage msg);
 
 
+    // Command line arguments
+    vector<string>  arguments;
 
 };
