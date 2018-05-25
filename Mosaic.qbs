@@ -12,6 +12,7 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/config.h",
             'src/main.cpp',
             'src/ofApp.cpp',
             'src/ofApp.h',
