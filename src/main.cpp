@@ -32,6 +32,7 @@
 
 #include "ofMain.h"
 #include "ofApp.h"
+#include "OutputRenderApp.h"
 #include "ofAppGLFWWindow.h"
 
 //========================================================================
@@ -55,6 +56,17 @@ int main(int argc, char *argv[]){
 
     mosaicApp->arguments = options;
 
+    settings.setSize(854, 480);
+    settings.setPosition(ofVec2f(200,100));
+    settings.resizable = true;
+    settings.shareContextWith = mosaicWindow;
+
+    shared_ptr<ofAppBaseWindow> outputRenderWindow = ofCreateWindow(settings);
+    shared_ptr<OutputRenderApp> outputRenderApp(new OutputRenderApp);
+
+    mosaicApp->outputRenderApp = outputRenderApp;
+
+    ofRunApp(outputRenderWindow, outputRenderApp);
     ofRunApp(mosaicWindow,mosaicApp);
     ofRunMainLoop();
 

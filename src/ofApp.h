@@ -37,7 +37,9 @@
 #include "config.h"
 #include "includes.h"
 
-class ofApp : public ofBaseApp, ofxLuaListener {
+#include "OutputRenderApp.h"
+
+class ofApp : public ofBaseApp{
 
 public:
     void setup();
@@ -66,15 +68,11 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    // ofxLua error callback
-    void errorReceived(std::string& msg);
-
     // Command line arguments
     vector<string>  arguments;
 
-    // Scripting
-    ofxLua          lua;
-    string          testingScript;
+    // WINDOWS
+    shared_ptr<OutputRenderApp> outputRenderApp;
 
 
 private:

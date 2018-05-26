@@ -43,28 +43,11 @@ void ofApp::setup(){
     ofSetLogLevel("ofxLua", OF_LOG_VERBOSE);
     ///////////////////////////////////////////
 
-    ///////////////////////////////////////////
-    // Scripting -- TESTING
-    testingScript = "scripts/00_Mosaic_ofxLua_testing.lua";
-
-    lua.init(true);
-    lua.addListener(this);
-    lua.doScript(testingScript, true);
-    ///////////////////////////////////////////
-
-    ///////////////////////////////////////////
-    // LUA SETUP
-    lua.scriptSetup();
-    ///////////////////////////////////////////
-
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    ///////////////////////////////////////////
-    // LUA UPDATE
-    lua.scriptUpdate();
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
@@ -76,19 +59,11 @@ void ofApp::draw(){
     ss << PACKAGE << " " << VERSION << " | " << DESCRIPTION << endl;
     ofDrawBitmapStringHighlight(ss.str().c_str(),10,20);
 
-    ///////////////////////////////////////////
-    // LUA DRAW
-    lua.scriptDraw();
-    ///////////////////////////////////////////
 }
 
 //--------------------------------------------------------------
 void ofApp::exit() {
-    ///////////////////////////////////////////
-    // LUA EXIT
-    lua.scriptExit();
-    lua.clear();
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
@@ -103,10 +78,7 @@ void ofApp::audioOut(ofSoundBuffer & output){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    ///////////////////////////////////////////
-    // LUA keyPressed
-    lua.scriptKeyPressed(key);
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
@@ -116,34 +88,22 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    ///////////////////////////////////////////
-    // LUA mouseMoved
-    lua.scriptMouseMoved(x, y);
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-    ///////////////////////////////////////////
-    // LUA mouseDragged
-    lua.scriptMouseDragged(x, y, button);
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    ///////////////////////////////////////////
-    // LUA mousePressed
-    lua.scriptMousePressed(x, y, button);
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    ///////////////////////////////////////////
-    // LUA mouseReleased
-    lua.scriptMouseReleased(x, y, button);
-    ///////////////////////////////////////////
+
 }
 
 //--------------------------------------------------------------
@@ -169,9 +129,4 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
-}
-
-//--------------------------------------------------------------
-void ofApp::errorReceived(std::string& msg) {
-    ofLogNotice() << "got a script error: " << msg;
 }

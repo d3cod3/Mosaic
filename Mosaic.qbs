@@ -12,6 +12,8 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/OutputRenderApp.cpp",
+            "src/OutputRenderApp.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',

@@ -7,7 +7,8 @@ function setup()
 
 	of.setCircleResolution(50)
 	of.background(255, 255, 255, 255)
-	of.setWindowPosition(0,0)
+	of.setWindowPosition(500,100)
+	of.setWindowShape(1024,768)
 	
 	of.disableSmoothing()
 end
