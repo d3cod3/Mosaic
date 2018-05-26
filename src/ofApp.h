@@ -35,8 +35,9 @@
 #include "ofMain.h"
 
 #include "config.h"
+#include "includes.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp, ofxLuaListener {
 
 public:
     void setup();
@@ -65,9 +66,15 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    // ofxLua error callback
+    void errorReceived(std::string& msg);
 
     // Command line arguments
     vector<string>  arguments;
+
+    // Scripting
+    ofxLua          lua;
+    string          testingScript;
 
 
 private:

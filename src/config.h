@@ -37,4 +37,6 @@
 #define DESCRIPTION "OF Visual Patching Developer Platform"
 #define TAGS "mosaic,openframeworks,osx,linux,creative-coding,video,audio,graphics,live-coding,visual-programming"
 
+#define WINDOW_TITLE "Mosaic 0.1.0"
+
 // defaults

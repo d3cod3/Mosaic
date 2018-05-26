@@ -13,13 +13,15 @@ Project{
 
         files: [
             "src/config.h",
+            "src/includes.h",
             'src/main.cpp',
             'src/ofApp.cpp',
             'src/ofApp.h',
         ]
 
         of.addons: [
-            'ofx3DModelLoader','ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxSvg','ofxVectorGraphics','ofxXmlSettings'
+            'ofx3DModelLoader','ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
+            'ofxLua'
         ]
 
         // additional flags for the project. the of module sets some
