@@ -12,6 +12,8 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/LoggerApp.cpp",
+            "src/LoggerApp.h",
             "src/OutputRenderApp.cpp",
             "src/OutputRenderApp.h",
             "src/config.h",
@@ -23,6 +25,7 @@ Project{
 
         of.addons: [
             'ofx3DModelLoader','ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
+            'ofxLoggerChannel',
             'ofxLua'
         ]
 

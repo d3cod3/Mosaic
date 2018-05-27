@@ -32,6 +32,7 @@
 
 #include "ofMain.h"
 #include "ofApp.h"
+#include "LoggerApp.h"
 #include "OutputRenderApp.h"
 #include "ofAppGLFWWindow.h"
 
@@ -51,6 +52,7 @@ int main(int argc, char *argv[]){
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = true;
 
+    // Mosaic main visual-programming window
     shared_ptr<ofAppBaseWindow> mosaicWindow = ofCreateWindow(settings);
     shared_ptr<ofApp> mosaicApp(new ofApp);
 
@@ -61,11 +63,24 @@ int main(int argc, char *argv[]){
     settings.resizable = true;
     settings.shareContextWith = mosaicWindow;
 
+    // Main Projector
     shared_ptr<ofAppBaseWindow> outputRenderWindow = ofCreateWindow(settings);
     shared_ptr<OutputRenderApp> outputRenderApp(new OutputRenderApp);
 
     mosaicApp->outputRenderApp = outputRenderApp;
 
+    settings.setSize(854, 240);
+    settings.setPosition(ofVec2f(0,780));
+    settings.resizable = true;
+    settings.shareContextWith = outputRenderWindow;
+
+    // Logger
+    shared_ptr<ofAppBaseWindow> loggerWindow = ofCreateWindow(settings);
+    shared_ptr<LoggerApp> loggerApp(new LoggerApp);
+
+    outputRenderApp->loggerApp = loggerApp;
+
+    ofRunApp(loggerWindow, loggerApp);
     ofRunApp(outputRenderWindow, outputRenderApp);
     ofRunApp(mosaicWindow,mosaicApp);
     ofRunMainLoop();

@@ -30,6 +30,7 @@
 
 ### ofxaddons
   + added ofxLua, with OF 0.10.0 bindings
+  + added ofxLoggerChannel
 
 ### libs
 

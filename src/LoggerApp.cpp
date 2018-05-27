@@ -30,102 +30,51 @@
 
 ==============================================================================*/
 
-#include "ofApp.h"
+#include "LoggerApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void LoggerApp::setup(){
 
-    ///////////////////////////////////////////
-    // OF Stuff
-    ofSetVerticalSync(false);
+    ofSetWindowTitle("Logger");
     ofSetFrameRate(60);
-    ofSetWindowTitle(WINDOW_TITLE);
-    ///////////////////////////////////////////
+    ofEnableAlphaBlending();
+    ofSetBackgroundAuto(true);
+
+    screenLoggerChannel = shared_ptr<ofxScreenLoggerChannel>(new ofxScreenLoggerChannel());
+    ofSetLoggerChannel(screenLoggerChannel);
+    screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,20));
+    screenLoggerChannel->setTextColor(ofColor(203,224,254));
+    screenLoggerChannel->setPrefixTimestamp(true);
+
+    ofRectangle bounds = screenLoggerChannel->getDrawBounds();
+    bounds.width = ofGetWindowWidth();
+    bounds.height = ofGetWindowHeight();
+    screenLoggerChannel->setDrawBounds(bounds);
+
+    ofLogNotice("setup", "Start the show!");
 
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void LoggerApp::update(){
 
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-    ofBackground(20,20,20,255);
-
-    ofSetColor(255);
-    stringstream ss;
-    ss << PACKAGE << " " << VERSION << " | " << DESCRIPTION << endl;
-    ofDrawBitmapStringHighlight(ss.str().c_str(),10,20);
-
+void LoggerApp::draw(){
+    ofBackground(20,20,20);
+    screenLoggerChannel->draw();
 }
 
 //--------------------------------------------------------------
-void ofApp::exit() {
-
+void LoggerApp::keyPressed(int key){
+    ofLogNotice("keyPressed", "TESTING");
 }
 
 //--------------------------------------------------------------
-void ofApp::audioIn(ofSoundBuffer & input){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::audioOut(ofSoundBuffer & output){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
+void LoggerApp::windowResized(int w, int h){
+    ofRectangle bounds = screenLoggerChannel->getDrawBounds();
+    bounds.width = ofGetWindowWidth();
+    bounds.height = ofGetWindowHeight();
+    screenLoggerChannel->setDrawBounds(bounds);
 }
