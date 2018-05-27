@@ -20,7 +20,7 @@
 
 
 ### general
-    / builded with OF 0.10.0
+    / builded with OF 0.10.0, QT Creator 4.6.1
     + added MIT License
     + added process/ folder for documentation
 
@@ -44,3 +44,4 @@ PLATFORM SPECIFIC
 
 ### macos
     / QTCreator project only
+    / Based on Qt 5.10.1 (Clang 8.0 (Apple), 64 bit)
