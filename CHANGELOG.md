@@ -20,17 +20,17 @@
 
 
 ### general
-  / builded with OF 0.10.0
-	+ added MIT License
-  + added process/ folder for documentation
+    / builded with OF 0.10.0
+    + added MIT License
+    + added process/ folder for documentation
 
 ### core
 
 ### gui
 
 ### ofxaddons
-  + added ofxLua, with OF 0.10.0 bindings
-  + added ofxLoggerChannel
+    + added ofxLua, with OF 0.10.0 bindings
+    + added ofxLoggerChannel
 
 ### libs
 
@@ -43,4 +43,4 @@ PLATFORM SPECIFIC
 ### linux
 
 ### macos
-  / QTCreator project only
+    / QTCreator project only
