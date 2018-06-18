@@ -38,25 +38,25 @@ void ofApp::setup(){
     ///////////////////////////////////////////
     // OF Stuff
     ofSetVerticalSync(false);
-    ofSetFrameRate(60);
     ofSetWindowTitle(WINDOW_TITLE);
+    ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ///////////////////////////////////////////
+
+    visualProgramming = new ofxVisualProgramming();
+    visualProgramming->setup();
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    visualProgramming->update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(20,20,20,255);
+    ofBackground(20);
 
-    ofSetColor(255);
-    stringstream ss;
-    ss << PACKAGE << " " << VERSION << " | " << DESCRIPTION << endl;
-    ofDrawBitmapStringHighlight(ss.str().c_str(),10,20);
+    visualProgramming->draw();
 
 }
 
@@ -67,12 +67,12 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::audioIn(ofSoundBuffer & input){
-
+    visualProgramming->audioIn(input);
 }
 
 //--------------------------------------------------------------
 void ofApp::audioOut(ofSoundBuffer & output){
-
+    visualProgramming->audioOut(output);
 }
 
 //--------------------------------------------------------------

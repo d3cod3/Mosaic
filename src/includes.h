@@ -32,4 +32,4 @@
 
 #pragma mark once
 
-#include "ofxLua.h"
+#include "ofxVisualProgramming.h"

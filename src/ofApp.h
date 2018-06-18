@@ -37,7 +37,7 @@
 #include "config.h"
 #include "includes.h"
 
-#include "OutputRenderApp.h"
+#include "LoggerApp.h"
 
 class ofApp : public ofBaseApp{
 
@@ -71,8 +71,10 @@ public:
     // Command line arguments
     vector<string>  arguments;
 
-    // WINDOWS
-    shared_ptr<OutputRenderApp> outputRenderApp;
+    // LOGGER WINDOW
+    shared_ptr<LoggerApp> loggerApp;
+
+    ofxVisualProgramming    *visualProgramming;
 
 
 private:

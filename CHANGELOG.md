@@ -38,6 +38,7 @@
     + added ofxLoggerChannel 
     + added ofxLua, with OF 0.10.0 bindings
     + added ofxTimeMeasurements
+    + added ofxVisualProgramming <https://github.com/d3cod3/ofxVisualProgramming>
 
 ### libs
 

@@ -14,8 +14,6 @@ Project{
         files: [
             "src/LoggerApp.cpp",
             "src/LoggerApp.h",
-            "src/OutputRenderApp.cpp",
-            "src/OutputRenderApp.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',
@@ -31,9 +29,11 @@ Project{
             'ofxDatGui',
             'ofxHistoryPlot',
             'ofxInfiniteCanvas',
+            'ofxLua',
             'ofxLoggerChannel',
             'ofxTimeMeasurements',
-            'ofxLua'
+            'ofxVisualProgramming'
+
         ]
 
         // additional flags for the project. the of module sets some

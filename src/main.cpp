@@ -33,8 +33,8 @@
 #include "ofMain.h"
 #include "ofApp.h"
 #include "LoggerApp.h"
-#include "OutputRenderApp.h"
 #include "ofAppGLFWWindow.h"
+#include "ofxTimeMeasurements.h"
 
 //========================================================================
 int main(int argc, char *argv[]){
@@ -48,6 +48,11 @@ int main(int argc, char *argv[]){
     }
 
     ofGLFWWindowSettings settings;
+    int major = 0, minor = -1; // momentarily deactivated -- TODO
+    if(major > 0 && major < 5 && minor > -1 && minor < 6) {
+        settings.setGLVersion(major, minor);
+    }
+    settings.stencilBits = 0;
     settings.setSize(1280, 720);
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = true;
@@ -56,33 +61,23 @@ int main(int argc, char *argv[]){
     shared_ptr<ofAppBaseWindow> mosaicWindow = ofCreateWindow(settings);
     shared_ptr<ofApp> mosaicApp(new ofApp);
 
+    TIME_SAMPLE_SET_FRAMERATE(30);
+
     mosaicApp->arguments = options;
-
-    settings.setSize(854, 480);
-    settings.setPosition(ofVec2f(200,100));
-    settings.resizable = true;
-    settings.shareContextWith = mosaicWindow;
-
-    // Main Projector
-    shared_ptr<ofAppBaseWindow> outputRenderWindow = ofCreateWindow(settings);
-    shared_ptr<OutputRenderApp> outputRenderApp(new OutputRenderApp);
-
-    mosaicApp->outputRenderApp = outputRenderApp;
 
     settings.setSize(854, 240);
     settings.setPosition(ofVec2f(0,780));
     settings.resizable = true;
-    settings.shareContextWith = outputRenderWindow;
+    settings.shareContextWith = mosaicWindow;
 
     // Logger
     shared_ptr<ofAppBaseWindow> loggerWindow = ofCreateWindow(settings);
     shared_ptr<LoggerApp> loggerApp(new LoggerApp);
 
-    outputRenderApp->loggerApp = loggerApp;
+    mosaicApp->loggerApp = loggerApp;
 
     ofRunApp(loggerWindow, loggerApp);
-    ofRunApp(outputRenderWindow, outputRenderApp);
-    ofRunApp(mosaicWindow,mosaicApp);
+    ofRunApp(mosaicWindow, mosaicApp);
     ofRunMainLoop();
 
     // done
