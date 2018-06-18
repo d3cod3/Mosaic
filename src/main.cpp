@@ -65,8 +65,8 @@ int main(int argc, char *argv[]){
 
     mosaicApp->arguments = options;
 
-    settings.setSize(854, 240);
-    settings.setPosition(ofVec2f(0,780));
+    settings.setSize(1280, 240);
+    settings.setPosition(ofVec2f(0,800));
     settings.resizable = true;
     settings.shareContextWith = mosaicWindow;
 

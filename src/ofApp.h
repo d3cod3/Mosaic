@@ -47,10 +47,6 @@ public:
     void draw();
     void exit();
 
-    // Sound Stream
-    void audioIn(ofSoundBuffer & input);
-    void audioOut(ofSoundBuffer & output);
-
     // Keyboard Events
     void keyPressed(int key);
     void keyReleased(int key);
@@ -74,6 +70,7 @@ public:
     // LOGGER WINDOW
     shared_ptr<LoggerApp> loggerApp;
 
+    // Core visual programming
     ofxVisualProgramming    *visualProgramming;
 
 

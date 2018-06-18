@@ -35,8 +35,8 @@
 //--------------------------------------------------------------
 void LoggerApp::setup(){
 
-    ofSetWindowTitle("Logger");
-    ofSetFrameRate(60);
+    ofSetWindowTitle("Console");
+    ofSetFrameRate(30);
     ofEnableAlphaBlending();
     ofSetBackgroundAuto(true);
 
@@ -44,6 +44,11 @@ void LoggerApp::setup(){
     ofSetLoggerChannel(screenLoggerChannel);
     screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,20));
     screenLoggerChannel->setTextColor(ofColor(203,224,254));
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        screenLoggerChannel->setup(MAIN_FONT,18);
+    }else{
+        screenLoggerChannel->setup(MAIN_FONT,14);
+    }
     screenLoggerChannel->setPrefixTimestamp(true);
 
     ofRectangle bounds = screenLoggerChannel->getDrawBounds();
@@ -51,7 +56,7 @@ void LoggerApp::setup(){
     bounds.height = ofGetWindowHeight();
     screenLoggerChannel->setDrawBounds(bounds);
 
-    ofLogNotice("setup", "Start the show!");
+    ofLogNotice("setup", "Starting Mosaic!");
 
 }
 

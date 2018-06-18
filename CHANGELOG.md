@@ -35,7 +35,7 @@
     + added ofxGLError
     + added ofxHistoryPlot
     + added a forked version ofofxInfiniteCanvas <https://github.com/d3cod3/ofxInfiniteCanvas>
-    + added ofxLoggerChannel 
+    + added a forked version of ofxLoggerChannel <https://github.com/d3cod3/ofxLoggerChannel>
     + added ofxLua, with OF 0.10.0 bindings
     + added ofxTimeMeasurements
     + added ofxVisualProgramming <https://github.com/d3cod3/ofxVisualProgramming>

@@ -66,16 +66,6 @@ void ofApp::exit() {
 }
 
 //--------------------------------------------------------------
-void ofApp::audioIn(ofSoundBuffer & input){
-    visualProgramming->audioIn(input);
-}
-
-//--------------------------------------------------------------
-void ofApp::audioOut(ofSoundBuffer & output){
-    visualProgramming->audioOut(output);
-}
-
-//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
 }
