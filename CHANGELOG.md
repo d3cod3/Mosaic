@@ -27,10 +27,17 @@
 ### core
 
 ### gui
+    / using a forked ofxDatGui working with ofxFontStash <https://github.com/d3cod3/ofxDatGui>
 
 ### ofxaddons
+    + added a forked version of ofxAudioAnalyzer <https://github.com/d3cod3/ofxAudioAnalyzer>
+    + added ofxFontStash
+    + added ofxGLError
+    + added ofxHistoryPlot
+    + added a forked version ofofxInfiniteCanvas <https://github.com/d3cod3/ofxInfiniteCanvas>
+    + added ofxLoggerChannel 
     + added ofxLua, with OF 0.10.0 bindings
-    + added ofxLoggerChannel
+    + added ofxTimeMeasurements
 
 ### libs
 
@@ -41,7 +48,11 @@ PLATFORM SPECIFIC
 -----------------
 
 ### linux
+    / QTCreator project only
 
 ### macos
     / QTCreator project only
     / Based on Qt 5.10.1 (Clang 8.0 (Apple), 64 bit)
+
+### win
+    / QTCreator project only

@@ -1,32 +1,33 @@
 counter = 0
 bSmooth = false
 
+mouseX = 0
+mouseY = 0
+
 ----------------------------------------------------
 function setup()
-	print("script setup")
 
-	of.setCircleResolution(50)
-	of.background(255, 255, 255, 255)
-	of.setWindowPosition(500,100)
-	of.setWindowShape(1024,768)
-	
-	of.disableSmoothing()
+
 end
 
 ----------------------------------------------------
 function update()
 	counter = counter + 0.033
+	--print(tostring(_mosaic_data_table[1]))
 end
 
 ----------------------------------------------------
 function draw()
 
+	of.background(255, 255, 255, 255)
+
 	-- CIRCLES
 	-- let's draw a circle
+	of.setCircleResolution(50)
 	of.setColor(255, 130, 0)
 	local radius = 50 + 10 * math.sin(counter)
 	of.fill()
-	of.drawCircle(100, 400, radius)
+	of.drawCircle(mouseX, mouseY, radius)
 
 	-- now just an outline
 	of.noFill()
@@ -39,10 +40,9 @@ function draw()
 
 	-- RECTANGLES
 	of.fill()
-	for i=0,200 do
+	for k,v in pairs(_mosaic_data_table) do
 		of.setColor(of.random(0, 255), of.random(0, 255), of.random(0, 255))
-		of.drawRectangle(of.random(250, 350), of.random(350, 450),
-		                 of.random(10, 20), of.random(10, 20))
+		of.drawRectangle(300 + _mosaic_data_table[k]*200, of.random(350, 450),of.random(10, 20), of.random(10, 20))
 	end
 	of.setHexColor(0x000000)
 	of.drawBitmapString("rectangles", 275, 500)
@@ -59,7 +59,7 @@ function draw()
 	of.disableAlphaBlending()
 
 	of.setHexColor(0x000000)
-	of.drawBitmapString("transparency", 410, 500)
+	of.drawBitmapString("transparency", 410, 500,0)
 
 	-- LINES
 	-- a bunch of red lines, make them smooth if the flag is set
@@ -92,8 +92,13 @@ end
 ----------------------------------------------------
 function keyPressed(key)
 	-- print out key as ascii val & char (keep within ascii 0-127 range)
-	print("script keyPressed: "..tostring(key).." \'"..string.char(math.max(math.min(key, 127), 0)).."\'")
+	--print("script keyPressed: "..tostring(key).." \'"..string.char(math.max(math.min(key, 127), 0)).."\'")
 	if key == string.byte("s") then
 		bSmooth = not bSmooth
 	end
+end
+
+function mouseMoved(x,y)
+	mouseX = x
+	mouseY = y
 end
