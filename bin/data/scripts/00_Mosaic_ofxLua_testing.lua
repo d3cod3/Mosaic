@@ -7,7 +7,6 @@ mouseY = 0
 ----------------------------------------------------
 function setup()
 
-
 end
 
 ----------------------------------------------------
@@ -20,10 +19,10 @@ end
 function draw()
 
 	of.background(255, 255, 255, 255)
-
+	of.setCircleResolution(50)
 	-- CIRCLES
 	-- let's draw a circle
-	of.setCircleResolution(50)
+
 	of.setColor(255, 130, 0)
 	local radius = 50 + 10 * math.sin(counter)
 	of.fill()

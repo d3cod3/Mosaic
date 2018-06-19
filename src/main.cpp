@@ -36,6 +36,8 @@
 #include "ofAppGLFWWindow.h"
 #include "ofxTimeMeasurements.h"
 
+#include "config.h"
+
 //========================================================================
 int main(int argc, char *argv[]){
 
@@ -53,7 +55,7 @@ int main(int argc, char *argv[]){
         settings.setGLVersion(major, minor);
     }
     settings.stencilBits = 0;
-    settings.setSize(1280, 720);
+    settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
     settings.setPosition(ofVec2f(0,0));
     settings.resizable = true;
 
@@ -65,8 +67,8 @@ int main(int argc, char *argv[]){
 
     mosaicApp->arguments = options;
 
-    settings.setSize(1280, 240);
-    settings.setPosition(ofVec2f(0,800));
+    settings.setSize(CONSOLE_WINDOW_START_WIDTH, CONSOLE_WINDOW_START_HEIGHT);
+    settings.setPosition(ofVec2f(0,WINDOW_START_HEIGHT+70));
     settings.resizable = true;
     settings.shareContextWith = mosaicWindow;
 

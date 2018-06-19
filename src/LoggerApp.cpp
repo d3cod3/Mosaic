@@ -40,18 +40,25 @@ void LoggerApp::setup(){
     ofEnableAlphaBlending();
     ofSetBackgroundAuto(true);
 
+    // RETINA FIX
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        ofSetWindowShape(CONSOLE_WINDOW_START_WIDTH*2, CONSOLE_WINDOW_START_HEIGHT*2);
+        ofSetWindowPosition(0,(WINDOW_START_HEIGHT*2)+140);
+    }
+
     screenLoggerChannel = shared_ptr<ofxScreenLoggerChannel>(new ofxScreenLoggerChannel());
     ofSetLoggerChannel(screenLoggerChannel);
     screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,20));
     screenLoggerChannel->setTextColor(ofColor(203,224,254));
+    // MORE RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        screenLoggerChannel->setup(MAIN_FONT,18);
+        screenLoggerChannel->setup(MAIN_FONT,26);
     }else{
         screenLoggerChannel->setup(MAIN_FONT,14);
     }
     screenLoggerChannel->setPrefixTimestamp(true);
 
-    ofRectangle bounds = screenLoggerChannel->getDrawBounds();
+    bounds = screenLoggerChannel->getDrawBounds();
     bounds.width = ofGetWindowWidth();
     bounds.height = ofGetWindowHeight();
     screenLoggerChannel->setDrawBounds(bounds);
@@ -78,7 +85,7 @@ void LoggerApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void LoggerApp::windowResized(int w, int h){
-    ofRectangle bounds = screenLoggerChannel->getDrawBounds();
+    bounds = screenLoggerChannel->getDrawBounds();
     bounds.width = ofGetWindowWidth();
     bounds.height = ofGetWindowHeight();
     screenLoggerChannel->setDrawBounds(bounds);

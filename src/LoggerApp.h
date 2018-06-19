@@ -53,6 +53,8 @@ public:
     // Misc Events
     void windowResized(int w, int h);
 
+    ofRectangle bounds;
+
 private:
 
     shared_ptr<ofxScreenLoggerChannel> screenLoggerChannel;

@@ -42,6 +42,11 @@ void ofApp::setup(){
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ///////////////////////////////////////////
 
+    // RETINA FIX
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        ofSetWindowShape(WINDOW_START_WIDTH*2, WINDOW_START_HEIGHT*2);
+    }
+
     visualProgramming = new ofxVisualProgramming();
     visualProgramming->setup();
 
@@ -67,7 +72,9 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == 'r'){
+        visualProgramming->addObject("simple random",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    }
 }
 
 //--------------------------------------------------------------

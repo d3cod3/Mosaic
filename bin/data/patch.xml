@@ -14,8 +14,8 @@
     <name>output window</name>
     <filepath>none</filepath>
     <position>
-        <x>859.666687012</x>
-        <y>309.000000000</y>
+        <x>845.666687012</x>
+        <y>279.000000000</y>
     </position>
     <inlets>
         <link>
@@ -62,8 +62,8 @@
     <name>simple noise</name>
     <filepath>none</filepath>
     <position>
-        <x>-147.333328247</x>
-        <y>53.000000000</y>
+        <x>-124.000000000</x>
+        <y>129.000000000</y>
     </position>
     <inlets>
         <link>
@@ -114,7 +114,7 @@
     <name>video player</name>
     <filepath>/Users/n3m3da/Documents/GAmuza/Examples/Video/videoPlayer/data/video.mov</filepath>
     <position>
-        <x>513.666687012</x>
+        <x>513.000000000</x>
         <y>359.000000000</y>
     </position>
     <inlets>
@@ -146,8 +146,8 @@
     <name>lua script</name>
     <filepath>/Users/n3m3da/Public/development/of_v0.10.0_osx_release/apps/n3m3da/Mosaic/bin/data/scripts/00_Mosaic_ofxLua_testing.lua</filepath>
     <position>
-        <x>559.000000000</x>
-        <y>65.000000000</y>
+        <x>520.666687012</x>
+        <y>78.000000000</y>
     </position>
     <inlets>
         <link>
@@ -199,6 +199,30 @@
                 <id>26</id>
                 <inlet>0</inlet>
             </to>
+        </link>
+    </outlets>
+</object>
+<object>
+    <id>28</id>
+    <name>simple random</name>
+    <filepath>none</filepath>
+    <position>
+        <x>-145.333328247</x>
+        <y>371.000000000</y>
+    </position>
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>min</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>max</name>
+        </link>
+    </inlets>
+    <outlets>
+        <link>
+            <type>0</type>
         </link>
     </outlets>
 </object>

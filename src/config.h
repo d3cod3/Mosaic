@@ -38,5 +38,12 @@
 #define TAGS "mosaic,openframeworks,osx,linux,creative-coding,video,audio,graphics,live-coding,visual-programming"
 
 #define WINDOW_TITLE "Mosaic 0.1.0"
+#define WINDOW_START_WIDTH 1280
+#define WINDOW_START_HEIGHT 720
+
+#define CONSOLE_WINDOW_TITLE "Console"
+#define CONSOLE_WINDOW_START_WIDTH 1280
+#define CONSOLE_WINDOW_START_HEIGHT 240
+
 
 // defaults
