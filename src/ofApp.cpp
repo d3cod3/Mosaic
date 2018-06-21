@@ -47,8 +47,12 @@ void ofApp::setup(){
         ofSetWindowShape(WINDOW_START_WIDTH*2, WINDOW_START_HEIGHT*2);
     }
 
+    // Visual Programming Environment Load
     visualProgramming = new ofxVisualProgramming();
     visualProgramming->setup();
+
+    // GUI
+    mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
 }
 
@@ -61,7 +65,15 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackground(20);
 
+    // BACKGROUND GUI
+    ofSetColor(255,255,255,16);
+    mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),ofGetWindowHeight()/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
+
+    // Mosaic Visual Programming
+    ofSetColor(255,255,255);
     visualProgramming->draw();
+
+    // OVERLAY GUI
 
 }
 
@@ -72,8 +84,18 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if(key == 'r'){
-        visualProgramming->addObject("simple random",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    // TESTING
+    if(key == 'o'){
+        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open patch");
+        if (openFileResult.bSuccess){
+            ofFile file (openFileResult.getPath());
+            if (file.exists()){
+                string fileExtension = ofToUpper(file.getExtension());
+                if(fileExtension == "XML") {
+                    visualProgramming->openPatch(file.getAbsolutePath());
+                }
+            }
+        }
     }
 }
 

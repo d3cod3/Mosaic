@@ -65,13 +65,16 @@ public:
     void gotMessage(ofMessage msg);
 
     // Command line arguments
-    vector<string>  arguments;
+    vector<string>              arguments;
 
     // LOGGER WINDOW
-    shared_ptr<LoggerApp> loggerApp;
+    shared_ptr<LoggerApp>       loggerApp;
 
     // Core visual programming
-    ofxVisualProgramming    *visualProgramming;
+    ofxVisualProgramming        *visualProgramming;
+
+    // GUI
+    ofImage                     *mosaicLogo;
 
 
 private:

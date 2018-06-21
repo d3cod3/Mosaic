@@ -42,7 +42,6 @@
 int main(int argc, char *argv[]){
 
     vector<string> options;
-
     if(argc > 1){
         for(int i = 0; i < argc; i++){
             options.push_back(argv[i]);
@@ -50,10 +49,7 @@ int main(int argc, char *argv[]){
     }
 
     ofGLFWWindowSettings settings;
-    int major = 0, minor = -1; // momentarily deactivated -- TODO
-    if(major > 0 && major < 5 && minor > -1 && minor < 6) {
-        settings.setGLVersion(major, minor);
-    }
+    settings.setGLVersion(2, 1);
     settings.stencilBits = 0;
     settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
     settings.setPosition(ofVec2f(0,0));
