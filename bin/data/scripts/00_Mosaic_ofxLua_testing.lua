@@ -18,9 +18,10 @@ end
 ----------------------------------------------------
 function draw()
 
-  --of.setColor(255, 130, 0,10)
-	--of.drawRectangle(0,0,1280,720)
-	of.background(255, 255, 255)
+
+  of.setColor(255, 255, 255,10)
+	of.drawRectangle(0,0,1280,720)
+	--of.background(255, 255, 255)
 	of.setCircleResolution(50)
 	-- CIRCLES
 	-- let's draw a circle
