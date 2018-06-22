@@ -52,7 +52,13 @@ int main(int argc, char *argv[]){
     settings.setGLVersion(2, 1);
     settings.stencilBits = 0;
     settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
+#ifdef TARGET_LINUX
     settings.setPosition(ofVec2f(0,0));
+#elif defined(TARGET_OSX)
+    settings.setPosition(ofVec2f(0,0));
+#elif defined(TARGET_WIN32)
+    settings.setPosition(ofVec2f(6,30));
+#endif
     settings.resizable = true;
 
     // Mosaic main visual-programming window
@@ -64,7 +70,13 @@ int main(int argc, char *argv[]){
     mosaicApp->arguments = options;
 
     settings.setSize(CONSOLE_WINDOW_START_WIDTH, CONSOLE_WINDOW_START_HEIGHT);
+#ifdef TARGET_LINUX
     settings.setPosition(ofVec2f(0,WINDOW_START_HEIGHT+70));
+#elif defined(TARGET_OSX)
+    settings.setPosition(ofVec2f(0,WINDOW_START_HEIGHT+70));
+#elif defined(TARGET_WIN32)
+    settings.setPosition(ofVec2f(6,WINDOW_START_HEIGHT+70));
+#endif
     settings.resizable = true;
     settings.shareContextWith = mosaicWindow;
 
