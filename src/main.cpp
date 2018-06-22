@@ -60,9 +60,10 @@ int main(int argc, char *argv[]){
     settings.setPosition(ofVec2f(6,30));
 #endif
     settings.resizable = true;
+    settings.decorated = true;
 
     // Mosaic main visual-programming window
-    shared_ptr<ofAppBaseWindow> mosaicWindow = ofCreateWindow(settings);
+    shared_ptr<ofAppGLFWWindow> mosaicWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
     shared_ptr<ofApp> mosaicApp(new ofApp);
 
     TIME_SAMPLE_SET_FRAMERATE(30);
@@ -78,10 +79,11 @@ int main(int argc, char *argv[]){
     settings.setPosition(ofVec2f(6,WINDOW_START_HEIGHT+70));
 #endif
     settings.resizable = true;
+    settings.decorated = true;
     settings.shareContextWith = mosaicWindow;
 
     // Logger
-    shared_ptr<ofAppBaseWindow> loggerWindow = ofCreateWindow(settings);
+    shared_ptr<ofAppGLFWWindow> loggerWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
     shared_ptr<LoggerApp> loggerApp(new LoggerApp);
 
     mosaicApp->loggerApp = loggerApp;
