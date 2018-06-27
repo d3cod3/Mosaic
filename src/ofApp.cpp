@@ -37,8 +37,8 @@ void ofApp::setup(){
 
     ///////////////////////////////////////////
     // OF Stuff
+    ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(false);
-    ofSetWindowTitle(WINDOW_TITLE);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ///////////////////////////////////////////
 
@@ -58,6 +58,9 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
+    ofSetWindowTitle(windowTitle);
+
     visualProgramming->update();
 }
 
@@ -96,7 +99,9 @@ void ofApp::keyPressed(int key){
                 }
             }
         }
-    }
+    }/*else if(key == 'a'){
+        visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    }*/
 }
 
 //--------------------------------------------------------------

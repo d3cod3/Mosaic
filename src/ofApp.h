@@ -72,6 +72,7 @@ public:
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
+    string                       windowTitle;
 
     // GUI
     ofImage                     *mosaicLogo;

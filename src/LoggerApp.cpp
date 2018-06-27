@@ -40,6 +40,8 @@ void LoggerApp::setup(){
     ofEnableAlphaBlending();
     ofSetBackgroundAuto(true);
 
+    isInited = false;
+
     // RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
         ofSetWindowShape(CONSOLE_WINDOW_START_WIDTH*2, CONSOLE_WINDOW_START_HEIGHT*2);
@@ -53,6 +55,7 @@ void LoggerApp::setup(){
     // MORE RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
         screenLoggerChannel->setup(MAIN_FONT,26);
+        screenLoggerChannel->setIsRetina();
     }else{
         screenLoggerChannel->setup(MAIN_FONT,14);
     }
@@ -69,7 +72,9 @@ void LoggerApp::setup(){
 
 //--------------------------------------------------------------
 void LoggerApp::update(){
-
+    if(!isInited){
+        isInited = true;
+    }
 }
 
 //--------------------------------------------------------------
@@ -80,13 +85,15 @@ void LoggerApp::draw(){
 
 //--------------------------------------------------------------
 void LoggerApp::keyPressed(int key){
-    ofLogNotice("keyPressed", "TESTING");
+    //ofLogNotice("keyPressed", "TESTING");
 }
 
 //--------------------------------------------------------------
 void LoggerApp::windowResized(int w, int h){
-    bounds = screenLoggerChannel->getDrawBounds();
-    bounds.width = ofGetWindowWidth();
-    bounds.height = ofGetWindowHeight();
-    screenLoggerChannel->setDrawBounds(bounds);
+    if(isInited){
+        bounds = screenLoggerChannel->getDrawBounds();
+        bounds.width = ofGetWindowWidth();
+        bounds.height = ofGetWindowHeight();
+        screenLoggerChannel->setDrawBounds(bounds);
+    }
 }

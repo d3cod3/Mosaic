@@ -54,6 +54,7 @@ public:
     void windowResized(int w, int h);
 
     ofRectangle bounds;
+    bool        isInited;
 
 private:
 
