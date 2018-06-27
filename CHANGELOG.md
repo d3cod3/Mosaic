@@ -46,7 +46,7 @@
     + added ofxHistoryPlot
     + added a forked version ofofxInfiniteCanvas <https://github.com/d3cod3/ofxInfiniteCanvas>
     + added a forked version of ofxLoggerChannel <https://github.com/d3cod3/ofxLoggerChannel>
-    + added ofxLua (of-0.10.0 branch), with OF 0.10.0 bindings
+    + added a forked version of ofxLua (of-0.10.0 branch for osx/linux, windows branch for windows), with OF 0.10.0 bindings
     + added ofxTimeMeasurements
     + added ofxVisualProgramming <https://github.com/d3cod3/ofxVisualProgramming>
 
