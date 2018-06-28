@@ -47,7 +47,8 @@ Compiled/tested with QTCreator on osx/linux/windows
 Some addons are forks of the original, due to some mods, compatibility with OF0.10 and the intention of cross-platform compiling (osx,linux,win)
 
 
-# COMPILING
+# COMPILING
+
 
 Clone all the required addons listed:
 
