@@ -1,3 +1,5 @@
+![Mosaic logo](https://github.com/d3cod3/Mosaic/blob/master/process/logo/logo_150.jpg)
+
 [Mosaic](https://mosaic.d3cod3.org)
 ========
 
