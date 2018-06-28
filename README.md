@@ -1,6 +1,4 @@
-![Mosaic logo](https://github.com/d3cod3/Mosaic/blob/master/process/logo/logo_150.jpg)
-
-[Mosaic](https://mosaic.d3cod3.org)
+![Mosaic logo](https://github.com/d3cod3/Mosaic/raw/master/process/logo/logo_150.png) [MOSAIC](https://mosaic.d3cod3.org)
 ========
 
 ### Mosaic is an [OF](http://openframeworks.cc/) Visual Patching Developer Platform, builded with at the core the [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming) addon
