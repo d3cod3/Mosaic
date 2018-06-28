@@ -1,14 +1,14 @@
 [Mosaic](https://mosaic.d3cod3.org)
 ========
 
-### Mosaic is an [OF](http://openframeworks.cc/) Visual Patching Developer Platform, builded with at the core the [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming) addon
+### Mosaic is an [OF](http://openframeworks.cc/) Visual Patching Developer Platform, builded with at the core the [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming) addon
 
 Table of Contents
 =================
 
    * [OF_COMPATIBLE_RELEASE](#of_compatible_release)
    * [DEPENDENCIES](#dependencies)
-   * [INSTALLING](#installing)
+   * [COMPILING](#compiling)
    * [SCREENSHOTS](#screenshots)
 
 
@@ -18,7 +18,7 @@ Table of Contents
 Compiled/tested with QTCreator on osx/linux/windows
 
 
-# DEPENDENCIES
+# DEPENDENCIES
 
 #### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
 
@@ -47,7 +47,7 @@ Compiled/tested with QTCreator on osx/linux/windows
 Some addons are forks of the original, due to some mods, compatibility with OF0.10 and the intention of cross-platform compiling (osx,linux,win)
 
 
-# INSTALLING
+# COMPILING
 
 Clone all the required addons listed:
 
