@@ -24,7 +24,7 @@ Project{
         of.addons: [
             'ofx3DModelLoader','ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
             'ofxAudioAnalyzer',
-            'ofxBPMDetector',
+            'ofxBTrack',
             'ofxFontStash',
             'ofxGLError',
             'ofxDatGui',

@@ -26,7 +26,7 @@ function draw()
 	-- CIRCLES
 	-- let's draw a circle
 
-	of.setColor(255, 130, 0)
+	of.setColor(0, 130, 0)
 	local radius = 50 + 10 * math.sin(counter)
 	of.fill()
 	of.drawCircle(mouseX, mouseY, radius)

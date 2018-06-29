@@ -40,7 +40,7 @@
 
 ### ofxaddons
     + added a forked version of ofxAudioAnalyzer <https://github.com/d3cod3/ofxAudioAnalyzer>
-    + added a forked version of ofxBPMDetector <https://github.com/d3cod3/ofxBPMDetector>
+    + added a forked version of ofxBTrack <https://github.com/d3cod3/ofxBTrack>
     + added ofxFontStash
     + added ofxGLError
     + added ofxHistoryPlot
@@ -53,7 +53,7 @@
 ### libs
     + fftw3 static lib, included with ofxAudioAnalyzer
     + essentia 2.1-beta3 source code (for multi-platform compat.), included with ofxAudioAnalyzer
-    + soundtouch 2.0.0 source code, included with ofxBPMDetector
+    + kiff_fft, libsamplerate, included with ofxBTrack
 
 ### examples
 

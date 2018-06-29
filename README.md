@@ -24,7 +24,7 @@ Compiled/tested with QTCreator on osx/linux/windows
 
 #### [ofxAudioAnalyzer](https://github.com/d3cod3/ofxAudioAnalyzer)
 
-#### [ofxBPMDetector](https://github.com/d3cod3/ofxBPMDetector)
+#### [ofxBTrack](https://github.com/d3cod3/ofxBTrack)
 
 #### [ofxDatGui](https://github.com/d3cod3/ofxDatGui)
 
@@ -56,7 +56,7 @@ Clone all the required addons listed:
 cd <your_openframeworks_release_folder>/addons
 
 git clone https://github.com/d3cod3/ofxAudioAnalyzer
-git clone https://github.com/d3cod3/ofxBPMDetector
+git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxDatGui
 git clone https://github.com/armadillu/ofxFontStash
 git clone https://github.com/armadillu/ofxGLError

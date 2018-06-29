@@ -99,8 +99,8 @@ void ofApp::keyPressed(int key){
                 }
             }
         }
-    }/*else if(key == 'a'){
-        visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    }/*else if(key == 's'){
+        visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
     }*/
 }
 
