@@ -99,9 +99,9 @@ void ofApp::keyPressed(int key){
                 }
             }
         }
-    }/*else if(key == 's'){
-        visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
-    }*/
+    }else if(key == 't'){
+        visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    }
 }
 
 //--------------------------------------------------------------
@@ -151,5 +151,14 @@ void ofApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
+    if( dragInfo.files.size() == 1 ){
+        ofFile file (dragInfo.files[0]);
+        if (file.exists()){
+            string fileExtension = ofToUpper(file.getExtension());
+            if(fileExtension == "XML") {
+                visualProgramming->openPatch(file.getAbsolutePath());
+            }
+        }
+    }
 
 }
