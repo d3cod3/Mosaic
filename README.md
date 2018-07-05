@@ -40,6 +40,8 @@ Compiled/tested with QTCreator on osx/linux/windows
 
 #### [ofxLua](https://github.com/d3cod3/ofxLua)
 
+#### [ofxPython](https://github.com/d3cod3/ofxPython)
+
 #### [ofxTimeMeasurements](https://github.com/armadillu/ofxTimeMeasurements)
 
 #### ofxXmlSettings --> Core OF Addon
@@ -49,6 +51,9 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 # COMPILING
 
+**OSX/LINUX Compiling with qtcreator4.6.1.**
+
+**Windows is compiling with msys2/qtcreator4.6.1, NO VS2017!**
 
 Clone all the required addons listed:
 
@@ -63,26 +68,11 @@ git clone https://github.com/armadillu/ofxGLError
 git clone https://github.com/armadillu/ofxHistoryPlot
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/d3cod3/ofxLoggerChannel
+git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
+git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 ```
-
-Then, if on Linux/osx:
-
-```bash
-cd <your_openframeworks_release_folder>/addons
-
-git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
-```
-
-or windows:
-
-```bash
-cd <your_openframeworks_release_folder>/addons
-
-git clone --branch=windows https://github.com/d3cod3/ofxLua
-```
-
 
 # SCREENSHOTS
 
