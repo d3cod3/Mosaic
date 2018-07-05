@@ -157,7 +157,6 @@ class SwigPyIterator(object):
 SwigPyIterator_swigregister = _openframeworks.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
 
-
 class IntVector(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -888,59 +887,6 @@ ofGetSystemTimeMillis = _openframeworks.ofGetSystemTimeMillis
 def ofGetSystemTimeMicros():
     return _openframeworks.ofGetSystemTimeMicros()
 ofGetSystemTimeMicros = _openframeworks.ofGetSystemTimeMicros
-class ofTime(object):
-    thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
-    __repr__ = _swig_repr
-    seconds = _swig_property(_openframeworks.ofTime_seconds_get, _openframeworks.ofTime_seconds_set)
-    nanoseconds = _swig_property(_openframeworks.ofTime_nanoseconds_get, _openframeworks.ofTime_nanoseconds_set)
-    System = _openframeworks.ofTime_System
-    FixedRate = _openframeworks.ofTime_FixedRate
-    mode = _swig_property(_openframeworks.ofTime_mode_get, _openframeworks.ofTime_mode_set)
-
-    def getAsMilliseconds(self):
-        return _openframeworks.ofTime_getAsMilliseconds(self)
-
-    def getAsMicroseconds(self):
-        return _openframeworks.ofTime_getAsMicroseconds(self)
-
-    def getAsNanoseconds(self):
-        return _openframeworks.ofTime_getAsNanoseconds(self)
-
-    def getAsSeconds(self):
-        return _openframeworks.ofTime_getAsSeconds(self)
-
-    def getAsTimespec(self):
-        return _openframeworks.ofTime_getAsTimespec(self)
-
-    def getAsTimePoint(self):
-        return _openframeworks.ofTime_getAsTimePoint(self)
-
-    def __sub__(self, arg2):
-        return _openframeworks.ofTime___sub__(self, arg2)
-
-    def __lt__(self, arg2):
-        return _openframeworks.ofTime___lt__(self, arg2)
-
-    def __gt__(self, arg2):
-        return _openframeworks.ofTime___gt__(self, arg2)
-
-    def __le__(self, arg2):
-        return _openframeworks.ofTime___le__(self, arg2)
-
-    def __ge__(self, arg2):
-        return _openframeworks.ofTime___ge__(self, arg2)
-
-    def __init__(self):
-        this = _openframeworks.new_ofTime()
-        try:
-            self.this.append(this)
-        except __builtin__.Exception:
-            self.this = this
-    __swig_destroy__ = _openframeworks.delete_ofTime
-    __del__ = lambda self: None
-ofTime_swigregister = _openframeworks.ofTime_swigregister
-ofTime_swigregister(ofTime)
-
 
 def ofGetCurrentTime():
     return _openframeworks.ofGetCurrentTime()
@@ -1190,6 +1136,18 @@ class ofFbo(object):
     def clear(self):
         return _openframeworks.ofFbo_clear(self)
 
+    def clearColorBuffer(self, *args):
+        return _openframeworks.ofFbo_clearColorBuffer(self, *args)
+
+    def clearDepthBuffer(self, value):
+        return _openframeworks.ofFbo_clearDepthBuffer(self, value)
+
+    def clearStencilBuffer(self, value):
+        return _openframeworks.ofFbo_clearStencilBuffer(self, value)
+
+    def clearDepthStencilBuffer(self, depth, stencil):
+        return _openframeworks.ofFbo_clearDepthStencilBuffer(self, depth, stencil)
+
     def draw(self, *args):
         return _openframeworks.ofFbo_draw(self, *args)
 
@@ -1222,6 +1180,9 @@ class ofFbo(object):
 
     def readToPixels(self, *args):
         return _openframeworks.ofFbo_readToPixels(self, *args)
+
+    def copyTo(self, buffer):
+        return _openframeworks.ofFbo_copyTo(self, buffer)
 
     def getWidth(self):
         return _openframeworks.ofFbo_getWidth(self)
@@ -1387,6 +1348,9 @@ class ofTexture(object):
     def allocate(self, *args):
         return _openframeworks.ofTexture_allocate(self, *args)
 
+    def allocateAsBufferTexture(self, buffer, glInternalFormat):
+        return _openframeworks.ofTexture_allocateAsBufferTexture(self, buffer, glInternalFormat)
+
     def isAllocated(self):
         return _openframeworks.ofTexture_isAllocated(self)
     __swig_destroy__ = _openframeworks.delete_ofTexture
@@ -1481,6 +1445,9 @@ class ofTexture(object):
 
     def readToPixels(self, *args):
         return _openframeworks.ofTexture_readToPixels(self, *args)
+
+    def copyTo(self, buffer):
+        return _openframeworks.ofTexture_copyTo(self, buffer)
 
     def getTextureData(self, *args):
         return _openframeworks.ofTexture_getTextureData(self, *args)
@@ -2595,6 +2562,11 @@ OF_PRIMITIVE_LINES = _openframeworks.OF_PRIMITIVE_LINES
 OF_PRIMITIVE_LINE_STRIP = _openframeworks.OF_PRIMITIVE_LINE_STRIP
 OF_PRIMITIVE_LINE_LOOP = _openframeworks.OF_PRIMITIVE_LINE_LOOP
 OF_PRIMITIVE_POINTS = _openframeworks.OF_PRIMITIVE_POINTS
+OF_PRIMITIVE_LINES_ADJACENCY = _openframeworks.OF_PRIMITIVE_LINES_ADJACENCY
+OF_PRIMITIVE_LINE_STRIP_ADJACENCY = _openframeworks.OF_PRIMITIVE_LINE_STRIP_ADJACENCY
+OF_PRIMITIVE_TRIANGLES_ADJACENCY = _openframeworks.OF_PRIMITIVE_TRIANGLES_ADJACENCY
+OF_PRIMITIVE_TRIANGLE_STRIP_ADJACENCY = _openframeworks.OF_PRIMITIVE_TRIANGLE_STRIP_ADJACENCY
+OF_PRIMITIVE_PATCHES = _openframeworks.OF_PRIMITIVE_PATCHES
 OF_OUTLINE = _openframeworks.OF_OUTLINE
 OF_FILLED = _openframeworks.OF_FILLED
 OF_MAX_STYLE_HISTORY = _openframeworks.OF_MAX_STYLE_HISTORY
@@ -2630,31 +2602,6 @@ OF_IMAGE_GRAYSCALE = _openframeworks.OF_IMAGE_GRAYSCALE
 OF_IMAGE_COLOR = _openframeworks.OF_IMAGE_COLOR
 OF_IMAGE_COLOR_ALPHA = _openframeworks.OF_IMAGE_COLOR_ALPHA
 OF_IMAGE_UNDEFINED = _openframeworks.OF_IMAGE_UNDEFINED
-OF_INTERPOLATE_NEAREST_NEIGHBOR = _openframeworks.OF_INTERPOLATE_NEAREST_NEIGHBOR
-OF_INTERPOLATE_BILINEAR = _openframeworks.OF_INTERPOLATE_BILINEAR
-OF_INTERPOLATE_BICUBIC = _openframeworks.OF_INTERPOLATE_BICUBIC
-OF_PIXELS_GRAY = _openframeworks.OF_PIXELS_GRAY
-OF_PIXELS_GRAY_ALPHA = _openframeworks.OF_PIXELS_GRAY_ALPHA
-OF_PIXELS_RGB = _openframeworks.OF_PIXELS_RGB
-OF_PIXELS_BGR = _openframeworks.OF_PIXELS_BGR
-OF_PIXELS_RGBA = _openframeworks.OF_PIXELS_RGBA
-OF_PIXELS_BGRA = _openframeworks.OF_PIXELS_BGRA
-OF_PIXELS_RGB565 = _openframeworks.OF_PIXELS_RGB565
-OF_PIXELS_NV12 = _openframeworks.OF_PIXELS_NV12
-OF_PIXELS_NV21 = _openframeworks.OF_PIXELS_NV21
-OF_PIXELS_YV12 = _openframeworks.OF_PIXELS_YV12
-OF_PIXELS_I420 = _openframeworks.OF_PIXELS_I420
-OF_PIXELS_YUY2 = _openframeworks.OF_PIXELS_YUY2
-OF_PIXELS_UYVY = _openframeworks.OF_PIXELS_UYVY
-OF_PIXELS_Y = _openframeworks.OF_PIXELS_Y
-OF_PIXELS_U = _openframeworks.OF_PIXELS_U
-OF_PIXELS_V = _openframeworks.OF_PIXELS_V
-OF_PIXELS_UV = _openframeworks.OF_PIXELS_UV
-OF_PIXELS_VU = _openframeworks.OF_PIXELS_VU
-OF_PIXELS_NUM_FORMATS = _openframeworks.OF_PIXELS_NUM_FORMATS
-OF_PIXELS_UNKNOWN = _openframeworks.OF_PIXELS_UNKNOWN
-OF_PIXELS_NATIVE = _openframeworks.OF_PIXELS_NATIVE
-
 class ofMesh(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -4996,8 +4943,11 @@ def ofVec3f_one():
     return _openframeworks.ofVec3f_one()
 ofVec3f_one = _openframeworks.ofVec3f_one
 
+
+
 # handle typedefs which swig doesn't wrap
 ofPoint = ofVec3f
+
 
 class ofVec4f(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
@@ -5286,6 +5236,7 @@ OF_LINEAR = _openframeworks.OF_LINEAR
 OF_FRAGMENT_SHADER = _openframeworks.OF_FRAGMENT_SHADER
 OF_VERTEX_SHADER = _openframeworks.OF_VERTEX_SHADER
 OF_CLAMP_TO_EDGE = _openframeworks.OF_CLAMP_TO_EDGE
+OF_CLAMP_TO_BORDER = _openframeworks.OF_CLAMP_TO_BORDER
 OF_REPEAT = _openframeworks.OF_REPEAT
 OF_MIRRORED_REPEAT = _openframeworks.OF_MIRRORED_REPEAT
 class ofBufferObject(object):
@@ -5311,6 +5262,18 @@ class ofBufferObject(object):
     def unbind(self, target):
         return _openframeworks.ofBufferObject_unbind(self, target)
 
+    def bindBase(self, target, index):
+        return _openframeworks.ofBufferObject_bindBase(self, target, index)
+
+    def unbindBase(self, target, index):
+        return _openframeworks.ofBufferObject_unbindBase(self, target, index)
+
+    def bindRange(self, target, index, offset, size):
+        return _openframeworks.ofBufferObject_bindRange(self, target, index, offset, size)
+
+    def unbindRange(self, target, index):
+        return _openframeworks.ofBufferObject_unbindRange(self, target, index)
+
     def getId(self):
         return _openframeworks.ofBufferObject_getId(self)
 
@@ -5319,6 +5282,24 @@ class ofBufferObject(object):
 
     def updateData(self, *args):
         return _openframeworks.ofBufferObject_updateData(self, *args)
+
+    def map(self, access):
+        return _openframeworks.ofBufferObject_map(self, access)
+
+    def unmap(self):
+        return _openframeworks.ofBufferObject_unmap(self)
+
+    def mapRange(self, offset, length, access):
+        return _openframeworks.ofBufferObject_mapRange(self, offset, length, access)
+
+    def unmapRange(self):
+        return _openframeworks.ofBufferObject_unmapRange(self)
+
+    def copyTo(self, *args):
+        return _openframeworks.ofBufferObject_copyTo(self, *args)
+
+    def invalidate(self):
+        return _openframeworks.ofBufferObject_invalidate(self)
 
     def size(self):
         return _openframeworks.ofBufferObject_size(self)
@@ -5407,6 +5388,14 @@ ofIsGLProgrammableRenderer = _openframeworks.ofIsGLProgrammableRenderer
 def ofGLSLVersionFromGL(major, minor):
     return _openframeworks.ofGLSLVersionFromGL(major, minor)
 ofGLSLVersionFromGL = _openframeworks.ofGLSLVersionFromGL
+
+def ofEnableGLDebugLog():
+    return _openframeworks.ofEnableGLDebugLog()
+ofEnableGLDebugLog = _openframeworks.ofEnableGLDebugLog
+
+def ofDisableGLDebugLog():
+    return _openframeworks.ofDisableGLDebugLog()
+ofDisableGLDebugLog = _openframeworks.ofDisableGLDebugLog
 OF_LIGHT_POINT = _openframeworks.OF_LIGHT_POINT
 OF_LIGHT_DIRECTIONAL = _openframeworks.OF_LIGHT_DIRECTIONAL
 OF_LIGHT_SPOT = _openframeworks.OF_LIGHT_SPOT
@@ -5651,8 +5640,8 @@ class ofShader(object):
     def load(self, *args):
         return _openframeworks.ofShader_load(self, *args)
 
-    def setup(self, settings):
-        return _openframeworks.ofShader_setup(self, settings)
+    def setup(self, *args):
+        return _openframeworks.ofShader_setup(self, *args)
 
     def setGeometryInputType(self, type):
         return _openframeworks.ofShader_setGeometryInputType(self, type)
@@ -5744,6 +5733,18 @@ class ofShader(object):
     def getAttributeLocation(self, name):
         return _openframeworks.ofShader_getAttributeLocation(self, name)
 
+    def setAttribute1s(self, location, v1):
+        return _openframeworks.ofShader_setAttribute1s(self, location, v1)
+
+    def setAttribute2s(self, location, v1, v2):
+        return _openframeworks.ofShader_setAttribute2s(self, location, v1, v2)
+
+    def setAttribute3s(self, location, v1, v2, v3):
+        return _openframeworks.ofShader_setAttribute3s(self, location, v1, v2, v3)
+
+    def setAttribute4s(self, location, v1, v2, v3, v4):
+        return _openframeworks.ofShader_setAttribute4s(self, location, v1, v2, v3, v4)
+
     def setAttribute1f(self, location, v1):
         return _openframeworks.ofShader_setAttribute1f(self, location, v1)
 
@@ -5755,6 +5756,18 @@ class ofShader(object):
 
     def setAttribute4f(self, location, v1, v2, v3, v4):
         return _openframeworks.ofShader_setAttribute4f(self, location, v1, v2, v3, v4)
+
+    def setAttribute1d(self, location, v1):
+        return _openframeworks.ofShader_setAttribute1d(self, location, v1)
+
+    def setAttribute2d(self, location, v1, v2):
+        return _openframeworks.ofShader_setAttribute2d(self, location, v1, v2)
+
+    def setAttribute3d(self, location, v1, v2, v3):
+        return _openframeworks.ofShader_setAttribute3d(self, location, v1, v2, v3)
+
+    def setAttribute4d(self, location, v1, v2, v3, v4):
+        return _openframeworks.ofShader_setAttribute4d(self, location, v1, v2, v3, v4)
 
     def setAttribute1fv(self, *args):
         return _openframeworks.ofShader_setAttribute1fv(self, *args)
@@ -5839,6 +5852,9 @@ class ofVbo(object):
 
     def setAttributeData(self, location, vert0x, numCoords, total, usage, stride=0):
         return _openframeworks.ofVbo_setAttributeData(self, location, vert0x, numCoords, total, usage, stride)
+
+    def setAttributeDivisor(self, location, divisor):
+        return _openframeworks.ofVbo_setAttributeDivisor(self, location, divisor)
 
     def setVertexBuffer(self, buffer, numCoords, stride, offset=0):
         return _openframeworks.ofVbo_setVertexBuffer(self, buffer, numCoords, stride, offset)
@@ -6037,6 +6053,30 @@ class ofVboMesh(ofMesh):
 ofVboMesh_swigregister = _openframeworks.ofVboMesh_swigregister
 ofVboMesh_swigregister(ofVboMesh)
 
+OF_INTERPOLATE_NEAREST_NEIGHBOR = _openframeworks.OF_INTERPOLATE_NEAREST_NEIGHBOR
+OF_INTERPOLATE_BILINEAR = _openframeworks.OF_INTERPOLATE_BILINEAR
+OF_INTERPOLATE_BICUBIC = _openframeworks.OF_INTERPOLATE_BICUBIC
+OF_PIXELS_GRAY = _openframeworks.OF_PIXELS_GRAY
+OF_PIXELS_GRAY_ALPHA = _openframeworks.OF_PIXELS_GRAY_ALPHA
+OF_PIXELS_RGB = _openframeworks.OF_PIXELS_RGB
+OF_PIXELS_BGR = _openframeworks.OF_PIXELS_BGR
+OF_PIXELS_RGBA = _openframeworks.OF_PIXELS_RGBA
+OF_PIXELS_BGRA = _openframeworks.OF_PIXELS_BGRA
+OF_PIXELS_RGB565 = _openframeworks.OF_PIXELS_RGB565
+OF_PIXELS_NV12 = _openframeworks.OF_PIXELS_NV12
+OF_PIXELS_NV21 = _openframeworks.OF_PIXELS_NV21
+OF_PIXELS_YV12 = _openframeworks.OF_PIXELS_YV12
+OF_PIXELS_I420 = _openframeworks.OF_PIXELS_I420
+OF_PIXELS_YUY2 = _openframeworks.OF_PIXELS_YUY2
+OF_PIXELS_UYVY = _openframeworks.OF_PIXELS_UYVY
+OF_PIXELS_Y = _openframeworks.OF_PIXELS_Y
+OF_PIXELS_U = _openframeworks.OF_PIXELS_U
+OF_PIXELS_V = _openframeworks.OF_PIXELS_V
+OF_PIXELS_UV = _openframeworks.OF_PIXELS_UV
+OF_PIXELS_VU = _openframeworks.OF_PIXELS_VU
+OF_PIXELS_NUM_FORMATS = _openframeworks.OF_PIXELS_NUM_FORMATS
+OF_PIXELS_UNKNOWN = _openframeworks.OF_PIXELS_UNKNOWN
+OF_PIXELS_NATIVE = _openframeworks.OF_PIXELS_NATIVE
 class ofPixels(object):
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
@@ -9545,6 +9585,13 @@ ofDirectory_removeDirectory = _openframeworks.ofDirectory_removeDirectory
 def logPY(level, message):
     return _openframeworks.logPY(level, message)
 logPY = _openframeworks.logPY
+
+
+# renaming log -> ofLog
+ofLog = logPY
+del logPY
+
+
 OF_LOG_VERBOSE = _openframeworks.OF_LOG_VERBOSE
 OF_LOG_NOTICE = _openframeworks.OF_LOG_NOTICE
 OF_LOG_WARNING = _openframeworks.OF_LOG_WARNING
