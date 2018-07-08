@@ -76,7 +76,7 @@ git clone https://github.com/d3cod3/ofxVisualProgramming
 
 # SCREENSHOTS
 
-![Mosaic pre_alpha_0.1.0](https://github.com/d3cod3/Mosaic/blob/master/process/img/01_Mosaic_pre_alpha_0.1.0.jpg)
+![Mosaic pre_alpha_0.1.0](https://github.com/d3cod3/Mosaic/blob/master/process/img/06_objects_menu.png)
 
 ![Mosaic on linux](https://github.com/d3cod3/Mosaic/raw/master/process/img/03_Mosaic_linux_cinnamon_screenshot.png)
 
