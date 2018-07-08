@@ -37,7 +37,7 @@
 #include "config.h"
 #include "includes.h"
 
-#include "LoggerApp.h"
+#include "ofxScreenLoggerChannel.h"
 
 class ofApp : public ofBaseApp{
 
@@ -67,8 +67,10 @@ public:
     // Command line arguments
     vector<string>              arguments;
 
-    // LOGGER WINDOW
-    shared_ptr<LoggerApp>       loggerApp;
+    // LOGGER
+    ofRectangle                 *loggerBounds;
+    bool                        isInited;
+    bool                        isWindowResized;
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
@@ -79,7 +81,7 @@ public:
 
 
 private:
-
+    shared_ptr<ofxScreenLoggerChannel> screenLoggerChannel;
 
 protected:
 

@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
     ofGLFWWindowSettings settings;
     settings.setGLVersion(2, 1);
     settings.stencilBits = 0;
-    settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
+    settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT+CONSOLE_WINDOW_START_HEIGHT);
 #ifdef TARGET_LINUX
     settings.setPosition(ofVec2f(0,0));
 #elif defined(TARGET_OSX)
@@ -70,25 +70,6 @@ int main(int argc, char *argv[]){
 
     mosaicApp->arguments = options;
 
-    settings.setSize(CONSOLE_WINDOW_START_WIDTH, CONSOLE_WINDOW_START_HEIGHT);
-#ifdef TARGET_LINUX
-    settings.setPosition(ofVec2f(0,WINDOW_START_HEIGHT+70));
-#elif defined(TARGET_OSX)
-    settings.setPosition(ofVec2f(0,WINDOW_START_HEIGHT+70));
-#elif defined(TARGET_WIN32)
-    settings.setPosition(ofVec2f(6,WINDOW_START_HEIGHT+70));
-#endif
-    settings.resizable = true;
-    settings.decorated = true;
-    settings.shareContextWith = mosaicWindow;
-
-    // Logger
-    shared_ptr<ofAppGLFWWindow> loggerWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
-    shared_ptr<LoggerApp> loggerApp(new LoggerApp);
-
-    mosaicApp->loggerApp = loggerApp;
-
-    ofRunApp(loggerWindow, loggerApp);
     ofRunApp(mosaicWindow, mosaicApp);
     ofRunMainLoop();
 

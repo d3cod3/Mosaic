@@ -43,16 +43,38 @@ void ofApp::setup(){
     ///////////////////////////////////////////
 
     // RETINA FIX
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        ofSetWindowShape(WINDOW_START_WIDTH*2, WINDOW_START_HEIGHT*2);
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
+        ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
+    }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
+        ofSetWindowShape(1920-4,ofGetScreenHeight());
+    }else{ // STANDARD SCREEN
+        ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
     }
+
+    // GUI
+    mosaicLogo = new ofImage("images/logo_1024_bw.png");
+
+    // LOGGER
+    isInited = false;
+    isWindowResized = false;
+    loggerBounds = new ofRectangle();
+    screenLoggerChannel = shared_ptr<ofxScreenLoggerChannel>(new ofxScreenLoggerChannel());
+    ofSetLoggerChannel(screenLoggerChannel);
+    screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,200));
+    screenLoggerChannel->setTextColor(ofColor(203,224,254));
+    // MORE RETINA FIX
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        screenLoggerChannel->setup(MAIN_FONT,26);
+        screenLoggerChannel->setIsRetina();
+    }else{
+        screenLoggerChannel->setup(MAIN_FONT,14);
+    }
+    screenLoggerChannel->setPrefixTimestamp(true);
+    ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
 
     // Visual Programming Environment Load
     visualProgramming = new ofxVisualProgramming();
     visualProgramming->setup();
-
-    // GUI
-    mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
 }
 
@@ -62,6 +84,19 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     visualProgramming->update();
+
+    if(isWindowResized){
+        isWindowResized = false;
+        loggerBounds->width = ofGetWindowWidth();
+        screenLoggerChannel->setDrawBounds(*loggerBounds);
+    }
+
+    if(!isInited){
+        isInited = true;
+        // set logger dimensions
+        loggerBounds->set(0,ofGetWindowHeight()-(284*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+        screenLoggerChannel->setDrawBounds(*loggerBounds);
+    }
 }
 
 //--------------------------------------------------------------
@@ -70,19 +105,20 @@ void ofApp::draw(){
 
     // BACKGROUND GUI
     ofSetColor(255,255,255,16);
-    mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),ofGetWindowHeight()/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
+    mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),(ofGetWindowHeight()- (240*visualProgramming->scaleFactor))/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
 
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     visualProgramming->draw();
 
-    // OVERLAY GUI
+    // LOGGER
+    screenLoggerChannel->draw();
 
 }
 
 //--------------------------------------------------------------
 void ofApp::exit() {
-
+    visualProgramming->exit();
 }
 
 //--------------------------------------------------------------
@@ -99,8 +135,8 @@ void ofApp::keyPressed(int key){
                 }
             }
         }
-    }else if(key == 't'){
-        visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
+    }else if(key == 'w'){
+        visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
     }
 }
 
@@ -141,7 +177,9 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    if(isInited){
+        isWindowResized = true;
+    }
 }
 
 //--------------------------------------------------------------
