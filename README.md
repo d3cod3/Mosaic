@@ -15,12 +15,10 @@ Table of Contents
 # OF COMPATIBLE RELEASE
 
 #### 0.10.0
-Compiled/tested with QTCreator on osx/linux/windows
+Compiling with QTCreator on osx/linux/windows
 
 
 # DEPENDENCIES
-
-#### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
 
 #### [ofxAudioAnalyzer](https://github.com/d3cod3/ofxAudioAnalyzer)
 
@@ -43,6 +41,8 @@ Compiled/tested with QTCreator on osx/linux/windows
 #### [ofxPython](https://github.com/d3cod3/ofxPython)
 
 #### [ofxTimeMeasurements](https://github.com/armadillu/ofxTimeMeasurements)
+
+#### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
 
 #### ofxXmlSettings --> Core OF Addon
 
@@ -76,7 +76,7 @@ git clone https://github.com/d3cod3/ofxVisualProgramming
 
 # SCREENSHOTS
 
-![Mosaic pre_alpha_0.1.0](https://github.com/d3cod3/Mosaic/blob/master/process/img/06_objects_menu.png)
+![Mosaic pre_alpha_0.1.0](https://github.com/d3cod3/Mosaic/blob/master/process/img/08_life_is_full_of_possibilities.png)
 
 ![Mosaic on linux](https://github.com/d3cod3/Mosaic/raw/master/process/img/03_Mosaic_linux_cinnamon_screenshot.png)
 
