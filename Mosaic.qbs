@@ -12,8 +12,6 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
-            "src/LoggerApp.cpp",
-            "src/LoggerApp.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',

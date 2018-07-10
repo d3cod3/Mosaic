@@ -3,8 +3,10 @@
 <settings>
     <output_width>1280</output_width>
     <output_height>720</output_height>
-    <audio_device>0</audio_device>
-    <sample_rate>44100</sample_rate>
+    <audio_in_device>0</audio_in_device>
+    <audio_out_device>0</audio_out_device>
+    <sample_rate_in>44100</sample_rate_in>
+    <sample_rate_out>44100</sample_rate_out>
     <buffer_size>256</buffer_size>
     <input_channels>0</input_channels>
     <output_channels>0</output_channels>

@@ -32,7 +32,6 @@
 
 #include "ofMain.h"
 #include "ofApp.h"
-#include "LoggerApp.h"
 #include "ofAppGLFWWindow.h"
 #include "ofxTimeMeasurements.h"
 

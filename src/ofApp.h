@@ -64,8 +64,19 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    // GUI Events
+    void onButtonEvent(ofxDatGuiButtonEvent e);
+    void onDropdownEvent(ofxDatGuiDropdownEvent e);
+
+    void quitMosaic();
+
     // Command line arguments
     vector<string>              arguments;
+
+    // GUI
+    ofxDatGui*                  mainMenu;
+    ofxDatGuiDropdown*          audioINputDevices;
+    ofxDatGuiDropdown*          audioOUTputDevices;
 
     // LOGGER
     ofRectangle                 *loggerBounds;

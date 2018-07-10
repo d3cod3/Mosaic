@@ -40,6 +40,7 @@ void ofApp::setup(){
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(false);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     ///////////////////////////////////////////
 
     // RETINA FIX
@@ -50,9 +51,6 @@ void ofApp::setup(){
     }else{ // STANDARD SCREEN
         ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
     }
-
-    // GUI
-    mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
     // LOGGER
     isInited = false;
@@ -76,6 +74,45 @@ void ofApp::setup(){
     visualProgramming = new ofxVisualProgramming();
     visualProgramming->setup();
 
+    // GUI
+    mosaicLogo = new ofImage("images/logo_1024_bw.png");
+
+    mainMenu = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    mainMenu->addHeader("Mosaic",false);
+    mainMenu->addBreak();
+    mainMenu->addBreak();
+    mainMenu->addLabel("PATCH");
+    mainMenu->addButton("  new");
+    mainMenu->addButton("  open");
+    mainMenu->addButton("  save as");
+    mainMenu->addBreak();
+    ofxDatGuiFolder* audioFolder = mainMenu->addFolder("SOUND CONFIG");
+    audioFolder->addBreak();
+    audioFolder->addLabel("  INPUT DEVICE");
+    audioINputDevices = new ofxDatGuiDropdown("Select audio input device",visualProgramming->audioDevicesString);
+    audioINputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    audioFolder->attachItem(audioINputDevices);
+    audioINputDevices->select(visualProgramming->audioINDev);
+    audioFolder->addBreak();
+    audioFolder->addLabel("  OUTPUT DEVICE");
+    audioOUTputDevices = new ofxDatGuiDropdown("Select audio output device",visualProgramming->audioDevicesString);
+    audioOUTputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    audioFolder->attachItem(audioOUTputDevices);
+    audioOUTputDevices->select(visualProgramming->audioOUTDev);
+    mainMenu->addBreak();
+    mainMenu->addBreak();
+    mainMenu->addBreak();
+    mainMenu->addButton("quit");
+    mainMenu->addBreak();
+
+    ofxDatGuiFooter* footer = mainMenu->addFooter();
+    footer->setLabelWhenExpanded("collapse");
+    footer->setLabelWhenCollapsed("MOSAIC");
+
+
+    mainMenu->onButtonEvent(this, &ofApp::onButtonEvent);
+    mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
+
 }
 
 //--------------------------------------------------------------
@@ -88,13 +125,20 @@ void ofApp::update(){
     if(isWindowResized){
         isWindowResized = false;
         loggerBounds->width = ofGetWindowWidth();
+        loggerBounds->y = ofGetWindowHeight() - (240*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
+
+        if(visualProgramming->gui->getHeight() > ofGetWindowHeight()-(240*visualProgramming->scaleFactor)){
+            visualProgramming->gui->collapse();
+        }else{
+            visualProgramming->gui->expand();
+        }
     }
 
     if(!isInited){
         isInited = true;
         // set logger dimensions
-        loggerBounds->set(0,ofGetWindowHeight()-(284*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+        loggerBounds->set(0,ofGetWindowHeight()-(240*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
     }
 }
@@ -123,21 +167,7 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    // TESTING
-    if(key == 'o'){
-        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open patch");
-        if (openFileResult.bSuccess){
-            ofFile file (openFileResult.getPath());
-            if (file.exists()){
-                string fileExtension = ofToUpper(file.getExtension());
-                if(fileExtension == "XML") {
-                    visualProgramming->openPatch(file.getAbsolutePath());
-                }
-            }
-        }
-    }else if(key == 'w'){
-        visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y));
-    }
+
 }
 
 //--------------------------------------------------------------
@@ -195,8 +225,55 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
             string fileExtension = ofToUpper(file.getExtension());
             if(fileExtension == "XML") {
                 visualProgramming->openPatch(file.getAbsolutePath());
+                audioINputDevices->select(visualProgramming->audioINDev);
+                audioOUTputDevices->select(visualProgramming->audioOUTDev);
             }
         }
     }
 
+}
+
+//--------------------------------------------------------------
+void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
+    //cout << "onButtonEvent: " << e.target->getLabel() << endl;
+    if(e.target->getLabel() == "  new"){
+        visualProgramming->newPatch();
+    }else if(e.target->getLabel() == "  open"){
+        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a mosaic");
+        if (openFileResult.bSuccess){
+            ofFile file (openFileResult.getPath());
+            if (file.exists()){
+                string fileExtension = ofToUpper(file.getExtension());
+                if(fileExtension == "XML") {
+                    visualProgramming->openPatch(file.getAbsolutePath());
+                    audioINputDevices->select(visualProgramming->audioINDev);
+                    audioOUTputDevices->select(visualProgramming->audioOUTDev);
+                }
+            }
+        }
+    }else if(e.target->getLabel() == "  save as"){
+        ofFileDialogResult saveFileResult = ofSystemSaveDialog("mosaicPatch.xml","Save mosaic as");
+        if (saveFileResult.bSuccess){
+            ofFile file (saveFileResult.getPath());
+            visualProgramming->savePatchAs(file.getAbsolutePath());
+        }
+    }else if(e.target->getLabel() == "quit"){
+        quitMosaic();
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
+    //cout << "the option at index # " << e.child << " was selected " << endl;
+    if(e.target == audioINputDevices){
+        visualProgramming->setAudioInDevice(e.child);
+    }else if(e.target == audioOUTputDevices){
+        visualProgramming->setAudioOutDevice(e.child);
+    }
+    e.target->expand();
+}
+
+//--------------------------------------------------------------
+void ofApp::quitMosaic(){
+    ofExit(0);
 }
