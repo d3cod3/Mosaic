@@ -100,6 +100,9 @@ void ofApp::setup(){
     audioFolder->attachItem(audioOUTputDevices);
     audioOUTputDevices->select(visualProgramming->audioOUTDev);
     mainMenu->addBreak();
+    mainMenu->addLabel("SYSTEM");
+    mainMenu->addToggle("  PROFILER");
+    mainMenu->addBreak();
     mainMenu->addBreak();
     mainMenu->addBreak();
     mainMenu->addButton("quit");
@@ -111,12 +114,14 @@ void ofApp::setup(){
 
 
     mainMenu->onButtonEvent(this, &ofApp::onButtonEvent);
+    mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);
     mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
     windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
     ofSetWindowTitle(windowTitle);
 
@@ -141,10 +146,12 @@ void ofApp::update(){
         loggerBounds->set(0,ofGetWindowHeight()-(240*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
     }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
     ofBackground(20);
 
     // BACKGROUND GUI
@@ -259,6 +266,15 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
         }
     }else if(e.target->getLabel() == "quit"){
         quitMosaic();
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
+    //cout << "onToggleEvent: " << e.target->getLabel() << endl;
+    if(e.target->getLabel() == "  PROFILER"){
+        visualProgramming->profilerActive = e.checked;
+        TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
     }
 }
 

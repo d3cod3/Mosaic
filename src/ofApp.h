@@ -66,6 +66,7 @@ public:
 
     // GUI Events
     void onButtonEvent(ofxDatGuiButtonEvent e);
+    void onToggleEvent(ofxDatGuiToggleEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
 
     void quitMosaic();
