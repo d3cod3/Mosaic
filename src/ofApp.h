@@ -71,8 +71,17 @@ public:
 
     void quitMosaic();
 
+    // UTILS
+    void recursiveScanDirectory(ofDirectory dir);
+
     // Command line arguments
     vector<string>              arguments;
+
+    // CORE
+    ofDirectory                 projectDirectory;
+    vector<string>              projectFilesList;
+    int                         numFiles;
+    int                         numLines;
 
     // GUI
     ofxDatGui*                  mainMenu;

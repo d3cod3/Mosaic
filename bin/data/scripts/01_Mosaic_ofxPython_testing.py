@@ -8,7 +8,7 @@ class mosaicApp(object):
 	def __init__(self):
 		self.x = 50.0
 		self.y = 50.0
-		self.d = 800
+		self.d = 80
 
 		self.mouseX = 0
 		self.mouseY = 0

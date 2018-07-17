@@ -38,7 +38,7 @@ void ofApp::setup(){
     ///////////////////////////////////////////
     // OF Stuff
     ofSetEscapeQuitsApp(false);
-    ofSetVerticalSync(false);
+    ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel(OF_LOG_NOTICE);
     ///////////////////////////////////////////
@@ -50,6 +50,23 @@ void ofApp::setup(){
         ofSetWindowShape(1920-4,ofGetScreenHeight());
     }else{ // STANDARD SCREEN
         ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
+    }
+
+    // CORE
+    numFiles = 0;
+    numLines = 0;
+
+    projectDirectory.listDir(ofToDataPath("../../src/"));
+    recursiveScanDirectory(projectDirectory);
+    projectDirectory.listDir(ofToDataPath("../../../../../addons/ofxVisualProgramming/"));
+    recursiveScanDirectory(projectDirectory);
+
+    numFiles += projectFilesList.size();
+    for(size_t i=0;i<projectFilesList.size();i++){
+        ofBuffer buffer = ofBufferFromFile(projectFilesList.at(i));
+        for (auto line : buffer.getLines()){
+            numLines++;
+        }
     }
 
     // LOGGER
@@ -68,7 +85,10 @@ void ofApp::setup(){
         screenLoggerChannel->setup(MAIN_FONT,14);
     }
     screenLoggerChannel->setPrefixTimestamp(true);
+
     ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
+    ofLog(OF_LOG_NOTICE,"%i files and %i code lines",numFiles,numLines);
+    ofLog(OF_LOG_NOTICE," ");
 
     // Visual Programming Environment Load
     visualProgramming = new ofxVisualProgramming();
@@ -111,7 +131,6 @@ void ofApp::setup(){
     ofxDatGuiFooter* footer = mainMenu->addFooter();
     footer->setLabelWhenExpanded("collapse");
     footer->setLabelWhenCollapsed("MOSAIC");
-
 
     mainMenu->onButtonEvent(this, &ofApp::onButtonEvent);
     mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);
@@ -292,4 +311,21 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
 //--------------------------------------------------------------
 void ofApp::quitMosaic(){
     ofExit(0);
+}
+
+//--------------------------------------------------------------
+void ofApp::recursiveScanDirectory(ofDirectory dir){
+    size_t size;
+    size = dir.listDir();
+    dir.sort();
+
+    for (size_t i = 0; i < size; i++){
+        if (dir.getFile(i).isDirectory()==1){
+            ofDirectory newDir;
+            newDir.listDir(dir.getFile(i).getAbsolutePath());
+            recursiveScanDirectory( newDir );
+        }else {
+            projectFilesList.push_back(dir.getPath(i));
+        }
+    }
 }

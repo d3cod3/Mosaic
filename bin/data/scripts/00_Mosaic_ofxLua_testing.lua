@@ -31,7 +31,7 @@ function draw()
 	of.setCircleResolution(50)
 	-- CIRCLE
 	of.setColor(255,0,0,100)
-	local radius = 50 + 10 * math.sin(counter)
+	local radius = 500 + 10 * math.sin(counter)
 	of.fill()
 	of.drawCircle(mouseX, mouseY, radius)
 
@@ -68,5 +68,5 @@ end
 
 function oscReceived(message)
 	-- print received message
-	print(tostring(message))
+	--print(tostring(message))
 end
