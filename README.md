@@ -4,6 +4,11 @@
 
 [![GitHub commits](https://img.shields.io/github/last-commit/google/skia.svg)](https://github.com/d3cod3/mosaic/commit/)
 
+Operating system | Status
+---------------- | ----------
+Ubuntu and macOS | [![TravisCI](https://travis-ci.org/d3cod3/ofxVisualProgramming.svg?branch=master)](https://travis-ci.org/d3cod3/ofxVisualProgramming)
+Windows          | [![AppVeyor](https://ci.appveyor.com/api/projects/status/65sk40q6y8bqfunw/branch/master?svg=true)](https://ci.appveyor.com/project/d3cod3/ofxvisualprogramming/branch/master)
+
 Table of Contents
 =================
 
@@ -12,6 +17,7 @@ Table of Contents
    * [DESCRIPTION](#description)
    * [COMPILING](#compiling)
    * [SCREENSHOTS](#screenshots)
+   * [LICENSE](#license)
 
 
 # OF COMPATIBLE RELEASE
@@ -99,3 +105,9 @@ git clone https://github.com/d3cod3/ofxVisualProgramming
 ![Mosaic on linux](https://github.com/d3cod3/Mosaic/raw/master/process/img/03_Mosaic_linux_cinnamon_screenshot.png)
 
 ![Mosaic on windows](https://github.com/d3cod3/Mosaic/raw/master/process/img/04_Mosaic_windows_screenshot.png)
+
+# LICENSE
+
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+
+All contributions are made under the [MIT License](https://opensource.org/licenses/MIT). See [LICENSE](https://github.com/d3cod3/Mosaic/blob/master/LICENSE.md).
