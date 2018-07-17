@@ -26,10 +26,10 @@ class mosaicApp(object):
 		self.mouseY = 0
 
 	def update(self):
-
+		pass
 
 	def draw(self):
-
+		pass
 
 	def mouseMoved(self, x, y):
 		self.mouseX = x

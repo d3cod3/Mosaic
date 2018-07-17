@@ -1,4 +1,4 @@
---[[ 
+--[[
 
 	----------------------------------------------------------
 	Mosaic | OF Visual Patching Developer Platform
@@ -29,7 +29,7 @@ end
 
 ----------------------------------------------------
 function update()
-	
+
 end
 
 ----------------------------------------------------
@@ -39,18 +39,18 @@ end
 
 ----------------------------------------------------
 function exit()
-	
+
 end
 
 -- input callbacks
 
 ----------------------------------------------------
 function keyPressed(key)
-	
+
 end
 
 function keyReleased(key)
-	
+
 end
 
 function mouseMoved(x,y)
@@ -59,13 +59,13 @@ function mouseMoved(x,y)
 end
 
 function mouseDragged(x,y)
-	
+
 end
 
 function mouseReleased(x,y)
-	
+
 end
 
 function mouseScrolled(x,y)
-	
+
 end
