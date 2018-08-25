@@ -30,3 +30,4 @@ Desktop.ini
 *.app
 *.dSYM
 bin/.tmp
+bin/data/temp

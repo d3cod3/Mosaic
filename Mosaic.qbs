@@ -19,23 +19,52 @@ Project{
             'src/ofApp.h',
         ]
 
-        of.addons: [
-            'ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxPoco','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
-            'ofxAudioAnalyzer',
-            'ofxBTrack',
-            'ofxCv',
-            'ofxFontStash',
-            'ofxGLError',
-            'ofxDatGui',
-            'ofxHistoryPlot',
-            'ofxInfiniteCanvas',
-            'ofxLua',
-            'ofxLoggerChannel',
-            'ofxPython',
-            'ofxTimeMeasurements',
-            'ofxVisualProgramming'
-
-        ]
+        of.addons: {
+            if(qbs.targetOS.indexOf("windows")>-1){
+                return ['ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxPoco','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
+                        'ofxAudioAnalyzer',
+                        'ofxAudioFile',
+                        'ofxBTrack',
+                        'ofxChromaKeyShader',
+                        'ofxCv',
+                        'ofxDatGui',
+                        'ofxFontStash',
+                        'ofxGLError',
+                        'ofxHistoryPlot',
+                        'ofxInfiniteCanvas',
+                        'ofxLua',
+                        'ofxLoggerChannel',
+                        'ofxMidi',
+                        'ofxParagraph',
+                        'ofxPDSP',
+                        'ofxSIMDFloats',
+                        'ofxTimeMeasurements',
+                        'ofxVisualProgramming'
+                        ]
+            }else{
+                return ['ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxPoco','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
+                        'ofxAudioAnalyzer',
+                        'ofxAudioFile',
+                        'ofxBTrack',
+                        'ofxChromaKeyShader',
+                        'ofxCv',
+                        'ofxDatGui',
+                        'ofxFontStash',
+                        'ofxGLError',
+                        'ofxHistoryPlot',
+                        'ofxInfiniteCanvas',
+                        'ofxLua',
+                        'ofxLoggerChannel',
+                        'ofxMidi',
+                        'ofxParagraph',
+                        'ofxPDSP',
+                        'ofxPython',
+                        'ofxSIMDFloats',
+                        'ofxTimeMeasurements',
+                        'ofxVisualProgramming'
+                        ]
+            }
+        }
 
         // additional flags for the project. the of module sets some
         // flags by default to add the core libraries, search paths...
@@ -47,7 +76,7 @@ Project{
         of.linkerFlags: []      // flags passed to the linker
         of.defines: []          // defines are passed as -D to the compiler
         // and can be checked with #ifdef or #if in the code
-        of.frameworks: []       // osx only, additional frameworks to link with the project
+        of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']       // osx only, additional frameworks to link with the project
         of.staticLibraries: []  // static libraries
         of.dynamicLibraries: [] // dynamic libraries
 

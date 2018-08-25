@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.1.0
+Type=Application
+Terminal=false
+Exec=$INSTALL_PATH
+Name=Mosaic
+Icon=$INSTALL_PATH/bin/data/images/logo_128.png
+Categories=Application;Programming;
+Comment=A cyber-visual Patching Developer Platform
