@@ -40,13 +40,26 @@
 
 ### ofxaddons
     + added a forked version of ofxAudioAnalyzer <https://github.com/d3cod3/ofxAudioAnalyzer>
+    + added ofxAudioFile
     + added a forked version of ofxBTrack <https://github.com/d3cod3/ofxBTrack>
+    + added a forked version of ofxChromaKeyShader <https://github.com/d3cod3/ofxChromaKeyShader>
+    + added ofxCv
+    + added a forked version of ofxDatGui <https://github.com/d3cod3/ofxDatGui>
     + added ofxFontStash
     + added ofxGLError
     + added ofxHistoryPlot
     + added a forked version ofofxInfiniteCanvas <https://github.com/d3cod3/ofxInfiniteCanvas>
     + added a forked version of ofxLoggerChannel <https://github.com/d3cod3/ofxLoggerChannel>
-    + added a forked version of ofxLua (of-0.10.0 branch for osx/linux, windows branch for windows), with OF 0.10.0 bindings
+    + added a forked version of ofxLua with OF 0.10.0 bindings
+    <https://github.com/d3cod3/ofxLua>
+    + added a forked version of ofxMidi
+    <https://github.com/d3cod3/ofxMidi>
+    + added a forked version of ofxParagraph
+    <https://github.com/d3cod3/ofxParagraph>
+    + added ofxPDSP
+    + added a forked version of ofxPython with OF 0.10.0 bindings
+    <https://github.com/d3cod3/ofxPython>
+    + added ofxSIMDFloats
     + added ofxTimeMeasurements
     + added ofxVisualProgramming <https://github.com/d3cod3/ofxVisualProgramming>
 
@@ -54,6 +67,9 @@
     + fftw3 static lib, included with ofxAudioAnalyzer
     + essentia 2.1-beta3 source code (for multi-platform compat.), included with ofxAudioAnalyzer
     + kiff_fft, libsamplerate, included with ofxBTrack
+    + dr_wav, dr_mp3, dr_flac, stb_vorbis, included in ofxAudioFile
+    + AudioFFT wrapper is used in ofxPDSP, Copyright (c) 2013 HiFi-LoFi.
+
 
 ### examples
 

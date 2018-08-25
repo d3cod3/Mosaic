@@ -27,7 +27,7 @@ If you want to build Mosaic, just download OF0.10.0 for your OS (osx, linux, win
 
 # DESCRIPTION
 
-![Mosaic-Data-Flow-Diagram](https://github.com/d3cod3/Mosaic/raw/master/process/img/10_Mosaic-Data-Flow-Diagram.png)
+![Mosaic-Data-Flow-Diagram](https://github.com/d3cod3/Mosaic/raw/master/process/img/10_Mosaic-Data-Flow-Diagram.jpg)
 
 Mosaic is an open source multi-platform (osx, linux, windows) live coding and visual programming application, based on openFrameworks.
 
