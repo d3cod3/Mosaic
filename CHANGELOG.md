@@ -20,7 +20,7 @@
 
 
 ### version
-    / 0.1.0 pre_alpha
+    / v0.1.0 alpha.0
 
 ### general
     / builded with OF 0.10.0, QT Creator 4.6.1
