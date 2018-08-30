@@ -35,7 +35,7 @@
 #define PACKAGE	"Mosaic"
 #define	VERSION	"0.1.0"
 #define DESCRIPTION "OF Visual Patching Developer Platform"
-#define TAGS "mosaic,openframeworks,osx,linux,creative-coding,video,audio,graphics,live-coding,visual-programming,cyber-transmedia programming"
+#define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 
 #define WINDOW_TITLE "Mosaic 0.1.0"
 #define WINDOW_START_WIDTH 1280

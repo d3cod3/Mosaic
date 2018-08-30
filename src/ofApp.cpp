@@ -97,6 +97,7 @@ void ofApp::setup(){
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
+    guiThemeRetina = new ofxDatGuiThemeRetina();
     mainMenu = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     mainMenu->addHeader("Mosaic",false);
     mainMenu->addBreak();
@@ -131,6 +132,11 @@ void ofApp::setup(){
     ofxDatGuiFooter* footer = mainMenu->addFooter();
     footer->setLabelWhenExpanded("collapse");
     footer->setLabelWhenCollapsed("MOSAIC");
+
+    // RETINA FIX
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
+        mainMenu->setTheme(guiThemeRetina);
+    }
 
     mainMenu->onButtonEvent(this, &ofApp::onButtonEvent);
     mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);

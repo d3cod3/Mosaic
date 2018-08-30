@@ -84,6 +84,7 @@ public:
     int                         numLines;
 
     // GUI
+    ofxDatGuiThemeRetina*       guiThemeRetina;
     ofxDatGui*                  mainMenu;
     ofxDatGuiDropdown*          audioINputDevices;
     ofxDatGuiDropdown*          audioOUTputDevices;
