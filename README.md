@@ -10,6 +10,7 @@ Windows          | [![AppVeyor](https://ci.appveyor.com/api/projects/status/65sk
 Table of Contents
 =================
 
+   * [DOWNLOAD](#download)
    * [OF_COMPATIBLE_RELEASE](#of_compatible_release)
    * [DEPENDENCIES](#dependencies)
    * [DESCRIPTION](#description)
@@ -17,6 +18,10 @@ Table of Contents
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
 
+
+# DOWNLOAD
+
+Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 
 # OF COMPATIBLE RELEASE
 
@@ -86,9 +91,7 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 # COMPILING
 
-**OSX/LINUX Compiling with qtcreator4.6.1.**
-
-**Windows is compiling with msys2/qtcreator4.6.1, NO VS2017**
+**MACOS/LINUX/WINDOWS Compiling with qtcreator4.6.1**
 
 Clone all the required addons listed:
 
