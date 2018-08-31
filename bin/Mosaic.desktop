@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
-Version=0.1.0
+Version=0.1.1
+Name=Mosaic
 Type=Application
 Terminal=false
-Exec=$INSTALL_PATH
-Name=Mosaic
-Icon=$INSTALL_PATH/bin/data/images/logo_128.png
+Exec=/home/user/Desktop/Mosaic_v0.1.1_linux64_release/Mosaic
+Icon=/home/user/Desktop/Mosaic_v0.1.1_linux64_release/data/images/logo_128.png
 Categories=Application;Programming;
-Comment=A cyber-visual Patching Developer Platform
+Comment=An openFrameworks based Visual Patching Creative-Coding Platform
