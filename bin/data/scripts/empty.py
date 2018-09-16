@@ -29,7 +29,7 @@ class mosaicApp(object):
 		pass
 
 	def draw(self):
-		pass
+		ofBackground(0)
 
 	def mouseMoved(self, x, y):
 		self.mouseX = x

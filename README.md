@@ -62,6 +62,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFontStash](https://github.com/armadillu/ofxFontStash)
 
+#### [ofxGLError](https://github.com/d3cod3/ofxGLEditor) -- Fork
+
 #### [ofxGLError](https://github.com/armadillu/ofxGLError)
 
 #### [ofxHistoryPlot](https://github.com/armadillu/ofxHistoryPlot)
@@ -105,6 +107,7 @@ git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/d3cod3/ofxDatGui
 git clone https://github.com/armadillu/ofxFontStash
+git clone https://github.com/d3cod3/ofxGLEditor
 git clone https://github.com/armadillu/ofxGLError
 git clone https://github.com/armadillu/ofxHistoryPlot
 git clone https://github.com/d3cod3/ofxInfiniteCanvas

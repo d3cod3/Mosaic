@@ -14,12 +14,22 @@
 ```
 
 ```bash
-  ___   _   _
- / _ \ / | / |
-| | | || | | |
-| |_| || |_| |
- \___(_)_(_)_|
+  ___   _   ____  
+ / _ \ / | |___ \
+| | | || |   __) |
+| |_| || |_ / __/
+ \___(_)_(_)_____|
 ```
+
+# v0.1.2
+
+### general
+    + + added a forked version of ofxGLEditor <https://github.com/d3cod3/ofxGLEditor>
+    + added live-coding (ofxGLEditor) in lua script and python script objects
+    + Fixed bugs in lua script and python script objects
+    + Added luafilesystem (https://keplerproject.github.io/luafilesystem/) library to lua embedded scripting interpreter
+
+//////////////////////////////////
 
 # v0.1.1
 

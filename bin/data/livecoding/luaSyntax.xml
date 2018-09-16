@@ -1,0 +1,85 @@
+<!-- lua 5.1 http://www.lua.org/manual/5.1/manual.html -->
+<syntax>
+
+    <lang>Lua</lang>
+    <files>
+        <ext>lua</ext>
+    </files>
+
+    <singlecomment>--</singlecomment>
+    <multicomment>
+        <begin>--[[</begin>
+        <end>]]--</end>
+    </multicomment>
+
+    <stringliteral>
+        <begin>[[</begin>
+        <end>]]</end>
+    </stringliteral>
+
+    <!-- lua doesn't support hex literals aka 0x123 -->
+    <hexliteral>false</hexliteral>
+
+    <!-- lua only supports a few operator chars -->
+    <operator>=+-*/^!.</operator>
+
+    <words>
+
+        <!-- lang keywords -->
+        <keyword>and</keyword>
+        <keyword>end</keyword>
+        <keyword>in</keyword>
+        <keyword>repeat</keyword>
+        <keyword>break</keyword>
+        <keyword>false</keyword>
+        <keyword>local</keyword>
+        <keyword>return</keyword>
+        <keyword>do</keyword>
+        <keyword>for</keyword>
+        <keyword>nil</keyword>
+        <keyword>then</keyword>
+        <keyword>else</keyword>
+        <keyword>function</keyword>
+        <keyword>not</keyword>
+        <keyword>true</keyword>
+        <keyword>elseif</keyword>
+        <keyword>if</keyword>
+        <keyword>or</keyword>
+        <keyword>until</keyword>
+        <keyword>while</keyword>
+
+        <keyword>OUTPUT_WIDTH</keyword>
+        <keyword>OUTPUT_HEIGHT</keyword>
+        <keyword>SCRIPT_PATH</keyword>
+
+        <!-- basic functions -->
+        <function>assert</function>
+        <function>collectgarbage</function>
+        <function>dofile</function>
+        <function>error</function>
+        <function>_G</function>
+        <function>getfenv</function>
+        <function>getmetatable</function>
+        <function>ipairs</function>
+        <function>load</function>
+        <function>loadfile</function>
+        <function>loadstring</function>
+        <function>next</function>
+        <function>pairs</function>
+        <function>pcall</function>
+        <function>print</function>
+        <function>rawequal</function>
+        <function>rawget</function>
+        <function>rawset</function>
+        <function>select</function>
+        <function>setfenv</function>
+        <function>setmetatable</function>
+        <function>tonumber</function>
+        <function>tostring</function>
+        <function>type</function>
+        <function>unpack</function>
+        <function>_VERSION</function>
+        <function>xpcall</function>
+
+    </words>
+</syntax>

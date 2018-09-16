@@ -40,7 +40,7 @@ void ofApp::setup(){
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
-    ofSetLogLevel(OF_LOG_NOTICE);
+    ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
     ///////////////////////////////////////////
 
     // RETINA FIX

@@ -1,0 +1,27 @@
+<!-- css colors http://www.w3schools.com/cssref/css_colornames.asp -->
+<colorscheme>
+	<text>
+		<gray>250</gray>
+	</text>
+	<string>
+		<hex>41F9F4</hex>
+	</string>
+	<number>
+		<hex>78FF78</hex>
+	</number>
+	<comment>
+		<hex>A2A2A2</hex>
+	</comment>
+	<preprocessor>
+		<gray>250</gray>
+	</preprocessor>
+	<keyword>
+		<hex>FF9A83</hex>
+	</keyword>
+	<typename>
+		<gray>250</gray>
+	</typename>
+	<function>
+		<hex>6161FD</hex>
+	</function>
+</colorscheme>

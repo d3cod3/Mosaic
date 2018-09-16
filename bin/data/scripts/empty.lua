@@ -16,7 +16,7 @@
 	empty.lua: A Lua script template for Mosaic,
 	mimicking the standard OF app structure
 
-]]
+]]--
 
 
 mouseX = 0
@@ -34,7 +34,7 @@ end
 
 ----------------------------------------------------
 function draw()
-
+	of.background(0)
 end
 
 ----------------------------------------------------
