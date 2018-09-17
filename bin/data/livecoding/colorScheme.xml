@@ -1,27 +1,27 @@
 <!-- css colors http://www.w3schools.com/cssref/css_colornames.asp -->
 <colorscheme>
 	<text>
-		<gray>250</gray>
+		<gray>255</gray>
 	</text>
 	<string>
-		<hex>41F9F4</hex>
+		<hex>ACF325</hex>
 	</string>
 	<number>
-		<hex>78FF78</hex>
+		<hex>FF6600</hex>
 	</number>
 	<comment>
-		<hex>A2A2A2</hex>
+		<hex>828282</hex>
 	</comment>
 	<preprocessor>
-		<gray>250</gray>
+		<gray>255</gray>
 	</preprocessor>
 	<keyword>
-		<hex>FF9A83</hex>
+		<hex>FD2043</hex>
 	</keyword>
 	<typename>
-		<gray>250</gray>
+		<gray>255</gray>
 	</typename>
 	<function>
-		<hex>6161FD</hex>
+		<hex>43B7FA</hex>
 	</function>
 </colorscheme>

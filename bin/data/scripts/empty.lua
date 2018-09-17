@@ -1,22 +1,22 @@
---[[
-
-	----------------------------------------------------------
-	Mosaic | OF Visual Patching Developer Platform
-
-	Copyright (c) 2018 Emanuele Mazza aka n3m3da
-
-	Mosaic is distributed under the MIT License. This gives everyone the
-    freedoms to use Mosaic in any context: commercial or non-commercial,
-    public or private, open or closed source.
-
-    See https://github.com/d3cod3/Mosaic for documentation
-	----------------------------------------------------------
-
-
-	empty.lua: A Lua script template for Mosaic,
-	mimicking the standard OF app structure
-
-]]--
+--
+--
+--	----------------------------------------------------------
+--	Mosaic | OF Visual Patching Developer Platform
+--
+--	Copyright (c) 2018 Emanuele Mazza aka n3m3da
+--
+--	Mosaic is distributed under the MIT License. This gives everyone the
+--    freedoms to use Mosaic in any context: commercial or non-commercial,
+--    public or private, open or closed source.
+--
+--    See https://github.com/d3cod3/Mosaic for documentation
+--	----------------------------------------------------------
+--
+--
+--	empty.lua: A Lua script template for Mosaic,
+--	mimicking the standard OF app structure
+--
+--
 
 
 mouseX = 0
@@ -41,6 +41,7 @@ end
 function exit()
 
 end
+
 
 -- input callbacks
 

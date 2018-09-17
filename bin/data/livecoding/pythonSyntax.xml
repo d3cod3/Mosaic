@@ -55,6 +55,7 @@
         <keyword>with</keyword>
         <keyword>yield</keyword>
 
+        <!-- Mosaic keywords -->
         <keyword>OUTPUT_WIDTH</keyword>
         <keyword>OUTPUT_HEIGHT</keyword>
         <keyword>SCRIPT_PATH</keyword>
@@ -136,6 +137,19 @@
         <function>xrange</function>
         <function>zip</function>
         <function>__import__</function>
+
+        <!-- OF/Mosaic keywords -->
+        <function>setup</function>
+        <function>update</function>
+        <function>draw</function>
+        <function>exit</function>
+
+        <function>keyPressed</function>
+        <function>keyReleased</function>
+        <function>mouseDragged</function>
+        <function>mouseMoved</function>
+        <function>mouseReleased</function>
+        <function>mouseScrolled</function>
 
 
     </words>

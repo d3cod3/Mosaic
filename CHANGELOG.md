@@ -24,7 +24,7 @@
 # v0.1.2
 
 ### general
-    + + added a forked version of ofxGLEditor <https://github.com/d3cod3/ofxGLEditor>
+    + added a forked version of ofxGLEditor <https://github.com/d3cod3/ofxGLEditor>
     + added live-coding (ofxGLEditor) in lua script and python script objects
     + Fixed bugs in lua script and python script objects
     + Added luafilesystem (https://keplerproject.github.io/luafilesystem/) library to lua embedded scripting interpreter
