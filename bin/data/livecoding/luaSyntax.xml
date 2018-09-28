@@ -1126,8 +1126,6 @@
         <function>set</function>
         <function>limit</function>
         <function>angleRad</function>
-        <function>x</function>
-        <function>y</function>
         <function>zmatchalignRad</function>
         <function>getInterpolated</function>
         <function>Vec3f</function>
@@ -1181,10 +1179,8 @@
         <function>getHexgetInverted</function>
         <function>invert</function>
         <function>getNormalized</function>
-        <function>ab</function>
         <function>getHueAngle</function>
         <function>setHueAngle</function>
-        <function>g</function>
         <function>Color</function>
         <function>getR</function>
         <function>setA</function>
@@ -1464,8 +1460,6 @@
         <function>xgetMiddle</function>
         <function>getNormalized</function>
         <function>normalize</function>
-        <function>y</function>
-        <function>z</function>
         <function>getScaled</function>
         <function>length</function>
         <function>Vec4f</function>
@@ -1473,7 +1467,6 @@
         <function>lengthSquared</function>
         <function>middle</function>
         <function>address</function>
-        <function>r</function>
         <function>getLerped</function>
         <function>normalize</function>
         <function>set</function>
@@ -1487,10 +1480,8 @@
         <function>getInverted</function>
         <function>invertFloatColor</function>
         <function>getNormalized</function>
-        <function>ab</function>
         <function>getHueAngle</function>
         <function>setHueAngle</function>
-        <function>g</function>
         <function>getR</function>
         <function>setA</function>
         <function>getHue</function>
@@ -1868,7 +1859,6 @@
         <function>setHex</function>
         <function>lerp</function>
         <function>getHsb</function>
-        <function>r</function>
         <function>getLerped</function>
         <function>normalize</function>
         <function>set</function>
@@ -1888,7 +1878,6 @@
         <function>getNormalized</function>
         <function>getHueAngle</function>
         <function>setHueAngle</function>
-        <function>g</function>
         <function>getR</function>
         <function>setA</function>
         <function>getHue</function>
@@ -1948,12 +1937,10 @@
         <function>Quaternion</function>
         <function>set</function>
         <function>wxnormalize</function>
-        <function>y</function>
         <function>getRotate</function>
         <function>zeroRotation</function>
         <function>get</function>
         <function>length</function>
-        <function>z</function>
         <function>length2</function>
         <function>inverse</function>
         <function>getEulerasVec3</function>
@@ -2210,9 +2197,7 @@
         <function>setFromCenter</function>
         <function>set</function>
         <function>alignToVert</function>
-        <function>x</function>
         <function>growToInclude</function>
-        <function>y</function>
         <function>translateX</function>
         <function>translateY</function>
         <function>setHeight</function>
@@ -3088,7 +3073,6 @@
         <function>set</function>
         <function>limit</function>
         <function>angleRad</function>
-        <function>x</function>
         <function>ymatchalignRad</function>
         <function>getInterpolated</function>
         <function>isAligned</function>
