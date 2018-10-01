@@ -32,7 +32,10 @@
 
 #pragma once
 
+#if !defined(TARGET_WIN32)
 #include <pwd.h>
+#endif
+
 #include <unistd.h>
 
 #include "ofMain.h"

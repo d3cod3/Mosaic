@@ -41,7 +41,9 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
+#if !defined(TARGET_WIN32)
     initDataFolderFromBundle();
+#endif
     ///////////////////////////////////////////
 
     // RETINA FIX
@@ -373,12 +375,7 @@ void ofApp::initDataFolderFromBundle(){
     if(!homeDir){
         struct passwd* pwd;
 #ifdef TARGET_WIN32
-        char buffer[UNLEN + 1] = {0};
-        DWORD buffer_len = UNLEN + 1;
-        if (!::GetUserNameA(buffer, & buffer_len)){
-            ofLog(OF_LOG_ERROR,"Error accessing user home folder!");
-        }
-        pwd = getpwuid(buffer);
+
 #elif defined(TARGET_OSX) || defined(TARGET_LINUX)
         pwd = getpwuid(getuid());
 #endif
