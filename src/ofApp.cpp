@@ -41,6 +41,7 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
+    initDataFolderFromBundle();
     ///////////////////////////////////////////
 
     // RETINA FIX
@@ -56,7 +57,7 @@ void ofApp::setup(){
     numFiles = 0;
     numLines = 0;
 
-    projectDirectory.listDir(ofToDataPath("../../src/"));
+    /*projectDirectory.listDir(ofToDataPath("../../src/"));
     recursiveScanDirectory(projectDirectory);
     projectDirectory.listDir(ofToDataPath("../../../../../addons/ofxVisualProgramming/"));
     recursiveScanDirectory(projectDirectory);
@@ -67,7 +68,7 @@ void ofApp::setup(){
         for (auto line : buffer.getLines()){
             numLines++;
         }
-    }
+    }*/
 
     // LOGGER
     isInited = false;
@@ -87,7 +88,7 @@ void ofApp::setup(){
     screenLoggerChannel->setPrefixTimestamp(true);
 
     ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
-    ofLog(OF_LOG_NOTICE,"%i files and %i code lines",numFiles,numLines);
+    //ofLog(OF_LOG_NOTICE,"%i files and %i code lines",numFiles,numLines);
     ofLog(OF_LOG_NOTICE," ");
 
     // Visual Programming Environment Load
@@ -334,4 +335,89 @@ void ofApp::recursiveScanDirectory(ofDirectory dir){
             projectFilesList.push_back(dir.getPath(i));
         }
     }
+}
+
+//--------------------------------------------------------------
+void ofApp::initDataFolderFromBundle(){
+    string _bundleDataPath;
+#ifdef TARGET_LINUX
+    _bundleDataPath = ofToDataPath("",true);
+#elif defined(TARGET_OSX)
+    CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFStringRef appPath = CFURLCopyFileSystemPath(appUrl, kCFURLPOSIXPathStyle);
+
+    const CFIndex kCStringSize = 128;
+    char temporaryCString[kCStringSize];
+    bzero(temporaryCString,kCStringSize);
+    CFStringGetCString(appPath, temporaryCString, kCStringSize, kCFStringEncodingUTF8);
+    std::string *appPathStr = new std::string(temporaryCString);
+    CFRelease(appUrl);
+    CFRelease(appPath);
+
+    CFURLRef resourceUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+    CFStringRef resourcePath = CFURLCopyFileSystemPath(resourceUrl, kCFURLPOSIXPathStyle);
+
+    bzero(temporaryCString,kCStringSize);
+    CFStringGetCString(resourcePath, temporaryCString, kCStringSize, kCFStringEncodingUTF8);
+    std::string *resourcePathStr = new std::string(temporaryCString);
+    CFRelease(resourcePath);
+    CFRelease(resourceUrl);
+
+    _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
+#elif defined(TARGET_WIN32)
+    _bundleDataPath = ofToDataPath("",true);
+#endif
+
+    const char *homeDir = getenv("HOME");
+
+    if(!homeDir){
+        struct passwd* pwd;
+#ifdef TARGET_WIN32
+        char buffer[UNLEN + 1] = {0};
+        DWORD buffer_len = UNLEN + 1;
+        if (!::GetUserNameA(buffer, & buffer_len)){
+            ofLog(OF_LOG_ERROR,"Error accessing user home folder!");
+        }
+        pwd = getpwuid(buffer);
+#elif defined(TARGET_OSX) || defined(TARGET_LINUX)
+        pwd = getpwuid(getuid());
+#endif
+        if (pwd){
+            homeDir = pwd->pw_dir;
+        }
+    }
+
+    string _MosaicDataPath(homeDir);
+    _MosaicDataPath += "/Documents/Mosaic/data";
+
+    std::filesystem::path mosaicPath(_MosaicDataPath.c_str());
+
+    ofDirectory mosaicDir;
+
+    if(!mosaicDir.doesDirectoryExist(mosaicPath)){
+        mosaicDir.createDirectory(mosaicPath,true,true);
+
+        std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicPath,true,true);
+    }else{
+        string relfilepath = _MosaicDataPath+"/release.txt";
+        std::filesystem::path releasePath(relfilepath.c_str());
+        ofFile relFile(releasePath);
+
+        if(relFile.exists()){
+            string actualRel = relFile.readToBuffer().getText();
+
+            if(VERSION != actualRel){
+                std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+                ofDirectory dataDir(dataPath);
+                dataDir.copyTo(mosaicPath,true,true);
+            }
+        }
+
+    }
+
+    ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 }

@@ -32,6 +32,9 @@
 
 #pragma once
 
+#include <pwd.h>
+#include <unistd.h>
+
 #include "ofMain.h"
 
 #include "config.h"
@@ -73,6 +76,7 @@ public:
 
     // UTILS
     void recursiveScanDirectory(ofDirectory dir);
+    void initDataFolderFromBundle();
 
     // Command line arguments
     vector<string>              arguments;
