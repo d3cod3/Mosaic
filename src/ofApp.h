@@ -95,6 +95,7 @@ public:
     ofxDatGui*                  mainMenu;
     ofxDatGuiDropdown*          audioINputDevices;
     ofxDatGuiDropdown*          audioOUTputDevices;
+    ofxDatGuiToggle*            dspONOFF;
 
     // LOGGER
     ofRectangle                 *loggerBounds;

@@ -110,6 +110,7 @@ void ofApp::setup(){
     mainMenu->addButton("  open");
     mainMenu->addButton("  save as");
     mainMenu->addBreak();
+    mainMenu->addBreak();
     ofxDatGuiFolder* audioFolder = mainMenu->addFolder("SOUND CONFIG");
     audioFolder->addBreak();
     audioFolder->addLabel("  INPUT DEVICE");
@@ -124,7 +125,11 @@ void ofApp::setup(){
     audioFolder->attachItem(audioOUTputDevices);
     audioOUTputDevices->select(visualProgramming->audioOUTDev);
     mainMenu->addBreak();
+    mainMenu->addBreak();
     mainMenu->addLabel("SYSTEM");
+    mainMenu->addBreak();
+    mainMenu->addToggle("  DSP",false);
+    mainMenu->addBreak();
     mainMenu->addToggle("  PROFILER");
     mainMenu->addBreak();
     mainMenu->addBreak();
@@ -303,6 +308,15 @@ void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
     if(e.target->getLabel() == "  PROFILER"){
         visualProgramming->profilerActive = e.checked;
         TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
+    }else if(e.target->getLabel() == "  DSP"){
+        if(e.checked){
+            e.target->setLabelColor(ofColor::fromHex(0xFFD00B));
+            visualProgramming->activateDSP();
+        }else{
+            e.target->setLabelColor(ofColor::fromHex(0xEEEEEE));
+            visualProgramming->deactivateDSP();
+        }
+
     }
 }
 
