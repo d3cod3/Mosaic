@@ -114,13 +114,13 @@ void ofApp::setup(){
     ofxDatGuiFolder* audioFolder = mainMenu->addFolder("SOUND CONFIG");
     audioFolder->addBreak();
     audioFolder->addLabel("  INPUT DEVICE");
-    audioINputDevices = new ofxDatGuiDropdown("Select audio input device",visualProgramming->audioDevicesString);
+    audioINputDevices = new ofxDatGuiDropdown("Select audio input device",visualProgramming->audioDevicesStringIN);
     audioINputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
     audioFolder->attachItem(audioINputDevices);
     audioINputDevices->select(visualProgramming->audioINDev);
     audioFolder->addBreak();
     audioFolder->addLabel("  OUTPUT DEVICE");
-    audioOUTputDevices = new ofxDatGuiDropdown("Select audio output device",visualProgramming->audioDevicesString);
+    audioOUTputDevices = new ofxDatGuiDropdown("Select audio output device",visualProgramming->audioDevicesStringOUT);
     audioOUTputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
     audioFolder->attachItem(audioOUTputDevices);
     audioOUTputDevices->select(visualProgramming->audioOUTDev);
