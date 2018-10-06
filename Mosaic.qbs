@@ -36,9 +36,11 @@ Project{
                         'ofxLua',
                         'ofxLoggerChannel',
                         'ofxMidi',
+                        'ofxModal',
                         'ofxParagraph',
                         'ofxPDSP',
                         'ofxSIMDFloats',
+                        'ofxSimpleHttp',
                         'ofxTimeMeasurements',
                         'ofxVisualProgramming'
                         ]
@@ -58,10 +60,12 @@ Project{
                         'ofxLua',
                         'ofxLoggerChannel',
                         'ofxMidi',
+                        'ofxModal',
                         'ofxParagraph',
                         'ofxPDSP',
                         'ofxPython',
                         'ofxSIMDFloats',
+                        'ofxSimpleHttp',
                         'ofxTimeMeasurements',
                         'ofxVisualProgramming'
                         ]

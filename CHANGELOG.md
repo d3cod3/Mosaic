@@ -14,18 +14,30 @@
 ```
 
 ```bash
-  ___   _   _____ 
- / _ \ / | |___ / 
-| | | || |   |_ \ 
-| |_| || |_ ___) |
- \___(_)_(_)____/ 
-                  
+  ___   _  _  _   
+ / _ \ / || || |  
+| | | || || || |_ 
+| |_| || ||__   _|
+ \___(_)_(_) |_|  
+                                 
 ```
+
+# v0.1.4
+
+### general
+    + Added DSP ON/OFF control
+    / Fixed audio input/output devices lists
+    + Added GUI objects collision detection, better user interaction interface
+    + Added check for updates & automatic download
+    + Added [ofxModal](https://github.com/braitsch/ofxModal)
+    + Added [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
+
+//////////////////////////////////
 
 # v0.1.3
 
 ### general
-    + Fixed macOS Sierra & High Sierra Gatekeeper Path Randomization Anti-Malware Feature Issue
+    / Fixed macOS Sierra & High Sierra Gatekeeper Path Randomization Anti-Malware Feature Issue
 
 //////////////////////////////////
 
@@ -34,8 +46,8 @@
 ### general
     + added a forked version of ofxGLEditor <https://github.com/d3cod3/ofxGLEditor>
     + added live-coding (ofxGLEditor) in lua script and python script objects
-    + Fixed bugs in lua script and python script objects
-    + Added luafilesystem (https://keplerproject.github.io/luafilesystem/) library to lua embedded scripting interpreter
+    / Fixed bugs in lua script and python script objects
+    + added luafilesystem (https://keplerproject.github.io/luafilesystem/) library to lua embedded scripting interpreter
 
 //////////////////////////////////
 
@@ -44,7 +56,7 @@
 ### general
     + retina fixes
     + added NEW button to scripting objects
-    + general code cleaning
+    / general code cleaning
 
 //////////////////////////////////
 

@@ -44,6 +44,8 @@
 #include "includes.h"
 
 #include "ofxScreenLoggerChannel.h"
+#include "ofxModal.h"
+#include "ofxSimpleHttp.h"
 
 class ofApp : public ofBaseApp{
 
@@ -74,12 +76,17 @@ public:
     void onButtonEvent(ofxDatGuiButtonEvent e);
     void onToggleEvent(ofxDatGuiToggleEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
+    void onModalEvent(ofxModalEvent e);
+
+    // NET Events
+    void newResponse(ofxSimpleHttpResponse &response);
 
     void quitMosaic();
 
     // UTILS
     void recursiveScanDirectory(ofDirectory dir);
     void initDataFolderFromBundle();
+    void checkForUpdates();
 
     // Command line arguments
     vector<string>              arguments;
@@ -87,6 +94,9 @@ public:
     // CORE
     ofDirectory                 projectDirectory;
     vector<string>              projectFilesList;
+    std::filesystem::path       mosaicPath;
+    string                      mosaicURL;
+    string                      userHome;
     int                         numFiles;
     int                         numLines;
 
@@ -96,6 +106,8 @@ public:
     ofxDatGuiDropdown*          audioINputDevices;
     ofxDatGuiDropdown*          audioOUTputDevices;
     ofxDatGuiToggle*            dspONOFF;
+    ofxModalConfirm             confirm;
+    ofxModalAlert               modalMessage;
 
     // LOGGER
     ofRectangle                 *loggerBounds;
@@ -108,6 +120,9 @@ public:
 
     // GUI
     ofImage                     *mosaicLogo;
+
+    // NET
+    ofxSimpleHttp               http;
 
 
 private:

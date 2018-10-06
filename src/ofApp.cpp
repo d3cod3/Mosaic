@@ -150,6 +150,17 @@ void ofApp::setup(){
     mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);
     mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
 
+    // NET
+    ofxSimpleHttp::createSslContext();
+    http.addCustomHttpHeader("Accept", "application/zip");
+    //http.setCopyBufferSize(16);
+    //http.setSpeedLimit(300);
+    ofAddListener(http.httpResponse, this, &ofApp::newResponse);
+
+    // Check for updates
+    confirm.addListener(this, &ofApp::onModalEvent);
+    checkForUpdates();
+
 }
 
 //--------------------------------------------------------------
@@ -180,6 +191,8 @@ void ofApp::update(){
         screenLoggerChannel->setDrawBounds(*loggerBounds);
     }
 
+    http.update();
+
 }
 
 //--------------------------------------------------------------
@@ -190,6 +203,14 @@ void ofApp::draw(){
     // BACKGROUND GUI
     ofSetColor(255,255,255,16);
     mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),(ofGetWindowHeight()- (240*visualProgramming->scaleFactor))/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
+
+    // Updates Downloading Progress
+    if(http.getPendingDownloads() > 0){
+        ofSetColor(64,128,255,100);
+        ofDrawRectRounded((ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2,(ofGetWindowHeight()-(33*visualProgramming->scaleFactor))/2,(333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress(),(33*visualProgramming->scaleFactor),3);
+        ofSetColor(255);
+        visualProgramming->font->draw(ofToString(static_cast<int>(http.getCurrentDownloadProgress()*100))+"%",visualProgramming->fontSize,(ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2 + ((333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress()/2),ofGetWindowHeight()/2 + 6*visualProgramming->scaleFactor);
+    }
 
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
@@ -332,7 +353,49 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
 }
 
 //--------------------------------------------------------------
+void ofApp::onModalEvent(ofxModalEvent e){
+    if (e.type == ofxModalEvent::CONFIRM){
+        // Download Mosaic Last release
+        ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
+        string lastRelease = resp.data.getText();
+        mosaicURL = "";
+
+        if(VERSION != lastRelease){
+            string fileName;
+
+#ifdef TARGET_LINUX
+            fileName = "Mosaic_v"+lastRelease+"_linux64_release.tar.gz";
+            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
+#elif defined(TARGET_OSX)
+            fileName = "Mosaic_v"+lastRelease+"_osx_release.zip";
+            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
+#elif defined(TARGET_WIN32)
+            fileName = "Mosaic_v"+lastRelease+"_windows_release.zip";
+            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
+#endif
+
+            if(mosaicURL != ""){
+                http.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:62.0) Gecko/20100101 Firefox/62.0");
+                http.fetchURLToDisk(mosaicURL,true,userHome+"/Downloads");
+            }else{
+                ofLog(OF_LOG_ERROR,"There was an error trying to download Mosaic update, please retry next time!");
+            }
+
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::newResponse(ofxSimpleHttpResponse &r){
+    if(r.url == mosaicURL){
+        modalMessage.setTitle("Mosaic Update");
+        modalMessage.alert("Mosaic last release downloaded! Just unzip it and overwrite your previous version.");
+    }
+}
+
+//--------------------------------------------------------------
 void ofApp::quitMosaic(){
+    ofxSimpleHttp::destroySslContext();
     ofExit(0);
 }
 
@@ -399,9 +462,13 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     string _MosaicDataPath(homeDir);
+    userHome = _MosaicDataPath;
+
     _MosaicDataPath += "/Documents/Mosaic/data";
 
-    std::filesystem::path mosaicPath(_MosaicDataPath.c_str());
+    std::filesystem::path tempPath(_MosaicDataPath.c_str());
+
+    mosaicPath = tempPath;
 
     ofDirectory mosaicDir;
 
@@ -431,4 +498,19 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
+}
+
+//--------------------------------------------------------------
+void ofApp::checkForUpdates(){
+    ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
+
+    string lastRelease = resp.data.getText();
+
+    if(VERSION != lastRelease && resp.status != 404){
+        confirm.setTitle("Mosaic Update");
+        confirm.setMessage("Mosaic release "+lastRelease+" available, would you like to update?");
+        confirm.setButtonLabel("ok");
+        confirm.show();
+    }
+
 }

@@ -76,6 +76,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxMidi](https://github.com/d3cod3/ofxMidi) -- Fork
 
+#### [ofxModal](https://github.com/braitsch/ofxModal)
+
 #### [ofxParagraph](https://github.com/d3cod3/ofxParagraph) -- Fork
 
 #### [ofxPDSP](https://github.com/npisanti/ofxPDSP)
@@ -83,6 +85,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
 
 #### [ofxSIMDFloats](https://github.com/npisanti/ofxSIMDFloats)
+
+#### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
 #### [ofxTimeMeasurements](https://github.com/armadillu/ofxTimeMeasurements)
 
@@ -114,10 +118,12 @@ git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/d3cod3/ofxLoggerChannel
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/d3cod3/ofxMidi
+git clone https://github.com/braitsch/ofxModal
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
 git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/npisanti/ofxSIMDFloats
+git clone https://github.com/armadillu/ofxSimpleHttp
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 
