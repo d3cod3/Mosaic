@@ -41,7 +41,7 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
-#if !defined(TARGET_WIN32)
+#if !defined(TARGET_WIN32) && !defined(TARGET_LINUX)
     initDataFolderFromBundle();
 #endif
     ///////////////////////////////////////////
@@ -128,7 +128,7 @@ void ofApp::setup(){
     mainMenu->addBreak();
     mainMenu->addLabel("SYSTEM");
     mainMenu->addBreak();
-    mainMenu->addToggle("  DSP",false);
+    dspONOFF = mainMenu->addToggle("  DSP",visualProgramming->dspON);
     mainMenu->addBreak();
     mainMenu->addToggle("  PROFILER");
     mainMenu->addBreak();
@@ -153,8 +153,6 @@ void ofApp::setup(){
     // NET
     ofxSimpleHttp::createSslContext();
     http.addCustomHttpHeader("Accept", "application/zip");
-    //http.setCopyBufferSize(16);
-    //http.setSpeedLimit(300);
     ofAddListener(http.httpResponse, this, &ofApp::newResponse);
 
     // Check for updates
@@ -170,6 +168,13 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     visualProgramming->update();
+    if(visualProgramming->dspON){
+        dspONOFF->setLabelColor(ofColor::fromHex(0xFFD00B));
+        dspONOFF->setChecked(true);
+    }else{
+        dspONOFF->setLabelColor(ofColor::fromHex(0xEEEEEE));
+        dspONOFF->setChecked(false);
+    }
 
     if(isWindowResized){
         isWindowResized = false;
@@ -331,10 +336,10 @@ void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
         TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
     }else if(e.target->getLabel() == "  DSP"){
         if(e.checked){
-            e.target->setLabelColor(ofColor::fromHex(0xFFD00B));
+            //e.target->setLabelColor(ofColor::fromHex(0xFFD00B));
             visualProgramming->activateDSP();
         }else{
-            e.target->setLabelColor(ofColor::fromHex(0xEEEEEE));
+            //e.target->setLabelColor(ofColor::fromHex(0xEEEEEE));
             visualProgramming->deactivateDSP();
         }
 
