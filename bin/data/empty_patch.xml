@@ -3,6 +3,7 @@
 <settings>
     <output_width>1280</output_width>
     <output_height>720</output_height>
+    <dsp>0</dsp>
     <audio_in_device>0</audio_in_device>
     <audio_out_device>0</audio_out_device>
     <sample_rate_in>44100</sample_rate_in>
