@@ -76,7 +76,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxMidi](https://github.com/d3cod3/ofxMidi) -- Fork
 
-#### [ofxModal](https://github.com/braitsch/ofxModal)
+#### [ofxModal](https://github.com/d3cod3/ofxModal) -- Fork
 
 #### [ofxParagraph](https://github.com/d3cod3/ofxParagraph) -- Fork
 
@@ -118,7 +118,7 @@ git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/d3cod3/ofxLoggerChannel
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/d3cod3/ofxMidi
-git clone https://github.com/braitsch/ofxModal
+git clone https://github.com/d3cod3/ofxModal
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
 git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/npisanti/ofxPDSP

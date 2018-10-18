@@ -16,20 +16,23 @@
 ```bash
   ___   _  _  _   
  / _ \ / || || |  
-| | | || || || |_ 
+| | | || || || |_
 | |_| || ||__   _|
  \___(_)_(_) |_|  
-                                 
+
 ```
 
 # v0.1.4
 
 ### general
+    / Fixed sound streaming/sample rate issues
+    + Added all audio analysis objects
+    / Better general objects logic
     + Added DSP ON/OFF control
     / Fixed audio input/output devices lists
-    + Added GUI objects collision detection, better user interaction interface
+    + Added GUI objects collision detection, better mouse control, better user interaction interface
     + Added check for updates & automatic download
-    + Added [ofxModal](https://github.com/braitsch/ofxModal)
+    + Added a forked version of [ofxModal](https://github.com/d3cod3/ofxModal)
     + Added [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
 //////////////////////////////////

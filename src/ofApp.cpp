@@ -102,6 +102,7 @@ void ofApp::setup(){
 
     guiThemeRetina = new ofxDatGuiThemeRetina();
     mainMenu = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
+    mainMenu->setAutoDraw(false);
     mainMenu->addHeader("Mosaic",false);
     mainMenu->addBreak();
     mainMenu->addBreak();
@@ -150,6 +151,10 @@ void ofApp::setup(){
     mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);
     mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
 
+    // MODALS
+    confirm.setup();
+    modalMessage.setup();
+
     // NET
     ofxSimpleHttp::createSslContext();
     http.addCustomHttpHeader("Accept", "application/zip");
@@ -174,6 +179,10 @@ void ofApp::update(){
     }else{
         dspONOFF->setLabelColor(ofColor::fromHex(0xEEEEEE));
         dspONOFF->setChecked(false);
+    }
+
+    if(!visualProgramming->draggingObject){
+        mainMenu->update();
     }
 
     if(isWindowResized){
@@ -220,6 +229,9 @@ void ofApp::draw(){
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     visualProgramming->draw();
+
+    // MAIN MENU
+    mainMenu->draw();
 
     // LOGGER
     screenLoggerChannel->draw();
