@@ -60,7 +60,8 @@ function mouseMoved(x,y)
 end
 
 function mouseDragged(x,y)
-
+	mouseX = x
+	mouseY = y
 end
 
 function mouseReleased(x,y)

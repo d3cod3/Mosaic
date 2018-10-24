@@ -88,10 +88,12 @@ void ofApp::setup(){
         screenLoggerChannel->setup(MAIN_FONT,14);
     }
     screenLoggerChannel->setPrefixTimestamp(true);
+    screenLoggerChannel->setMaxBufferCount(512);
 
     ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
     //ofLog(OF_LOG_NOTICE,"%i files and %i code lines",numFiles,numLines);
     ofLog(OF_LOG_NOTICE," ");
+    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify man-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
 
     // Visual Programming Environment Load
     visualProgramming = new ofxVisualProgramming();
@@ -303,8 +305,18 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
             string fileExtension = ofToUpper(file.getExtension());
             if(fileExtension == "XML") {
                 visualProgramming->openPatch(file.getAbsolutePath());
-                audioINputDevices->select(visualProgramming->audioINDev);
-                audioOUTputDevices->select(visualProgramming->audioOUTDev);
+                for(size_t i=0;i<visualProgramming->audioDevicesID_IN.size();i++){
+                    if(visualProgramming->audioDevicesID_IN.at(i) == visualProgramming->audioINDev){
+                        audioINputDevices->select(i);
+                        break;
+                    }
+                }
+                for(size_t i=0;i<visualProgramming->audioDevicesID_OUT.size();i++){
+                    if(visualProgramming->audioDevicesID_OUT.at(i) == visualProgramming->audioOUTDev){
+                        audioOUTputDevices->select(i);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -324,8 +336,18 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
                 string fileExtension = ofToUpper(file.getExtension());
                 if(fileExtension == "XML") {
                     visualProgramming->openPatch(file.getAbsolutePath());
-                    audioINputDevices->select(visualProgramming->audioINDev);
-                    audioOUTputDevices->select(visualProgramming->audioOUTDev);
+                    for(size_t i=0;i<visualProgramming->audioDevicesID_IN.size();i++){
+                        if(visualProgramming->audioDevicesID_IN.at(i) == visualProgramming->audioINDev){
+                            audioINputDevices->select(i);
+                            break;
+                        }
+                    }
+                    for(size_t i=0;i<visualProgramming->audioDevicesID_OUT.size();i++){
+                        if(visualProgramming->audioDevicesID_OUT.at(i) == visualProgramming->audioOUTDev){
+                            audioOUTputDevices->select(i);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -348,10 +370,8 @@ void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
         TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
     }else if(e.target->getLabel() == "  DSP"){
         if(e.checked){
-            //e.target->setLabelColor(ofColor::fromHex(0xFFD00B));
             visualProgramming->activateDSP();
         }else{
-            //e.target->setLabelColor(ofColor::fromHex(0xEEEEEE));
             visualProgramming->deactivateDSP();
         }
 

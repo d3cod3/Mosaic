@@ -39,7 +39,8 @@ class mosaicApp(object):
 		pass
 
 	def mouseDragged(self, x, y, button):
-		pass
+		self.mouseX = x
+		self.mouseY = y
 
 	def mouseReleased(self, x, y, button):
 		pass
