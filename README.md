@@ -62,7 +62,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFontStash](https://github.com/d3cod3/ofxFontStash) -- Fork
 
-#### [ofxGLError](https://github.com/d3cod3/ofxGLEditor) -- Fork
+#### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
 
 #### [ofxGLError](https://github.com/armadillu/ofxGLError)
 
@@ -98,6 +98,8 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 # COMPILING
 
 **MACOS/LINUX/WINDOWS Compiling with qtcreator4.6.1**
+
+For linux starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to apply this OF [patch](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c#diff-8745315596d43e56d8bc7577ae28a078) to your openFrameworks 0.10
 
 Clone all the required addons listed:
 
