@@ -97,16 +97,27 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 # COMPILING
 
-**MACOS/LINUX/WINDOWS Compiling with qtcreator4.6.1**
+## LINUX
 
-> For **LINUX** starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to install libpoco-dev:
+Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues on until ubuntu 18.04 or debian 9 based distros, check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c).
+
+Starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to install libpoco-dev:
 
 ```bash
 sudo apt-get install libpoco-dev
-
 ```
 
-> And then substitute the original ofxPoco addon with [this one](https://github.com/d3cod3/Mosaic/releases/download/v0.1.4/ofxPoco_linux64.tar.gz), or check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c) and fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**
+And fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**
+
+## MACOS
+
+Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues.
+
+## WINDOWS
+
+Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues.
+
+#### OFXADDONS
 
 Clone all the required addons listed:
 
@@ -137,6 +148,8 @@ git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 
 ```
+
+You're ready to compile Mosaic!
 
 # SCREENSHOTS
 
