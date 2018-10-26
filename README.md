@@ -106,7 +106,7 @@ sudo apt-get install libpoco-dev
 
 ```
 
-> And then substitute the original ofxPoco addon with [this one](https://github.com/d3cod3/Mosaic/releases/download/v0.1.4/ofxPoco_linux64.tar.gz)
+> And then substitute the original ofxPoco addon with [this one](https://github.com/d3cod3/Mosaic/releases/download/v0.1.4/ofxPoco_linux64.tar.gz), or check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c) and fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**
 
 Clone all the required addons listed:
 
