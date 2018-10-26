@@ -17,6 +17,7 @@ Table of Contents
    * [COMPILING](#compiling)
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
+   * [CREDITS](#credits)
 
 
 # DOWNLOAD
@@ -174,3 +175,11 @@ You're ready to compile Mosaic!
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 All contributions are made under the [MIT License](https://opensource.org/licenses/MIT). See [LICENSE](https://github.com/d3cod3/Mosaic/blob/master/LICENSE.md).
+
+# CREDITS
+
+Mosaic is an open source project.
+
+The Mosaic team is composed by Emanuele Mazza and Maria José Martínez de Pisón.
+
+Mosaic uses [FFTW3](http://fftw.org/),  [essentia](http://essentia.upf.edu/documentation/), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [fontstash](https://github.com/memononen/fontstash) and code from openframeworks all the included ofxAddons.
