@@ -99,15 +99,23 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 ## LINUX
 
-Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues on until ubuntu 18.04 or debian 9 based distros, check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c).
+Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with some issues, check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c) and this [issue #3487](https://github.com/openframeworks/openFrameworks/issues/3487).
 
-Starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to install libpoco-dev:
+For the issue (an incompatibility between gtk3 and the ofxOpenCv addon) you'll need to uninstall libgtk-3-dev
+
+```bash
+sudo apt-get remove libgtk-3-dev
+```
+
+and follow the instructions here [Mosaic issue #1](https://github.com/d3cod3/Mosaic/issues/1).
+
+Then, due to poco library compatibility, starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to install libpoco-dev:
 
 ```bash
 sudo apt-get install libpoco-dev
 ```
 
-And fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**
+And fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**.
 
 ## MACOS
 
