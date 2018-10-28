@@ -456,9 +456,8 @@ void ofApp::recursiveScanDirectory(ofDirectory dir){
 //--------------------------------------------------------------
 void ofApp::initDataFolderFromBundle(){
     string _bundleDataPath;
-#ifdef TARGET_LINUX
-    _bundleDataPath = ofToDataPath("",true);
-#elif defined(TARGET_OSX)
+
+#ifdef TARGET_OSX
     CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef appPath = CFURLCopyFileSystemPath(appUrl, kCFURLPOSIXPathStyle);
 
@@ -480,23 +479,23 @@ void ofApp::initDataFolderFromBundle(){
     CFRelease(resourceUrl);
 
     _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
-#elif defined(TARGET_WIN32)
+#elif defined(TARGET_WIN32) || defined(TARGET_LINUX)
     _bundleDataPath = ofToDataPath("",true);
 #endif
 
     const char *homeDir = getenv("HOME");
 
-    if(!homeDir){
-        struct passwd* pwd;
 #ifdef TARGET_WIN32
 
 #elif defined(TARGET_OSX) || defined(TARGET_LINUX)
+    if(!homeDir){
+        struct passwd* pwd;
         pwd = getpwuid(getuid());
-#endif
         if (pwd){
             homeDir = pwd->pw_dir;
         }
     }
+#endif
 
     string _MosaicDataPath(homeDir);
     userHome = _MosaicDataPath;
