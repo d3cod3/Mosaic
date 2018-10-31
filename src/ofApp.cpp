@@ -164,7 +164,10 @@ void ofApp::setup(){
 
     // Check for updates
     confirm.addListener(this, &ofApp::onModalEvent);
-    checkForUpdates();
+
+    if(checkInternetReachability()){
+        checkForUpdates();
+    }
 
 }
 
@@ -534,6 +537,17 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
+}
+
+//--------------------------------------------------------------
+bool ofApp::checkInternetReachability(){
+    if(system("ping -q -c1 www.github.com > /dev/null && echo ok || echo error")){
+        ofLog(OF_LOG_ERROR,"Internet connection not available!");
+        return false;
+    }else{
+        ofLog(OF_LOG_NOTICE,"Internet connection available!");
+        return true;
+    }
 }
 
 //--------------------------------------------------------------

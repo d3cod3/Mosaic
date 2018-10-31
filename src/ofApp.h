@@ -86,6 +86,7 @@ public:
     // UTILS
     void recursiveScanDirectory(ofDirectory dir);
     void initDataFolderFromBundle();
+    bool checkInternetReachability();
     void checkForUpdates();
 
     // Command line arguments
