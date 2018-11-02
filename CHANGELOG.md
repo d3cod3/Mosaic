@@ -14,20 +14,13 @@
 ```
 
 ```bash
- ___   _   ____  
-/ _ \ / | | ___|
-| | | || | |___ \
-| |_| || |_ ___) |
-\___(_)_(_)____/
+  ___   _  _  _   
+ / _ \ / || || |  
+| | | || || || |_
+| |_| || ||__   _|
+ \___(_)_(_) |_|  
 
 ```
-
-# v0.1.5
-
-### general
-    + Completed computer vision object section
-
-//////////////////////////////////
 
 # v0.1.4
 
@@ -116,7 +109,7 @@
 ### libs
     + fftw3 static lib, included with ofxAudioAnalyzer
     + essentia 2.1-beta3 source code (for multi-platform compat.), included with ofxAudioAnalyzer
-    + kiss_fft, libsamplerate, included with ofxBTrack
+    + kiff_fft, libsamplerate, included with ofxBTrack
     + dr_wav, dr_mp3, dr_flac, stb_vorbis, included in ofxAudioFile
     + AudioFFT wrapper is used in ofxPDSP, Copyright (c) 2013 HiFi-LoFi.
 
