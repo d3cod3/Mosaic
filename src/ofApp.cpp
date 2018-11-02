@@ -552,7 +552,7 @@ bool ofApp::checkInternetReachability(){
     cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
     execFile = popen(cmd.c_str(), "r");
 #elif defined(TARGET_WIN32)
-    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
+    cmd = "ping -n 1 www.github.com > null && echo okk || echo err";
     execFile = _popen(cmd.c_str(), "r");
 #endif
 
