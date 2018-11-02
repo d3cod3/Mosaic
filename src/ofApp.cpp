@@ -541,26 +541,72 @@ void ofApp::initDataFolderFromBundle(){
 
 //--------------------------------------------------------------
 bool ofApp::checkInternetReachability(){
-    if(system("ping -q -c1 www.github.com > /dev/null && echo ok || echo error")){
-        ofLog(OF_LOG_ERROR,"Internet connection not available!");
-        return false;
-    }else{
-        ofLog(OF_LOG_NOTICE,"Internet connection available!");
-        return true;
+
+    string cmd = "";
+    FILE *execFile;
+    string output = "";
+#ifdef TARGET_LINUX
+    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
+    execFile = popen(cmd.c_str(), "r");
+#elif defined(TARGET_OSX)
+    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
+    execFile = popen(cmd.c_str(), "r");
+#elif defined(TARGET_WIN32)
+    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
+    execFile = _popen(cmd.c_str(), "r");
+#endif
+
+    if (execFile){
+        ofLog(OF_LOG_NOTICE,"CHECKING INTERNET CONNECTIVITY...");
+        ofLog(OF_LOG_NOTICE," ");
+
+        char buffer[128];
+        if(fgets(buffer, sizeof(buffer), execFile) != nullptr){
+            char *s = buffer;
+            std::string tempstr(s);
+            output = tempstr;
+        }
+
+        output.pop_back();
+
+#ifdef TARGET_LINUX
+        pclose(execFile);
+#elif defined(TARGET_OSX)
+        pclose(execFile);
+#elif defined(TARGET_WIN32)
+        _pclose(execFile);
+#endif
+
+        if(output == "okk"){
+            ofLog(OF_LOG_NOTICE,"[verbose] INTERNET IS AVAILABLE!");
+            return true;
+        }else if(output == "err"){
+            ofLog(OF_LOG_ERROR,"INTERNET IS NOT AVAILABLE!");
+            return false;
+        }
     }
+
+    return false;
+
 }
 
 //--------------------------------------------------------------
 void ofApp::checkForUpdates(){
+    ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
+    ofLog(OF_LOG_NOTICE," ");
+
     ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
 
     string lastRelease = resp.data.getText();
 
     if(VERSION != lastRelease && resp.status != 404){
+        ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
         confirm.setTitle("Mosaic Update");
         confirm.setMessage("Mosaic release "+lastRelease+" available, would you like to update?");
         confirm.setButtonLabel("ok");
         confirm.show();
+    }else{
+        ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
 
 }
