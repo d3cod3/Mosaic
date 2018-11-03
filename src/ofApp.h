@@ -84,22 +84,17 @@ public:
     void quitMosaic();
 
     // UTILS
-    void recursiveScanDirectory(ofDirectory dir);
-    void initDataFolderFromBundle();
-    bool checkInternetReachability();
-    void checkForUpdates();
+    void            initDataFolderFromBundle();
+    bool            checkInternetReachability();
+    void            checkForUpdates();
 
     // Command line arguments
     vector<string>              arguments;
 
     // CORE
-    ofDirectory                 projectDirectory;
-    vector<string>              projectFilesList;
     std::filesystem::path       mosaicPath;
     string                      mosaicURL;
     string                      userHome;
-    int                         numFiles;
-    int                         numLines;
 
     // GUI
     ofxDatGuiThemeRetina*       guiThemeRetina;

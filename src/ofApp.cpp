@@ -41,9 +41,11 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
-#if !defined(TARGET_WIN32) && !defined(TARGET_LINUX)
+
+#ifdef TARGET_OSX
     initDataFolderFromBundle();
 #endif
+
     ///////////////////////////////////////////
 
     // RETINA FIX
@@ -54,23 +56,6 @@ void ofApp::setup(){
     }else{ // STANDARD SCREEN
         ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
     }
-
-    // CORE
-    numFiles = 0;
-    numLines = 0;
-
-    /*projectDirectory.listDir(ofToDataPath("../../src/"));
-    recursiveScanDirectory(projectDirectory);
-    projectDirectory.listDir(ofToDataPath("../../../../../addons/ofxVisualProgramming/"));
-    recursiveScanDirectory(projectDirectory);
-
-    numFiles += projectFilesList.size();
-    for(size_t i=0;i<projectFilesList.size();i++){
-        ofBuffer buffer = ofBufferFromFile(projectFilesList.at(i));
-        for (auto line : buffer.getLines()){
-            numLines++;
-        }
-    }*/
 
     // LOGGER
     isInited = false;
@@ -91,7 +76,6 @@ void ofApp::setup(){
     screenLoggerChannel->setMaxBufferCount(512);
 
     ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
-    //ofLog(OF_LOG_NOTICE,"%i files and %i code lines",numFiles,numLines);
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify man-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
 
@@ -440,23 +424,6 @@ void ofApp::quitMosaic(){
 }
 
 //--------------------------------------------------------------
-void ofApp::recursiveScanDirectory(ofDirectory dir){
-    size_t size;
-    size = dir.listDir();
-    dir.sort();
-
-    for (size_t i = 0; i < size; i++){
-        if (dir.getFile(i).isDirectory()==1){
-            ofDirectory newDir;
-            newDir.listDir(dir.getFile(i).getAbsolutePath());
-            recursiveScanDirectory( newDir );
-        }else {
-            projectFilesList.push_back(dir.getPath(i));
-        }
-    }
-}
-
-//--------------------------------------------------------------
 void ofApp::initDataFolderFromBundle(){
     string _bundleDataPath;
 
@@ -557,8 +524,8 @@ bool ofApp::checkInternetReachability(){
 #endif
 
     if (execFile){
-        ofLog(OF_LOG_NOTICE,"CHECKING INTERNET CONNECTIVITY...");
         ofLog(OF_LOG_NOTICE," ");
+        ofLog(OF_LOG_NOTICE,"CHECKING INTERNET CONNECTIVITY...");
 
         char buffer[128];
         if(fgets(buffer, sizeof(buffer), execFile) != nullptr){
@@ -592,8 +559,8 @@ bool ofApp::checkInternetReachability(){
 
 //--------------------------------------------------------------
 void ofApp::checkForUpdates(){
-    ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
     ofLog(OF_LOG_NOTICE," ");
+    ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
 
     ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
 
@@ -605,7 +572,7 @@ void ofApp::checkForUpdates(){
         confirm.setMessage("Mosaic release "+lastRelease+" available, would you like to update?");
         confirm.setButtonLabel("ok");
         confirm.show();
-    }else{
+    }else if(VERSION == lastRelease){
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
 
