@@ -19,58 +19,12 @@ Project{
             'src/ofApp.h',
         ]
 
-        of.addons: {
-            if(qbs.targetOS.indexOf("windows")>-1){
-                return ['ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxPoco','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
-                        'ofxAudioAnalyzer',
-                        'ofxAudioFile',
-                        'ofxBTrack',
-                        'ofxChromaKeyShader',
-                        'ofxCv',
-                        'ofxDatGui',
-                        'ofxFontStash',
-                        'ofxGLEditor',
-                        'ofxGLError',
-                        'ofxHistoryPlot',
-                        'ofxInfiniteCanvas',
-                        'ofxLua',
-                        'ofxLoggerChannel',
-                        'ofxMidi',
-                        'ofxModal',
-                        'ofxParagraph',
-                        'ofxPDSP',
-                        'ofxSIMDFloats',
-                        'ofxSimpleHttp',
-                        'ofxTimeMeasurements',
-                        'ofxVisualProgramming'
-                        ]
-            }else{
-                return ['ofxAssimpModelLoader','ofxGui','ofxKinect','ofxNetwork','ofxOpenCv','ofxOsc','ofxPoco','ofxSvg','ofxVectorGraphics','ofxXmlSettings',
-                        'ofxAudioAnalyzer',
-                        'ofxAudioFile',
-                        'ofxBTrack',
-                        'ofxChromaKeyShader',
-                        'ofxCv',
-                        'ofxDatGui',
-                        'ofxFontStash',
-                        'ofxGLEditor',
-                        'ofxGLError',
-                        'ofxHistoryPlot',
-                        'ofxInfiniteCanvas',
-                        'ofxLua',
-                        'ofxLoggerChannel',
-                        'ofxMidi',
-                        'ofxModal',
-                        'ofxParagraph',
-                        'ofxPDSP',
-                        'ofxPython',
-                        'ofxSIMDFloats',
-                        'ofxSimpleHttp',
-                        'ofxTimeMeasurements',
-                        'ofxVisualProgramming'
-                        ]
-            }
-        }
+        of.addons: [
+            'ofxLoggerChannel',
+            'ofxModal',
+            'ofxSimpleHttp',
+            'ofxVisualProgramming'
+        ]
 
         // additional flags for the project. the of module sets some
         // flags by default to add the core libraries, search paths...
