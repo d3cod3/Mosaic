@@ -19,6 +19,7 @@
 --
 
 
+-- variables for mouse interaction
 mouseX = 0
 mouseY = 0
 

@@ -22,6 +22,7 @@ from ofxaddons import *
 
 class mosaicApp(object):
 	def __init__(self):
+		# variables for mouse interaction
 		self.mouseX = 0
 		self.mouseY = 0
 
