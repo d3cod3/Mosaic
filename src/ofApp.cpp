@@ -428,6 +428,8 @@ void ofApp::initDataFolderFromBundle(){
     string _bundleDataPath;
 
 #ifdef TARGET_OSX
+    string _bundleExamplesPath;
+
     CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef appPath = CFURLCopyFileSystemPath(appUrl, kCFURLPOSIXPathStyle);
 
@@ -449,6 +451,7 @@ void ofApp::initDataFolderFromBundle(){
     CFRelease(resourceUrl);
 
     _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
+    _bundleExamplesPath = *appPathStr + "/Contents/examples/";
 #elif defined(TARGET_WIN32) || defined(TARGET_LINUX)
     _bundleDataPath = ofToDataPath("",true);
 #endif
@@ -468,16 +471,20 @@ void ofApp::initDataFolderFromBundle(){
 #endif
 
     string _MosaicDataPath(homeDir);
+    string _MosaicExamplesPath(homeDir);
     userHome = _MosaicDataPath;
 
     _MosaicDataPath += "/Documents/Mosaic/data";
+    _MosaicExamplesPath += "/Documents/Mosaic/examples";
 
     std::filesystem::path tempPath(_MosaicDataPath.c_str());
+    std::filesystem::path examplesPath(_MosaicExamplesPath.c_str());
 
     mosaicPath = tempPath;
 
     ofDirectory mosaicDir;
 
+    // data directory
     if(!mosaicDir.doesDirectoryExist(mosaicPath)){
         mosaicDir.createDirectory(mosaicPath,true,true);
 
@@ -498,6 +505,31 @@ void ofApp::initDataFolderFromBundle(){
 
                 ofDirectory dataDir(dataPath);
                 dataDir.copyTo(mosaicPath,true,true);
+            }
+        }
+    }
+
+    // examples directory
+    if(!mosaicDir.doesDirectoryExist(examplesPath)){
+        mosaicDir.createDirectory(examplesPath,true,true);
+
+        std::filesystem::path dataPath(_bundleExamplesPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(examplesPath,true,true);
+    }else{
+        string relfilepath = _MosaicDataPath+"/release.txt";
+        std::filesystem::path releasePath(relfilepath.c_str());
+        ofFile relFile(releasePath);
+
+        if(relFile.exists()){
+            string actualRel = relFile.readToBuffer().getText();
+
+            if(VERSION != actualRel){
+                std::filesystem::path dataPath(_bundleExamplesPath.c_str());
+
+                ofDirectory dataDir(dataPath);
+                dataDir.copyTo(examplesPath,true,true);
             }
         }
 
