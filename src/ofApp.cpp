@@ -42,10 +42,7 @@ void ofApp::setup(){
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
 
-#ifdef TARGET_OSX
     initDataFolderFromBundle();
-#endif
-
     ///////////////////////////////////////////
 
     // RETINA FIX
@@ -425,9 +422,10 @@ void ofApp::quitMosaic(){
 
 //--------------------------------------------------------------
 void ofApp::initDataFolderFromBundle(){
-    string _bundleDataPath;
 
-#ifdef TARGET_OSX
+    #ifdef TARGET_OSX
+
+    string _bundleDataPath;
     string _bundleExamplesPath;
 
     CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
@@ -452,15 +450,9 @@ void ofApp::initDataFolderFromBundle(){
 
     _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
     _bundleExamplesPath = *appPathStr + "/Contents/examples/";
-#elif defined(TARGET_WIN32) || defined(TARGET_LINUX)
-    _bundleDataPath = ofToDataPath("",true);
-#endif
 
     const char *homeDir = getenv("HOME");
 
-#ifdef TARGET_WIN32
-
-#elif defined(TARGET_OSX) || defined(TARGET_LINUX)
     if(!homeDir){
         struct passwd* pwd;
         pwd = getpwuid(getuid());
@@ -468,7 +460,6 @@ void ofApp::initDataFolderFromBundle(){
             homeDir = pwd->pw_dir;
         }
     }
-#endif
 
     string _MosaicDataPath(homeDir);
     string _MosaicExamplesPath(homeDir);
@@ -536,6 +527,8 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
+
+    #endif
 }
 
 //--------------------------------------------------------------
