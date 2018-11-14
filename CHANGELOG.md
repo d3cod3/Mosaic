@@ -14,13 +14,25 @@
 ```
 
 ```bash
-  ___   _  _  _   
- / _ \ / || || |  
-| | | || || || |_
-| |_| || ||__   _|
- \___(_)_(_) |_|  
+  ___   _   ____  
+ / _ \ / | | ___|
+| | | || | |___ \
+| |_| || |_ ___) |
+ \___(_)_(_)____/
 
 ```
+
+# v0.1.5
+
+### general
+    + Added all computer vision objects
+    + Added Mosaic examples folder
+    + Added haarcascades files from opencv source
+    / Simplified .qbs project file
+    / Fixed some issues/bugs
+    / Better objects user interface
+
+//////////////////////////////////
 
 # v0.1.4
 
@@ -32,6 +44,8 @@
     / Fixed audio input/output devices lists
     + Added GUI objects collision detection, better mouse control, better user interaction interface
     + Added check for updates & automatic download
+
+### ofxaddons
     + Added a forked version of [ofxModal](https://github.com/d3cod3/ofxModal)
     + Added [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
