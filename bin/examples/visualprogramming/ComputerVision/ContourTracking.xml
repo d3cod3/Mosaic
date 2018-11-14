@@ -1,0 +1,447 @@
+<github>https://github.com/d3cod3/mosaic</github>
+<www>https://mosaic.d3cod3.org</www>
+<settings>
+    <output_width>1280</output_width>
+    <output_height>720</output_height>
+    <dsp>0</dsp>
+    <audio_in_device>0</audio_in_device>
+    <audio_out_device>0</audio_out_device>
+    <sample_rate_in>44100</sample_rate_in>
+    <sample_rate_out>44100</sample_rate_out>
+    <buffer_size>256</buffer_size>
+    <input_channels>6</input_channels>
+    <output_channels>6</output_channels>
+</settings>
+<object>
+    <id>4</id>
+    <name>contour tracking</name>
+    <filepath>none</filepath>
+    <position>
+        <x>657.000000000</x>
+        <y>210.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+        </link>
+        <link>
+            <type>2</type>
+            <to>
+                <id>24</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>2</type>
+        </link>
+        <link>
+            <type>2</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>INVERT_BW</name>
+            <value>0.000000000</value>
+        </var>
+        <var>
+            <name>MAX_AREA_RADIUS</name>
+            <value>344.829986572</value>
+        </var>
+        <var>
+            <name>MIN_AREA_RADIUS</name>
+            <value>25.329999924</value>
+        </var>
+        <var>
+            <name>THRESHOLD</name>
+            <value>95.629997253</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>input</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>6</id>
+    <name>shader object</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/data/shaders/hayasakaBlend.frag</filepath>
+    <position>
+        <x>1099.000000000</x>
+        <y>416.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>9</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>GUI_INT_mode</name>
+            <value>2.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>texture1</name>
+        </link>
+        <link>
+            <type>3</type>
+            <name>texture2</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>9</id>
+    <name>output window</name>
+    <filepath>none</filepath>
+    <position>
+        <x>1345.822875977</x>
+        <y>584.535156250</y>
+    </position>
+    <outlets />
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>projector</name>
+        </link>
+        <link>
+            <type>5</type>
+            <name>script</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>11</id>
+    <name>player controls</name>
+    <filepath>none</filepath>
+    <position>
+        <x>2.000000000</x>
+        <y>188.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>1</type>
+            <to>
+                <id>21</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>select</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>14</id>
+    <name>shader object</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/data/scripts/empty.frag</filepath>
+    <position>
+        <x>528.000000000</x>
+        <y>517.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>6</id>
+                <inlet>0</inlet>
+            </to>
+            <to>
+                <id>4</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>texture1</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>19</id>
+    <name>background subtraction</name>
+    <filepath>none</filepath>
+    <position>
+        <x>298.000000000</x>
+        <y>536.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>14</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>BLUR</name>
+            <value>1.000000000</value>
+        </var>
+        <var>
+            <name>BRIGHTNESS</name>
+            <value>0.000000000</value>
+        </var>
+        <var>
+            <name>CONTRAST</name>
+            <value>0.000000000</value>
+        </var>
+        <var>
+            <name>DILATE</name>
+            <value>0.000000000</value>
+        </var>
+        <var>
+            <name>ERODE</name>
+            <value>0.000000000</value>
+        </var>
+        <var>
+            <name>SUBTRACTION_TECHNIQUE</name>
+            <value>2.000000000</value>
+        </var>
+        <var>
+            <name>THRESHOLD</name>
+            <value>80.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>input</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>reset</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>20</id>
+    <name>comment</name>
+    <filepath>none</filepath>
+    <position>
+        <x>707.713500977</x>
+        <y>568.671875000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <text>The &quot;shader object&quot; on left is used to automatically scale the texture from the &quot;background subtraction&quot; object, for cases when the &quot;output window&quot; resolution is different from the source texture we are tracking (a video file here). The &quot;shader object&quot; comes with the ability to automatically rescale his input texture/s (on connect/reconnect) to the output texture resolution.</text>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>1</type>
+            <name>comment</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>21</id>
+    <name>video player</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/data/videos/fingers.mov</filepath>
+    <position>
+        <x>4.000000000</x>
+        <y>323.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>19</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>1</type>
+            <name>control</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>playhead</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>speed</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>volume</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>22</id>
+    <name>comment</name>
+    <filepath>none</filepath>
+    <position>
+        <x>220.666656494</x>
+        <y>220.500000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <text>Load some video here for testing, and connect the &quot;video player&quot; object to the &quot;background subtraction&quot; object to start.</text>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>1</type>
+            <name>comment</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>23</id>
+    <name>comment</name>
+    <filepath>none</filepath>
+    <position>
+        <x>888.530395508</x>
+        <y>132.870346069</y>
+    </position>
+    <outlets>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <text>TRY DIFFERENT LUA EXAMPLES FROM: examples/livecoding/lua/ComputerVision/ContourTracking</text>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>1</type>
+            <name>comment</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>24</id>
+    <name>lua script</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/ComputerVision/ContourTracking/ContourTracking_blobs.lua</filepath>
+    <position>
+        <x>887.000000000</x>
+        <y>258.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>6</id>
+                <inlet>1</inlet>
+            </to>
+        </link>
+        <link>
+            <type>5</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>2</type>
+            <name>data</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>25</id>
+    <name>loadbang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>12.666656494</x>
+        <y>560.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>19</id>
+                <inlet>1</inlet>
+            </to>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>TIME</name>
+            <value>600.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>delay</name>
+        </link>
+    </inlets>
+</object>
