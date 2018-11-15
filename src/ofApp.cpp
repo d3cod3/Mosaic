@@ -41,6 +41,7 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
+    ofRegisterURLNotification(this);
 
     initDataFolderFromBundle();
     ///////////////////////////////////////////
@@ -139,16 +140,17 @@ void ofApp::setup(){
     modalMessage.setup();
 
     // NET
+    isInternetAvailable = false;
+    isCheckingRelease = false;
     ofxSimpleHttp::createSslContext();
     http.addCustomHttpHeader("Accept", "application/zip");
     ofAddListener(http.httpResponse, this, &ofApp::newResponse);
 
     // Check for updates
     confirm.addListener(this, &ofApp::onModalEvent);
+    lastRelease = VERSION;
 
-    if(checkInternetReachability()){
-        checkForUpdates();
-    }
+    isInternetAvailable = checkInternetReachability();
 
 }
 
@@ -192,6 +194,12 @@ void ofApp::update(){
     }
 
     http.update();
+
+    // NET
+    if(isInternetAvailable && !isCheckingRelease){
+        isCheckingRelease = true;
+        lastReleaseResp = ofLoadURLAsync("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md","check_release_async");
+    }
 
 }
 
@@ -415,6 +423,15 @@ void ofApp::newResponse(ofxSimpleHttpResponse &r){
 }
 
 //--------------------------------------------------------------
+void ofApp::urlResponse(ofHttpResponse & response) {
+    if (response.status==200 && response.request.name == "check_release_async") {
+        // check for updates
+        lastRelease = response.data.getText();
+        checkForUpdates();
+    }
+}
+
+//--------------------------------------------------------------
 void ofApp::quitMosaic(){
     ofxSimpleHttp::destroySslContext();
     ofExit(0);
@@ -587,14 +604,10 @@ void ofApp::checkForUpdates(){
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
 
-    ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
-
-    string lastRelease = resp.data.getText();
-
-    if(VERSION != lastRelease && resp.status != 404){
+    if(VERSION != lastRelease){
         ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
         confirm.setTitle("Mosaic Update");
-        confirm.setMessage("Mosaic release "+lastRelease+" available, would you like to update?");
+        confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
         confirm.setButtonLabel("ok");
         confirm.show();
     }else if(VERSION == lastRelease){

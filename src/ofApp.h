@@ -80,6 +80,7 @@ public:
 
     // NET Events
     void newResponse(ofxSimpleHttpResponse &response);
+    void urlResponse(ofHttpResponse & response);
 
     void quitMosaic();
 
@@ -119,6 +120,10 @@ public:
 
     // NET
     ofxSimpleHttp               http;
+    int                         lastReleaseResp;
+    bool                        isInternetAvailable;
+    bool                        isCheckingRelease;
+    string                      lastRelease;
 
 
 private:
