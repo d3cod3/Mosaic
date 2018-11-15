@@ -428,7 +428,6 @@ void ofApp::urlResponse(ofHttpResponse & response) {
     if (response.status==200 && response.request.name == "check_release_async") {
         // check for updates
         lastRelease = response.data.getText();
-        ofLog(OF_LOG_NOTICE,"%s",lastRelease.c_str());
         checkForUpdates();
     }
 }
@@ -606,7 +605,8 @@ void ofApp::checkForUpdates(){
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
 
-    if(VERSION != lastRelease){
+    string actualVersion = VERSION;
+    if(actualVersion.at(2) != lastRelease.at(2) || actualVersion.at(4) != lastRelease.at(4)){
         ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
         confirm.setTitle("Mosaic Update");
         confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
