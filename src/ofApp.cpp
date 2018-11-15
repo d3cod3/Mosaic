@@ -136,8 +136,11 @@ void ofApp::setup(){
     mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
 
     // MODALS
+    modalTheme = make_shared<ofxModalTheme>();
     confirm.setup();
+    confirm.setTheme(modalTheme);
     modalMessage.setup();
+    modalMessage.setTheme(modalTheme);
 
     // NET
     isInternetAvailable = false;

@@ -105,6 +105,7 @@ public:
     ofxDatGuiToggle*            dspONOFF;
     ofxModalConfirm             confirm;
     ofxModalAlert               modalMessage;
+    shared_ptr<ofxModalTheme>   modalTheme;
 
     // LOGGER
     ofRectangle                 *loggerBounds;
