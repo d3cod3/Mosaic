@@ -388,8 +388,6 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
 void ofApp::onModalEvent(ofxModalEvent e){
     if (e.type == ofxModalEvent::CONFIRM){
         // Download Mosaic Last release
-        ofHttpResponse resp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
-        string lastRelease = resp.data.getText();
         mosaicURL = "";
 
         if(VERSION != lastRelease){
@@ -430,6 +428,7 @@ void ofApp::urlResponse(ofHttpResponse & response) {
     if (response.status==200 && response.request.name == "check_release_async") {
         // check for updates
         lastRelease = response.data.getText();
+        ofLog(OF_LOG_NOTICE,"%s",lastRelease.c_str());
         checkForUpdates();
     }
 }
