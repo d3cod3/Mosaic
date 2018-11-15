@@ -3,7 +3,7 @@
 <settings>
     <output_width>1280</output_width>
     <output_height>720</output_height>
-    <dsp>1</dsp>
+    <dsp>0</dsp>
     <audio_in_device>3</audio_in_device>
     <audio_out_device>0</audio_out_device>
     <sample_rate_in>44100</sample_rate_in>
@@ -401,51 +401,6 @@
         <link>
             <type>1</type>
             <name>comment</name>
-        </link>
-    </inlets>
-</object>
-<object>
-    <id>13</id>
-    <name>audio device</name>
-    <filepath>none</filepath>
-    <position>
-        <x>-128.192718506</x>
-        <y>12.578125000</y>
-    </position>
-    <outlets>
-        <link>
-            <type>4</type>
-            <to>
-                <id>1</id>
-                <inlet>0</inlet>
-            </to>
-        </link>
-    </outlets>
-    <vars />
-    <inlets>
-        <link>
-            <type>4</type>
-            <name>OUT_0</name>
-        </link>
-        <link>
-            <type>4</type>
-            <name>OUT_1</name>
-        </link>
-        <link>
-            <type>4</type>
-            <name>OUT_2</name>
-        </link>
-        <link>
-            <type>4</type>
-            <name>OUT_3</name>
-        </link>
-        <link>
-            <type>4</type>
-            <name>OUT_4</name>
-        </link>
-        <link>
-            <type>4</type>
-            <name>OUT_5</name>
         </link>
     </inlets>
 </object>
