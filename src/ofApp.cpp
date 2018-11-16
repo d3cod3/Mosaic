@@ -120,6 +120,8 @@ void ofApp::setup(){
     mainMenu->addBreak();
     mainMenu->addToggle("  LOGGER");
     mainMenu->addBreak();
+    mainMenu->addButton("  SCREENSHOT");
+    mainMenu->addBreak();
     mainMenu->addBreak();
     mainMenu->addBreak();
     mainMenu->addButton("quit");
@@ -329,7 +331,7 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
     if(e.target->getLabel() == "  new"){
         visualProgramming->newPatch();
     }else if(e.target->getLabel() == "  open"){
-        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a mosaic");
+        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a Mosaic patch");
         if (openFileResult.bSuccess){
             ofFile file (openFileResult.getPath());
             if (file.exists()){
@@ -352,13 +354,24 @@ void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
             }
         }
     }else if(e.target->getLabel() == "  save as"){
-        ofFileDialogResult saveFileResult = ofSystemSaveDialog("mosaicPatch.xml","Save mosaic as");
+        string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
+        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic patch as");
         if (saveFileResult.bSuccess){
             ofFile file (saveFileResult.getPath());
             visualProgramming->savePatchAs(file.getAbsolutePath());
         }
     }else if(e.target->getLabel() == "quit"){
         quitMosaic();
+    }else if(e.target->getLabel() == "  SCREENSHOT"){
+        string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
+        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic screenshot as");
+        if (saveFileResult.bSuccess){
+            ofFile file (saveFileResult.getPath());
+            ofImage tempScreenshot;
+            tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
+            tempScreenshot.getPixels().swapRgb();
+            tempScreenshot.save(file.getAbsolutePath());
+        }
     }
 }
 
