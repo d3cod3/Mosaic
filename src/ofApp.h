@@ -111,6 +111,7 @@ public:
     ofRectangle                 *loggerBounds;
     bool                        isInited;
     bool                        isWindowResized;
+    bool                        isLoggerON;
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;

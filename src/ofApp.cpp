@@ -56,8 +56,9 @@ void ofApp::setup(){
     }
 
     // LOGGER
-    isInited = false;
+    isInited        = false;
     isWindowResized = false;
+    isLoggerON      = false;
     loggerBounds = new ofRectangle();
     screenLoggerChannel = shared_ptr<ofxScreenLoggerChannel>(new ofxScreenLoggerChannel());
     ofSetLoggerChannel(screenLoggerChannel);
@@ -116,6 +117,8 @@ void ofApp::setup(){
     dspONOFF = mainMenu->addToggle("  DSP",visualProgramming->dspON);
     mainMenu->addBreak();
     mainMenu->addToggle("  PROFILER");
+    mainMenu->addBreak();
+    mainMenu->addToggle("  LOGGER");
     mainMenu->addBreak();
     mainMenu->addBreak();
     mainMenu->addBreak();
@@ -179,10 +182,10 @@ void ofApp::update(){
     if(isWindowResized){
         isWindowResized = false;
         loggerBounds->width = ofGetWindowWidth();
-        loggerBounds->y = ofGetWindowHeight() - (240*visualProgramming->scaleFactor);
+        loggerBounds->y = ofGetWindowHeight() - (258*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
 
-        if(visualProgramming->gui->getHeight() > ofGetWindowHeight()-(240*visualProgramming->scaleFactor)){
+        if(visualProgramming->gui->getHeight() > ofGetWindowHeight()-(258*visualProgramming->scaleFactor)){
             visualProgramming->gui->collapse();
         }else{
             visualProgramming->gui->expand();
@@ -192,7 +195,7 @@ void ofApp::update(){
     if(!isInited){
         isInited = true;
         // set logger dimensions
-        loggerBounds->set(0,ofGetWindowHeight()-(240*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+        loggerBounds->set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
     }
 
@@ -231,7 +234,9 @@ void ofApp::draw(){
     mainMenu->draw();
 
     // LOGGER
-    screenLoggerChannel->draw();
+    if(isLoggerON){
+        screenLoggerChannel->draw();
+    }
 
 }
 
@@ -369,7 +374,8 @@ void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
         }else{
             visualProgramming->deactivateDSP();
         }
-
+    }else if(e.target->getLabel() == "  LOGGER"){
+        isLoggerON = e.checked;
     }
 }
 
