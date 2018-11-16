@@ -74,6 +74,7 @@ void ofApp::setup(){
     screenLoggerChannel->setPrefixTimestamp(true);
     screenLoggerChannel->setMaxBufferCount(512);
 
+    ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
@@ -177,7 +178,7 @@ void ofApp::update(){
         dspONOFF->setChecked(false);
     }
 
-    if(!visualProgramming->draggingObject){
+    if(!visualProgramming->draggingObject && !visualProgramming->isVPDragging){
         mainMenu->update();
     }
 
@@ -228,12 +229,13 @@ void ofApp::draw(){
         visualProgramming->font->draw(ofToString(static_cast<int>(http.getCurrentDownloadProgress()*100))+"%",visualProgramming->fontSize,(ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2 + ((333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress()/2),ofGetWindowHeight()/2 + 6*visualProgramming->scaleFactor);
     }
 
+    // MAIN MENU
+    ofSetColor(255,255,255);
+    mainMenu->draw();
+
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     visualProgramming->draw();
-
-    // MAIN MENU
-    mainMenu->draw();
 
     // LOGGER
     if(isLoggerON){
