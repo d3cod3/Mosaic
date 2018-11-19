@@ -35,6 +35,7 @@
 #define PACKAGE	"Mosaic"
 #define	VERSION	"0.1.5"
 #define DESCRIPTION "OF Visual Patching Developer Platform"
+#define MOSAIC_WWW "https://mosaic.d3cod3.org/"
 #define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 
 #define WINDOW_TITLE "Mosaic 0.1.5"

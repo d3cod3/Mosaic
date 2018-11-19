@@ -75,7 +75,9 @@ void ofApp::setup(){
     screenLoggerChannel->setMaxBufferCount(512);
 
     ofLog(OF_LOG_NOTICE," ");
-    ofLog(OF_LOG_NOTICE,"%s | %s",WINDOW_TITLE,DESCRIPTION);
+    ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
+    ofLog(OF_LOG_NOTICE," ");
+    ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
 
