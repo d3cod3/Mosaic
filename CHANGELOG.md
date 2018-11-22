@@ -14,13 +14,26 @@
 ```
 
 ```bash
-  ___   _   ____  
- / _ \ / | | ___|
-| | | || | |___ \
-| |_| || |_ ___) |
- \___(_)_(_)____/
+  ___   _   __   
+ / _ \ / | / /_  
+| | | || || '_ \
+| |_| || || (_) |
+ \___(_)_(_)___/
 
 ```
+
+# v0.1.6
+
+### general
+    + Added timeline object from a modded version of ofxTimeline
+    + Added Live Patching Mode (render over patch with transparency) through live patching object
+    + Added logger hide/show button
+    + Added "take patch screenshot" button for easy patch documentation
+
+### ofxaddons
+    + added a forked version of ofxTimeline <https://github.com/d3cod3/ofxTimeline>
+
+//////////////////////////////////
 
 # v0.1.5
 
