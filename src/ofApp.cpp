@@ -629,7 +629,7 @@ void ofApp::checkForUpdates(){
     ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
 
     string actualVersion = VERSION;
-    if(ofToInt(string(1,actualVersion.at(0))) > ofToInt(string(1,lastRelease.at(0))) || ofToInt(string(1,actualVersion.at(2))) > ofToInt(string(1,lastRelease.at(2))) || ofToInt(string(1,actualVersion.at(4))) > ofToInt(string(1,lastRelease.at(4)))){
+    if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) || ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4)))){
         ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
         confirm.setTitle("Mosaic Update");
         confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
