@@ -93,6 +93,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
+#### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
+
 #### [ofxTimeMeasurements](https://github.com/armadillu/ofxTimeMeasurements)
 
 #### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
@@ -157,6 +159,7 @@ git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/d3cod3/ofxSIMDFloats
 git clone https://github.com/armadillu/ofxSimpleHttp
+git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 
