@@ -13,7 +13,7 @@
 --	----------------------------------------------------------
 --
 --
---	mosaicDataTable.lua: A basic template script for receiving the vector data
+--	MosaicDataTable.lua: A basic template script for receiving the vector data
 --  (the "lua script" object inlet) from Mosaic patch
 --
 --	you can try running this script in patch example: examples/visualprogramming/Structure/DataVectorComposer.xml
