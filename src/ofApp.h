@@ -102,6 +102,7 @@ public:
     ofxDatGui*                  mainMenu;
     ofxDatGuiDropdown*          audioINputDevices;
     ofxDatGuiDropdown*          audioOUTputDevices;
+    ofxDatGuiDropdown*          fpsRate;
     ofxDatGuiToggle*            dspONOFF;
     ofxModalConfirm             confirm;
     ofxModalAlert               modalMessage;

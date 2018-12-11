@@ -117,6 +117,13 @@ void ofApp::setup(){
     mainMenu->addBreak();
     mainMenu->addLabel("SYSTEM");
     mainMenu->addBreak();
+    mainMenu->addLabel("  FPS");
+    std::vector<string> fpss {"    24","    25","    30","    60","    120"};
+    fpsRate = mainMenu->addDropdown("FPS",fpss);
+    fpsRate->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    fpsRate->select(0);
+    ofSetFrameRate(24);
+    mainMenu->addBreak();
     dspONOFF = mainMenu->addToggle("  DSP",visualProgramming->dspON);
     mainMenu->addBreak();
     mainMenu->addToggle("  PROFILER");
@@ -403,6 +410,8 @@ void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
         visualProgramming->setAudioInDevice(e.child);
     }else if(e.target == audioOUTputDevices){
         visualProgramming->setAudioOutDevice(e.child);
+    }else if(e.target == fpsRate){
+        ofSetFrameRate(ofToInt(fpsRate->getSelected()->getLabel()));
     }
     e.target->expand();
 }
