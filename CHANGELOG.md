@@ -27,11 +27,13 @@
 ### general
     + Added timeline object from a modded version of ofxTimeline
     + Added Live Patching Mode (render over patch with transparency) through live patching object
+    + Added framerate control selector
     + Added logger hide/show button
     + Added "take patch screenshot" button for easy patch documentation
 
 ### ofxaddons
     + added a forked version of ofxTimeline <https://github.com/d3cod3/ofxTimeline>
+    + added ofxPd <https://github.com/danomatika/ofxPd>
 
 //////////////////////////////////
 

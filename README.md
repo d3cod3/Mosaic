@@ -85,6 +85,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxParagraph](https://github.com/d3cod3/ofxParagraph) -- Fork
 
+#### [ofxPd](https://github.com/danomatika/ofxPd)
+
 #### [ofxPDSP](https://github.com/npisanti/ofxPDSP)
 
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
@@ -156,6 +158,7 @@ git clone https://github.com/d3cod3/ofxMidi
 git clone https://github.com/d3cod3/ofxModal
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
 git clone https://github.com/d3cod3/ofxParagraph
+git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/d3cod3/ofxSIMDFloats
 git clone https://github.com/armadillu/ofxSimpleHttp
@@ -168,6 +171,8 @@ git clone https://github.com/d3cod3/ofxVisualProgramming
 You're ready to compile Mosaic!
 
 # SCREENSHOTS
+
+![Mosaic pre_0.1.6](https://github.com/d3cod3/Mosaic/raw/master/process/img/18_pre0.1.6.jpg)
 
 ![Mosaic pre_alpha_0.1.0](https://github.com/d3cod3/Mosaic/raw/master/process/img/09_we_are_near_alpha_station.png)
 
