@@ -644,7 +644,7 @@ void ofApp::checkForUpdates(){
         confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
         confirm.setButtonLabel("ok");
         confirm.show();
-    }else if(VERSION == lastRelease){
+    }else{
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
 
