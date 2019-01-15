@@ -14,13 +14,24 @@
 ```
 
 ```bash
-  ___   _   __   
- / _ \ / | / /_  
-| | | || || '_ \
-| |_| || || (_) |
- \___(_)_(_)___/
+  ___   _  _____
+ / _ \ / ||___  |
+| | | || |   / /
+| |_| || |_ / /  
+ \___(_)_(_)_/   
 
 ```
+
+# v0.1.7
+
+### general
+    + Added some logic objects: inverter, select, spigot, gate
+    / Switched menus from ofxDatGui to ofxImGui
+
+### ofxaddons
+    + Added ofxJSON <https://github.com/jeffcrouse/ofxJSON>
+    + Added ofxImGui <https://github.com/jvcleave/ofxImGui>
+    + Added ofxThreadedYouTubeVideo <https://github.com/pierrep/ofxThreadedYouTubeVideo>
 
 # v0.1.6
 

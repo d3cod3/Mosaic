@@ -73,6 +73,10 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxHistoryPlot](https://github.com/armadillu/ofxHistoryPlot)
 
+#### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
+
+#### [ofxImGui](https://github.com/jvcleave/ofxImGui)
+
 #### [ofxInfiniteCanvas](https://github.com/d3cod3/ofxInfiniteCanvas) -- Fork
 
 #### [ofxLoggerChannel](https://github.com/d3cod3/ofxLoggerChannel) -- Fork
@@ -94,6 +98,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxSIMDFloats](https://github.com/d3cod3/ofxSIMDFloats) -- Fork
 
 #### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
+
+#### [ofxThreadedYouTubeVideo](http://github.com/pierrep/ofxThreadedYouTubeVideo)
 
 #### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
 
@@ -151,6 +157,8 @@ git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
 git clone https://github.com/armadillu/ofxGLError
 git clone https://github.com/armadillu/ofxHistoryPlot
+git clone https://github.com/jeffcrouse/ofxJSON
+git clone https://github.com/jvcleave/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/d3cod3/ofxLoggerChannel
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
@@ -162,15 +170,26 @@ git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/d3cod3/ofxSIMDFloats
 git clone https://github.com/armadillu/ofxSimpleHttp
+git clone http://github.com/pierrep/ofxThreadedYouTubeVideo
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 
 ```
 
-You're ready to compile Mosaic!
+Then clone Mosaic project as an openFrameworks example:
+
+```bash
+cd <your_openframeworks_release_folder>/apps/myApps
+
+git clone https://github.com/d3cod3/Mosaic
+```
+
+Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it.
 
 # SCREENSHOTS
+
+![Mosaic pre_0.1.7](https://github.com/d3cod3/Mosaic/raw/master/process/img/19_rememberPD.jpg)
 
 ![Mosaic pre_0.1.6](https://github.com/d3cod3/Mosaic/raw/master/process/img/18_pre0.1.6.jpg)
 

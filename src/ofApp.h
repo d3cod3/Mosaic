@@ -43,10 +43,6 @@
 #include "config.h"
 #include "includes.h"
 
-#include "ofxScreenLoggerChannel.h"
-#include "ofxModal.h"
-#include "ofxSimpleHttp.h"
-
 class ofApp : public ofBaseApp{
 
 public:
@@ -54,6 +50,8 @@ public:
     void update();
     void draw();
     void exit();
+
+    void drawMainMenu();
 
     // Keyboard Events
     void keyPressed(int key);
@@ -73,9 +71,6 @@ public:
     void gotMessage(ofMessage msg);
 
     // GUI Events
-    void onButtonEvent(ofxDatGuiButtonEvent e);
-    void onToggleEvent(ofxDatGuiToggleEvent e);
-    void onDropdownEvent(ofxDatGuiDropdownEvent e);
     void onModalEvent(ofxModalEvent e);
 
     // NET Events
@@ -98,12 +93,7 @@ public:
     string                      userHome;
 
     // GUI
-    ofxDatGuiThemeRetina*       guiThemeRetina;
-    ofxDatGui*                  mainMenu;
-    ofxDatGuiDropdown*          audioINputDevices;
-    ofxDatGuiDropdown*          audioOUTputDevices;
-    ofxDatGuiDropdown*          fpsRate;
-    ofxDatGuiToggle*            dspONOFF;
+    ofxImGui::Gui               mainMenu;
     ofxModalConfirm             confirm;
     ofxModalAlert               modalMessage;
     shared_ptr<ofxModalTheme>   modalTheme;
@@ -130,7 +120,8 @@ public:
 
 
 private:
-    shared_ptr<ofxScreenLoggerChannel> screenLoggerChannel;
+    shared_ptr<ofxScreenLoggerChannel>  screenLoggerChannel;
+    bool                                takeScreenshot;
 
 protected:
 

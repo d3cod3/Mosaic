@@ -12,6 +12,8 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/MosaicTheme.cpp",
+            "src/MosaicTheme.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',
@@ -20,6 +22,7 @@ Project{
         ]
 
         of.addons: [
+            'ofxImGui',
             'ofxLoggerChannel',
             'ofxModal',
             'ofxSimpleHttp',

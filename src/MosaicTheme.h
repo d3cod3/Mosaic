@@ -30,49 +30,15 @@
 
 ==============================================================================*/
 
+#pragma once
+
+#include "BaseTheme.h"
 #include "ofMain.h"
-#include "ofApp.h"
-#include "ofAppGLFWWindow.h"
-#include "ofxTimeMeasurements.h"
 
-#include "config.h"
+class MosaicTheme : public ofxImGui::BaseTheme{
 
-//========================================================================
-int main(int argc, char *argv[]){
+public:
 
-    vector<string> options;
-    if(argc > 1){
-        for(int i = 0; i < argc; i++){
-            options.push_back(argv[i]);
-        }
-    }
+    void setup() override;
 
-    ofGLFWWindowSettings settings;
-    //settings.setGLVersion(2, 1);
-    //settings.stencilBits = 0;
-    settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
-#ifdef TARGET_LINUX
-    settings.setPosition(ofVec2f(0,0));
-#elif defined(TARGET_OSX)
-    settings.setPosition(ofVec2f(0,0));
-#elif defined(TARGET_WIN32)
-    settings.setPosition(ofVec2f(6,30));
-#endif
-    settings.resizable = true;
-    settings.decorated = true;
-
-    // Mosaic main visual-programming window
-    shared_ptr<ofAppGLFWWindow> mosaicWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
-    shared_ptr<ofApp> mosaicApp(new ofApp);
-
-    TIME_SAMPLE_SET_FRAMERATE(30);
-
-    mosaicApp->arguments = options;
-
-    ofRunApp(mosaicWindow, mosaicApp);
-    ofRunMainLoop();
-
-    // done
-    return EXIT_SUCCESS;
-
-}
+};

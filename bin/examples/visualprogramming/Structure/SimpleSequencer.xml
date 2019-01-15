@@ -1,0 +1,414 @@
+<github>https://github.com/d3cod3/mosaic</github>
+<www>https://mosaic.d3cod3.org</www>
+<settings>
+    <output_width>1280</output_width>
+    <output_height>720</output_height>
+    <dsp>0</dsp>
+    <audio_in_device>0</audio_in_device>
+    <audio_out_device>0</audio_out_device>
+    <sample_rate_in>44100</sample_rate_in>
+    <sample_rate_out>44100</sample_rate_out>
+    <buffer_size>256</buffer_size>
+    <input_channels>6</input_channels>
+    <output_channels>6</output_channels>
+</settings>
+<object>
+    <id>1</id>
+    <name>select</name>
+    <filepath>none</filepath>
+    <position>
+        <x>411.000000000</x>
+        <y>170.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>3</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>4</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>5</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>6</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>8</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>12</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>0</type>
+            <to>
+                <id>10</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>sel</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>3</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>771.000000000</x>
+        <y>121.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>14</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>4</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>771.666625977</x>
+        <y>247.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>5</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>772.666625977</x>
+        <y>373.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>6</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>769.666625977</x>
+        <y>501.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>7</id>
+    <name>counter</name>
+    <filepath>none</filepath>
+    <position>
+        <x>151.000000000</x>
+        <y>113.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>11</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>END</name>
+            <value>1.000000000</value>
+        </var>
+        <var>
+            <name>START</name>
+            <value>0.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>start</name>
+        </link>
+        <link>
+            <type>0</type>
+            <name>end</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>8</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>769.000000000</x>
+        <y>626.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>9</id>
+    <name>metronome</name>
+    <filepath>none</filepath>
+    <position>
+        <x>-94.000000000</x>
+        <y>110.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>7</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>TIME</name>
+            <value>1000.000000000</value>
+        </var>
+    </vars>
+    <inlets />
+</object>
+<object>
+    <id>10</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>410.666656494</x>
+        <y>433.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>11</id>
+    <name>constant</name>
+    <filepath>none</filepath>
+    <position>
+        <x>62.000000000</x>
+        <y>329.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>1</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>NUMBER</name>
+            <value>3.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>number</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>12</id>
+    <name>bang</name>
+    <filepath>none</filepath>
+    <position>
+        <x>770.666625977</x>
+        <y>750.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>13</id>
+    <name>inverter</name>
+    <filepath>none</filepath>
+    <position>
+        <x>1045.666625977</x>
+        <y>293.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+        </link>
+    </outlets>
+    <vars></vars>
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>trigger</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>14</id>
+    <name>trigger</name>
+    <filepath>none</filepath>
+    <position>
+        <x>1023.666625977</x>
+        <y>133.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>0</type>
+            <to>
+                <id>13</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+    </outlets>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>trigger</name>
+        </link>
+    </inlets>
+</object>

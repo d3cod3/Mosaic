@@ -39,6 +39,7 @@ void ofApp::setup(){
     // OF Stuff
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
+    ofSetFrameRate(24);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
@@ -88,67 +89,8 @@ void ofApp::setup(){
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
-    guiThemeRetina = new ofxDatGuiThemeRetina();
-    mainMenu = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
-    mainMenu->setAutoDraw(false);
-    mainMenu->addHeader("Mosaic",false);
-    mainMenu->addBreak();
-    mainMenu->addBreak();
-    mainMenu->addLabel("PATCH");
-    mainMenu->addButton("  new");
-    mainMenu->addButton("  open");
-    mainMenu->addButton("  save as");
-    mainMenu->addBreak();
-    mainMenu->addBreak();
-    ofxDatGuiFolder* audioFolder = mainMenu->addFolder("SOUND CONFIG");
-    audioFolder->addBreak();
-    audioFolder->addLabel("  INPUT DEVICE");
-    audioINputDevices = new ofxDatGuiDropdown("Select audio input device",visualProgramming->audioDevicesStringIN);
-    audioINputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    audioFolder->attachItem(audioINputDevices);
-    audioINputDevices->select(visualProgramming->audioINDev);
-    audioFolder->addBreak();
-    audioFolder->addLabel("  OUTPUT DEVICE");
-    audioOUTputDevices = new ofxDatGuiDropdown("Select audio output device",visualProgramming->audioDevicesStringOUT);
-    audioOUTputDevices->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    audioFolder->attachItem(audioOUTputDevices);
-    audioOUTputDevices->select(visualProgramming->audioOUTDev);
-    mainMenu->addBreak();
-    mainMenu->addBreak();
-    mainMenu->addLabel("SYSTEM");
-    mainMenu->addBreak();
-    mainMenu->addLabel("  FPS");
-    std::vector<string> fpss {"    24","    25","    30","    60","    120"};
-    fpsRate = mainMenu->addDropdown("FPS",fpss);
-    fpsRate->onDropdownEvent(this, &ofApp::onDropdownEvent);
-    fpsRate->select(0);
-    ofSetFrameRate(24);
-    mainMenu->addBreak();
-    dspONOFF = mainMenu->addToggle("  DSP",visualProgramming->dspON);
-    mainMenu->addBreak();
-    mainMenu->addToggle("  PROFILER");
-    mainMenu->addBreak();
-    mainMenu->addToggle("  LOGGER");
-    mainMenu->addBreak();
-    mainMenu->addButton("  SCREENSHOT");
-    mainMenu->addBreak();
-    mainMenu->addBreak();
-    mainMenu->addBreak();
-    mainMenu->addButton("quit");
-    mainMenu->addBreak();
-
-    ofxDatGuiFooter* footer = mainMenu->addFooter();
-    footer->setLabelWhenExpanded("collapse");
-    footer->setLabelWhenCollapsed("MOSAIC");
-
-    // RETINA FIX
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
-        mainMenu->setTheme(guiThemeRetina);
-    }
-
-    mainMenu->onButtonEvent(this, &ofApp::onButtonEvent);
-    mainMenu->onToggleEvent(this, &ofApp::onToggleEvent);
-    mainMenu->onDropdownEvent(this, &ofApp::onDropdownEvent);
+    mainMenu.setup();
+    mainMenu.setTheme(new MosaicTheme());
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -170,6 +112,8 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
+    takeScreenshot = false;
+
 }
 
 //--------------------------------------------------------------
@@ -179,29 +123,12 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     visualProgramming->update();
-    if(visualProgramming->dspON){
-        dspONOFF->setLabelColor(ofColor::fromHex(0xFFD00B));
-        dspONOFF->setChecked(true);
-    }else{
-        dspONOFF->setLabelColor(ofColor::fromHex(0xEEEEEE));
-        dspONOFF->setChecked(false);
-    }
-
-    if(!visualProgramming->draggingObject && !visualProgramming->isVPDragging){
-        mainMenu->update();
-    }
 
     if(isWindowResized){
         isWindowResized = false;
         loggerBounds->width = ofGetWindowWidth();
         loggerBounds->y = ofGetWindowHeight() - (258*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
-
-        if(visualProgramming->gui->getHeight() > ofGetWindowHeight()-(258*visualProgramming->scaleFactor)){
-            visualProgramming->gui->collapse();
-        }else{
-            visualProgramming->gui->expand();
-        }
     }
 
     if(!isInited){
@@ -219,6 +146,20 @@ void ofApp::update(){
         lastReleaseResp = ofLoadURLAsync("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md","check_release_async");
     }
 
+    // Screenshot
+    if(takeScreenshot){
+        takeScreenshot = false;
+        string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
+        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic screenshot as");
+        if (saveFileResult.bSuccess){
+            ofFile file (saveFileResult.getPath());
+            ofImage tempScreenshot;
+            tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
+            tempScreenshot.getPixels().swapRgb();
+            tempScreenshot.save(file.getAbsolutePath());
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -227,6 +168,16 @@ void ofApp::draw(){
     ofBackground(20);
 
     // BACKGROUND GUI
+
+    // canvas grid (TouchDesigner style)
+    ofSetColor(255,255,255,6);
+    ofSetLineWidth(1);
+    for(int i=0;i<60;i++){
+        ofDrawLine(ofGetWindowWidth()/30 * i,0,ofGetWindowWidth()/30 * i,ofGetWindowHeight());
+        ofDrawLine(0,ofGetWindowWidth()/30 * i,ofGetWindowWidth(),ofGetWindowWidth()/30 * i);
+    }
+
+    // Logo
     ofSetColor(255,255,255,16);
     mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),(ofGetWindowHeight()- (240*visualProgramming->scaleFactor))/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
 
@@ -238,19 +189,173 @@ void ofApp::draw(){
         visualProgramming->font->draw(ofToString(static_cast<int>(http.getCurrentDownloadProgress()*100))+"%",visualProgramming->fontSize,(ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2 + ((333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress()/2),ofGetWindowHeight()/2 + 6*visualProgramming->scaleFactor);
     }
 
-    // MAIN MENU
-    ofSetColor(255,255,255);
-    mainMenu->draw();
-
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     visualProgramming->draw();
+
+    // MAIN MENU
+    ofSetColor(255,255,255);
+    drawMainMenu();
 
     // LOGGER
     if(isLoggerON){
         screenLoggerChannel->draw();
     }
 
+}
+
+//--------------------------------------------------------------
+void ofApp::drawMainMenu(){
+    mainMenu.begin();
+
+    {
+        ImGui::BeginMainMenuBar();
+
+        {
+            if(ImGui::BeginMenu("File")){
+                if(ImGui::MenuItem("New")){
+                    visualProgramming->newPatch();
+                }
+                if(ImGui::MenuItem("Open")){
+                    ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a Mosaic patch");
+                    if (openFileResult.bSuccess){
+                        ofFile file (openFileResult.getPath());
+                        if (file.exists()){
+                            string fileExtension = ofToUpper(file.getExtension());
+                            if(fileExtension == "XML") {
+                                visualProgramming->openPatch(file.getAbsolutePath());
+                            }
+                        }
+                    }
+                }
+                if(ImGui::MenuItem("Save As...")){
+                    string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
+                    ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic patch as");
+                    if (saveFileResult.bSuccess){
+                        ofFile file (saveFileResult.getPath());
+                        visualProgramming->savePatchAs(file.getAbsolutePath());
+                    }
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("Quit")){
+                    quitMosaic();
+                }
+                ImGui::EndMenu();
+            }
+
+            if(ImGui::BeginMenu("Objects")){
+                for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
+                    if(ImGui::BeginMenu(it->first.c_str())){
+                        for(int j=0;j<static_cast<int>(it->second.size());j++){
+                            if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200*visualProgramming->scaleFactor,visualProgramming->canvas.getMovingPoint().y + 200*visualProgramming->scaleFactor));
+                            }
+                        }
+                        ImGui::EndMenu();
+                    }
+                }
+                ImGui::EndMenu();
+            }
+
+
+            if(ImGui::BeginMenu("Sound")){
+                if(ImGui::MenuItem("DSP ON")){
+                    visualProgramming->activateDSP();
+                }
+                if(ImGui::MenuItem("DSP OFF")){
+                    visualProgramming->deactivateDSP();
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                static int inDev = 0;
+                if(ImGui::BeginMenu("Input Device")){
+                    if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
+                        visualProgramming->setAudioInDevice(inDev);
+                    }
+                    ImGui::EndMenu();
+                }
+                static int outDev = 0;
+                if(ImGui::BeginMenu("Output Device")){
+                    if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
+                        visualProgramming->setAudioOutDevice(outDev);
+                    }
+                    ImGui::EndMenu();
+                }
+                ImGui::EndMenu();
+            }
+
+            if(ImGui::BeginMenu("System")){
+                static int fpsn = 0;
+                if(ImGui::BeginMenu("FPS")){
+                    vector<string> fpss {"24","25","30","60","120"};
+                    if(ofxImGui::VectorCombo("FPS", &fpsn,fpss)){
+                        if(fpsn == 0){
+                            ofSetFrameRate(24);
+                        }else if(fpsn == 1){
+                            ofSetFrameRate(25);
+                        }else if(fpsn == 2){
+                            ofSetFrameRate(30);
+                        }else if(fpsn == 3){
+                            ofSetFrameRate(60);
+                        }else if(fpsn == 4){
+                            ofSetFrameRate(120);
+                        }
+                    }
+                    ImGui::EndMenu();
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
+                    TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
+                }
+                if(ImGui::Checkbox("Logger",&isLoggerON)){
+
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("Screenshot")){
+                    takeScreenshot = true;
+                }
+                ImGui::EndMenu();
+            }
+
+            if(ImGui::BeginMenu("Help")){
+                if(ImGui::MenuItem("Mosaic Github")){
+                    ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
+                }
+                if(ImGui::MenuItem("Mosaic Reference")){
+                    ofLaunchBrowser("https://mosaic.d3cod3.org/#reference");
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("OF Reference")){
+                    ofLaunchBrowser("https://openframeworks.cc/documentation/");
+                }
+                if(ImGui::MenuItem("ofxAddons")){
+                    ofLaunchBrowser("http://ofxaddons.com/categories");
+                }
+                ImGui::EndMenu();
+            }
+
+
+        }
+
+        ImGui::EndMainMenuBar();
+
+    }
+
+    mainMenu.end();
 }
 
 //--------------------------------------------------------------
@@ -318,102 +423,10 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
             string fileExtension = ofToUpper(file.getExtension());
             if(fileExtension == "XML") {
                 visualProgramming->openPatch(file.getAbsolutePath());
-                for(size_t i=0;i<visualProgramming->audioDevicesID_IN.size();i++){
-                    if(visualProgramming->audioDevicesID_IN.at(i) == visualProgramming->audioINDev){
-                        audioINputDevices->select(i);
-                        break;
-                    }
-                }
-                for(size_t i=0;i<visualProgramming->audioDevicesID_OUT.size();i++){
-                    if(visualProgramming->audioDevicesID_OUT.at(i) == visualProgramming->audioOUTDev){
-                        audioOUTputDevices->select(i);
-                        break;
-                    }
-                }
             }
         }
     }
 
-}
-
-//--------------------------------------------------------------
-void ofApp::onButtonEvent(ofxDatGuiButtonEvent e){
-    //cout << "onButtonEvent: " << e.target->getLabel() << endl;
-    if(e.target->getLabel() == "  new"){
-        visualProgramming->newPatch();
-    }else if(e.target->getLabel() == "  open"){
-        ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a Mosaic patch");
-        if (openFileResult.bSuccess){
-            ofFile file (openFileResult.getPath());
-            if (file.exists()){
-                string fileExtension = ofToUpper(file.getExtension());
-                if(fileExtension == "XML") {
-                    visualProgramming->openPatch(file.getAbsolutePath());
-                    for(size_t i=0;i<visualProgramming->audioDevicesID_IN.size();i++){
-                        if(visualProgramming->audioDevicesID_IN.at(i) == visualProgramming->audioINDev){
-                            audioINputDevices->select(i);
-                            break;
-                        }
-                    }
-                    for(size_t i=0;i<visualProgramming->audioDevicesID_OUT.size();i++){
-                        if(visualProgramming->audioDevicesID_OUT.at(i) == visualProgramming->audioOUTDev){
-                            audioOUTputDevices->select(i);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(e.target->getLabel() == "  save as"){
-        string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
-        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic patch as");
-        if (saveFileResult.bSuccess){
-            ofFile file (saveFileResult.getPath());
-            visualProgramming->savePatchAs(file.getAbsolutePath());
-        }
-    }else if(e.target->getLabel() == "quit"){
-        quitMosaic();
-    }else if(e.target->getLabel() == "  SCREENSHOT"){
-        string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
-        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic screenshot as");
-        if (saveFileResult.bSuccess){
-            ofFile file (saveFileResult.getPath());
-            ofImage tempScreenshot;
-            tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
-            tempScreenshot.getPixels().swapRgb();
-            tempScreenshot.save(file.getAbsolutePath());
-        }
-    }
-}
-
-//--------------------------------------------------------------
-void ofApp::onToggleEvent(ofxDatGuiToggleEvent e){
-    //cout << "onToggleEvent: " << e.target->getLabel() << endl;
-    if(e.target->getLabel() == "  PROFILER"){
-        visualProgramming->profilerActive = e.checked;
-        TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
-    }else if(e.target->getLabel() == "  DSP"){
-        if(e.checked){
-            visualProgramming->activateDSP();
-        }else{
-            visualProgramming->deactivateDSP();
-        }
-    }else if(e.target->getLabel() == "  LOGGER"){
-        isLoggerON = e.checked;
-    }
-}
-
-//--------------------------------------------------------------
-void ofApp::onDropdownEvent(ofxDatGuiDropdownEvent e){
-    //cout << "the option at index # " << e.child << " was selected " << endl;
-    if(e.target == audioINputDevices){
-        visualProgramming->setAudioInDevice(e.child);
-    }else if(e.target == audioOUTputDevices){
-        visualProgramming->setAudioOutDevice(e.child);
-    }else if(e.target == fpsRate){
-        ofSetFrameRate(ofToInt(fpsRate->getSelected()->getLabel()));
-    }
-    e.target->expand();
 }
 
 //--------------------------------------------------------------
