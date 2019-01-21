@@ -89,6 +89,16 @@ void ofApp::setup(){
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
 
+
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    ofFile fileToRead(ofToDataPath(MAIN_FONT));
+    string absPath = fileToRead.getAbsolutePath();
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        io.Fonts->AddFontFromFileTTF(absPath.c_str(),22.0f);
+    }else{
+        io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
+    }
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
 
