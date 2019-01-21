@@ -48,8 +48,8 @@ int main(int argc, char *argv[]){
     }
 
     ofGLFWWindowSettings settings;
-    //settings.setGLVersion(2, 1);
-    //settings.stencilBits = 0;
+    settings.setGLVersion(2, 1);
+    settings.stencilBits = 0;
     settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
 #ifdef TARGET_LINUX
     settings.setPosition(ofVec2f(0,0));
