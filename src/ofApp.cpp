@@ -282,14 +282,14 @@ void ofApp::drawMainMenu(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                static int inDev = 0;
+                static int inDev = visualProgramming->audioGUIINIndex;
                 if(ImGui::BeginMenu("Input Device")){
                     if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
                         visualProgramming->setAudioInDevice(inDev);
                     }
                     ImGui::EndMenu();
                 }
-                static int outDev = 0;
+                static int outDev = visualProgramming->audioGUIOUTIndex;
                 if(ImGui::BeginMenu("Output Device")){
                     if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
                         visualProgramming->setAudioOutDevice(outDev);
