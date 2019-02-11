@@ -42,5 +42,7 @@
 #define WINDOW_START_WIDTH 1280
 #define WINDOW_START_HEIGHT 720
 
+#define USER_AGENT "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:62.0) Gecko/20100101 Firefox/62.0"
+
 
 // defaults

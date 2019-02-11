@@ -72,6 +72,7 @@ public:
 
     // GUI Events
     void onModalEvent(ofxModalEvent e);
+    void onFileDialogResponse(ofxThreadedFileDialogResponse &response);
 
     // NET Events
     void newResponse(ofxSimpleHttpResponse &response);
@@ -97,6 +98,7 @@ public:
     ofxModalConfirm             confirm;
     ofxModalAlert               modalMessage;
     shared_ptr<ofxModalTheme>   modalTheme;
+    bool                        showRightClickMenu;
 
     // LOGGER
     ofRectangle                 *loggerBounds;
@@ -106,7 +108,9 @@ public:
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
-    string                       windowTitle;
+    string                      windowTitle;
+    string                      patchToLoad;
+    bool                        loadNewPatch;
 
     // GUI
     ofImage                     *mosaicLogo;
@@ -121,7 +125,9 @@ public:
 
 private:
     shared_ptr<ofxScreenLoggerChannel>  screenLoggerChannel;
+    string                              lastScreenshot;
     bool                                takeScreenshot;
+    bool                                saveNewScreenshot;
 
 protected:
 

@@ -30,7 +30,7 @@ Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 
 # OF COMPATIBLE RELEASE
 
-## 0.10.0 STABLE (official download from [OF site](https://openframeworks.cc/))
+## 0.10.1 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
 
 If you want to build Mosaic, just download OF0.10.0 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
@@ -98,6 +98,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxSIMDFloats](https://github.com/d3cod3/ofxSIMDFloats) -- Fork
 
 #### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
+
+#### [ofxThreadedFileDialog](https://github.com/d3cod3/ofxThreadedFileDialog)
 
 #### [ofxThreadedYouTubeVideo](http://github.com/pierrep/ofxThreadedYouTubeVideo)
 
@@ -170,6 +172,7 @@ git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/d3cod3/ofxSIMDFloats
 git clone https://github.com/armadillu/ofxSimpleHttp
+git clone https://github.com/d3cod3/ofxThreadedFileDialog
 git clone http://github.com/pierrep/ofxThreadedYouTubeVideo
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/armadillu/ofxTimeMeasurements

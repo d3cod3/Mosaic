@@ -25,11 +25,13 @@
 # v0.1.7
 
 ### general
+    + Integrated threaded non-blocking system dialogs (notifications, load/save file, messages)
     + Added "pd patch" object, live pd patching integrated inside Mosaic
     + Added some logic objects: inverter, select, spigot, gate
     / Switched menus from ofxDatGui to ofxImGui
 
 ### ofxaddons
+    + Added ofxThreadedFileDialog <https://github.com/d3cod3/ofxThreadedFileDialog>
     + Added ofxJSON <https://github.com/jeffcrouse/ofxJSON>
     + Added ofxImGui <https://github.com/jvcleave/ofxImGui>
     + Added ofxThreadedYouTubeVideo <https://github.com/pierrep/ofxThreadedYouTubeVideo>

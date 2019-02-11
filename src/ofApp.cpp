@@ -83,12 +83,13 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
 
     // Visual Programming Environment Load
-    visualProgramming = new ofxVisualProgramming();
+    visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup();
+    patchToLoad         = "";
+    loadNewPatch        = false;
 
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
-
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -99,8 +100,11 @@ void ofApp::setup(){
     }else{
         io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
     }
+
+    // Main Menu Bar
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
+    showRightClickMenu = false;
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -108,6 +112,8 @@ void ofApp::setup(){
     confirm.setTheme(modalTheme);
     modalMessage.setup();
     modalMessage.setTheme(modalTheme);
+
+    ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
 
     // NET
     isInternetAvailable = false;
@@ -122,7 +128,11 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
-    takeScreenshot = false;
+    takeScreenshot      = false;
+    saveNewScreenshot   = false;
+    lastScreenshot      = "";
+
+    tinyfd_notifyPopup(WINDOW_TITLE, "OF Visual Patching Developer Platform\nhttps://mosaic.d3cod3.org/", "info");
 
 }
 
@@ -132,7 +142,14 @@ void ofApp::update(){
     windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
     ofSetWindowTitle(windowTitle);
 
+    // Visual Programming Environment
     visualProgramming->update();
+    if(loadNewPatch){
+        loadNewPatch = false;
+        if(patchToLoad != ""){
+            visualProgramming->openPatch(patchToLoad);
+        }
+    }
 
     if(isWindowResized){
         isWindowResized = false;
@@ -160,14 +177,17 @@ void ofApp::update(){
     if(takeScreenshot){
         takeScreenshot = false;
         string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
-        ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic screenshot as");
-        if (saveFileResult.bSuccess){
-            ofFile file (saveFileResult.getPath());
-            ofImage tempScreenshot;
-            tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
-            tempScreenshot.getPixels().swapRgb();
-            tempScreenshot.save(file.getAbsolutePath());
-        }
+        visualProgramming->fileDialog.saveFile("screenshot","Save Mosaic screenshot as",newFileName);
+    }
+    if(saveNewScreenshot){
+       saveNewScreenshot = false;
+       if(lastScreenshot != ""){
+           ofFile file(lastScreenshot);
+           ofImage tempScreenshot;
+           tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
+           tempScreenshot.getPixels().swapRgb();
+           tempScreenshot.save(file.getAbsolutePath());
+       }
     }
 
 }
@@ -227,24 +247,11 @@ void ofApp::drawMainMenu(){
                     visualProgramming->newPatch();
                 }
                 if(ImGui::MenuItem("Open")){
-                    ofFileDialogResult openFileResult= ofSystemLoadDialog("Open a Mosaic patch");
-                    if (openFileResult.bSuccess){
-                        ofFile file (openFileResult.getPath());
-                        if (file.exists()){
-                            string fileExtension = ofToUpper(file.getExtension());
-                            if(fileExtension == "XML") {
-                                visualProgramming->openPatch(file.getAbsolutePath());
-                            }
-                        }
-                    }
+                    visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
                 }
                 if(ImGui::MenuItem("Save As...")){
                     string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
-                    ofFileDialogResult saveFileResult = ofSystemSaveDialog(newFileName,"Save Mosaic patch as");
-                    if (saveFileResult.bSuccess){
-                        ofFile file (saveFileResult.getPath());
-                        visualProgramming->savePatchAs(file.getAbsolutePath());
-                    }
+                    visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -363,6 +370,25 @@ void ofApp::drawMainMenu(){
 
         ImGui::EndMainMenuBar();
 
+        if(showRightClickMenu){
+            ImGui::SetNextWindowSize(ofVec2f(200,340), ImGuiSetCond_FirstUseEver);
+            ImGui::SetNextWindowPos(ofVec2f(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
+            ImGui::Begin("Objects", &showRightClickMenu);
+            for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
+                if(ImGui::BeginMenu(it->first.c_str())){
+                    for(int j=0;j<static_cast<int>(it->second.size());j++){
+                        if(ImGui::MenuItem(it->second.at(j).c_str())){
+                            visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200*visualProgramming->scaleFactor,visualProgramming->canvas.getMovingPoint().y + 200*visualProgramming->scaleFactor));
+                            showRightClickMenu = false;
+                        }
+                    }
+                    ImGui::EndMenu();
+                }
+            }
+
+            ImGui::End();
+        }
+
     }
 
     mainMenu.end();
@@ -395,7 +421,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    if(button == 2){ // right click
+        showRightClickMenu = !showRightClickMenu;
+    }
 }
 
 //--------------------------------------------------------------
@@ -460,13 +488,34 @@ void ofApp::onModalEvent(ofxModalEvent e){
 #endif
 
             if(mosaicURL != ""){
-                http.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:62.0) Gecko/20100101 Firefox/62.0");
+                http.setUserAgent(USER_AGENT);
                 http.fetchURLToDisk(mosaicURL,true,userHome+"/Downloads");
             }else{
                 ofLog(OF_LOG_ERROR,"There was an error trying to download Mosaic update, please retry next time!");
             }
 
         }
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
+    if(response.id == "open patch"){
+        ofFile file(response.filepath);
+        if (file.exists()){
+            string fileExtension = ofToUpper(file.getExtension());
+            if(fileExtension == "XML") {
+                patchToLoad = file.getAbsolutePath();
+                loadNewPatch = true;
+            }
+        }
+    }else if(response.id == "save patch"){
+        ofFile file(response.filepath);
+        visualProgramming->savePatchAs(file.getAbsolutePath());
+    }else if(response.id == "screenshot"){
+        ofFile file(response.filepath);
+        lastScreenshot = file.getAbsolutePath();
+        saveNewScreenshot = true;
     }
 }
 
