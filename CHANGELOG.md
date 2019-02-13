@@ -25,9 +25,10 @@
 # v0.1.7
 
 ### general
+    + Added splashscreen
     + Integrated threaded non-blocking system dialogs (notifications, load/save file, messages)
     + Added "pd patch" object, live pd patching integrated inside Mosaic
-    + Added some logic objects: inverter, select, spigot, gate
+    + Added some logic objects: inverter, select, spigot, gate, ==, !=, >, <
     / Switched menus from ofxDatGui to ofxImGui
 
 ### ofxaddons

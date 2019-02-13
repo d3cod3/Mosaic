@@ -40,7 +40,7 @@ void SplashScreen::setup(){
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
         ofSetWindowShape(854,560);
         ofSetWindowPosition(ofGetScreenWidth()/2 - 427,ofGetScreenHeight()/2 - 280);
-        font.load("fonts/IBMPlexSans-Text.otf",130);
+        font.load("fonts/IBMPlexSans-Text.otf",160);
     }else{
         font.load("fonts/IBMPlexSans-Text.otf",80);
     }

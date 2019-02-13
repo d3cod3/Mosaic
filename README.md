@@ -18,6 +18,7 @@ Table of Contents
    * [OF_COMPATIBLE_RELEASE](#of_compatible_release)
    * [DEPENDENCIES](#dependencies)
    * [DESCRIPTION](#description)
+   * [SPECIFICATIONS](#specifications)
    * [COMPILING](#compiling)
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
@@ -113,6 +114,16 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 Some addons are forks of the original, due to some mods, compatibility with OF0.10 and the intention of cross-platform compiling (osx,linux,win)
 
+
+# SPECIFICATIONS
+
+    - cross-platform
+    - multi-threaded
+    - non-blocking system dialogs
+    - lua/python/glsl/bash live-coding
+    - pure data live-patching
+    - non-linear interactive timeline
+    - warping integrated on output window object
 
 # COMPILING
 
