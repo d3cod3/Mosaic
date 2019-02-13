@@ -29,5 +29,6 @@ Desktop.ini
 .mailmap
 *.app
 *.dSYM
+*.pyc
 bin/.tmp
 bin/data/temp
