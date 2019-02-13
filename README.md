@@ -109,6 +109,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
 
+#### [ofxWarp](https://github.com/d3cod3/ofxWarp) -- Fork
+
 Some addons are forks of the original, due to some mods, compatibility with OF0.10 and the intention of cross-platform compiling (osx,linux,win)
 
 
@@ -177,6 +179,7 @@ git clone http://github.com/pierrep/ofxThreadedYouTubeVideo
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
+git clone https://github.com/d3cod3/ofxWarp
 
 ```
 
