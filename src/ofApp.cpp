@@ -1,6 +1,6 @@
 /*==============================================================================
 
-    Mosaic: OF Visual Patching Developer Platform
+    Mosaic: Live Visual Patching Creative-Coding Platform
 
     Copyright (c) 2018 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
 
@@ -132,7 +132,7 @@ void ofApp::setup(){
     saveNewScreenshot   = false;
     lastScreenshot      = "";
 
-    tinyfd_notifyPopup(WINDOW_TITLE, "OF Visual Patching Developer Platform\nhttps://mosaic.d3cod3.org/", "info");
+    setupLoaded         = true;
 
 }
 
@@ -230,6 +230,11 @@ void ofApp::draw(){
     // LOGGER
     if(isLoggerON){
         screenLoggerChannel->draw();
+    }
+
+    if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
+        setupLoaded = false;
+        visualProgramming->fileDialog.notificationPopup(WINDOW_TITLE, "Live Visual Patching Creative-Coding Platform\nhttps://mosaic.d3cod3.org/");
     }
 
 }

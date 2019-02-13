@@ -1,6 +1,6 @@
 /*==============================================================================
 
-    Mosaic: OF Visual Patching Developer Platform
+    Mosaic: Live Visual Patching Creative-Coding Platform
 
     Copyright (c) 2018 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
 
@@ -31,7 +31,10 @@
 ==============================================================================*/
 
 #include "ofMain.h"
+
 #include "ofApp.h"
+#include "SplashScreen.h"
+
 #include "ofAppGLFWWindow.h"
 #include "ofxTimeMeasurements.h"
 
@@ -65,11 +68,22 @@ int main(int argc, char *argv[]){
     shared_ptr<ofAppGLFWWindow> mosaicWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
     shared_ptr<ofApp> mosaicApp(new ofApp);
 
+    // Splash Screen Window
+    ofGLFWWindowSettings splashSettings;
+    splashSettings.setSize(428,280);
+    splashSettings.setPosition(ofVec2f(ofGetScreenWidth()/2 - 214,ofGetScreenHeight()/2 - 140));
+    splashSettings.resizable = false;
+    splashSettings.decorated = false;
+
+    shared_ptr<ofAppGLFWWindow> splashWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(splashSettings));
+    shared_ptr<SplashScreen> splashApp(new SplashScreen);
+
     TIME_SAMPLE_SET_FRAMERATE(30);
 
     mosaicApp->arguments = options;
 
     ofRunApp(mosaicWindow, mosaicApp);
+    ofRunApp(splashWindow,splashApp);
     ofRunMainLoop();
 
     // done

@@ -1,6 +1,6 @@
 /*==============================================================================
 
-    Mosaic: OF Visual Patching Developer Platform
+    Mosaic: Live Visual Patching Creative-Coding Platform
 
     Copyright (c) 2018 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
 
@@ -34,7 +34,8 @@
 
 #define PACKAGE	"Mosaic"
 #define	VERSION	"0.1.7"
-#define DESCRIPTION "OF Visual Patching Developer Platform"
+#define VERSION_GRAPHIC "017"
+#define DESCRIPTION "Live Visual Patching Creative-Coding Platform"
 #define MOSAIC_WWW "https://mosaic.d3cod3.org/"
 #define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 

@@ -1,6 +1,6 @@
 /*==============================================================================
 
-    Mosaic: OF Visual Patching Developer Platform
+    Mosaic: Live Visual Patching Creative-Coding Platform
 
     Copyright (c) 2018 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
 

@@ -14,6 +14,8 @@ Project{
         files: [
             "src/MosaicTheme.cpp",
             "src/MosaicTheme.h",
+            "src/SplashScreen.cpp",
+            "src/SplashScreen.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',
