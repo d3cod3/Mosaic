@@ -65,7 +65,7 @@ void ofApp::setup(){
     ofSetLoggerChannel(screenLoggerChannel);
     screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,200));
     screenLoggerChannel->setTextColor(ofColor(203,224,254));
-    // MORE RETINA FIX
+    // RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
         screenLoggerChannel->setup(MAIN_FONT,26);
         screenLoggerChannel->setIsRetina();
@@ -96,7 +96,7 @@ void ofApp::setup(){
     ofFile fileToRead(ofToDataPath(MAIN_FONT));
     string absPath = fileToRead.getAbsolutePath();
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        io.Fonts->AddFontFromFileTTF(absPath.c_str(),22.0f);
+        io.Fonts->AddFontFromFileTTF(absPath.c_str(),26.0f);
     }else{
         io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
     }
