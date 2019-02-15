@@ -14,13 +14,20 @@
 ```
 
 ```bash
-  ___   _  _____
- / _ \ / ||___  |
-| | | || |   / /
-| |_| || |_ / /  
- \___(_)_(_)_/   
+  ___   _   ___  
+ / _ \ / | ( _ )
+| | | || | / _ \
+| |_| || || (_) |
+ \___(_)_(_)___/
 
 ```
+
+# v0.1.8
+
+### general
+    / Various retina fixes
+
+//////////////////////////////////
 
 # v0.1.7
 
@@ -37,6 +44,8 @@
     + Added ofxImGui <https://github.com/jvcleave/ofxImGui>
     + Added ofxThreadedYouTubeVideo <https://github.com/pierrep/ofxThreadedYouTubeVideo>
     + Added a forked version of ofxWarp <https://github.com/d3cod3/ofxWarp>
+
+//////////////////////////////////
 
 # v0.1.6
 
