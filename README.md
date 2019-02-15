@@ -2,6 +2,8 @@
 
 # [MOSAIC](https://mosaic.d3cod3.org) - an openFrameworks based Visual Patching Creative-Coding Platform
 
+![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/20_jupiterBlues.jpg)
+
 [![Slack MosaicProcess](https://img.shields.io/badge/slack-Mosaic-green.svg?logo=slack&longCache=true&colorB=E80C7A)](https://mosaicprocess.slack.com)
 
 __
@@ -205,6 +207,8 @@ git clone https://github.com/d3cod3/Mosaic
 Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it.
 
 # SCREENSHOTS
+
+![Mosaic 0.1.7](https://github.com/d3cod3/Mosaic/raw/master/process/img/20_jupiterBlues.jpg)
 
 ![Mosaic pre_0.1.7](https://github.com/d3cod3/Mosaic/raw/master/process/img/19_rememberPD.jpg)
 
