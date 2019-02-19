@@ -41,6 +41,7 @@ void ofApp::setup(){
     ofSetVerticalSync(true);
     ofSetFrameRate(24);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
+    ofEnableAntiAliasing();
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
 
