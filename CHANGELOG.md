@@ -26,6 +26,8 @@
 
 ### general
     / Various retina fixes
+    / General bug fixes
+    + Added first bunch of sound objects using ofxPDSP engine
 
 //////////////////////////////////
 
