@@ -131,6 +131,15 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 ## LINUX
 
+### The easy way
+
+Here you can download (and check) a script for automatically download/clone/compile and build everything, and magically have Mosaic appearing on your desktop menu and perfectly working.
+
+    -   [Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
+    -   Debian (SOON)
+
+### The manual way
+
 Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with some issues, check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c) and this [issue #3487](https://github.com/openframeworks/openFrameworks/issues/3487).
 
 For the issue (an incompatibility between gtk3 and the ofxOpenCv addon) you'll need to uninstall libgtk-3-dev
