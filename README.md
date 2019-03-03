@@ -133,10 +133,11 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 ### The easy way
 
-Here you can download (and check) a script for automatically download/clone/compile and build everything, and magically have Mosaic appearing on your desktop menu and perfectly working.
+Here you can download (and check) a script for automatically download/clone/compile and build everything for your linux distro, and magically have Mosaic appearing on your desktop menu and perfectly working.
 
-    -   [Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
-    -   Debian (SOON)
+[Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
+
+Debian (SOON)
 
 ### The manual way
 
