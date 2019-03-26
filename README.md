@@ -17,6 +17,7 @@ Table of Contents
 =================
 
    * [DOWNLOAD](#download)
+   * [INSTALL](#install)
    * [OF_COMPATIBLE_RELEASE](#of_compatible_release)
    * [DEPENDENCIES](#dependencies)
    * [DESCRIPTION](#description)
@@ -31,12 +32,26 @@ Table of Contents
 
 Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 
+# INSTALL
+
+## LINUX
+
+Use the automatic install script for your distro (Ubuntu/debian only for now, see [COMPILING](#compiling) section)
+
+## MACOS
+
+Just unzip the downloaded release and copy Mosaic app in your Application folder, that's it!
+
+## WINDOWS
+
+Just unzip the downloaded release and copy the Mosaic folder wherever you prefer. To open Mosaic just double click on Mosaic.exe
+
 # OF COMPATIBLE RELEASE
 
 ## 0.10.1 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
 
-If you want to build Mosaic, just download OF0.10.0 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
+If you want to build Mosaic, just download OF0.10.1 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
 
 # DESCRIPTION
 
@@ -131,33 +146,12 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 ## LINUX
 
-### The easy way
-
 Here you can download (and check) a script for automatically download/clone/compile and build everything for your linux distro, and magically have Mosaic appearing on your desktop menu and perfectly working.
 
 [Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
 
-Debian (SOON)
+[Debian](https://gist.github.com/d3cod3/fbb76735554c3b38e811414d96fc28d6#file-install_mosaic_debian-sh)
 
-### The manual way
-
-Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with some issues, check this OF commit [openframeworks/openFrameworks@8407701](https://github.com/openframeworks/openFrameworks/commit/84077013d8a9c482696af18777a4e6976afe970c) and this [issue #3487](https://github.com/openframeworks/openFrameworks/issues/3487).
-
-For the issue (an incompatibility between gtk3 and the ofxOpenCv addon) you'll need to uninstall libgtk-3-dev
-
-```bash
-sudo apt-get remove libgtk-3-dev
-```
-
-and follow the instructions here [Mosaic issue #1](https://github.com/d3cod3/Mosaic/issues/1).
-
-Then, due to poco library compatibility, starting from ubuntu 18.04 or debian 9, in order to compile it you'll need to install libpoco-dev:
-
-```bash
-sudo apt-get install libpoco-dev
-```
-
-And fix your copy of **ofxPoco**, where basically you'll need to remove the static libs in **libs/poco/lib** folder and substitute the **poco/include/Poco** folder with the headers installed in your system, usually installed in **/usr/local/include**.
 
 ## MACOS
 

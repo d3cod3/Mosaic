@@ -493,12 +493,16 @@ void ofApp::onModalEvent(ofxModalEvent e){
             mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
 #endif
 
+            #ifdef TARGET_LINUX
+            ofLaunchBrowser("https://gist.github.com/d3cod3/2704377f0e7b9e844d775ae0151cd688#file-update_mosaic-sh");
+            #else
             if(mosaicURL != ""){
                 http.setUserAgent(USER_AGENT);
                 http.fetchURLToDisk(mosaicURL,true,userHome+"/Downloads");
             }else{
                 ofLog(OF_LOG_ERROR,"There was an error trying to download Mosaic update, please retry next time!");
             }
+            #endif
 
         }
     }

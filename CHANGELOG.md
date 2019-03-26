@@ -28,6 +28,8 @@
     / Various retina fixes
     / General bug fixes
     + Added first bunch of sound objects using ofxPDSP engine
+    / Fixed Windows release dlls
+    + Added Linux Ubuntu/Debian automatic install/update scripts
 
 //////////////////////////////////
 
