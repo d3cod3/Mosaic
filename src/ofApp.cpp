@@ -106,6 +106,7 @@ void ofApp::setup(){
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
     showRightClickMenu = false;
+    isHoverMenu        = false;
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -145,6 +146,7 @@ void ofApp::update(){
 
     // Visual Programming Environment
     visualProgramming->update();
+    visualProgramming->setIsHoverMenu(isHoverMenu);
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
@@ -380,6 +382,7 @@ void ofApp::drawMainMenu(){
             ImGui::SetNextWindowSize(ofVec2f(200*visualProgramming->scaleFactor,340*visualProgramming->scaleFactor), ImGuiSetCond_FirstUseEver);
             ImGui::SetNextWindowPos(ofVec2f(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
             ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings);
+            isHoverMenu = ImGui::IsWindowHovered();
             for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
                 if(ImGui::BeginMenu(it->first.c_str())){
                     for(int j=0;j<static_cast<int>(it->second.size());j++){
@@ -393,6 +396,8 @@ void ofApp::drawMainMenu(){
             }
 
             ImGui::End();
+        }else{
+            isHoverMenu = false;
         }
 
     }

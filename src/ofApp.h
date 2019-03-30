@@ -100,6 +100,7 @@ public:
     ofxModalAlert               modalMessage;
     shared_ptr<ofxModalTheme>   modalTheme;
     bool                        showRightClickMenu;
+    bool                        isHoverMenu;
 
     // LOGGER
     ofRectangle                 *loggerBounds;
