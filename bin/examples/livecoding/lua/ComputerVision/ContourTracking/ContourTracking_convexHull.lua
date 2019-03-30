@@ -24,9 +24,9 @@
 mouseX = 0
 mouseY = 0
 
--- _mosaic_data_table is the name of the lua table storing data incoming from a Mosaic patch
+-- _mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch
 -- a vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0
--- so the first position of your table will be accessed like this: _mosaic_data_table[1]
+-- so the first position of your table will be accessed like this: _mosaic_data_inlet[1]
 
 tableSize = 0
 
@@ -40,7 +40,7 @@ tableSize = 0
 -- [2] -> number of contour vertices
 -- [3] -> blob ID
 -- [4] -> blob age (milliseconds)
--- [5 - 5+(_mosaic_data_table[2] * 2)] -> blob contour vertices
+-- [5 - 5+(_mosaic_data_inlet[2] * 2)] -> blob contour vertices
 
 numBlobs = 0
 
@@ -54,7 +54,7 @@ end
 function update()
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 	-----------------------------------------
@@ -71,13 +71,13 @@ function draw()
 
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 
-	-- get _mosaic_data_table size
+	-- get _mosaic_data_inlet size
 	tableSize = 0
-	for k,v in pairs(_mosaic_data_table) do
+	for k,v in pairs(_mosaic_data_inlet) do
 		tableSize = tableSize + 1
 	end
 	-----------------------------------------
@@ -88,19 +88,19 @@ function draw()
 	of.fill()
 	of.setColor(31,165,210)
 
-	numBlobs = _mosaic_data_table[1]
+	numBlobs = _mosaic_data_inlet[1]
 
 	nextIndex = 2
 	for j=0, numBlobs-1 do
 
-		numVertices = _mosaic_data_table[nextIndex]*2
+		numVertices = _mosaic_data_inlet[nextIndex]*2
 
 		contour = of.Polyline()
 
 		if numVertices then
 			for i=0, numVertices-1, 2 do
-				x = _mosaic_data_table[nextIndex+3+i]
-				y = _mosaic_data_table[nextIndex+3+i+1]
+				x = _mosaic_data_inlet[nextIndex+3+i]
+				y = _mosaic_data_inlet[nextIndex+3+i+1]
 				if x and y then
 					contour:addVertex(x,y,0)
 				end

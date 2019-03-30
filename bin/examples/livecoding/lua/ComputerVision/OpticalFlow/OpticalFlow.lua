@@ -23,9 +23,9 @@
 mouseX = 0
 mouseY = 0
 
--- _mosaic_data_table is the name of the lua table storing data incoming from a Mosaic patch
+-- _mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch
 -- a vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0
--- so the first position of your table will be accessed like this: _mosaic_data_table[1]
+-- so the first position of your table will be accessed like this: _mosaic_data_inlet[1]
 
 tableSize = 0
 
@@ -50,7 +50,7 @@ end
 function update()
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 	-----------------------------------------
@@ -67,13 +67,13 @@ function draw()
 
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 
-	-- get _mosaic_data_table size
+	-- get _mosaic_data_inlet size
 	tableSize = 0
-	for k,v in pairs(_mosaic_data_table) do
+	for k,v in pairs(_mosaic_data_inlet) do
 		tableSize = tableSize + 1
 	end
 	-----------------------------------------
@@ -84,8 +84,8 @@ function draw()
 	of.fill()
 	of.setColor(255,255,20)
 
-	rows = _mosaic_data_table[1]
-	cols = _mosaic_data_table[2]
+	rows = _mosaic_data_inlet[1]
+	cols = _mosaic_data_inlet[2]
 
 	flowSize = (rows*cols)/10 * 4
 
@@ -93,10 +93,10 @@ function draw()
 	of.scale(OUTPUT_WIDTH/320,OUTPUT_WIDTH/240,1.0)
 
 	for j=0, flowSize-1, 4 do
-		x1 = _mosaic_data_table[3+j]
-		y1 = _mosaic_data_table[3+j+1]
-		x2 = _mosaic_data_table[3+j+2]
-		y2 = _mosaic_data_table[3+j+3]
+		x1 = _mosaic_data_inlet[3+j]
+		y1 = _mosaic_data_inlet[3+j+1]
+		x2 = _mosaic_data_inlet[3+j+2]
+		y2 = _mosaic_data_inlet[3+j+3]
 		if x1 and x2 and y1 and y2 then
 			of.drawLine(x1,y1,x2,y2)
 		end

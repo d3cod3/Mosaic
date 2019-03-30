@@ -24,9 +24,9 @@
 mouseX = 0
 mouseY = 0
 
--- _mosaic_data_table is the name of the lua table storing data incoming from a Mosaic patch
+-- _mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch
 -- a vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0
--- so the first position of your table will be accessed like this: _mosaic_data_table[1]
+-- so the first position of your table will be accessed like this: _mosaic_data_inlet[1]
 
 tableSize = 0
 
@@ -37,7 +37,7 @@ tableSize = 0
 -- REMEMBER, A LUA TABLE START INDEX IS 1, NOT 0 !!!
 --
 -- [1] -> number of active blobs
--- [2] -> blob ID					---> accessible as _mosaic_data_table[2 + 16*N] for N blobs
+-- [2] -> blob ID					---> accessible as _mosaic_data_inlet[2 + 16*N] for N blobs
 -- [3] -> blob age (milliseconds)
 -- [4] -> blob centroid X
 -- [5] -> blob centroid Y
@@ -49,7 +49,7 @@ tableSize = 0
 -- [11] -> blob velocity Y
 -- [12] -> blob area
 -- [13] -> blob perimeter
--- [14] -> blob bounding rect X		---> accessible as _mosaic_data_table[14 + 16*N] for N blobs
+-- [14] -> blob bounding rect X		---> accessible as _mosaic_data_inlet[14 + 16*N] for N blobs
 -- [15] -> blob bounding rect Y
 -- [16] -> blob bounding rect Width
 -- [17] -> blob bounding rect Height
@@ -70,7 +70,7 @@ end
 function update()
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 	-----------------------------------------
@@ -87,13 +87,13 @@ function draw()
 
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 
-	-- get _mosaic_data_table size
+	-- get _mosaic_data_inlet size
 	tableSize = 0
-	for k,v in pairs(_mosaic_data_table) do
+	for k,v in pairs(_mosaic_data_inlet) do
 		tableSize = tableSize + 1
 	end
 	-----------------------------------------
@@ -103,24 +103,24 @@ function draw()
 	of.setLineWidth(3)
 	of.noFill()
 
-	numBlobs = _mosaic_data_table[1]
+	numBlobs = _mosaic_data_inlet[1]
 
 	for j=0, numBlobs-1 do
-		x = _mosaic_data_table[14 + 16*j]
-		y = _mosaic_data_table[15 + 16*j]
-		w = _mosaic_data_table[16 + 16*j]
-		h = _mosaic_data_table[17 + 16*j]
+		x = _mosaic_data_inlet[14 + 16*j]
+		y = _mosaic_data_inlet[15 + 16*j]
+		w = _mosaic_data_inlet[16 + 16*j]
+		h = _mosaic_data_inlet[17 + 16*j]
 
 		of.setColor(31,165,210)
 		of.drawRectangle(x,y,w,h)
 
-		center = of.Vec2f(_mosaic_data_table[4 + 16*j],_mosaic_data_table[5 + 16*j])
-		vel = of.Vec2f(_mosaic_data_table[10 + 16*j]*10,_mosaic_data_table[11 + 16*j]*10)
+		center = of.Vec2f(_mosaic_data_inlet[4 + 16*j],_mosaic_data_inlet[5 + 16*j])
+		vel = of.Vec2f(_mosaic_data_inlet[10 + 16*j]*10,_mosaic_data_inlet[11 + 16*j]*10)
 
 		of.setColor(255)
 		drawVector(vel,center,1)
 
-		of.drawBitmapString(string.format("%s:%s",_mosaic_data_table[2 + 16*j],_mosaic_data_table[3 + 16*j]),x,y-6)
+		of.drawBitmapString(string.format("%s:%s",_mosaic_data_inlet[2 + 16*j],_mosaic_data_inlet[3 + 16*j]),x,y-6)
 	end
 
 

@@ -23,9 +23,9 @@
 mouseX = 0
 mouseY = 0
 
--- _mosaic_data_table is the name of the lua table storing data incoming from a Mosaic patch
+-- _mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch
 -- a vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0
--- so the first position of your table will be accessed like this: _mosaic_data_table[1]
+-- so the first position of your table will be accessed like this: _mosaic_data_inlet[1]
 
 tableSize = 0
 
@@ -57,7 +57,7 @@ end
 function update()
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 	-----------------------------------------
@@ -74,13 +74,13 @@ function draw()
 
 	----------------------------------------- RECEIVING vector<float> from MOSAIC PATCH
 	-- avoid null readings
-	if next(_mosaic_data_table) == nil then
+	if next(_mosaic_data_inlet) == nil then
 		return
 	end
 
-	-- get _mosaic_data_table size
+	-- get _mosaic_data_inlet size
 	tableSize = 0
-	for k,v in pairs(_mosaic_data_table) do
+	for k,v in pairs(_mosaic_data_inlet) do
 		tableSize = tableSize + 1
 	end
 	-----------------------------------------
@@ -103,14 +103,14 @@ function draw()
 	-- beat detection
 	if tableSize > beatIndex then
 		of.setColor(255,255,255)
-		of.drawRectangle(0,OUTPUT_HEIGHT/2,_mosaic_data_table[beatIndex]*OUTPUT_WIDTH,_mosaic_data_table[beatIndex]*10)
+		of.drawRectangle(0,OUTPUT_HEIGHT/2,_mosaic_data_inlet[beatIndex]*OUTPUT_WIDTH,_mosaic_data_inlet[beatIndex]*10)
 		of.setColor(255,255,255,240)
-		of.drawRectangle(0,0,_mosaic_data_table[beatIndex]*OUTPUT_WIDTH,_mosaic_data_table[beatIndex]*OUTPUT_HEIGHT)
+		of.drawRectangle(0,0,_mosaic_data_inlet[beatIndex]*OUTPUT_WIDTH,_mosaic_data_inlet[beatIndex]*OUTPUT_HEIGHT)
 	end
 
 	-- rms (volume)
 	if tableSize > rmsIndex then
-		correctedRMS = math.abs(_mosaic_data_table[rmsIndex]-0.5) * 2
+		correctedRMS = math.abs(_mosaic_data_inlet[rmsIndex]-0.5) * 2
 		of.noFill()
 		of.drawRectangle(0,OUTPUT_HEIGHT/3,correctedRMS*OUTPUT_WIDTH,OUTPUT_HEIGHT/3)
 		of.drawRectangle(OUTPUT_WIDTH,OUTPUT_HEIGHT/3,-correctedRMS*OUTPUT_WIDTH,OUTPUT_HEIGHT/3)
@@ -118,7 +118,7 @@ function draw()
 
 	-- pitch
 	if tableSize > pitchIndex then
-		normalizedPitch = _mosaic_data_table[pitchIndex]/4186 -- pitch detection range from "audio analyzer" object is 0-4186 Hz
+		normalizedPitch = _mosaic_data_inlet[pitchIndex]/4186 -- pitch detection range from "audio analyzer" object is 0-4186 Hz
 		of.setColor(127,64,64)
 		of.noFill()
 		of.drawRectangle(0,OUTPUT_HEIGHT/3,normalizedPitch*OUTPUT_WIDTH,OUTPUT_HEIGHT/3)
@@ -128,10 +128,10 @@ function draw()
 	-- BPM
 	if tableSize > bpmIndex then
 		of.setColor(127)
-		for i=0,math.floor(_mosaic_data_table[bpmIndex]) do
+		for i=0,math.floor(_mosaic_data_inlet[bpmIndex]) do
 			of.pushMatrix()
 			of.rotateYRad(of.random(of.PI))
-			of.drawRectangle(OUTPUT_WIDTH/_mosaic_data_table[bpmIndex]*i,OUTPUT_HEIGHT/2,1,10)
+			of.drawRectangle(OUTPUT_WIDTH/_mosaic_data_inlet[bpmIndex]*i,OUTPUT_HEIGHT/2,1,10)
 			of.popMatrix()
 		end
 	end
@@ -140,7 +140,7 @@ function draw()
 	if tableSize > inharmIndex then
 		of.setColor(64,64,127)
 		of.noFill()
-		of.drawRectangle(0,OUTPUT_HEIGHT/3,_mosaic_data_table[inharmIndex]*OUTPUT_WIDTH,OUTPUT_HEIGHT/3)
+		of.drawRectangle(0,OUTPUT_HEIGHT/3,_mosaic_data_inlet[inharmIndex]*OUTPUT_WIDTH,OUTPUT_HEIGHT/3)
 	end
 
 	-- FFT
@@ -150,8 +150,8 @@ function draw()
 		for i=0,FFTSize-1 do
 			of.pushMatrix()
 			of.translate(OUTPUT_WIDTH/2,0,0)
-			of.drawRectangle(-OUTPUT_WIDTH*4*_mosaic_data_table[startFFTindex+i]/2,0,OUTPUT_WIDTH*4*_mosaic_data_table[startFFTindex+i],OUTPUT_HEIGHT/3.01)
-			of.drawRectangle(-OUTPUT_WIDTH*3*_mosaic_data_table[startFFTindex+i]/2,OUTPUT_HEIGHT,OUTPUT_WIDTH*3*_mosaic_data_table[startFFTindex+i],-OUTPUT_HEIGHT/3.02)
+			of.drawRectangle(-OUTPUT_WIDTH*4*_mosaic_data_inlet[startFFTindex+i]/2,0,OUTPUT_WIDTH*4*_mosaic_data_inlet[startFFTindex+i],OUTPUT_HEIGHT/3.01)
+			of.drawRectangle(-OUTPUT_WIDTH*3*_mosaic_data_inlet[startFFTindex+i]/2,OUTPUT_HEIGHT,OUTPUT_WIDTH*3*_mosaic_data_inlet[startFFTindex+i],-OUTPUT_HEIGHT/3.02)
 			of.popMatrix()
 		end
 	end
