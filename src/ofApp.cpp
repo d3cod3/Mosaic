@@ -274,7 +274,7 @@ void ofApp::drawMainMenu(){
                     if(ImGui::BeginMenu(it->first.c_str())){
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
                             if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200*visualProgramming->scaleFactor,visualProgramming->canvas.getMovingPoint().y + 200*visualProgramming->scaleFactor));
+                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                             }
                         }
                         ImGui::EndMenu();
@@ -377,14 +377,14 @@ void ofApp::drawMainMenu(){
         ImGui::EndMainMenuBar();
 
         if(showRightClickMenu){
-            ImGui::SetNextWindowSize(ofVec2f(200,340), ImGuiSetCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ofVec2f(200*visualProgramming->scaleFactor,340*visualProgramming->scaleFactor), ImGuiSetCond_FirstUseEver);
             ImGui::SetNextWindowPos(ofVec2f(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
-            ImGui::Begin("Objects", &showRightClickMenu);
+            ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings);
             for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
                 if(ImGui::BeginMenu(it->first.c_str())){
                     for(int j=0;j<static_cast<int>(it->second.size());j++){
                         if(ImGui::MenuItem(it->second.at(j).c_str())){
-                            visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200*visualProgramming->scaleFactor,visualProgramming->canvas.getMovingPoint().y + 200*visualProgramming->scaleFactor));
+                            visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                             showRightClickMenu = false;
                         }
                     }
