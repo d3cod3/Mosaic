@@ -12,45 +12,15 @@
 	----------------------------------------------------------
 
 
-	empty.py: A Python script template for Mosaic,
-	mimicking the standard OF app structure
+	empty.py: A Python script template for Mosaic
 
 '''
 
-from openframeworks import *
-from ofxaddons import *
-
 class mosaicApp(object):
 	def __init__(self):
-		# variables for mouse interaction
-		self.mouseX = 0
-		self.mouseY = 0
+		# setup
+		pass
 
 	def update(self):
-		pass
-
-	def draw(self):
-		ofBackground(0)
-
-	def mouseMoved(self, x, y):
-		self.mouseX = x
-		self.mouseY = y
-
-	def mousePressed(self, x, y, button):
-		pass
-
-	def mouseDragged(self, x, y, button):
-		self.mouseX = x
-		self.mouseY = y
-
-	def mouseReleased(self, x, y, button):
-		pass
-
-	def mouseScrolled(self, x, y, scrollX, scrollY):
-		pass
-
-	def keyPressed(self, key):
-		pass
-
-	def keyReleased(self, key):
+		# loop
 		pass
