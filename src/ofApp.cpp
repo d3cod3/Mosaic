@@ -487,15 +487,12 @@ void ofApp::onModalEvent(ofxModalEvent e){
         if(VERSION != lastRelease){
             string fileName;
 
-#ifdef TARGET_LINUX
-            fileName = "Mosaic_v"+lastRelease+"_linux64_release.tar.gz";
-            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
-#elif defined(TARGET_OSX)
+#ifdef TARGET_OSX
             fileName = "Mosaic_v"+lastRelease+"_osx_release.zip";
-            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
+            mosaicURL = "https://github.com/d3cod3/Mosaic/releases/download/"+lastRelease+"/"+fileName;
 #elif defined(TARGET_WIN32)
             fileName = "Mosaic_v"+lastRelease+"_windows_release.zip";
-            mosaicURL = "https://mosaic.d3cod3.org/downloads/v"+lastRelease+"/"+fileName;
+            mosaicURL = "https://github.com/d3cod3/Mosaic/releases/download/"+lastRelease+"/"+fileName;
 #endif
 
             #ifdef TARGET_LINUX
