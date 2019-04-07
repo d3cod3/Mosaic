@@ -14,13 +14,20 @@
 ```
 
 ```bash
-  ___   _   ___  
- / _ \ / | ( _ )
-| | | || | / _ \
-| |_| || || (_) |
- \___(_)_(_)___/
+  ___   _  ___  
+ / _ \ / |/ _ \
+| | | || | (_) |
+| |_| || |\__, |
+ \___(_)_(_)/_/
 
 ```
+
+# v0.1.9
+
+### general
+    + Added ofxPdExternals addon <https://github.com/d3cod3/ofxPdExternals> for Pure Data external libraries
+
+//////////////////////////////////
 
 # v0.1.8
 
