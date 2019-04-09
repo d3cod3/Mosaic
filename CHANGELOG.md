@@ -25,6 +25,12 @@
 # v0.1.9
 
 ### general
+    + Added osc, midi, keyboard objects (comms)
+    + Added image loader, video delay objects
+    / Various bug fixes
+    / Minor cleanup
+
+### ofxaddons
     + Added ofxPdExternals addon <https://github.com/d3cod3/ofxPdExternals> for Pure Data external libraries
 
 //////////////////////////////////
