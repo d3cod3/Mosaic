@@ -677,9 +677,6 @@ bool ofApp::checkInternetReachability(){
 #elif defined(TARGET_OSX)
     cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
     execFile = popen(cmd.c_str(), "r");
-#elif defined(TARGET_WIN32)
-    cmd = "ping -n 1 www.github.com > null && echo okk || echo err";
-    execFile = _popen(cmd.c_str(), "r");
 #endif
 
     if (execFile){
@@ -699,8 +696,6 @@ bool ofApp::checkInternetReachability(){
         pclose(execFile);
 #elif defined(TARGET_OSX)
         pclose(execFile);
-#elif defined(TARGET_WIN32)
-        _pclose(execFile);
 #endif
 
         if(output == "okk"){
@@ -712,7 +707,19 @@ bool ofApp::checkInternetReachability(){
         }
     }
 
-    return false;
+#ifdef TARGET_WIN32
+    ofHttpResponse tempResp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
+
+    if(tempResp.status == 200){
+        ofLog(OF_LOG_NOTICE,"[verbose] INTERNET IS AVAILABLE!");
+        return true;
+    }else{
+        ofLog(OF_LOG_ERROR,"INTERNET IS NOT AVAILABLE!");
+        return false;
+    }
+#else
+      return false;
+#endif
 
 }
 
