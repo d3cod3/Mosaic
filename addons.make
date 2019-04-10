@@ -27,6 +27,7 @@ ofxMidi
 ofxModal
 ofxParagraph
 ofxPd
+ofxPdExternals
 ofxPDSP
 ofxPython
 ofxSIMDFloats
