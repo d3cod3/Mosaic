@@ -241,14 +241,14 @@
     <name>vector concat</name>
     <filepath>none</filepath>
     <position>
-        <x>1047.807250977</x>
-        <y>105.578125000</y>
+        <x>1047.000000000</x>
+        <y>105.000000000</y>
     </position>
     <outlets>
         <link>
             <type>2</type>
             <to>
-                <id>9</id>
+                <id>17</id>
                 <inlet>0</inlet>
             </to>
         </link>
@@ -282,53 +282,12 @@
     </inlets>
 </object>
 <object>
-    <id>9</id>
-    <name>lua script</name>
-    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/AudioAnalysis/AudioCombinedData.lua</filepath>
-    <position>
-        <x>1202.666625977</x>
-        <y>370.000000000</y>
-    </position>
-    <outlets>
-        <link>
-            <type>3</type>
-            <to>
-                <id>10</id>
-                <inlet>0</inlet>
-            </to>
-            <to>
-                <id>15</id>
-                <inlet>0</inlet>
-            </to>
-        </link>
-        <link>
-            <type>5</type>
-        </link>
-    </outlets>
-    <vars>
-        <var>
-            <name>OUTPUT_HEIGHT</name>
-            <value>720.000000000</value>
-        </var>
-        <var>
-            <name>OUTPUT_WIDTH</name>
-            <value>1280.000000000</value>
-        </var>
-    </vars>
-    <inlets>
-        <link>
-            <type>2</type>
-            <name>data</name>
-        </link>
-    </inlets>
-</object>
-<object>
     <id>10</id>
     <name>output window</name>
     <filepath>none</filepath>
     <position>
         <x>1410.666625977</x>
-        <y>516.000000000</y>
+        <y>484.000000000</y>
     </position>
     <outlets />
     <vars>
@@ -504,6 +463,50 @@
         <link>
             <type>4</type>
             <name>signal</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>17</id>
+    <name>lua script</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/data/scripts/empty.lua</filepath>
+    <position>
+        <x>1189.000000000</x>
+        <y>380.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>10</id>
+                <inlet>0</inlet>
+            </to>
+        </link>
+        <link>
+            <type>5</type>
+            <to>
+                <id>10</id>
+                <inlet>1</inlet>
+            </to>
+        </link>
+        <link>
+            <type>2</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>2</type>
+            <name>data</name>
         </link>
     </inlets>
 </object>

@@ -62,7 +62,7 @@
     <name>optical flow</name>
     <filepath>none</filepath>
     <position>
-        <x>256.666656494</x>
+        <x>256.000000000</x>
         <y>246.000000000</y>
     </position>
     <outlets>
@@ -72,7 +72,7 @@
         <link>
             <type>2</type>
             <to>
-                <id>6</id>
+                <id>8</id>
                 <inlet>0</inlet>
             </to>
         </link>
@@ -187,43 +187,6 @@
     </inlets>
 </object>
 <object>
-    <id>6</id>
-    <name>lua script</name>
-    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/ComputerVision/OpticalFlow/OpticalFlow.lua</filepath>
-    <position>
-        <x>499.221313477</x>
-        <y>373.082031250</y>
-    </position>
-    <outlets>
-        <link>
-            <type>3</type>
-            <to>
-                <id>4</id>
-                <inlet>1</inlet>
-            </to>
-        </link>
-        <link>
-            <type>5</type>
-        </link>
-    </outlets>
-    <vars>
-        <var>
-            <name>OUTPUT_HEIGHT</name>
-            <value>600.000000000</value>
-        </var>
-        <var>
-            <name>OUTPUT_WIDTH</name>
-            <value>800.000000000</value>
-        </var>
-    </vars>
-    <inlets>
-        <link>
-            <type>2</type>
-            <name>data</name>
-        </link>
-    </inlets>
-</object>
-<object>
     <id>7</id>
     <name>comment</name>
     <filepath>none</filepath>
@@ -246,6 +209,46 @@
         <link>
             <type>1</type>
             <name>comment</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>8</id>
+    <name>lua script</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/data/scripts/empty.lua</filepath>
+    <position>
+        <x>516.666625977</x>
+        <y>364.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>4</id>
+                <inlet>1</inlet>
+            </to>
+        </link>
+        <link>
+            <type>5</type>
+        </link>
+        <link>
+            <type>2</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>600.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>800.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>2</type>
+            <name>data</name>
         </link>
     </inlets>
 </object>

@@ -27,7 +27,7 @@
         <link>
             <type>2</type>
             <to>
-                <id>24</id>
+                <id>26</id>
                 <inlet>0</inlet>
             </to>
         </link>
@@ -110,8 +110,8 @@
     <name>output window</name>
     <filepath>none</filepath>
     <position>
-        <x>1345.822875977</x>
-        <y>584.535156250</y>
+        <x>1345.000000000</x>
+        <y>584.000000000</y>
     </position>
     <outlets />
     <vars>
@@ -140,8 +140,8 @@
     <name>player controls</name>
     <filepath>none</filepath>
     <position>
-        <x>2.000000000</x>
-        <y>188.000000000</y>
+        <x>4.666656494</x>
+        <y>193.000000000</y>
     </position>
     <outlets>
         <link>
@@ -152,7 +152,12 @@
             </to>
         </link>
     </outlets>
-    <vars />
+    <vars>
+        <var>
+            <name>LOOP</name>
+            <value>1.000000000</value>
+        </var>
+    </vars>
     <inlets>
         <link>
             <type>0</type>
@@ -376,43 +381,6 @@
     </inlets>
 </object>
 <object>
-    <id>24</id>
-    <name>lua script</name>
-    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/ComputerVision/ContourTracking/ContourTracking_blobs.lua</filepath>
-    <position>
-        <x>887.000000000</x>
-        <y>258.000000000</y>
-    </position>
-    <outlets>
-        <link>
-            <type>3</type>
-            <to>
-                <id>6</id>
-                <inlet>1</inlet>
-            </to>
-        </link>
-        <link>
-            <type>5</type>
-        </link>
-    </outlets>
-    <vars>
-        <var>
-            <name>OUTPUT_HEIGHT</name>
-            <value>720.000000000</value>
-        </var>
-        <var>
-            <name>OUTPUT_WIDTH</name>
-            <value>1280.000000000</value>
-        </var>
-    </vars>
-    <inlets>
-        <link>
-            <type>2</type>
-            <name>data</name>
-        </link>
-    </inlets>
-</object>
-<object>
     <id>25</id>
     <name>loadbang</name>
     <filepath>none</filepath>
@@ -442,6 +410,46 @@
         <link>
             <type>0</type>
             <name>delay</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>26</id>
+    <name>lua script</name>
+    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/ComputerVision/ContourTracking/ContourTracking_blobs.lua</filepath>
+    <position>
+        <x>886.000000000</x>
+        <y>265.000000000</y>
+    </position>
+    <outlets>
+        <link>
+            <type>3</type>
+            <to>
+                <id>6</id>
+                <inlet>1</inlet>
+            </to>
+        </link>
+        <link>
+            <type>5</type>
+        </link>
+        <link>
+            <type>2</type>
+        </link>
+    </outlets>
+    <vars>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>2</type>
+            <name>data</name>
         </link>
     </inlets>
 </object>

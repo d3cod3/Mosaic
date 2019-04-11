@@ -62,7 +62,7 @@
     <name>haar tracking</name>
     <filepath>/Users/n3m3da/Documents/Mosaic/data/haarcascades/haarcascade_frontalface_alt.xml</filepath>
     <position>
-        <x>316.666656494</x>
+        <x>316.000000000</x>
         <y>201.000000000</y>
     </position>
     <outlets>
@@ -72,7 +72,7 @@
         <link>
             <type>2</type>
             <to>
-                <id>6</id>
+                <id>8</id>
                 <inlet>0</inlet>
             </to>
         </link>
@@ -192,12 +192,38 @@
     </inlets>
 </object>
 <object>
-    <id>6</id>
+    <id>7</id>
+    <name>comment</name>
+    <filepath>none</filepath>
+    <position>
+        <x>194.221343994</x>
+        <y>414.082031250</y>
+    </position>
+    <outlets>
+        <link>
+            <type>1</type>
+        </link>
+    </outlets>
+    <text>OPEN LUA EXAMPLE: examples/livecoding/lua/ComputerVision/HaarTracking</text>
+    <vars />
+    <inlets>
+        <link>
+            <type>0</type>
+            <name>bang</name>
+        </link>
+        <link>
+            <type>1</type>
+            <name>comment</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>8</id>
     <name>lua script</name>
     <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/lua/ComputerVision/HaarTracking/HaarTracking.lua</filepath>
     <position>
-        <x>533.000000000</x>
-        <y>340.000000000</y>
+        <x>579.000000000</x>
+        <y>260.000000000</y>
     </position>
     <outlets>
         <link>
@@ -209,6 +235,9 @@
         </link>
         <link>
             <type>5</type>
+        </link>
+        <link>
+            <type>2</type>
         </link>
     </outlets>
     <vars>
@@ -225,32 +254,6 @@
         <link>
             <type>2</type>
             <name>data</name>
-        </link>
-    </inlets>
-</object>
-<object>
-    <id>7</id>
-    <name>comment</name>
-    <filepath>none</filepath>
-    <position>
-        <x>194.221343994</x>
-        <y>414.082031250</y>
-    </position>
-    <outlets>
-        <link>
-            <type>1</type>
-        </link>
-    </outlets>
-    <text>OPEN LUA EXAMPLE: examples/livecoding/lua/ComputerVision/HaarTracking</text>
-    <vars></vars>
-    <inlets>
-        <link>
-            <type>0</type>
-            <name>bang</name>
-        </link>
-        <link>
-            <type>1</type>
-            <name>comment</name>
         </link>
     </inlets>
 </object>
