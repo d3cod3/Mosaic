@@ -472,6 +472,41 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
             string fileExtension = ofToUpper(file.getExtension());
             if(fileExtension == "XML") {
                 visualProgramming->openPatch(file.getAbsolutePath());
+            }else if(fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
+                visualProgramming->addObject("video player",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC") {
+                visualProgramming->addObject("soundfile player",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "LUA") {
+                visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "PY") {
+                visualProgramming->addObject("python script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "FRAG" || fileExtension == "VERT") {
+                visualProgramming->addObject("shader object",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "SH") {
+                visualProgramming->addObject("bash script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
+            }else if(fileExtension == "PD") {
+                visualProgramming->addObject("pd patch",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
             }
         }
     }
