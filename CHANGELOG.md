@@ -14,13 +14,26 @@
 ```
 
 ```bash
-  ___   _  ___  
- / _ \ / |/ _ \
-| | | || | (_) |
-| |_| || |\__, |
- \___(_)_(_)/_/
-
+  ___   ____    ___  
+ / _ \ |___ \  / _ \
+| | | |  __) || | | |
+| |_| | / __/ | |_| |
+ \___(_)_____(_)___/
+                   
 ```
+
+# v0.2.0
+
+### general
+    + Added graphical midi track and switch track to timeline object
+    + Added projection mapping object
+    + Added video crop, video timelapse objects
+    / Various bug fixes
+
+### ofxaddons
+    + Added ofxMtlMapping2D addon <https://github.com/d3cod3/ofxMtlMapping2D> for projection mapping object
+
+//////////////////////////////////
 
 # v0.1.9
 

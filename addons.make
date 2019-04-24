@@ -25,6 +25,7 @@ ofxLoggerChannel
 ofxLua
 ofxMidi
 ofxModal
+ofxMtlMapping2D
 ofxParagraph
 ofxPd
 ofxPdExternals

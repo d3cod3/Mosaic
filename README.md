@@ -105,6 +105,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxModal](https://github.com/d3cod3/ofxModal) -- Fork
 
+#### [ofxMtlMapping2D](https://github.com/d3cod3/ofxMtlMapping2D) -- Fork
+
 #### [ofxParagraph](https://github.com/d3cod3/ofxParagraph) -- Fork
 
 #### [ofxPd](https://github.com/danomatika/ofxPd)
@@ -143,6 +145,7 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
     - pure data live-patching
     - non-linear interactive timeline
     - warping integrated on output window object
+    - mapmap style projection mapping module
 
 # COMPILING
 
@@ -187,6 +190,7 @@ git clone https://github.com/d3cod3/ofxLoggerChannel
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/d3cod3/ofxMidi
 git clone https://github.com/d3cod3/ofxModal
+git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
 git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/danomatika/ofxPd
@@ -214,6 +218,8 @@ git clone https://github.com/d3cod3/Mosaic
 Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it.
 
 # SCREENSHOTS
+
+![Mosaic 0.1.7](https://github.com/d3cod3/Mosaic/raw/master/process/img/21_mappingBebop.jpg)
 
 ![Mosaic 0.1.7](https://github.com/d3cod3/Mosaic/raw/master/process/img/20_jupiterBlues.jpg)
 
