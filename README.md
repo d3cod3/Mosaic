@@ -83,6 +83,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxDatGui](https://github.com/d3cod3/ofxDatGui) -- Fork
 
+#### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
+
 #### [ofxFontStash](https://github.com/d3cod3/ofxFontStash) -- Fork
 
 #### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
@@ -179,6 +181,7 @@ git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/d3cod3/ofxDatGui
+git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
 git clone https://github.com/armadillu/ofxGLError
