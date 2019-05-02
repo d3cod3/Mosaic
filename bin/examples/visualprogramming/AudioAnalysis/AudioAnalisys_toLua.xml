@@ -282,36 +282,6 @@
     </inlets>
 </object>
 <object>
-    <id>10</id>
-    <name>output window</name>
-    <filepath>none</filepath>
-    <position>
-        <x>1410.666625977</x>
-        <y>484.000000000</y>
-    </position>
-    <outlets />
-    <vars>
-        <var>
-            <name>OUTPUT_HEIGHT</name>
-            <value>720.000000000</value>
-        </var>
-        <var>
-            <name>OUTPUT_WIDTH</name>
-            <value>1280.000000000</value>
-        </var>
-    </vars>
-    <inlets>
-        <link>
-            <type>3</type>
-            <name>projector</name>
-        </link>
-        <link>
-            <type>5</type>
-            <name>script</name>
-        </link>
-    </inlets>
-</object>
-<object>
     <id>11</id>
     <name>comment</name>
     <filepath>none</filepath>
@@ -478,14 +448,14 @@
         <link>
             <type>3</type>
             <to>
-                <id>10</id>
+                <id>18</id>
                 <inlet>0</inlet>
             </to>
         </link>
         <link>
             <type>5</type>
             <to>
-                <id>10</id>
+                <id>18</id>
                 <inlet>1</inlet>
             </to>
         </link>
@@ -507,6 +477,60 @@
         <link>
             <type>2</type>
             <name>data</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>18</id>
+    <name>output window</name>
+    <filepath>none</filepath>
+    <position>
+        <x>1418.928344727</x>
+        <y>508.058776855</y>
+    </position>
+    <outlets />
+    <vars>
+        <var>
+            <name>EDGES_EXPONENT</name>
+            <value>1.000000000</value>
+        </var>
+        <var>
+            <name>EDGE_BOTTOM</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_LEFT</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_RIGHT</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_TOP</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+        <var>
+            <name>USE_MAPPING</name>
+            <value>0.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>projector</name>
+        </link>
+        <link>
+            <type>5</type>
+            <name>script</name>
         </link>
     </inlets>
 </object>

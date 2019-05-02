@@ -66,7 +66,7 @@
 <object>
     <id>6</id>
     <name>shader object</name>
-    <filepath>/Users/n3m3da/Documents/Mosaic/data/shaders/hayasakaBlend.frag</filepath>
+    <filepath>/Users/n3m3da/Documents/Mosaic/examples/livecoding/glsl/FX/hayasakaBlend.frag</filepath>
     <position>
         <x>1099.000000000</x>
         <y>416.000000000</y>
@@ -75,7 +75,7 @@
         <link>
             <type>3</type>
             <to>
-                <id>9</id>
+                <id>27</id>
                 <inlet>0</inlet>
             </to>
         </link>
@@ -103,35 +103,9 @@
             <type>3</type>
             <name>texture2</name>
         </link>
-    </inlets>
-</object>
-<object>
-    <id>9</id>
-    <name>output window</name>
-    <filepath>none</filepath>
-    <position>
-        <x>1345.000000000</x>
-        <y>584.000000000</y>
-    </position>
-    <outlets />
-    <vars>
-        <var>
-            <name>OUTPUT_HEIGHT</name>
-            <value>720.000000000</value>
-        </var>
-        <var>
-            <name>OUTPUT_WIDTH</name>
-            <value>1280.000000000</value>
-        </var>
-    </vars>
-    <inlets>
         <link>
-            <type>3</type>
-            <name>projector</name>
-        </link>
-        <link>
-            <type>5</type>
-            <name>script</name>
+            <type>0</type>
+            <name>mode</name>
         </link>
     </inlets>
 </object>
@@ -450,6 +424,60 @@
         <link>
             <type>2</type>
             <name>data</name>
+        </link>
+    </inlets>
+</object>
+<object>
+    <id>27</id>
+    <name>output window</name>
+    <filepath>none</filepath>
+    <position>
+        <x>1362.666625977</x>
+        <y>579.000000000</y>
+    </position>
+    <outlets />
+    <vars>
+        <var>
+            <name>EDGES_EXPONENT</name>
+            <value>1.000000000</value>
+        </var>
+        <var>
+            <name>EDGE_BOTTOM</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_LEFT</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_RIGHT</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>EDGE_TOP</name>
+            <value>0.500000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_HEIGHT</name>
+            <value>720.000000000</value>
+        </var>
+        <var>
+            <name>OUTPUT_WIDTH</name>
+            <value>1280.000000000</value>
+        </var>
+        <var>
+            <name>USE_MAPPING</name>
+            <value>0.000000000</value>
+        </var>
+    </vars>
+    <inlets>
+        <link>
+            <type>3</type>
+            <name>projector</name>
+        </link>
+        <link>
+            <type>5</type>
+            <name>script</name>
         </link>
     </inlets>
 </object>
