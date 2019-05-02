@@ -32,3 +32,10 @@ Desktop.ini
 *.pyc
 bin/.tmp
 bin/data/temp
+bin/Mosaic
+bin/Mosaic_debug
+bin/PkgInfo
+bin/Mosaic-Info.plist
+bin/imgui.ini
+bin/libfmodex.so
+obj/
