@@ -39,7 +39,7 @@ void ofApp::setup(){
     // OF Stuff
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
-    ofSetFrameRate(24);
+    ofSetFrameRate(30);
     ofSetDrawBitmapMode(OF_BITMAPMODE_SIMPLE);
     ofEnableAntiAliasing();
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
@@ -315,7 +315,7 @@ void ofApp::drawMainMenu(){
             }
 
             if(ImGui::BeginMenu("System")){
-                static int fpsn = 0;
+                static int fpsn = 2;
                 if(ImGui::BeginMenu("FPS")){
                     vector<string> fpss {"24","25","30","60","120"};
                     if(ofxImGui::VectorCombo("FPS", &fpsn,fpss)){
