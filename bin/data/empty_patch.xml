@@ -8,7 +8,7 @@
     <audio_out_device>0</audio_out_device>
     <sample_rate_in>44100</sample_rate_in>
     <sample_rate_out>44100</sample_rate_out>
-    <buffer_size>256</buffer_size>
+    <buffer_size>1024</buffer_size>
     <input_channels>0</input_channels>
     <output_channels>0</output_channels>
 </settings>
