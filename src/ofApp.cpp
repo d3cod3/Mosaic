@@ -482,6 +482,11 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
                 if(visualProgramming->getLastAddedObject() != nullptr){
                     visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
                 }
+            }else if(fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF") {
+                visualProgramming->addObject("image loader",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+                if(visualProgramming->getLastAddedObject() != nullptr){
+                    visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+                }
             }else if(fileExtension == "LUA") {
                 visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
                 if(visualProgramming->getLastAddedObject() != nullptr){
