@@ -1,0 +1,3 @@
+[submodule "bin/examples"]
+	path = bin/examples
+	url = https://github.com/d3cod3/Mosaic_examples
