@@ -37,7 +37,21 @@ Project{
         of.pkgConfigs: []       // list of additional system pkgs to include
         of.includePaths: []     // include search paths
         of.cFlags: []           // flags passed to the c compiler
-        of.cxxFlags: ["-Wno-macro-redefined","-Wno-inconsistent-missing-override","-Wno-undefined-var-template","-Wno-unsequenced"]         // flags passed to the c++ compiler
+
+        // flags passed to the c++ compiler
+        of.cxxFlags: {
+            var flags = [];
+            if(qbs.targetOS.indexOf("windows")>-1){
+                flags = [];
+            }else if(qbs.targetOS.indexOf("osx")>-1){
+                flags = ["-Wno-macro-redefined","-Wno-inconsistent-missing-override","-Wno-undefined-var-template","-Wno-unsequenced"];
+            }else if(qbs.targetOS.indexOf("linux")>-1){
+                flags = [];
+            }
+            return flags;
+        }
+
+
         of.linkerFlags: []      // flags passed to the linker
         of.defines: []          // defines are passed as -D to the compiler
         // and can be checked with #ifdef or #if in the code
