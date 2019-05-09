@@ -8,11 +8,6 @@
 
 __
 
-Operating system | Status
----------------- | ----------
-Ubuntu and macOS | [![TravisCI](https://travis-ci.org/d3cod3/ofxVisualProgramming.svg?branch=master)](https://travis-ci.org/d3cod3/ofxVisualProgramming)
-Windows          | [![AppVeyor](https://ci.appveyor.com/api/projects/status/65sk40q6y8bqfunw/branch/master?svg=true)](https://ci.appveyor.com/project/d3cod3/ofxvisualprogramming/branch/master)
-
 Table of Contents
 =================
 
@@ -82,6 +77,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxCv](https://github.com/kylemcdonald/ofxCv)
 
 #### [ofxDatGui](https://github.com/d3cod3/ofxDatGui) -- Fork
+
+#### [ofxFaceTracker](https://github.com/kylemcdonald/ofxFaceTracker)
 
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
 
@@ -157,6 +154,10 @@ Here you can download (and check) a script for automatically download/clone/comp
 
 [Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
 
+[Ubuntu Studio](https://gist.github.com/d3cod3/869d6d36b2e4c6a5aa01c17cf6395e6b#file-install_mosaic_ubuntustudio-sh)
+
+[Linux Mint](https://gist.github.com/d3cod3/d1a544e0cf21b8733b567a3d87905d23#file-install_mosaic_linuxmint-sh)
+
 [Debian](https://gist.github.com/d3cod3/fbb76735554c3b38e811414d96fc28d6#file-install_mosaic_debian-sh)
 
 
@@ -181,6 +182,7 @@ git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/d3cod3/ofxDatGui
+git clone https://github.com/kylemcdonald/ofxFaceTracker
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
@@ -215,10 +217,10 @@ Then clone Mosaic project as an openFrameworks example:
 ```bash
 cd <your_openframeworks_release_folder>/apps/myApps
 
-git clone https://github.com/d3cod3/Mosaic
+git clone --recursive https://github.com/d3cod3/Mosaic
 ```
 
-Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it.
+Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it. Or just enter in Mosaic folder and run a make Release.
 
 # SCREENSHOTS
 

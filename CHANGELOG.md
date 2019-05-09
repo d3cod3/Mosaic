@@ -31,6 +31,7 @@
     / Various bug fixes
 
 ### ofxaddons
+    + Added ofxFaceTracker addon <https://github.com/kylemcdonald/ofxFaceTracker> for adding CLM face tracking in computer_vision section
     + Added ofxMtlMapping2D addon <https://github.com/d3cod3/ofxMtlMapping2D> for projection mapping object
     + Added ofxFFmpegRecorder addon https://github.com/d3cod3/ofxFFmpegRecorder for audio/video realtime export
 

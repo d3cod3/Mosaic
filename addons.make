@@ -14,6 +14,7 @@ ofxBTrack
 ofxChromaKeyShader
 ofxCv
 ofxDatGui
+ofxFaceTracker
 ofxFFmpegRecorder
 ofxFontStash
 ofxGLEditor
