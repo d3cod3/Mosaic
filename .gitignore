@@ -30,6 +30,8 @@ Desktop.ini
 *.app
 *.dSYM
 *.pyc
+*.dll
+bin/Mosaic.exe
 bin/.tmp
 bin/data/temp
 bin/Mosaic
