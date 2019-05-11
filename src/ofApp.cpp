@@ -119,7 +119,11 @@ void ofApp::setup(){
     // NET
     isInternetAvailable = false;
     isCheckingRelease = false;
+
+#if !defined(TARGET_WIN32)
     ofxSimpleHttp::createSslContext();
+#endif
+
     http.addCustomHttpHeader("Accept", "application/zip");
     ofAddListener(http.httpResponse, this, &ofApp::newResponse);
 
