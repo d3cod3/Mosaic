@@ -116,8 +116,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
 
-#### [ofxSIMDFloats](https://github.com/d3cod3/ofxSIMDFloats) -- Fork
-
 #### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
 #### [ofxThreadedFileDialog](https://github.com/d3cod3/ofxThreadedFileDialog)
@@ -201,7 +199,6 @@ git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPdExternals
 git clone https://github.com/npisanti/ofxPDSP
-git clone https://github.com/d3cod3/ofxSIMDFloats
 git clone https://github.com/armadillu/ofxSimpleHttp
 git clone https://github.com/d3cod3/ofxThreadedFileDialog
 git clone http://github.com/pierrep/ofxThreadedYouTubeVideo

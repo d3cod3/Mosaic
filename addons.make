@@ -33,7 +33,6 @@ ofxPd
 ofxPdExternals
 ofxPDSP
 ofxPython
-ofxSIMDFloats
 ofxSimpleHttp
 ofxThreadedFileDialog
 ofxThreadedYouTubeVideo
