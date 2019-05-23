@@ -81,14 +81,20 @@ public:
     void quitMosaic();
 
     // UTILS
+    void            initExamplesMenu();
     void            initDataFolderFromBundle();
+    void            recursiveScanDirectory(ofDirectory dir);
     bool            checkInternetReachability();
     void            checkForUpdates();
+    void            createObjectFromFile(ofFile file);
+    ofFile          getFileFromExampleFilename(string filename);
 
     // Command line arguments
     vector<string>              arguments;
 
     // CORE
+    map<string,vector<string>>  exampleMenuMatrix;
+    map<string,ofFile>          exampleFiles;
     std::filesystem::path       mosaicPath;
     string                      mosaicURL;
     string                      userHome;
