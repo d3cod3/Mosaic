@@ -119,6 +119,8 @@ public:
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;
+    bool                        autoinitDSP;
+    size_t                      resetInitDSP;
 
     // GUI
     ofImage                     *mosaicLogo;

@@ -87,6 +87,8 @@ void ofApp::setup(){
     visualProgramming->setup();
     patchToLoad         = "";
     loadNewPatch        = false;
+    autoinitDSP         = false;
+    resetInitDSP        = ofGetElapsedTimeMillis();
 
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
@@ -156,6 +158,14 @@ void ofApp::update(){
         loadNewPatch = false;
         if(patchToLoad != ""){
             visualProgramming->openPatch(patchToLoad);
+            resetInitDSP = ofGetElapsedTimeMillis();
+            autoinitDSP = true;
+        }
+    }
+    if(autoinitDSP){
+        if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
+            autoinitDSP = false;
+            visualProgramming->activateDSP();
         }
     }
 
@@ -171,6 +181,9 @@ void ofApp::update(){
         // set logger dimensions
         loggerBounds->set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         screenLoggerChannel->setDrawBounds(*loggerBounds);
+        // reinit DSP
+        resetInitDSP = ofGetElapsedTimeMillis();
+        autoinitDSP = true;
     }
 
     http.update();
@@ -838,6 +851,9 @@ void ofApp::createObjectFromFile(ofFile file){
         string fileExtension = ofToUpper(file.getExtension());
         if(fileExtension == "XML") {
             visualProgramming->openPatch(file.getAbsolutePath());
+            // reinit DSP
+            resetInitDSP = ofGetElapsedTimeMillis();
+            autoinitDSP = true;
         }else if(fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
             visualProgramming->addObject("video player",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
             if(visualProgramming->getLastAddedObject() != nullptr){
