@@ -308,7 +308,7 @@ void ofApp::drawMainMenu(){
                     if(ImGui::BeginMenu(it->first.c_str())){
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
                             if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                createObjectFromFile(getFileFromExampleFilename(it->second.at(j)));
+                                createObjectFromFile(getFileFromExampleFilename(it->second.at(j)),true);
                             }
                         }
                         ImGui::EndMenu();
@@ -500,7 +500,7 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){
     if( dragInfo.files.size() == 1 ){
         ofFile file (dragInfo.files[0]);
-        createObjectFromFile(file);
+        createObjectFromFile(file,false);
     }
 }
 
@@ -618,6 +618,14 @@ void ofApp::initExamplesMenu(){
         }
     }
     exampleMenuMatrix["lua"] = vecInit;
+
+    vecInit = {};
+    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
+        if(it->second.getExtension() == "java"){
+            vecInit.push_back(it->second.getFileName());
+        }
+    }
+    exampleMenuMatrix["processing"] = vecInit;
 
     vecInit = {};
     for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
@@ -846,11 +854,15 @@ void ofApp::checkForUpdates(){
 }
 
 //--------------------------------------------------------------
-void ofApp::createObjectFromFile(ofFile file){
+void ofApp::createObjectFromFile(ofFile file,bool temp){
     if (file.exists()){
         string fileExtension = ofToUpper(file.getExtension());
         if(fileExtension == "XML") {
-            visualProgramming->openPatch(file.getAbsolutePath());
+            if(temp){
+                visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
+            }else{
+                visualProgramming->openPatch(file.getAbsolutePath());
+            }
             // reinit DSP
             resetInitDSP = ofGetElapsedTimeMillis();
             autoinitDSP = true;
@@ -891,6 +903,11 @@ void ofApp::createObjectFromFile(ofFile file){
             }
         }else if(fileExtension == "PD") {
             visualProgramming->addObject("pd patch",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+            if(visualProgramming->getLastAddedObject() != nullptr){
+                visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
+            }
+        }else if(fileExtension == "JAVA"){
+            visualProgramming->addObject("processing script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
             if(visualProgramming->getLastAddedObject() != nullptr){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }

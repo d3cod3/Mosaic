@@ -86,7 +86,7 @@ public:
     void            recursiveScanDirectory(ofDirectory dir);
     bool            checkInternetReachability();
     void            checkForUpdates();
-    void            createObjectFromFile(ofFile file);
+    void            createObjectFromFile(ofFile file,bool temp);
     ofFile          getFileFromExampleFilename(string filename);
 
     // Command line arguments
