@@ -165,7 +165,9 @@ void ofApp::update(){
     if(autoinitDSP){
         if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
             autoinitDSP = false;
+            #ifdef TARGET_OSX
             visualProgramming->activateDSP();
+            #endif
         }
     }
 
@@ -271,6 +273,8 @@ void ofApp::drawMainMenu(){
             if(ImGui::BeginMenu("File")){
                 if(ImGui::MenuItem("New")){
                     visualProgramming->newPatch();
+                    resetInitDSP = ofGetElapsedTimeMillis();
+                    autoinitDSP = true;
                 }
                 if(ImGui::MenuItem("Open")){
                     visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
