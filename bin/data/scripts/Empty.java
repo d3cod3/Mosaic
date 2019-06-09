@@ -78,22 +78,6 @@ public class Empty extends PApplet{
         // END DRAW
      }
 
-     public void mousePressed() {
-
-     }
-
-     public void mouseDragged() {
-
-     }
-
-     public void mouseReleased() {
-
-     }
-
-     public void keyPressed() {
-
-     }
-
      ////////////////////////////////////////////////////// DO NOT EDIT
      // MOSAIC BRIDGE CUSTOM FUNCTIONS
      public void mosaicSetup(){
