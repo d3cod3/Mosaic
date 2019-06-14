@@ -39,9 +39,11 @@ public class Empty extends PApplet{
     // PROCESSING <-- TEXTURE DATA STREAM --> MOSAIC
     byte[]      _pix;
     boolean     _savedImage = false;
+    boolean     _loaded     = false;
     ////////////////////////////////////////////////////// DO NOT EDIT
 
     public void settings() {
+        // set here your processing texture size and render engine (P2D or P3D)
         size(1280, 720);
         //size(1280, 720,P3D);
     }
@@ -81,7 +83,6 @@ public class Empty extends PApplet{
      ////////////////////////////////////////////////////// DO NOT EDIT
      // MOSAIC BRIDGE CUSTOM FUNCTIONS
      public void mosaicSetup(){
-       surface.setLocation(displayWidth*2,displayHeight);
        for (int i = 0 ; i < _dataInSize; i++) {
          _mosaic_data_inlet[i] = 0.0f;
        }
@@ -106,6 +107,11 @@ public class Empty extends PApplet{
        saveStrings("Empty_out.txt",_dataOUT);
      }
      public void mosaicSendTexture(){
+       if(!_loaded){
+         _loaded = true;
+         //surface.setLocation(displayWidth*2,displayHeight*2);
+         surface.setVisible(false);
+       }
        loadPixels();
        _pix = new byte[pixels.length*3];
        int index = 0;
