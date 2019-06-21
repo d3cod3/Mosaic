@@ -531,7 +531,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
     }
 
-    #ifdef defined(TARGET_LINUX) || defined(TARGET_WIN32)
+    #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
     if(e.hasModifier(MOD_KEY) && e.keycode == 81){
         quitMosaic();
     }
