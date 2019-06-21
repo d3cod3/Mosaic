@@ -41,4 +41,14 @@ public:
 
     void setup() override;
 
+
+    // TextInput ComboBox
+    static bool identical(const char* buf, const char* item);
+    static int propose(ImGuiInputTextCallbackData* data);
+
+    static bool TextInputComboBox(const char* id, std::string& str, size_t maxInputSize, const char* items[], size_t item_len);
+    static bool TextInputComboBox(const char* id, char* buffer, size_t maxInputSize, const char* items[], size_t item_len);
+
+    static void drawDemoComboBox();
+
 };

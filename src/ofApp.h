@@ -54,8 +54,8 @@ public:
     void drawMainMenu();
 
     // Keyboard Events
-    void keyPressed(int key);
-    void keyReleased(int key);
+    void keyPressed(ofKeyEventArgs &e);
+    void keyReleased(ofKeyEventArgs &e);
 
     // Mouse Events
     void mouseMoved(int x, int y );
@@ -86,6 +86,7 @@ public:
     void            recursiveScanDirectory(ofDirectory dir);
     bool            checkInternetReachability();
     void            checkForUpdates();
+    void            checkIfAtomIsInstalled();
     void            createObjectFromFile(ofFile file,bool temp);
     ofFile          getFileFromExampleFilename(string filename);
 
@@ -105,6 +106,8 @@ public:
     ofxModalConfirm             confirm;
     ofxModalAlert               modalMessage;
     shared_ptr<ofxModalTheme>   modalTheme;
+    string                      shortcutFunc;
+    string                      searchedObject;
     bool                        showRightClickMenu;
     bool                        isHoverMenu;
 

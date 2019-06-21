@@ -97,3 +97,101 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(col_main_area, 0.73f);
 
 }
+
+//--------------------------------------------------------------
+bool MosaicTheme::identical(const char* buf, const char* item){
+    size_t buf_size = strlen(buf);
+    size_t item_size = strlen(item);
+    //Check if the item length is shorter or equal --> exclude
+    if (buf_size >= item_size) return false;
+    for (int i = 0; i < strlen(buf); ++i)
+        // set the current pos if matching or return the pos if not
+        if (buf[i] != item[i]) return false;
+    // Complete match
+    // and the item size is greater --> include
+    return true;
+}
+
+//--------------------------------------------------------------
+int MosaicTheme::propose(ImGuiInputTextCallbackData* data){
+    //We don't want to "preselect" anything
+    if (strlen(data->Buf) == 0) return 0;
+
+    //Get our items back
+    const char** items = static_cast<std::pair<const char**, size_t>*> (data->UserData)->first;
+    size_t length = static_cast<std::pair<const char**, size_t>*> (data->UserData)->second;
+
+    //We need to give the user a chance to remove wrong input
+    /*if (ofGetKeyPressed(OF_KEY_BACKSPACE)) {
+        //We delete the last char automatically, since it is what the user wants to delete, but only if there is something (selected/marked/hovered)
+        if (data->SelectionEnd != data->SelectionStart)
+            if (data->BufTextLen > 0) //...and the buffer isn't empty
+                if (data->CursorPos > 0) //...and the cursor not at pos 0
+                    data->DeleteChars(data->CursorPos - 1, 1);
+        return 0;
+    }*/
+
+    for (int i = 0; i < length; i++) {
+        if (identical(data->Buf, items[i])) {
+            const int cursor = data->CursorPos;
+            //Insert the first match
+            data->DeleteChars(0, data->BufTextLen);
+            data->InsertChars(0, items[i]);
+            //Reset the cursor position
+            //data->CursorPos = cursor;
+            //Select the text, so the user can simply go on writing
+            data->SelectionStart = cursor;
+            data->SelectionEnd = data->BufTextLen;
+            break;
+        }
+    }
+
+    if(ofGetKeyPressed(OF_KEY_BACKSPACE) || ofGetKeyPressed(OF_KEY_RETURN) || ofGetKeyPressed(OF_KEY_DEL)) data->DeleteChars(0, data->BufTextLen);
+
+    return 0;
+}
+
+//--------------------------------------------------------------
+bool MosaicTheme::TextInputComboBox(const char* id, std::string& str, size_t maxInputSize, const char* items[], size_t item_len){
+    if (str.size() > maxInputSize) { // too large for editing
+        return false;
+    }
+
+    std::string buffer(str);
+    buffer.resize(maxInputSize);
+    bool changed = MosaicTheme::TextInputComboBox(id, &buffer[0], maxInputSize, items, item_len);
+    // using string as char array
+    if (changed) {
+        auto i = buffer.find_first_of('\0');
+        str = buffer.substr(0u, i);
+    }
+    return changed;
+}
+
+//--------------------------------------------------------------
+bool MosaicTheme::TextInputComboBox(const char* id, char* buffer, size_t maxInputSize, const char* items[], size_t item_len){
+
+    ImGui::PushID(id);
+    std::pair<const char**, size_t> pass(items, item_len); //We need to pass the array length as well
+
+    bool ret = ImGui::InputText(" search", buffer, maxInputSize, ImGuiInputTextFlags_::ImGuiInputTextFlags_CallbackAlways, propose, static_cast<void*>(&pass));
+
+    /*ImGui::BeginChild("Options");
+    for(int i = 0; i < item_len; i++){
+        if (ImGui::Selectable(items[i])){
+            strcpy(buffer, items[i]);
+        }
+    }
+    ImGui::EndChild();*/
+
+    return ret;
+}
+
+//--------------------------------------------------------------
+void MosaicTheme::drawDemoComboBox(){
+    ImGui::Begin("Combobox");
+        static std::string buffer;
+        const char* items[] = {"video player", "soundfile player", "bang", "trigger", "floats to vector", "slider", "lua script"};
+        MosaicTheme::TextInputComboBox("Objects", buffer, 20, items, IM_ARRAYSIZE(items));
+    ImGui::End();
+}

@@ -32,6 +32,34 @@
 
 #include "ofApp.h"
 
+#if defined(TARGET_LINUX) || defined(TARGET_OSX)
+const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
+                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
+                                    "background subtraction","chroma key","color tracking","contour tracking","face tracker","haar tracking","motion detection","optical flow",
+                                    "bang multiplexer","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
+                                    "image exporter","image loader",
+                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
+                                    "==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot",
+                                    "add","clamp","constant","divide","metronome","multiply","range","simple noise","simple random","smooth","subtract",
+                                    "bash script","lua script","processing script","python script","shader object",
+                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","quad panner","pulse","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
+                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video scale","video streaming","video timedelay",
+                                    "live patching","output window","projection mapping"};
+#elif defined(TARGET_WIN32)
+const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
+                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
+                                    "background subtraction","chroma key","color tracking","contour tracking","haar tracking","motion detection","optical flow",
+                                    "bang multiplexer","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
+                                    "image exporter","image loader",
+                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
+                                    "==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot",
+                                    "add","clamp","constant","divide","metronome","multiply","range","simple noise","simple random","smooth","subtract",
+                                    "lua script","processing script","python script","shader object",
+                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","quad panner","pulse","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
+                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video scale","video streaming","video timedelay",
+                                    "live patching","output window","projection mapping"};
+#endif
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -103,6 +131,14 @@ void ofApp::setup(){
         io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
     }
 
+#ifdef TARGET_LINUX
+    shortcutFunc = "CTRL";
+#elif defined(TARGET_OSX)
+    shortcutFunc = "CMD";
+#elif defined(TARGET_WIN32)
+    shortcutFunc = "CTRL";
+#endif
+
     // Main Menu Bar
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
@@ -136,6 +172,8 @@ void ofApp::setup(){
     lastRelease = VERSION;
 
     isInternetAvailable = checkInternetReachability();
+
+    checkIfAtomIsInstalled();
 
     takeScreenshot      = false;
     saveNewScreenshot   = false;
@@ -271,15 +309,23 @@ void ofApp::drawMainMenu(){
 
         {
             if(ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("New")){
+                if(ImGui::MenuItem("New",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
                     resetInitDSP = ofGetElapsedTimeMillis();
                     autoinitDSP = true;
                 }
-                if(ImGui::MenuItem("Open")){
+                ImGui::Separator();
+                if(ImGui::MenuItem("Open",ofToString(shortcutFunc+"+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
                 }
-                if(ImGui::MenuItem("Save As...")){
+                if(ImGui::MenuItem("Open last patch",ofToString(shortcutFunc+"+L").c_str())){
+                    visualProgramming->openLastPatch();
+                }
+                if(ImGui::MenuItem("Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
+                    visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
+                }
+                ImGui::Separator();
+                if(ImGui::MenuItem("Save As..",ofToString(shortcutFunc+"+S").c_str())){
                     string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
                     visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
                 }
@@ -287,7 +333,7 @@ void ofApp::drawMainMenu(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Quit")){
+                if(ImGui::MenuItem("Quit",ofToString(shortcutFunc+"+Q").c_str())){
                     quitMosaic();
                 }
                 ImGui::EndMenu();
@@ -323,10 +369,10 @@ void ofApp::drawMainMenu(){
 
 
             if(ImGui::BeginMenu("Sound")){
-                if(ImGui::MenuItem("DSP ON")){
+                if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
                     visualProgramming->activateDSP();
                 }
-                if(ImGui::MenuItem("DSP OFF")){
+                if(ImGui::MenuItem("DSP OFF",ofToString(shortcutFunc+"+SHIFT+D").c_str())){
                     visualProgramming->deactivateDSP();
                 }
                 ImGui::Spacing();
@@ -383,7 +429,7 @@ void ofApp::drawMainMenu(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Screenshot")){
+                if(ImGui::MenuItem("Screenshot",ofToString(shortcutFunc+"+T").c_str())){
                     takeScreenshot = true;
                 }
                 ImGui::EndMenu();
@@ -417,8 +463,13 @@ void ofApp::drawMainMenu(){
         if(showRightClickMenu){
             ImGui::SetNextWindowSize(ofVec2f(200*visualProgramming->scaleFactor,340*visualProgramming->scaleFactor), ImGuiSetCond_FirstUseEver);
             ImGui::SetNextWindowPos(ofVec2f(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
+
             ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings);
-            isHoverMenu = ImGui::IsWindowHovered();
+
+            MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
+
+            isHoverMenu = ImGui::IsWindowHovered() || ImGui::IsAnyItemHovered();
+
             for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
                 if(ImGui::BeginMenu(it->first.c_str())){
                     for(int j=0;j<static_cast<int>(it->second.size());j++){
@@ -432,6 +483,7 @@ void ofApp::drawMainMenu(){
             }
 
             ImGui::End();
+
         }else{
             isHoverMenu = false;
         }
@@ -447,12 +499,42 @@ void ofApp::exit() {
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(ofKeyEventArgs &e){
+
+    ofLog(OF_LOG_NOTICE,"%i",e.keycode);
+
+    if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
+        visualProgramming->newPatch();
+        resetInitDSP = ofGetElapsedTimeMillis();
+        autoinitDSP = true;
+    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
+        visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
+    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
+        visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
+        visualProgramming->openLastPatch();
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
+        visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as","mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml");
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
+        takeScreenshot = true;
+    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
+        visualProgramming->activateDSP();
+    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
+        visualProgramming->deactivateDSP();
+    }else if(e.keycode == 259){
+        visualProgramming->deleteSelectedObject();
+    }else if(e.keycode == 257){
+        if(searchedObject != ""){
+            visualProgramming->addObject(searchedObject,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 300,visualProgramming->canvas.getMovingPoint().y + 200));
+            searchedObject = "";
+        }
+
+    }
 
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(ofKeyEventArgs &e){
 
 }
 
@@ -549,6 +631,31 @@ void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
             if(fileExtension == "XML") {
                 patchToLoad = file.getAbsolutePath();
                 loadNewPatch = true;
+            }
+        }
+    }else if(response.id == "open patch source"){
+        ofFile file(response.filepath);
+        if (file.exists()){
+            string fileExtension = ofToUpper(file.getExtension());
+            if(fileExtension == "XML") {
+                ofxXmlSettings XML;
+
+                if (XML.loadFile(file.getAbsolutePath())){
+                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                        string cmd = "";
+        #ifdef TARGET_LINUX
+                        cmd = "atom "+file.getAbsolutePath();
+        #elif defined(TARGET_OSX)
+                        cmd = "open -a /Applications/Atom.app "+file.getAbsolutePath();
+        #elif defined(TARGET_WIN32)
+                        cmd = "atom "+file.getAbsolutePath();
+        #endif
+                        system(cmd.c_str());
+                    }else{
+                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                    }
+                }
+
             }
         }
     }else if(response.id == "save patch"){
@@ -855,6 +962,11 @@ void ofApp::checkForUpdates(){
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
 
+}
+
+//--------------------------------------------------------------
+void ofApp::checkIfAtomIsInstalled(){
+    // TODO
 }
 
 //--------------------------------------------------------------
