@@ -522,7 +522,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
         visualProgramming->deactivateDSP();
     }else if(e.keycode == 259){
-        visualProgramming->deleteSelectedObject();
+        //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
         if(searchedObject != ""){
             visualProgramming->addObject(searchedObject,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 300,visualProgramming->canvas.getMovingPoint().y + 200));
