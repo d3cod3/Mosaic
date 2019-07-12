@@ -122,31 +122,33 @@ int MosaicTheme::propose(ImGuiInputTextCallbackData* data){
     size_t length = static_cast<std::pair<const char**, size_t>*> (data->UserData)->second;
 
     //We need to give the user a chance to remove wrong input
-    /*if (ofGetKeyPressed(OF_KEY_BACKSPACE)) {
-        //We delete the last char automatically, since it is what the user wants to delete, but only if there is something (selected/marked/hovered)
+    if (ofGetKeyPressed(OF_KEY_BACKSPACE)) {
+        //We delete the last char automatically
         if (data->SelectionEnd != data->SelectionStart)
             if (data->BufTextLen > 0) //...and the buffer isn't empty
                 if (data->CursorPos > 0) //...and the cursor not at pos 0
                     data->DeleteChars(data->CursorPos - 1, 1);
         return 0;
-    }*/
+    }
 
-    for (int i = 0; i < length; i++) {
-        if (identical(data->Buf, items[i])) {
-            const int cursor = data->CursorPos;
-            //Insert the first match
-            data->DeleteChars(0, data->BufTextLen);
-            data->InsertChars(0, items[i]);
-            //Reset the cursor position
-            //data->CursorPos = cursor;
-            //Select the text, so the user can simply go on writing
-            data->SelectionStart = cursor;
-            data->SelectionEnd = data->BufTextLen;
-            break;
+    if(ofGetKeyPressed(OF_KEY_TAB)){
+        for (int i = 0; i < length; i++) {
+            if (identical(data->Buf, items[i])) {
+                const int cursor = data->CursorPos;
+                //Insert the first match
+                data->DeleteChars(0, data->BufTextLen);
+                data->InsertChars(0, items[i]);
+                //Reset the cursor position
+                //data->CursorPos = cursor;
+                //Select the text, so the user can simply go on writing
+                data->SelectionStart = cursor;
+                data->SelectionEnd = data->BufTextLen;
+                break;
+            }
         }
     }
 
-    if(ofGetKeyPressed(OF_KEY_BACKSPACE) || ofGetKeyPressed(OF_KEY_RETURN) || ofGetKeyPressed(OF_KEY_DEL)) data->DeleteChars(0, data->BufTextLen);
+    if(ofGetKeyPressed(OF_KEY_RETURN) || ofGetKeyPressed(OF_KEY_DEL)) data->DeleteChars(0, data->BufTextLen); // ofGetKeyPressed(OF_KEY_BACKSPACE) ||
 
     return 0;
 }
