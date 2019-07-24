@@ -36,7 +36,7 @@
 const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
                                     "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
                                     "background subtraction","chroma key","color tracking","contour tracking","face tracker","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
+                                    "bang multiplexer","bang to float","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
                                     "image exporter","image loader",
                                     "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
                                     "==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot","timed semaphore",
@@ -49,7 +49,7 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
 const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
                                     "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
                                     "background subtraction","chroma key","color tracking","contour tracking","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
+                                    "bang multiplexer","bang to float","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
                                     "image exporter","image loader",
                                     "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
                                     "==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot","timed semaphore",
@@ -108,7 +108,7 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
     ofLog(OF_LOG_NOTICE," ");
-    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, Python, GLSL and BASH).");
+    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).");
 
     // Visual Programming Environment Load
     visualProgramming   = new ofxVisualProgramming();
@@ -142,10 +142,8 @@ void ofApp::setup(){
     // Main Menu Bar
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
-    showRightClickMenu = false;
-    isHoverMenu        = false;
-
-    initExamplesMenu();
+    showRightClickMenu      = false;
+    isHoverMenu             = false;
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -355,16 +353,12 @@ void ofApp::drawMainMenu(){
             }
 
             if(ImGui::BeginMenu("Examples")){
-                for(map<string,vector<string>>::iterator it = exampleMenuMatrix.begin(); it != exampleMenuMatrix.end(); it++ ){
-                    if(ImGui::BeginMenu(it->first.c_str())){
-                        for(int j=0;j<static_cast<int>(it->second.size());j++){
-                            if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                createObjectFromFile(getFileFromExampleFilename(it->second.at(j)),true);
-                            }
-                        }
-                        ImGui::EndMenu();
-                    }
+                examplesRoot.listDir(ofToDataPath("../examples"));
+                examplesRoot.sort();
+                for(int i=0;i<examplesRoot.getFiles().size();i++){
+                    createDirectoryNode(examplesRoot.getFiles().at(i));
                 }
+
                 ImGui::EndMenu();
             }
 
@@ -701,68 +695,6 @@ void ofApp::quitMosaic(){
 }
 
 //--------------------------------------------------------------
-void ofApp::initExamplesMenu(){
-    vector<string> vecInit = {};
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "xml"){
-            //ofLog(OF_LOG_NOTICE,"%s",it->second.getBaseName().c_str());
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["mosaic"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "sh"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["bash"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "frag"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["glsl"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "lua"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["lua"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "java"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["processing"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "pd"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["pure data"] = vecInit;
-
-    vecInit = {};
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(it->second.getExtension() == "py"){
-            vecInit.push_back(it->second.getFileName());
-        }
-    }
-    exampleMenuMatrix["python"] = vecInit;
-}
-
-//--------------------------------------------------------------
 void ofApp::initDataFolderFromBundle(){
 
     #ifdef TARGET_OSX
@@ -872,27 +804,9 @@ void ofApp::initDataFolderFromBundle(){
 
     #endif
 
-    ofDirectory examplesDir;
-    examplesDir.listDir(ofToDataPath("../examples"));
-    recursiveScanDirectory(examplesDir);
+    examplesRoot.listDir(ofToDataPath("../examples"));
+    examplesRoot.sort();
 
-}
-
-//--------------------------------------------------------------
-void ofApp::recursiveScanDirectory(ofDirectory dir){
-    size_t size = dir.listDir();
-    dir.sort();
-
-    for (size_t i = 0; i < size; i++){
-        if (dir.getFile(i).isDirectory()==1){
-            ofDirectory newDir;
-            newDir.listDir(dir.getFile(i).getAbsolutePath());
-            recursiveScanDirectory( newDir );
-        }else{
-            ofFile tempFile(dir.getPath(i));
-            exampleFiles[tempFile.getFileName()] = tempFile;
-        }
-    }
 }
 
 //--------------------------------------------------------------
@@ -973,12 +887,86 @@ void ofApp::checkForUpdates(){
 
 //--------------------------------------------------------------
 void ofApp::checkIfAtomIsInstalled(){
-    // TODO
+    string cmd = "";
+    FILE *execFile;
+    string output = "";
+#ifdef TARGET_WIN32
+    cmd = "Powershell.exe -File check_atom.ps1";
+    execFile = _popen(cmd.c_str(), "r");
+#elif defined(TARGET_OSX)
+    cmd = "ls /Applications/ | grep -i Atom";
+    execFile = popen(cmd.c_str(), "r");
+#elif defined(TARGET_LINUX)
+    cmd = "which atom";
+    execFile = popen(cmd.c_str(), "r");
+#endif
+
+    if (execFile){
+        char buffer[128];
+        if(fgets(buffer, sizeof(buffer), execFile) != nullptr){
+            char *s = buffer;
+            std::string tempstr(s);
+            output = tempstr;
+        }
+
+        output.pop_back();
+
+#ifdef TARGET_LINUX
+        pclose(execFile);
+#elif defined(TARGET_OSX)
+        pclose(execFile);
+#elif defined(TARGET_OSX)
+        _pclose(execFile);
+#endif
+
+        if(output == ""){
+            ofLog(OF_LOG_NOTICE,"Atom Editor is not installed! For a proper Mosaic interaction, please install Atom Editor - https://atom.io/");
+        }
+    }
+}
+
+//--------------------------------------------------------------
+void ofApp::createDirectoryNode(ofFile file){
+    if(file.isDirectory()){
+        if(ImGui::BeginMenu(file.getBaseName().c_str())){
+            ofDirectory temp;
+            temp.listDir(file.getAbsolutePath());
+            temp.sort();
+            for(int i=0;i<temp.getFiles().size();i++){
+                createDirectoryNode(temp.getFiles().at(i));
+            }
+            ImGui::EndMenu();
+        }
+    }else{
+        if(file.getBaseName() != "LICENSE" && file.getBaseName() != "README"){
+            string fileExtension = ofToUpper(file.getExtension());
+            if(fileExtension == "LUA" || fileExtension == "PY" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "JAVA" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
+                if(fileExtension == "LUA"){
+                    string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('/'));
+                    if(file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
+                        string menuName = file.getBaseName()+"."+file.getExtension();
+                        if(ImGui::MenuItem(menuName.c_str())){
+                            createObjectFromFile(file,true);
+                        }
+                    }
+                }else{
+                    string menuName = file.getBaseName()+"."+file.getExtension();
+                    if(ImGui::MenuItem(menuName.c_str())){
+                        createObjectFromFile(file,true);
+                    }
+                }
+
+            }
+        }
+
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::createObjectFromFile(ofFile file,bool temp){
     if (file.exists()){
+        //string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('/'));
+        //ofLog(OF_LOG_NOTICE,"%s : %s",file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1).c_str(), file.getFileName().substr(0,file.getFileName().find_last_of('.')).c_str());
         string fileExtension = ofToUpper(file.getExtension());
         if(fileExtension == "XML") {
             if(temp){
@@ -1036,16 +1024,4 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
             }
         }
     }
-}
-
-//--------------------------------------------------------------
-ofFile ofApp::getFileFromExampleFilename(string filename){
-    for(map<string,ofFile>::iterator it = exampleFiles.begin(); it != exampleFiles.end(); it++ ){
-        if(filename == it->first){
-            return it->second;
-        }
-    }
-
-    ofFile n(ofToDataPath("release.txt"));
-    return n;
 }
