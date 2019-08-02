@@ -39,11 +39,12 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
                                     "bang multiplexer","bang to float","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
                                     "image exporter","image loader",
                                     "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot","timed semaphore",
+                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
                                     "add","clamp","constant","divide","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
                                     "bash script","lua script","processing script","python script","shader object",
                                     "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","quad panner","pulse","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
                                     "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video scale","video streaming","video timedelay",
+                                    "http form",
                                     "live patching","output window","projection mapping"};
 #elif defined(TARGET_WIN32)
 const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
@@ -52,11 +53,12 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
                                     "bang multiplexer","bang to float","data to texture","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
                                     "image exporter","image loader",
                                     "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","gate","inverter","loadbang","select","spigot","timed semaphore",
+                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
                                     "add","clamp","constant","divide","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
                                     "lua script","processing script","python script","shader object",
                                     "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","quad panner","pulse","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
                                     "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video scale","video streaming","video timedelay",
+                                    "http form",
                                     "live patching","output window","projection mapping"};
 #endif
 
