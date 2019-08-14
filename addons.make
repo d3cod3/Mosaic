@@ -21,6 +21,7 @@ ofxGLEditor
 ofxGLError
 ofxHistoryPlot
 ofxJSON
+ofxHttpForm
 ofxImGui
 ofxInfiniteCanvas
 ofxLoggerChannel
