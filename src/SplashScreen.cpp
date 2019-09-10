@@ -48,7 +48,7 @@ void SplashScreen::setup(){
     startTime = ofGetElapsedTimeMillis();
 
     // load background
-    background.load("videos/splash_background.mov");
+    background.load("videos/splash_background.mp4");
     background.setLoopState(OF_LOOP_NORMAL);
     background.play();
 
@@ -71,9 +71,9 @@ void SplashScreen::draw(){
 
     ofSetColor(255);
     // draw background
-    background.draw(0,0,ofGetCurrentWindow()->getWidth(),ofGetCurrentWindow()->getHeight());
+    background.draw(-40,0,ofGetCurrentWindow()->getWidth()+80,ofGetCurrentWindow()->getHeight());
 
-    ofSetColor(255,6);
+    ofSetColor(255,66);
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
         font.drawString(VERSION_GRAPHIC,452,182);
     }else{
