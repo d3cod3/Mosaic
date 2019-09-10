@@ -14,26 +14,33 @@
 ```
 
 ```bash
-  ___   ____    ___  
- / _ \ |___ \  / _ \
-| | | |  __) || | | |
-| |_| | / __/ | |_| |
- \___(_)_____(_)___/
+  ___   ____   _  _   
+ / _ \ |___ \ | || |  
+| | | |  __) || || |_
+| |_| | / __/ |__   _|
+ \___(_)_____(_) |_|  
 
 ```
 
-# v0.2.0
+# v0.2.4
 
 ### general
-    + Added graphical midi track and switch track to timeline object
-    + Added projection mapping object
-    + Added video crop, video timelapse objects
-    / Various bug fixes
+  + Added graphical midi track and switch track to timeline object
+  + Added projection mapping object
+  + Added keyboard, midi, osc and arduino communication objects
+  + Added image exporter object
+  + Added sonogram and vumeter gui objects
+  + Added video crop, video transform, video timedelay, video streaming, video exportr objects
+  + Added a bunch of sound synthesis objects
+  + Added processing live coding capabilities (using system installed java virtual machine)
+  + Added http form object
+  / Various bug fixes
 
 ### ofxaddons
     + Added ofxFaceTracker addon <https://github.com/kylemcdonald/ofxFaceTracker> for adding CLM face tracking in computer_vision section
     + Added ofxMtlMapping2D addon <https://github.com/d3cod3/ofxMtlMapping2D> for projection mapping object
     + Added ofxFFmpegRecorder addon https://github.com/d3cod3/ofxFFmpegRecorder for audio/video realtime export
+    + Added ofxHttpForm addon <https://github.com/armadillu/ofxHttpForm> for POST form communications over the web
 
 //////////////////////////////////
 
