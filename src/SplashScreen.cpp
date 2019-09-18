@@ -48,7 +48,14 @@ void SplashScreen::setup(){
     startTime = ofGetElapsedTimeMillis();
 
     // load background
+#ifdef TARGET_LINUX
     background.load("videos/splash_background.mp4");
+#elif defined(TARGET_OSX)
+    background.load("videos/splash_background.mp4");
+#elif defined(TARGET_WIN32)
+    background.load("videos/splash_background.avi");
+#endif
+
     background.setLoopState(OF_LOOP_NORMAL);
     background.play();
 
