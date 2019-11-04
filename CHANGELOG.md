@@ -14,6 +14,26 @@
 ```
 
 ```bash
+  ___   ____    ____  
+ / _ \ |___ \  | ___|
+| | | |  __) | |___ \
+| |_| | / __/ _ ___) |
+ \___(_)_____(_)____/
+
+```
+
+# v0.2.5
+
+### general
+  / Various bug fixes
+
+### ofxaddons
+    + Added ofxNDI addon <https://github.com/d3cod3/ofxNDI> for sending/receiving NDI streams (osx/linux <--> linux/osx)
+
+
+//////////////////////////////////
+
+```bash
   ___   ____   _  _   
  / _ \ |___ \ | || |  
 | | | |  __) || || |_

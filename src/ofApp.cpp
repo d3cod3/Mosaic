@@ -43,7 +43,7 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
                                     "add","clamp","constant","divide","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
                                     "bash script","lua script","processing script","python script","shader object",
                                     "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
-                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video streaming","video timedelay","video transform",
+                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video receiver","video sender","video streaming","video timedelay","video transform",
                                     "http form",
                                     "live patching","output window","projection mapping"};
 #elif defined(TARGET_WIN32)
