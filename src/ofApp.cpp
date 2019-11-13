@@ -369,9 +369,11 @@ void ofApp::drawMainMenu(){
                 if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
                     visualProgramming->activateDSP();
                 }
+                #if defined(TARGET_LINUX) || defined(TARGET_OSX)
                 if(ImGui::MenuItem("DSP OFF",ofToString(shortcutFunc+"+SHIFT+D").c_str())){
                     visualProgramming->deactivateDSP();
                 }
+                #endif
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
@@ -517,7 +519,9 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
         visualProgramming->activateDSP();
     }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
+        #if defined(TARGET_LINUX) || defined(TARGET_OSX)
         visualProgramming->deactivateDSP();
+        #endif
     }else if(e.keycode == 259){
         //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
