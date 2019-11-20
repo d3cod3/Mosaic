@@ -26,6 +26,7 @@
 
 ### general
   / Various bug fixes
+  + Added "data to file" and "file to data" objects, for saving/loading data sessions
 
 ### ofxaddons
     + Added ofxNDI addon <https://github.com/d3cod3/ofxNDI> for sending/receiving NDI streams (osx/linux <--> linux/osx)
