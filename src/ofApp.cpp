@@ -310,23 +310,20 @@ void ofApp::drawMainMenu(){
 
         {
             if(ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("New",ofToString(shortcutFunc+"+N").c_str())){
+                if(ImGui::MenuItem("New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
                     resetInitDSP = ofGetElapsedTimeMillis();
                     autoinitDSP = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Open",ofToString(shortcutFunc+"+O").c_str())){
+                if(ImGui::MenuItem("Open patch",ofToString(shortcutFunc+"+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
-                }
-                if(ImGui::MenuItem("Open last patch",ofToString(shortcutFunc+"+L").c_str())){
-                    visualProgramming->openLastPatch();
                 }
                 if(ImGui::MenuItem("Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Save As..",ofToString(shortcutFunc+"+S").c_str())){
+                if(ImGui::MenuItem("Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
                     string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
                     visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
                 }
@@ -355,7 +352,7 @@ void ofApp::drawMainMenu(){
             }
 
             if(ImGui::BeginMenu("Examples")){
-                examplesRoot.listDir(ofToDataPath("../examples"));
+                examplesRoot.listDir(mosaicExamplesPath.string());
                 examplesRoot.sort();
                 for(int i=0;i<examplesRoot.getFiles().size();i++){
                     createDirectoryNode(examplesRoot.getFiles().at(i));
@@ -752,6 +749,7 @@ void ofApp::initDataFolderFromBundle(){
     std::filesystem::path examplesPath(_MosaicExamplesPath.c_str());
 
     mosaicPath = tempPath;
+    mosaicExamplesPath = examplesPath;
 
     ofDirectory mosaicDir;
 
@@ -810,7 +808,7 @@ void ofApp::initDataFolderFromBundle(){
 
     #endif
 
-    examplesRoot.listDir(ofToDataPath("../examples"));
+    examplesRoot.listDir(mosaicExamplesPath.string());
     examplesRoot.sort();
 
 }

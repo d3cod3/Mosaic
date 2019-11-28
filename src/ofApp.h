@@ -94,6 +94,7 @@ public:
     // CORE
     ofDirectory                 examplesRoot;
     std::filesystem::path       mosaicPath;
+    std::filesystem::path       mosaicExamplesPath;
     string                      mosaicURL;
     string                      userHome;
     bool                        setupLoaded;
