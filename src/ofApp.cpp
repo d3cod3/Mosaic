@@ -352,7 +352,11 @@ void ofApp::drawMainMenu(){
             }
 
             if(ImGui::BeginMenu("Examples")){
+                #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
+                #else
+                examplesRoot.listDir(ofToDataPath("../examples"));
+                #endif
                 examplesRoot.sort();
                 for(int i=0;i<examplesRoot.getFiles().size();i++){
                     createDirectoryNode(examplesRoot.getFiles().at(i));
@@ -806,9 +810,14 @@ void ofApp::initDataFolderFromBundle(){
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 
+    examplesRoot.listDir(mosaicExamplesPath.string());
+
+    #else
+
+    examplesRoot.listDir(ofToDataPath("../examples"));
+
     #endif
 
-    examplesRoot.listDir(mosaicExamplesPath.string());
     examplesRoot.sort();
 
 }
