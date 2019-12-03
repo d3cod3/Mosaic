@@ -16,6 +16,8 @@ Project{
             "src/MosaicTheme.h",
             "src/SplashScreen.cpp",
             "src/SplashScreen.h",
+            "src/TextEditor.cpp",
+            "src/TextEditor.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',
@@ -25,7 +27,6 @@ Project{
 
         of.addons: [
             'ofxImGui',
-            'ofxLoggerChannel',
             'ofxModal',
             'ofxSimpleHttp',
             'ofxVisualProgramming'

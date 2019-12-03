@@ -90,27 +90,12 @@ void ofApp::setup(){
     isInited        = false;
     isWindowResized = false;
     isLoggerON      = false;
-    loggerBounds = new ofRectangle();
-    screenLoggerChannel = shared_ptr<ofxScreenLoggerChannel>(new ofxScreenLoggerChannel());
-    ofSetLoggerChannel(screenLoggerChannel);
-    screenLoggerChannel->setBackgroundColor(ofColor(0,0,0,200));
-    screenLoggerChannel->setTextColor(ofColor(203,224,254));
-    // RETINA FIX
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        screenLoggerChannel->setup(MAIN_FONT,26);
-        screenLoggerChannel->setIsRetina();
-    }else{
-        screenLoggerChannel->setup(MAIN_FONT,14);
-    }
-    screenLoggerChannel->setPrefixTimestamp(true);
-    screenLoggerChannel->setMaxBufferCount(512);
+    mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
+    ofSetLoggerChannel(mosaicLoggerChannel);
 
-    ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
-    ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
-    ofLog(OF_LOG_NOTICE," ");
-    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).");
+    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
 
     // Visual Programming Environment Load
     visualProgramming   = new ofxVisualProgramming();
@@ -133,6 +118,8 @@ void ofApp::setup(){
         io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
     }
 
+    loggerRect.set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
 #elif defined(TARGET_OSX)
@@ -145,7 +132,9 @@ void ofApp::setup(){
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
     showRightClickMenu      = false;
+    showConsoleWindow       = false;
     isHoverMenu             = false;
+    isHoverLogger           = false;
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -192,6 +181,7 @@ void ofApp::update(){
     // Visual Programming Environment
     visualProgramming->update();
     visualProgramming->setIsHoverMenu(isHoverMenu);
+    visualProgramming->setIsHoverLogger(isHoverLogger);
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
@@ -212,16 +202,10 @@ void ofApp::update(){
     if(isWindowResized){
         isWindowResized = false;
         visualProgramming->updateCanvasViewport();
-        loggerBounds->width = ofGetWindowWidth();
-        loggerBounds->y = ofGetWindowHeight() - (258*visualProgramming->scaleFactor);
-        screenLoggerChannel->setDrawBounds(*loggerBounds);
     }
 
     if(!isInited){
         isInited = true;
-        // set logger dimensions
-        loggerBounds->set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
-        screenLoggerChannel->setDrawBounds(*loggerBounds);
         // reinit DSP
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
@@ -287,12 +271,7 @@ void ofApp::draw(){
 
     // MAIN MENU
     ofSetColor(255,255,255);
-    drawMainMenu();
-
-    // LOGGER
-    if(isLoggerON){
-        screenLoggerChannel->draw();
-    }
+    drawImGuiInterface();
 
     if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
         setupLoaded = false;
@@ -302,7 +281,7 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::drawMainMenu(){
+void ofApp::drawImGuiInterface(){
     mainMenu.begin();
 
     {
@@ -423,7 +402,7 @@ void ofApp::drawMainMenu(){
                     TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
                 }
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
-
+                    showConsoleWindow       = isLoggerON;
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -460,15 +439,28 @@ void ofApp::drawMainMenu(){
 
         ImGui::EndMainMenuBar();
 
+
+        // floating logger window
+        if(showConsoleWindow){
+            ImGui::SetNextWindowSize(ImVec2(ofGetWindowWidth(),240*visualProgramming->scaleFactor), ImGuiCond_Always);
+            ImGui::SetNextWindowPos(ImVec2(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor)), ImGuiCond_Always);
+            mosaicLoggerChannel->Draw("Logger");
+
+            isHoverLogger = loggerRect.inside(ofGetMouseX(),ofGetMouseY());
+        }else{
+            isHoverLogger = false;
+        }
+
+        // right click menu
         if(showRightClickMenu){
-            ImGui::SetNextWindowSize(ofVec2f(200*visualProgramming->scaleFactor,340*visualProgramming->scaleFactor), ImGuiSetCond_FirstUseEver);
-            ImGui::SetNextWindowPos(ofVec2f(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
+            ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Always);
+            ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
 
             ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings);
 
             MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
 
-            isHoverMenu = ImGui::IsWindowHovered() || ImGui::IsAnyItemHovered();
+            isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
             for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
                 if(ImGui::BeginMenu(it->first.c_str())){
@@ -616,7 +608,7 @@ void ofApp::onModalEvent(ofxModalEvent e){
 #endif
 
             #ifdef TARGET_LINUX
-            ofLaunchBrowser("https://gist.github.com/d3cod3/2704377f0e7b9e844d775ae0151cd688#file-update_mosaic-sh");
+            //ofLaunchBrowser("https://gist.github.com/d3cod3/2704377f0e7b9e844d775ae0151cd688#file-update_mosaic-sh");
             #else
             if(mosaicURL != ""){
                 http.setUserAgent(USER_AGENT);
@@ -637,8 +629,16 @@ void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
         if (file.exists()){
             string fileExtension = ofToUpper(file.getExtension());
             if(fileExtension == "XML") {
-                patchToLoad = file.getAbsolutePath();
-                loadNewPatch = true;
+                ofxXmlSettings XML;
+
+                if (XML.loadFile(file.getAbsolutePath())){
+                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                        patchToLoad = file.getAbsolutePath();
+                        loadNewPatch = true;
+                    }else{
+                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                    }
+                }
             }
         }
     }else if(response.id == "open patch source"){
@@ -837,7 +837,6 @@ bool ofApp::checkInternetReachability(){
 #endif
 
     if (execFile){
-        ofLog(OF_LOG_NOTICE," ");
         ofLog(OF_LOG_NOTICE,"CHECKING INTERNET CONNECTIVITY...");
 
         char buffer[128];
@@ -882,7 +881,6 @@ bool ofApp::checkInternetReachability(){
 
 //--------------------------------------------------------------
 void ofApp::checkForUpdates(){
-    ofLog(OF_LOG_NOTICE," ");
     ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
 
     string actualVersion = VERSION;
@@ -982,14 +980,22 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
         //ofLog(OF_LOG_NOTICE,"%s : %s",file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1).c_str(), file.getFileName().substr(0,file.getFileName().find_last_of('.')).c_str());
         string fileExtension = ofToUpper(file.getExtension());
         if(fileExtension == "XML") {
-            if(temp){
-                visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
-            }else{
-                visualProgramming->openPatch(file.getAbsolutePath());
+            ofxXmlSettings XML;
+
+            if (XML.loadFile(file.getAbsolutePath())){
+                if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                    if(temp){
+                        visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
+                    }else{
+                        visualProgramming->openPatch(file.getAbsolutePath());
+                    }
+                    // reinit DSP
+                    resetInitDSP = ofGetElapsedTimeMillis();
+                    autoinitDSP = true;
+                }else{
+                    ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                }
             }
-            // reinit DSP
-            resetInitDSP = ofGetElapsedTimeMillis();
-            autoinitDSP = true;
         }else if(fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
             visualProgramming->addObject("video player",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
             if(visualProgramming->getLastAddedObject() != nullptr){

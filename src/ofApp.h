@@ -51,7 +51,7 @@ public:
     void draw();
     void exit();
 
-    void drawMainMenu();
+    void drawImGuiInterface();
 
     // Keyboard Events
     void keyPressed(ofKeyEventArgs &e);
@@ -106,11 +106,13 @@ public:
     shared_ptr<ofxModalTheme>   modalTheme;
     string                      shortcutFunc;
     string                      searchedObject;
+    bool                        showConsoleWindow;
     bool                        showRightClickMenu;
     bool                        isHoverMenu;
+    ofRectangle                 loggerRect;
+    bool                        isHoverLogger;
 
     // LOGGER
-    ofRectangle                 *loggerBounds;
     bool                        isInited;
     bool                        isWindowResized;
     bool                        isLoggerON;
@@ -135,7 +137,8 @@ public:
 
 
 private:
-    shared_ptr<ofxScreenLoggerChannel>  screenLoggerChannel;
+    shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
+
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;

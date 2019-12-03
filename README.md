@@ -86,8 +86,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
 
-#### [ofxGLError](https://github.com/armadillu/ofxGLError)
-
 #### [ofxHistoryPlot](https://github.com/armadillu/ofxHistoryPlot)
 
 #### [ofxHttpForm](https://github.com/armadillu/ofxHttpForm)
@@ -96,11 +94,9 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
 
-#### [ofxImGui](https://github.com/jvcleave/ofxImGui)
+#### [ofxImGui](https://github.com/d3cod3/ofxImGui) -- Fork
 
 #### [ofxInfiniteCanvas](https://github.com/d3cod3/ofxInfiniteCanvas) -- Fork
-
-#### [ofxLoggerChannel](https://github.com/d3cod3/ofxLoggerChannel) -- Fork
 
 #### [ofxLua](https://github.com/d3cod3/ofxLua) -- Fork
 
@@ -125,8 +121,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
 
 #### [ofxThreadedFileDialog](https://github.com/d3cod3/ofxThreadedFileDialog)
-
-#### [ofxThreadedYouTubeVideo](http://github.com/pierrep/ofxThreadedYouTubeVideo)
 
 #### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
 
@@ -195,9 +189,8 @@ git clone https://github.com/armadillu/ofxHistoryPlot
 git clone https://github.com/armadillu/ofxHttpForm
 git clone https://github.com/d3cod3/ofxJava
 git clone https://github.com/jeffcrouse/ofxJSON
-git clone https://github.com/jvcleave/ofxImGui
+git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
-git clone https://github.com/d3cod3/ofxLoggerChannel
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/d3cod3/ofxMidi
 git clone https://github.com/d3cod3/ofxModal
@@ -210,7 +203,6 @@ git clone https://github.com/d3cod3/ofxPdExternals
 git clone https://github.com/npisanti/ofxPDSP
 git clone https://github.com/armadillu/ofxSimpleHttp
 git clone https://github.com/d3cod3/ofxThreadedFileDialog
-git clone http://github.com/pierrep/ofxThreadedYouTubeVideo
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming

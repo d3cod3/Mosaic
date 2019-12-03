@@ -50,5 +50,112 @@ public:
     static bool TextInputComboBox(const char* id, char* buffer, size_t maxInputSize, const char* items[], size_t item_len);
 
     static void drawDemoComboBox();
+    static void drawMosaicLogDemo();
+
+};
+
+class MosaicLoggerChannel : public ofBaseLoggerChannel
+{
+public:
+
+    ImVector<char*>     Items;
+    bool                scrollToBottom;
+
+    MosaicLoggerChannel() {
+        scrollToBottom = true;
+    }
+
+    void log( ofLogLevel level, const std::string & module, const std::string & message ){
+        std::ostringstream oss;
+        oss << ofGetTimestampString("%H:%M:%S:%i") << " ";
+        oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        if (module != "") {
+            oss << module << ": ";
+        }
+        oss << message << endl;
+
+        AddLog("%s\n", oss.str().c_str());
+    }
+    void log( ofLogLevel level, const std::string & module, const char* format, ... ) OF_PRINTF_ATTR( 4, 5 ){
+        va_list args;
+        va_start(args, format);
+        log(level, module, format, args);
+        va_end(args);
+    }
+    void log( ofLogLevel level, const std::string & module, const char* format, va_list args ){
+        // Compose the message.
+        std::ostringstream oss;
+        oss << ofGetTimestampString("%H:%M:%S:%i") << " ";
+        oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        if (module != "") {
+            oss << module << ": ";
+        }
+
+        oss << ofVAArgsToString(format, args) << endl;
+
+        AddLog("%s\n", oss.str().c_str());
+    }
+
+    void Clear()     {
+        for (int i = 0; i < Items.Size; i++){
+            free(Items[i]);
+        }
+        Items.clear();
+    }
+
+    void AddLog(const char* fmt, ...) IM_FMTARGS(2){
+        char buf[1024];
+        va_list args;
+        va_start(args, fmt);
+        vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
+        buf[IM_ARRAYSIZE(buf)-1] = 0;
+        va_end(args);
+        Items.push_back(strdup(buf));
+        scrollToBottom = true;
+    }
+
+    void Draw(const char* title){
+
+        if (!ImGui::Begin(title))
+        {
+            ImGui::End();
+            return;
+        }
+        if (ImGui::Button("Clear")) Clear();
+
+        ImGui::Separator();
+        ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar);
+
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
+
+        ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+        for (int i = 0; i < Items.Size; i++){
+            const char* item = Items[i];
+            ImVec4 col = col_default_text;
+            if (strstr(item, "[notice")) col = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+            else if (strstr(item, "[warning")) col = ImColor(1.0f,0.5f,0.0f,1.0f);
+            else if (strstr(item, "[ error")) col = ImColor(1.0f,0.176f,0.176f,1.0f);
+            else if (strstr(item, "[silent")) col = ImColor(1.0f,0.78f,0.58f,1.0f);
+            else if (strncmp(item, "# ", 2) == 0) col = ImColor(1.0f,0.78f,0.58f,1.0f);
+
+            // force verbose
+            if(strstr(item, "[verbose]")){
+                col = ImColor(0.235f,1.0f,0.235f,1.0f);
+            }
+
+            ImGui::PushStyleColor(ImGuiCol_Text, col);
+            ImGui::TextUnformatted(item);
+            ImGui::PopStyleColor();
+        }
+
+        if(scrollToBottom){
+            scrollToBottom = false;
+            ImGui::SetScrollHere(1.0f);
+        }
+
+
+        ImGui::EndChild();
+        ImGui::End();
+    }
 
 };

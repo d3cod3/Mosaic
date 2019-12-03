@@ -197,3 +197,20 @@ void MosaicTheme::drawDemoComboBox(){
         MosaicTheme::TextInputComboBox("Objects", buffer, 20, items, IM_ARRAYSIZE(items));
     ImGui::End();
 }
+
+//--------------------------------------------------------------
+void MosaicTheme::drawMosaicLogDemo(){
+        static MosaicLoggerChannel log;
+
+        // Demo: add random items (unless Ctrl is held)
+        static double last_time = -1.0;
+        double time = ImGui::GetTime();
+        if (time - last_time >= 0.20f && !ImGui::GetIO().KeyCtrl)
+        {
+            const char* random_words[] = { "system", "info", "warning", "error", "fatal", "notice", "log" };
+            log.AddLog("[%s] Hello, time is %.1f, frame count is %d\n", random_words[rand() % IM_ARRAYSIZE(random_words)], time, ImGui::GetFrameCount());
+            last_time = time;
+        }
+
+        log.Draw("Example: Log");
+}
