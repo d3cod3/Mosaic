@@ -158,6 +158,8 @@ Here you can download (and check) a script for automatically download/clone/comp
 
 [Debian](https://gist.github.com/d3cod3/fbb76735554c3b38e811414d96fc28d6#file-install_mosaic_debian-sh)
 
+[Fedora](https://gist.github.com/d3cod3/2a6e9f1f21045d763571cc4172cf2d6c#file-install_mosaic_fedora-sh)
+
 
 ## MACOS
 
