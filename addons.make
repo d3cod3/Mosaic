@@ -18,13 +18,11 @@ ofxFaceTracker
 ofxFFmpegRecorder
 ofxFontStash
 ofxGLEditor
-ofxGLError
 ofxHistoryPlot
 ofxJSON
 ofxHttpForm
 ofxImGui
 ofxInfiniteCanvas
-ofxLoggerChannel
 ofxLua
 ofxMidi
 ofxModal
@@ -36,7 +34,6 @@ ofxPDSP
 ofxPython
 ofxSimpleHttp
 ofxThreadedFileDialog
-ofxThreadedYouTubeVideo
 ofxTimeline
 ofxTimeMeasurements
 ofxVisualProgramming
