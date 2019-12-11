@@ -78,6 +78,9 @@ public:
     void newResponse(ofxSimpleHttpResponse &response);
     void urlResponse(ofHttpResponse & response);
 
+    // Filepath watcher Events
+    void pathChanged(const PathWatcher::Event &event);
+
     void quitMosaic();
 
     // UTILS
@@ -87,6 +90,11 @@ public:
     void            checkIfAtomIsInstalled();
     void            createDirectoryNode(ofFile file);
     void            createObjectFromFile(ofFile file,bool temp);
+
+    // Code Editor
+    void            initScriptLanguages();
+    void            initNewCodeEditor(ofFile file);
+    void            removeScriptFromCodeEditor(string filename);
 
     // Command line arguments
     vector<string>              arguments;
@@ -107,15 +115,37 @@ public:
     string                      shortcutFunc;
     string                      searchedObject;
     bool                        showConsoleWindow;
+    bool                        showCodeEditor;
     bool                        showRightClickMenu;
     bool                        isHoverMenu;
-    ofRectangle                 loggerRect;
-    bool                        isHoverLogger;
+
+    // CODE EDITOR
+    TextEditor::LanguageDefinition  bashLang;
+    TextEditor::LanguageDefinition  luaLang;
+    TextEditor::LanguageDefinition  pythonLang;
+    TextEditor::LanguageDefinition  javaProcessingLang;
+    TextEditor::LanguageDefinition  glslLang;
+    ofRectangle                     codeEditorRect;
+    ofImage                         editorFullscreenButtonSource;
+    GLuint                          editorFullscreenButtonID;
+    map<string,TextEditor>          codeEditors;
+    map<string,PathWatcher*>         codeWatchers;
+    vector<string>                  editedFilesPaths;
+    vector<string>                  editedFilesNames;
+    string                          actualEditedFilePath;
+    string                          actualEditedFileName;
+    string                          scriptToRemoveFromCodeEditor;
+    int                             actualCodeEditor;
+    bool                            isCodeEditorON;
+    bool                            isHoverCodeEditor;
+    bool                            isCodeEditorFullWindow;
 
     // LOGGER
     bool                        isInited;
     bool                        isWindowResized;
     bool                        isLoggerON;
+    ofRectangle                 loggerRect;
+    bool                        isHoverLogger;
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;

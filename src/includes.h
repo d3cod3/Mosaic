@@ -38,3 +38,5 @@
 #include "ofxSimpleHttp.h"
 
 #include "MosaicTheme.h"
+#include "TextEditor.h"
+#include "PathWatcher.h"

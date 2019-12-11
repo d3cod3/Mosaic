@@ -114,9 +114,14 @@ public:
         scrollToBottom = true;
     }
 
+    string GetLastLog() {
+        std::string str(Items.back());
+        return str;
+    }
+
     void Draw(const char* title){
 
-        if (!ImGui::Begin(title))
+        if (!ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoCollapse))
         {
             ImGui::End();
             return;

@@ -100,25 +100,51 @@ void ofApp::setup(){
     // Visual Programming Environment Load
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup();
-    patchToLoad         = "";
-    loadNewPatch        = false;
-    autoinitDSP         = false;
-    resetInitDSP        = ofGetElapsedTimeMillis();
+    patchToLoad                 = "";
+    loadNewPatch                = false;
+    autoinitDSP                 = false;
+    resetInitDSP                = ofGetElapsedTimeMillis();
 
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
+    editorFullscreenButtonSource.load("images/fullscreen-icon.png");
+    editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    ofFile fileToRead(ofToDataPath(MAIN_FONT));
-    string absPath = fileToRead.getAbsolutePath();
+    ofFile fileToRead1(ofToDataPath(MAIN_FONT));
+    string absPath1 = fileToRead1.getAbsolutePath();
+    ofFile fileToRead2(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"));
+    string absPath2 = fileToRead2.getAbsolutePath();
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        io.Fonts->AddFontFromFileTTF(absPath.c_str(),26.0f);
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f);
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f);
     }else{
-        io.Fonts->AddFontFromFileTTF(absPath.c_str(),14.0f);
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f);
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f);
     }
 
-    loggerRect.set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 2];
+    io.FontDefault = defaultfont;
+
+    // CODE EDITOR
+    luaLang = TextEditor::LanguageDefinition::Lua();
+    glslLang = TextEditor::LanguageDefinition::GLSL();
+    javaProcessingLang = TextEditor::LanguageDefinition::JAVAProcessing();
+    pythonLang= TextEditor::LanguageDefinition::Python();
+    bashLang = TextEditor::LanguageDefinition::Bash();
+
+    initScriptLanguages();
+
+    actualCodeEditor                = 0;
+    actualEditedFilePath            = "";
+    actualEditedFileName            = "";
+    scriptToRemoveFromCodeEditor    = "";
+    codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+    isCodeEditorON = false;
+    isCodeEditorFullWindow = false;
+
+    loggerRect.set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -133,8 +159,10 @@ void ofApp::setup(){
     mainMenu.setTheme(new MosaicTheme());
     showRightClickMenu      = false;
     showConsoleWindow       = false;
+    showCodeEditor          = false;
     isHoverMenu             = false;
     isHoverLogger           = false;
+    isHoverCodeEditor       = false;
 
     // MODALS
     modalTheme = make_shared<ofxModalTheme>();
@@ -182,6 +210,7 @@ void ofApp::update(){
     visualProgramming->update();
     visualProgramming->setIsHoverMenu(isHoverMenu);
     visualProgramming->setIsHoverLogger(isHoverLogger);
+    visualProgramming->setIsHoverCodeEditor(isHoverCodeEditor);
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
@@ -199,6 +228,43 @@ void ofApp::update(){
         }
     }
 
+    // load new script files in code editor
+    if(visualProgramming->scriptsObjectsFilesPaths.size() > 0){
+        for(map<string,string>::iterator it = visualProgramming->scriptsObjectsFilesPaths.begin(); it != visualProgramming->scriptsObjectsFilesPaths.end(); it++ ){
+            ofFile tempsofp(it->second);
+
+            map<string,TextEditor>::iterator sofpIT = codeEditors.find(tempsofp.getFileName());
+            if (sofpIT == codeEditors.end()){
+                // script not found in code editor, insert it
+                initNewCodeEditor(tempsofp);
+            }
+        }
+    }
+
+    // remove deleted script files from code editor
+    if(codeEditors.size() > 0){
+        for(map<string,TextEditor>::iterator it = codeEditors.begin(); it != codeEditors.end(); it++ ){
+            map<string,string>::iterator sofpVP = visualProgramming->scriptsObjectsFilesPaths.find(it->first);
+            if (sofpVP == visualProgramming->scriptsObjectsFilesPaths.end()){
+                // script not found in main map, remove it from code editor
+                scriptToRemoveFromCodeEditor = it->first;
+            }
+        }
+    }
+
+    // listen for editing scripts external changes
+    if(codeWatchers.size() > 0){
+        for(map<string,PathWatcher*>::iterator it = codeWatchers.begin(); it != codeWatchers.end(); it++ ){
+            while(it->second->waitingEvents()) {
+                pathChanged(it->second->nextEvent());
+            }
+        }
+    }
+
+    if(scriptToRemoveFromCodeEditor != ""){
+       removeScriptFromCodeEditor(scriptToRemoveFromCodeEditor);
+    }
+
     if(isWindowResized){
         isWindowResized = false;
         visualProgramming->updateCanvasViewport();
@@ -209,6 +275,8 @@ void ofApp::update(){
         // reinit DSP
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
+        // reset code editor position and dimension
+        codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
     }
 
     http.update();
@@ -269,10 +337,27 @@ void ofApp::draw(){
     ofSetColor(255,255,255);
     visualProgramming->draw();
 
-    // MAIN MENU
+    // Last LOG on bottom bar
+    string tmpMsg = mosaicLoggerChannel->GetLastLog();
+    if(tmpMsg.find("[warning") != std::string::npos) {
+        ofSetColor(255, 127, 0);
+    }else if(tmpMsg.find("[ error") != std::string::npos || tmpMsg.find("[ fatal") != std::string::npos) {
+        ofSetColor(255, 45, 45);
+    }else{
+        ofSetColor(220,220,220);
+    }
+
+    // FORCE CUSTOM VERBOSE
+    if(tmpMsg.find("[verbose]") != std::string::npos){
+        ofSetColor(60, 255, 60);
+    }
+    visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+
+    // IMGUI interface
     ofSetColor(255,255,255);
     drawImGuiInterface();
 
+    // startup notification popup
     if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
         setupLoaded = false;
         visualProgramming->fileDialog.notificationPopup(WINDOW_TITLE, "Live Visual Patching Creative-Coding Platform\nhttps://mosaic.d3cod3.org/");
@@ -398,18 +483,21 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
+                if(ImGui::MenuItem("Screenshot",ofToString(shortcutFunc+"+T").c_str())){
+                    takeScreenshot = true;
+                }
+                ImGui::EndMenu();
+            }
+
+            if(ImGui::BeginMenu("View")){
+                if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
+                    showCodeEditor          = isCodeEditorON;
+                }
                 if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
                     TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
                 }
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
                     showConsoleWindow       = isLoggerON;
-                }
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Separator();
-                ImGui::Spacing();
-                if(ImGui::MenuItem("Screenshot",ofToString(shortcutFunc+"+T").c_str())){
-                    takeScreenshot = true;
                 }
                 ImGui::EndMenu();
             }
@@ -439,11 +527,115 @@ void ofApp::drawImGuiInterface(){
 
         ImGui::EndMainMenuBar();
 
+        // code editor
+        if(showCodeEditor && codeEditors.size() > 0){
+            auto cpos = codeEditors[editedFilesNames[actualCodeEditor]].GetCursorPosition();
+            ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+            ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
+            ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
+
+            //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+            isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
+
+            if (ImGui::BeginMenuBar()){
+                if (ImGui::BeginMenu("File")){
+                    if (ImGui::MenuItem("Save")){
+                        filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
+
+                        ofBuffer buff;
+                        buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
+
+                        ofBufferToFile(tempPath,buff,false);
+
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Edit")){
+                    if (ImGui::MenuItem("Undo", "ALT-Backspace", nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
+                        codeEditors[editedFilesNames[actualCodeEditor]].Undo();
+                    if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
+                        codeEditors[editedFilesNames[actualCodeEditor]].Redo();
+
+                    ImGui::Separator();
+
+                    if (ImGui::MenuItem("Copy", ofToString(shortcutFunc+"+C").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                        codeEditors[editedFilesNames[actualCodeEditor]].Copy();
+                    if (ImGui::MenuItem("Cut", ofToString(shortcutFunc+"+X").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                        codeEditors[editedFilesNames[actualCodeEditor]].Cut();
+                    if (ImGui::MenuItem("Paste", ofToString(shortcutFunc+"+V").c_str(), nullptr, ImGui::GetClipboardText() != nullptr))
+                        codeEditors[editedFilesNames[actualCodeEditor]].Paste();
+
+                    ImGui::Separator();
+
+                    if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
+                        codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
+
+                    ImGui::EndMenu();
+                }
+
+                ImGui::EndMenuBar();
+            }
+
+            ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
+
+            //ImGuiIO& io = ImGui::GetIO();
+            //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
+            ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
+
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Spacing();
+
+            ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
+            ImGui::SameLine();
+            ImGui::Spacing();
+            ImGui::SameLine();
+            ImGui::Spacing();
+            ImGui::SameLine();
+            ImGui::Spacing();
+            ImGui::SameLine();
+            if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
+                isCodeEditorFullWindow = !isCodeEditorFullWindow;
+                if(isCodeEditorFullWindow){
+                    codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+                }else{
+                    codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+                }
+            }
+
+            ImGui::Spacing();
+            ImGui::Spacing();
+            ImGui::Spacing();
+
+            if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
+                for(int i=0;i<editedFilesNames.size();i++){
+                    if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
+
+                        if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
+                            actualCodeEditor = i;
+                            actualEditedFilePath = editedFilesPaths[i];
+                            actualEditedFileName = editedFilesNames[i];
+                        }
+
+                        ImGui::PushFont(tempfont);
+
+                        codeEditors[editedFilesNames[i]].Render("TextEditor");
+
+                        ImGui::PopFont();
+
+                        ImGui::EndTabItem();
+                    }
+                }
+                ImGui::EndTabBar();
+            }
+
+            ImGui::End();
+        }
 
         // floating logger window
         if(showConsoleWindow){
-            ImGui::SetNextWindowSize(ImVec2(ofGetWindowWidth(),240*visualProgramming->scaleFactor), ImGuiCond_Always);
-            ImGui::SetNextWindowPos(ImVec2(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor)), ImGuiCond_Always);
+            ImGui::SetNextWindowSize(ImVec2(ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor), ImGuiCond_Always);
+            ImGui::SetNextWindowPos(ImVec2(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor)), ImGuiCond_Always);
             mosaicLoggerChannel->Draw("Logger");
 
             isHoverLogger = loggerRect.inside(ofGetMouseX(),ofGetMouseY());
@@ -691,6 +883,28 @@ void ofApp::urlResponse(ofHttpResponse & response) {
         lastRelease = response.data.getText();
         checkForUpdates();
     }
+}
+
+//--------------------------------------------------------------
+void ofApp::pathChanged(const PathWatcher::Event &event) {
+    ofFile tempfile(event.path);
+    ofBuffer tempcontent = ofBufferFromFile(tempfile.getAbsolutePath());
+
+    switch(event.change) {
+        case PathWatcher::CREATED:
+            //ofLogVerbose(PACKAGE) << "path created " << event.path;
+            break;
+        case PathWatcher::MODIFIED:
+            //ofLogVerbose(PACKAGE) << "path modified " << event.path;
+            codeEditors[tempfile.getFileName()].SetText(tempcontent.getText());
+            break;
+        case PathWatcher::DELETED:
+            //ofLogVerbose(PACKAGE) << "path deleted " << event.path;
+            return;
+        default: // NONE
+            return;
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -1043,4 +1257,120 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
             }
         }
     }
+}
+
+//--------------------------------------------------------------
+void ofApp::initScriptLanguages(){
+    // ------------------------------------------- LUA
+    static const char* const lua_mosaic_keywords[] = {
+        "USING_DATA_INLET", "OUTPUT_WIDTH", "OUTPUT_HEIGHT", "_mosaic_data_inlet", "_mosaic_data_outlet", "SCRIPT_PATH", "mouseX", "mouseY" };
+
+    static const char* const lua_mosaic_keywords_decl[] = {
+        "", "The current width of the output window", "The current height of the output window",
+        "_mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch.\n A vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0!\n So the first position of your table will be accessed like this: _mosaic_data_inlet[1]",
+        "_mosaic_data_outlet is the name of the lua table storing data outgoing to a Mosaic patch.\n A lua table is automatically converted to a vector<float>. Remember that lua tables index starts from 1, NOT 0!\n So the first position of your table will be accessed like this: _mosaic_data_outlet[1]",
+        "Mosaic system variable for loading external resources (files). It returns the absolute path to the script file folder container.",
+        "The mouse over output window X (horizontal) coordinate", "The mouse over output window Y (vertical) coordinate"
+    };
+
+    for (int i = 0; i < sizeof(lua_mosaic_keywords) / sizeof(lua_mosaic_keywords[0]); ++i){
+        TextEditor::Identifier id;
+        id.mDeclaration = lua_mosaic_keywords_decl[i];
+        luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
+    }
+
+    static const char* const lua_of_identifiers[] = {
+        "of", "setup", "update", "draw", "keyPressed", "keyReleased", "mouseMoved", "mouseDragged", "mouseReleased", "mouseScrolled",
+        "mosaicBackground", "checkMosaicDataInlet", "getMosaicDataInletSize",
+        "background","setColor", "drawRectangle"
+    };
+
+    static const char* const lua_mosaic_identifiers_decl[] = {
+        "","The initialize standard function. This run 1 TIME ONLY at script startup!","The update thread run in loop till the script is closed. Use it for all your general code routines.",
+        "The draw thread, as the update, run in loop till the script is closed. Use it for your drawing routines.", "", "", "", "", "", "", "Use this method to draw a transparent background.\n\nmosaicBackground(int red, int green, int blue, int alpha)",
+        "Mosaic internal method", "Mosaic internal method", "Use this to draw a simple background with the specified color (0 - 255) .\n\nof.background(int grayscale)\nof.background(int red, int green, int blue)",
+        "Use this method to set the color (0 - 255) of the next drawing.\n\nof.setColor(int grayscale)\nof.setColor(int red, int green, int blue)",
+        "Use this method to draw a rectangle.\n\nof.drawRectangle(float x, float y, float width, float height)"
+    };
+
+    for (int i = 0; i < sizeof(lua_of_identifiers) / sizeof(lua_of_identifiers[0]); ++i){
+        TextEditor::Identifier id;
+        id.mDeclaration = lua_mosaic_identifiers_decl[i];
+        luaLang.mIdentifiers.insert(std::make_pair(std::string(lua_of_identifiers[i]), id));
+    }
+
+    /*for (auto& k : lua_of_identifiers){
+        TextEditor::Identifier id;
+        id.mDeclaration = "Built-in openFrameworks/Mosaic function";
+        luaLang.mIdentifiers.insert(std::make_pair(std::string(k), id));
+    }*/
+}
+
+//--------------------------------------------------------------
+void ofApp::initNewCodeEditor(ofFile file){
+    actualEditedFilePath = file.getAbsolutePath();
+    actualEditedFileName = file.getFileName();
+    editedFilesPaths.push_back(actualEditedFilePath);
+    editedFilesNames.push_back(actualEditedFileName);
+
+    ofBuffer tempcontent = ofBufferFromFile(actualEditedFilePath);
+
+    string fileExtension = ofToUpper(file.getExtension());
+
+    TextEditor codeEditor;
+    if(fileExtension == "LUA"){
+        codeEditor.SetLanguageDefinition(luaLang);
+    }else if(fileExtension == "PY"){
+        codeEditor.SetLanguageDefinition(pythonLang);
+    }else if(fileExtension == "JAVA"){
+        codeEditor.SetLanguageDefinition(javaProcessingLang);
+    }else if(fileExtension == "SH"){
+        codeEditor.SetLanguageDefinition(bashLang);
+    }else if(fileExtension == "FRAG" || fileExtension == "VERT"){
+        codeEditor.SetLanguageDefinition(glslLang);
+    }
+
+    codeEditor.SetPalette(TextEditor::GetMosaicPalette());
+    codeEditor.SetShowWhitespaces(false);
+    codeEditor.SetText(tempcontent.getText());
+
+    codeEditors.insert( pair<string,TextEditor>(actualEditedFileName,codeEditor) );
+
+    codeWatchers.insert( pair<string,PathWatcher*>(actualEditedFileName,new PathWatcher()) );
+    codeWatchers[actualEditedFileName]->start();
+    codeWatchers[actualEditedFileName]->removeAllPaths();
+    codeWatchers[actualEditedFileName]->addPath(actualEditedFilePath);
+
+    actualCodeEditor = codeEditors.size()-1;
+}
+
+//--------------------------------------------------------------
+void ofApp::removeScriptFromCodeEditor(string filename){
+
+    for(int i=0;i<editedFilesNames.size();i++){
+        if(editedFilesNames[i] == filename){
+            editedFilesPaths.erase(editedFilesPaths.begin()+i);
+            editedFilesNames.erase(editedFilesNames.begin()+i);
+        }
+    }
+
+    if(editedFilesPaths.size() == 0){
+        actualEditedFilePath = "";
+        actualEditedFileName = "";
+    }else{
+        actualEditedFilePath = editedFilesPaths[editedFilesPaths.size()-1];
+        actualEditedFileName = editedFilesNames[editedFilesNames.size()-1];
+    }
+
+    codeEditors.erase(filename);
+    codeWatchers.erase(filename);
+
+    if(codeEditors.size() == 0){
+        actualCodeEditor = 0;
+    }else{
+        actualCodeEditor = codeEditors.size()-1;
+    }
+
+    scriptToRemoveFromCodeEditor = "";
+
 }

@@ -176,10 +176,20 @@ public:
 		static const LanguageDefinition& CPlusPlus();
 		static const LanguageDefinition& HLSL();
 		static const LanguageDefinition& GLSL();
+        static const LanguageDefinition& JAVAProcessing();
+        static const LanguageDefinition& Python();
+        static const LanguageDefinition& Bash();
 		static const LanguageDefinition& C();
 		static const LanguageDefinition& SQL();
 		static const LanguageDefinition& AngelScript();
 		static const LanguageDefinition& Lua();
+
+
+
+    private:
+        static void m_HLSLDocumentation(Identifiers& idents);
+        static void m_GLSLDocumentation(Identifiers& idents);
+
 	};
 
 	TextEditor();
@@ -262,6 +272,7 @@ public:
 	void Undo(int aSteps = 1);
 	void Redo(int aSteps = 1);
 
+    static const Palette& GetMosaicPalette();
 	static const Palette& GetDarkPalette();
 	static const Palette& GetLightPalette();
 	static const Palette& GetRetroBluePalette();
