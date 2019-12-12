@@ -1153,7 +1153,7 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 	mWithinRender = false;
 }
 
-void TextEditor::SetText(const std::string & aText)
+void TextEditor::SetText(const std::string & aText, bool scroll2Top)
 {
 	mLines.clear();
 	mLines.emplace_back(Line());
@@ -1172,7 +1172,7 @@ void TextEditor::SetText(const std::string & aText)
 	}
 
 	mTextChanged = true;
-	mScrollToTop = true;
+    mScrollToTop = scroll2Top;
 
 	mUndoBuffer.clear();
 	mUndoIndex = 0;

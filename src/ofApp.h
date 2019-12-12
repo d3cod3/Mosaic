@@ -87,7 +87,6 @@ public:
     void            initDataFolderFromBundle();
     bool            checkInternetReachability();
     void            checkForUpdates();
-    void            checkIfAtomIsInstalled();
     void            createDirectoryNode(ofFile file);
     void            createObjectFromFile(ofFile file,bool temp);
 

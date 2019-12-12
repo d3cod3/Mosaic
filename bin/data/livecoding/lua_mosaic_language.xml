@@ -1,0 +1,8598 @@
+<github>https://github.com/d3cod3/mosaic</github>
+<www>https://mosaic.d3cod3.org</www>
+
+<method>
+  <name>mosaicBackground</name>
+	<desc>Draw a transparent background.\n\nmosaicBackground(int red, int green, int blue, int alpha)</desc>
+</method>
+<method>
+  <name>checkMosaicDataInlet</name>
+	<desc>Mosaic internal method</desc>
+</method>
+<method>
+  <name>getMosaicDataInletSize</name>
+	<desc>Mosaic internal method</desc>
+</method>
+<method>
+  <name>of</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setup</name>
+	<desc></desc>
+</method>
+<method>
+	<name>update</name>
+	<desc></desc>
+</method>
+<method>
+	<name>draw</name>
+	<desc></desc>
+</method>
+<method>
+	<name>keyPressed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>keyReleased</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseMoved</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseReleased</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseScrolled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>3dGraphics</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawArrow</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCylinder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawGrid</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawGridPlane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawIcoSphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawPlane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawRotationAxes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawSphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBoxResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConeResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCylinderResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIcoSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPlaneResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setBoxResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setConeResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCylinderResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setIcoSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPlaneResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCylinder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawIcoSphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawPlane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawSphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBoxResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConeResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCylinderResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIcoSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPlaneResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setBoxResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setConeResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCylinderResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setIcoSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPlaneResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSphereResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>3dPrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawAxes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawFaces</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawWireframe</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoordsPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasNormalsEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasScaling</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingVbo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mapTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mapTexCoordsFromTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseVbo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawArrow</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawGrid</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawGridPlane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawRotationAxes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>BoxPrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSideIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSideMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resizeToTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSideColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Camera</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cameraToWorld</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableOrtho</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawFrustum</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableOrtho</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAspectRatio</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFarClip</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getForceAspectRatio</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFov</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getImagePlaneDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLensOffset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getModelViewMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getModelViewProjectionMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNearClip</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrtho</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getProjectionMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isVFlipped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>screenToWorld</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAspectRatio</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFarClip</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setForceAspectRatio</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFov</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLensOffset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNearClip</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRenderer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVFlip</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupOffAxisViewPortal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupPerspective</name>
+	<desc></desc>
+</method>
+<method>
+	<name>worldToScreen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>worldToScreen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ConePrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCapIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCapMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConeIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConeMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionCap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCapColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionCap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTopColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>CylinderPrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBottomCapIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBottomCapMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCapped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCylinderIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCylinderMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionCap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolutionRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTopCapIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTopCapMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setBottomCapColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCapped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCylinderColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionCap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolutionRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTopCapColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>EasyCam</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addInteraction</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearControlArea</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableInertia</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableMouseInput</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableMouseMiddleButton</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableInertia</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableMouseInput</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableMouseMiddleButton</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getControlArea</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDrag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInertiaEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMouseInputEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMouseMiddleButtonEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRelativeYAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTarget</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTranslationKey</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUpAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasInteraction</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeAllInteractions</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeInteraction</name>
+	<desc></desc>
+</method>
+<method>
+	<name>reset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAutoDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setControlArea</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDrag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setEvents</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRelativeYAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRotationSensitivity</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTarget</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTranslationKey</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTranslationSensitivity</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUpAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>IcoSpherePrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Mesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTriangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>append</name>
+	<desc></desc>
+</method>
+<method>
+	<name>axis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>box</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cylinder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawFaces</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawWireframe</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flatNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCentroid</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorsPointer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFace</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFaceNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndexPointer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshForIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalsPointer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoordsPointer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUniqueFaces</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVerticesPointer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>icosahedron</name>
+	<desc></desc>
+</method>
+<method>
+	<name>icosphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mergeDuplicateVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>plane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>save</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorForIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFromTriangles</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupIndicesAuto</name>
+	<desc></desc>
+</method>
+<method>
+	<name>smoothNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sphere</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>MeshFace</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFaceNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasTexcoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHasColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHasNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHasTexcoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNormal</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTexCoord</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Node</name>
+	<desc></desc>
+</method>
+<method>
+	<name>boom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearParent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>customDraw</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dolly</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlobalOrientation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlobalPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlobalScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlobalTransformMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeadingDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeadingRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLocalTransformMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLookAtDir</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrientationEulerDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrientationEulerRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrientationQuat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPitchDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPitchRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRollDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRollRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSideDir</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUpDir</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getX</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getXAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getY</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getYAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getZ</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getZAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lookAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>move</name>
+	<desc></desc>
+</method>
+<method>
+	<name>orbitDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>orbitRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>panDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>panRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resetTransform</name>
+	<desc></desc>
+</method>
+<method>
+	<name>restoreTransformGL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rollDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rollRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateAround</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateAroundDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateAroundRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGlobalOrientation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGlobalPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setOrientation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setParent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tiltDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tiltRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>transformGL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>truck</name>
+	<desc></desc>
+</method>
+<method>
+	<name>PlanePrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumColumns</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumRows</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resizeToTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColumns</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRows</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SpherePrimitive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>attachEncoder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>connect</name>
+	<desc></desc>
+</method>
+<method>
+	<name>detachEncoder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableEncoderReporting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disconnect</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableEncoderReporting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAllEncoderPositions</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAnalog</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAnalogPinReporting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDigital</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDigitalPinMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getEncoderPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInvertedValueFromTwo7bitBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumAnalogPins</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPinCapabilities</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPwm</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTotalPins</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Arduino</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isArduinoReady</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAttached</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isI2CConfigured</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isInitialized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resetEncoderPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendAnalogMappingRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendAnalogPinReporting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendByte</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendDigital</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendDigitalPinMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendI2CConfig</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendI2CReadRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendI2CWriteRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendI2ContinuousReadRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireAlarmsSearch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireConfig</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireDelay</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireRead</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireReset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireSearch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireWrite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendOneWireWriteAndRead</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendPinCapabilityRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendPinCofigurationRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendPinStateQuery</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendPwm</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendReset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Serial</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendSerialConfig</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendStepper2Wire</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendStepper4Wire</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendStepperMove</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialClose</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialFlush</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialListen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialRead</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialStop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialWrite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseDelay</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drain</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flush</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDeviceList</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isInitialized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>listDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>readByte</name>
+	<desc></desc>
+</method>
+<method>
+	<name>readBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>writeByte</name>
+	<desc></desc>
+</method>
+<method>
+	<name>writeBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialDeviceInfo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDeviceID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDeviceName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDevicePath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bufferObject</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindBase</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>invalidate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>map</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mapRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unbind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unbindBase</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unbindRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unmap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unmapRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Fbo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>activateAllDrawBuffers</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>attachTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>checkGLSupport</name>
+	<desc></desc>
+</method>
+<method>
+	<name>checkStatus</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearColorBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearDepthBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearDepthStencilBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearStencilBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createAndAttachDepthStencilTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createAndAttachRenderbuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createAndAttachTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flagDirty</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDefaultTextureIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepthBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepthTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIdDrawBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStencilBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>maxColorAttachments</name>
+	<desc></desc>
+</method>
+<method>
+	<name>maxDrawBuffers</name>
+	<desc></desc>
+</method>
+<method>
+	<name>maxSamples</name>
+	<desc></desc>
+</method>
+<method>
+	<name>FboSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Light</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disable</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enable</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttenuationConstant</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttenuationLinear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttenuationQuadratic</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDiffuseColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsAreaLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsDirectional</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsPointLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsSpotlight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLightID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpecularColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpotConcentration</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpotlightCutOff</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAreaLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttenuation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDiffuseColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDirectional</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPointLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpecularColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpotConcentration</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpotlight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpotlightCutOff</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableLighting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableSeparateSpecularLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableLighting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableSeparateSpecularLight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlobalAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLightingEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lightsData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGlobalAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSmoothLighting</name>
+	<desc></desc>
+</method>
+<method>
+	<name>material</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDiffuseColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getEmissiveColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShininess</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpecularColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAmbientColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform1f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform1i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform2f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform2i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform3i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniform4i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniformMatrix3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniformMatrix4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCustomUniformTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDiffuseColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setEmissiveColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShininess</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpecularColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Shader</name>
+	<desc></desc>
+</method>
+<method>
+	<name>beginTransformFeedback</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindDefaults</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindUniformBlock</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dispatchCompute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>endTransformFeedback</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttributeLocation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGeometryMaxOutputCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getProgram</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShader</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShaderSource</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUniformBlockBinding</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUniformBlockIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUniformLocation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isLoaded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>linkProgram</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadCompute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>printActiveUniformBlocks</name>
+	<desc></desc>
+</method>
+<method>
+	<name>printActiveUniforms</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute1d</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute1f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute1fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute1s</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute2d</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute2f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute2fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute2s</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute3d</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute3fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute3s</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute4d</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute4fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute4s</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGeometryInputType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGeometryOutputCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGeometryOutputType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform1f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform1fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform1i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform1iv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform2f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform2fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform2i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform2iv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform3fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform3i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform3iv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform4fv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform4i</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniform4iv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniformMatrix3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniformMatrix4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniformTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUniforms</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupShaderFromFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupShaderFromSource</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unload</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Texture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocateAsBufferTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bindAsImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableAlphaMask</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableMipmap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextureMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawSubsection</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableMipmap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>generateMipmap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAlphaMask</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCoordFromPercent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCoordFromPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshForSubsection</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getQuad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTextureData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTextureMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasMipmap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTextureMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadScreenData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableArbTex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormalizedTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextureEdgeHack</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableArbTex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormalizedTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTextureEdgeHack</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingArbTex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingNormalizedTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isTextureEdgeHackEnabled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>TextureData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Vbo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawElements</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawElementsInstanced</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawInstanced</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttributeBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttributeId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndexBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndexId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoordBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexCoordId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingTexCoords</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUsingVerts</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVaoId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertexBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttributeBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttributeData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttributeDivisor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setIndexBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setIndexData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNormalBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNormalData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTexCoordBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTexCoordData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVertexBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVertexData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unbind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateAttributeData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateColorData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateIndexData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateNormalData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateTexCoordData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>updateVertexData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>VboMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawInstanced</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVbo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUsage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingIndices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>usingTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>BitmapFont</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBoundingBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>background</name>
+	<desc>Draw a simple background with the specified color (0 - 255) .\n\nof.background(int grayscale)\nof.background(int red, int green, int blue)</desc>
+</method>
+<method>
+	<name>backgroundGradient</name>
+	<desc></desc>
+</method>
+<method>
+	<name>backgroundHex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>beginSaveScreenAsPDF</name>
+	<desc></desc>
+</method>
+<method>
+	<name>beginSaveScreenAsSVG</name>
+	<desc></desc>
+</method>
+<method>
+	<name>beginShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bezierVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearAlpha</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curveVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curveVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableAlphaBlending</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableAntiAliasing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableBlendMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableDepthTest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disablePointSprites</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableSmoothing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBezier</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBitmapString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBitmapStringHighlight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCircle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawCurve</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawEllipse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawLine</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawRectRounded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawRectangle</name>
+	<desc>Draw a rectangle.\n\nof.drawRectangle(float x, float y, float width, float height)</desc>
+</method>
+<method>
+	<name>drawTriangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableAlphaBlending</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableAntiAliasing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableBlendMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableDepthTest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enablePointSprites</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableSmoothing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>endSaveScreenAsPDF</name>
+	<desc></desc>
+</method>
+<method>
+	<name>endSaveScreenAsSVG</name>
+	<desc></desc>
+</method>
+<method>
+	<name>endShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fill</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBackgroundColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCoordHandedness</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentNormalMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentOrientationMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentViewMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentViewport</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFill</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNativeViewport</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRectMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStyle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getViewportHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getViewportWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isVFlipped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadIdentityMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadViewMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>multMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>multViewMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>nextContour</name>
+	<desc></desc>
+</method>
+<method>
+	<name>noFill</name>
+	<desc></desc>
+</method>
+<method>
+	<name>orientationToDegrees</name>
+	<desc></desc>
+</method>
+<method>
+	<name>popMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>popStyle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>popView</name>
+	<desc></desc>
+</method>
+<method>
+	<name>pushMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>pushStyle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>pushView</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateXDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateXRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateYDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateYRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateZDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateZRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>scale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCircleResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColor</name>
+	<desc>Set the color (0 - 255) of the next drawing.\n\nof.setColor(int grayscale)\nof.setColor(int red, int green, int blue)\nof.setColor(int red, int green, int blue, int alpha)</desc>
+</method>
+<method>
+	<name>setCoordHandedness</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCurveResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDepthTest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDrawBitmapMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHexColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLineWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMatrixMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPolyMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRectMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setStyle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupScreen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupScreenOrtho</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setupScreenPerspective</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>translate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>vertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>vertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>viewport</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Image</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>crop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cropFrom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawSubsection</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getImageType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>grabScreen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mirror</name>
+	<desc></desc>
+</method>
+<method>
+	<name>imageFormatExtension</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Path</name>
+	<desc></desc>
+</method>
+<method>
+	<name>append</name>
+	<desc></desc>
+</method>
+<method>
+	<name>arc</name>
+	<desc></desc>
+</method>
+<method>
+	<name>arcNegative</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bezierTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>circle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ellipse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCircleResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCommands</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurveResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFillColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOutline</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStrokeColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStrokeWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTessellation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUseShapeColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWindingMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasOutline</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFilled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lineTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>moveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newSubPath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>quadBezierTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rectRounded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rectangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>scale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCircleResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCurveResolution</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFillColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFillHexColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFilled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setHexColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPolyWindingMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setStrokeColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setStrokeHexColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setStrokeWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseShapeColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>simplify</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tessellate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>translate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>triangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Pixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>blendInto</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bytesFromPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>crop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cropTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBitsPerChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBitsPerPixel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBytesPerChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBytesPerPixel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBytesStride</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConstLine</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConstLines</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getConstPixelsIter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getImageType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLine</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLines</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumChannels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumPlanes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelsIter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPlane</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTotalBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAllocated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mirror</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mirrorTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>pixelBitsFromPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rbegin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resizeTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotate90</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotate90To</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFromAlignedPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFromExternalPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFromPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setImageType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNumChannels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>swap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>swapRgb</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Polyline</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>arc</name>
+	<desc></desc>
+</method>
+<method>
+	<name>arcNegative</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bezierTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flagHasChanged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fromRectangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArea</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBoundingBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCentroid2D</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getClosestPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDegreesAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDegreesAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndexAtLength</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIndexAtPercent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLengthAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLengthAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPerimeter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPointAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPointAtLength</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPointAtPercent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadiansAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRadiansAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResampledByCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getResampledBySpacing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRightVector</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotationAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotationAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSmoothed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTangentAtIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTangentAtIndexInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWrappedIndex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasChanged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>insertVertex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>inside</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isClosed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lineTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rbegin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rotateRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>scale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setClosed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRightVector</name>
+	<desc></desc>
+</method>
+<method>
+	<name>simplify</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>translate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>insidePoly</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tessellator</name>
+	<desc></desc>
+</method>
+<method>
+	<name>TrueTypeFont</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawStringAsShapes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAscenderHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCharacterAsPoints</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDescenderHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFirstGlyphPosForTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFontTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGlyphBBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLetterSpacing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLineHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumCharacters</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpaceSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStringAsPoints</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStringBoundingBox</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStringMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStringTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasFullCharacterSet</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAntiAliased</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isLoaded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isValidGlyph</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addRanges</name>
+	<desc></desc>
+</method>
+<method>
+	<name>angleDifferenceRadians</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bezierPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bezierTangent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clamp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curvePoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>curveTangent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>degToRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dist</name>
+	<desc></desc>
+</method>
+<method>
+	<name>distSquared</name>
+	<desc></desc>
+</method>
+<method>
+	<name>inRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolateCatmullRom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolateCosine</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolateCubic</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolateHermite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFloatEqual</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lerp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lerpDegrees</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lerpRadians</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lineSegmentIntersection</name>
+	<desc></desc>
+</method>
+<method>
+	<name>map</name>
+	<desc></desc>
+</method>
+<method>
+	<name>nextPow2</name>
+	<desc></desc>
+</method>
+<method>
+	<name>noise</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>radToDeg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>random</name>
+	<desc></desc>
+</method>
+<method>
+	<name>randomHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>randomWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>randomf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>randomuf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>seedRandom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sign</name>
+	<desc></desc>
+</method>
+<method>
+	<name>signedNoise</name>
+	<desc></desc>
+</method>
+<method>
+	<name>wrap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>wrapDegrees</name>
+	<desc></desc>
+</method>
+<method>
+	<name>wrapRadians</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Matrix3x3</name>
+	<desc></desc>
+</method>
+<method>
+	<name>determinant</name>
+	<desc></desc>
+</method>
+<method>
+	<name>inverse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>invert</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Matrix4x4</name>
+	<desc></desc>
+</method>
+<method>
+	<name>decompose</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFrustum</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInverse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInverseOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLookAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrtho</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOrthoNormalOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPerspective</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRowAsVec3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRowAsVec4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTranslation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTransposedOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>glRotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>glRotateRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>glScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>glTranslate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isIdentity</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isNaN</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isValid</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeFromMultiplicationOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeFrustumMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeIdentityMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeInvertOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeLookAtMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeLookAtViewMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeOrtho2DMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeOrthoMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeOrthoNormalOf</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makePerspectiveMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeRotationMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeScaleMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeTranslationMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newFrustumMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newIdentityMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newLookAtMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newOrtho2DMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newOrthoMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newPerspectiveMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newRotationMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newScaleMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>newTranslationMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTranslation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>transform3x3</name>
+	<desc></desc>
+</method>
+<method>
+	<name>set</name>
+	<desc></desc>
+</method>
+<method>
+	<name>translate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Quaternion</name>
+	<desc></desc>
+</method>
+<method>
+	<name>asVec3</name>
+	<desc></desc>
+</method>
+<method>
+	<name>asVec4</name>
+	<desc></desc>
+</method>
+<method>
+	<name>conj</name>
+	<desc></desc>
+</method>
+<method>
+	<name>get</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getEuler</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>inverse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>length</name>
+	<desc></desc>
+</method>
+<method>
+	<name>length2</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeRotate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>makeRotate_original</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>slerp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>zeroRotation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Vec2f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>alignRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>angle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>angleRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>average</name>
+	<desc></desc>
+</method>
+<method>
+	<name>distance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dot</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLimited</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMiddle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPerpendicular</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotatedRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScaled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAligned</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAlignedRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>limit</name>
+	<desc></desc>
+</method>
+<method>
+	<name>map</name>
+	<desc></desc>
+</method>
+<method>
+	<name>match</name>
+	<desc></desc>
+</method>
+<method>
+	<name>middle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>one</name>
+	<desc></desc>
+</method>
+<method>
+	<name>zero</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Vec3f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>alignRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>angle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>angleRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>average</name>
+	<desc></desc>
+</method>
+<method>
+	<name>cross</name>
+	<desc></desc>
+</method>
+<method>
+	<name>distance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dot</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCrossed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLimited</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMapped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMiddle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPerpendicular</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotatedRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScaled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAligned</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isAlignedRad</name>
+	<desc></desc>
+</method>
+<method>
+	<name>limit</name>
+	<desc></desc>
+</method>
+<method>
+	<name>map</name>
+	<desc></desc>
+</method>
+<method>
+	<name>match</name>
+	<desc></desc>
+</method>
+<method>
+	<name>middle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>one</name>
+	<desc></desc>
+</method>
+<method>
+	<name>zero</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Vec4f</name>
+	<desc></desc>
+</method>
+<method>
+	<name>average</name>
+	<desc></desc>
+</method>
+<method>
+	<name>distance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dot</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInterpolated</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLimited</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMiddle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPtr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScaled</name>
+	<desc></desc>
+</method>
+<method>
+	<name>interpolate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lengthSquared</name>
+	<desc></desc>
+</method>
+<method>
+	<name>limit</name>
+	<desc></desc>
+</method>
+<method>
+	<name>match</name>
+	<desc></desc>
+</method>
+<method>
+	<name>middle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>one</name>
+	<desc></desc>
+</method>
+<method>
+	<name>squareDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>zero</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SoundBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>append</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyFrom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fillWithNoise</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fillWithTone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDeviceID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDurationMS</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDurationMicros</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDurationNanos</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumChannels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumFrames</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRMSAmplitude</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRMSAmplitudeChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSample</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSampleRate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTickCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hermiteResampleTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>linearResampleTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>normalize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDeviceID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNumChannels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSampleRate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTickCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stereoPan</name>
+	<desc></desc>
+</method>
+<method>
+	<name>swap</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toShortPCM</name>
+	<desc></desc>
+</method>
+<method>
+	<name>trimSilence</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SoundPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPan</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPositionMS</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVolume</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isLoaded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isPlaying</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>play</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLoop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMultiPlay</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPan</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPaused</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPositionMS</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVolume</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unload</name>
+	<desc></desc>
+</method>
+<method>
+	<name>color</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clamp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fromHex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fromHsb</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBrightness</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getClamped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHsb</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHueAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getInverted</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLerped</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLightness</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSaturation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>invert</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lerp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>limit</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Rectangle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>alignTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>alignToHorz</name>
+	<desc></desc>
+</method>
+<method>
+	<name>alignToVert</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArea</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAspectRatio</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBottom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBottomLeft</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBottomRight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCenter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHorzAnchor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIntersection</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLeft</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMaxX</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMaxY</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMinX</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMinY</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPerimeter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getStandardized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTopLeft</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTopRight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUnion</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVertAnchor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getX</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getY</name>
+	<desc></desc>
+</method>
+<method>
+	<name>growToInclude</name>
+	<desc></desc>
+</method>
+<method>
+	<name>inside</name>
+	<desc></desc>
+</method>
+<method>
+	<name>intersects</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isEmpty</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isStandardized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isZero</name>
+	<desc></desc>
+</method>
+<method>
+	<name>map</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mapClamp</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Buffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>append</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getData</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLines</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getReverseLines</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getText</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rbegin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>reserve</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setall</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>writeTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Directory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allowExt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canExecute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canRead</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canWrite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>create</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>doesDirectoryExist</name>
+	<desc></desc>
+</method>
+<method>
+	<name>exists</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAbsolutePath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>end</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFiles</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getOriginalDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShowHidden</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSorted</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDirectoryEmpty</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isHidden</name>
+	<desc></desc>
+</method>
+<method>
+	<name>listDir</name>
+	<desc></desc>
+</method>
+<method>
+	<name>moveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>openFromCWD</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rbegin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>remove</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>renameTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>rend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>reset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setExecutable</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setReadable</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShowHidden</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setWriteable</name>
+	<desc></desc>
+</method>
+<method>
+	<name>size</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sortByDate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>File</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canExecute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canRead</name>
+	<desc></desc>
+</method>
+<method>
+	<name>canWrite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>changeMode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyFromTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>create</name>
+	<desc></desc>
+</method>
+<method>
+	<name>doesFileExist</name>
+	<desc></desc>
+</method>
+<method>
+	<name>exists</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAbsolutePath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>begin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBaseName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getEnclosingDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getExtension</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFileBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFileName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDevice</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDirectory</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isHidden</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isLink</name>
+	<desc></desc>
+</method>
+<method>
+	<name>moveFromTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>moveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>openFromCWD</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bufferFromFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bufferToFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Thread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNativeThread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getThreadId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getThreadName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isCurrentThread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isThreadRunning</name>
+	<desc></desc>
+</method>
+<method>
+	<name>lock</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setThreadName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sleep</name>
+	<desc></desc>
+</method>
+<method>
+	<name>startThread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stopThread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tryLock</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unlock</name>
+	<desc></desc>
+</method>
+<method>
+	<name>waitForThread</name>
+	<desc></desc>
+</method>
+<method>
+	<name>yield</name>
+	<desc></desc>
+</method>
+<method>
+	<name>threadChannel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>empty</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>send</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tryReceive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>handleRequest</name>
+	<desc></desc>
+</method>
+<method>
+	<name>handleRequestAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>remove</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadURL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadURLAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveURLAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveURLTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>binaryToChar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>binaryToFloat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>binaryToInt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>binaryToString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contains</name>
+	<desc></desc>
+</method>
+<method>
+	<name>find</name>
+	<desc></desc>
+</method>
+<method>
+	<name>fromString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentTime</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDay</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getElapsedTimeMicros</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getElapsedTimeMillis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getElapsedTimef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getEnv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFrameNum</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHours</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMinutes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMonth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSeconds</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSystemTimeMicros</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSystemTimeMillis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTargetPlatform</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTimestampString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUnixTime</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVersionInfo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVersionMajor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVersionMinor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVersionPatch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getVersionPreRelease</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWeekday</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getYear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hexToChar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hexToFloat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hexToInt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hexToString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isStringInString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>joinString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>launchBrowser</name>
+	<desc></desc>
+</method>
+<method>
+	<name>randomize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>remove</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resetElapsedTimeCounter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>restoreWorkingDirectoryToDefault</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveScreen</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveViewport</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDataPathRoot</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sleepMillis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>splitString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stringReplace</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stringTimesInString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>system</name>
+	<desc></desc>
+</method>
+<method>
+	<name>to</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toBinary</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toBool</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toChar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toDataPath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toDouble</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toFloat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toHex</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toInt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toInt64</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toLower</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toUpper</name>
+	<desc></desc>
+</method>
+<method>
+	<name>trim</name>
+	<desc></desc>
+</method>
+<method>
+	<name>trimBack</name>
+	<desc></desc>
+</method>
+<method>
+	<name>trimFront</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8Append</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8Erase</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8Insert</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8Length</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8Substring</name>
+	<desc></desc>
+</method>
+<method>
+	<name>uTF8ToString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>vAArgsToString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Xml</name>
+	<desc></desc>
+</method>
+<method>
+	<name>appendAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>appendChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>find</name>
+	<desc></desc>
+</method>
+<method>
+	<name>findFirst</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttributes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBoolValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getChildren</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDoubleValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFirstAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFirstChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFloatValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIntValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLastAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLastChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNextSibling</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPreviousSibling</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getUintValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>insertChildAfter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>insertChildBefore</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>parse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>prependAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>prependChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeChild</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>toString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>deserialize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGrabber</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexturePlanes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>VideoGrabber</name>
+	<desc></desc>
+</method>
+<method>
+	<name>initGrabber</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNew</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isInitialized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>listDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAnchorPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDesiredFrameRate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDeviceID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setGrabber</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVerbose</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unbind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>VideoPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>closeMovie</name>
+	<desc></desc>
+</method>
+<method>
+	<name>firstFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDuration</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIsMovieDone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLoopState</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMoviePath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexturePlanes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTotalNumFrames</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNew</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isInitialized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isLoaded</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isPaused</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isPlaying</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadAsync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>nextFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>play</name>
+	<desc></desc>
+</method>
+<method>
+	<name>previousFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAnchorPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFrame</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLoopState</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPaused</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPixelFormat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPlayer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVolume</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxAssimpAnimation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAnimation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDurationInMilliSeconds</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDurationInSeconds</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPositionInMilliSeconds</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPositionInSeconds</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFinished</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNew</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isPaused</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isPlaying</name>
+	<desc></desc>
+</method>
+<method>
+	<name>play</name>
+	<desc></desc>
+</method>
+<method>
+	<name>reset</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLoopState</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPaused</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSpeed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stop</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxAssimpModelLoader</name>
+	<desc></desc>
+</method>
+<method>
+	<name>calculateDimensions</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createEmptyModel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>createLightsFromAiModel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableMaterials</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawFaces</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawVertices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawWireframe</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableColors</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableMaterials</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableNormals</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableTextures</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAnimation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAnimationCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAssimpScene</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentAnimatedMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMaterialForMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshHelper</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMeshNames</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getModelMatrix</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNormalizedScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumMeshes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumRotations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotationAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRotationAxis</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSceneCenter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSceneMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSceneMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTextureForMesh</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasMeshes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadModel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>optimizeScene</name>
+	<desc></desc>
+</method>
+<method>
+	<name>playAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resetAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLoopStateForAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setNormalizationFactor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPausedForAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPositionForAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRotation</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setScaleNormalization</name>
+	<desc></desc>
+</method>
+<method>
+	<name>stopAllAnimations</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxBaseGui</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBackgroundColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBorderColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFillColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeaderBackgroundColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTextColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFont</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFrom</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFromFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseEntered</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseExited</name>
+	<desc></desc>
+</method>
+<method>
+	<name>registerMouseEvents</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveToFile</name>
+	<desc></desc>
+</method>
+	<name>setDefaultHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDefaultTextColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDefaultTextPadding</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDefaultWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setFillColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setParent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setTextColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseTTF</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sizeChangedCB</name>
+	<desc></desc>
+</method>
+<method>
+	<name>unregisterMouseEvents</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxButton</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxColorPicker</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorRadius</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setColorScale</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxColorSlider</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>add</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getButton</name>
+	<desc></desc>
+</method>
+<method>
+	<name>align</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getControl</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getControlNames</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFloatSlider</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getGroup</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIntSlider</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumControls</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getToggle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isMinimized</name>
+	<desc></desc>
+</method>
+<method>
+	<name>maximize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>maximizeAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>minimize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>minimizeAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setWidthElements</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sizeChangedCB</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>charPressed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>containsValidValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setBlinkingCursor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShowLabelWhileEditing</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setPosition</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setShape</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUpdateOnReleaseOnly</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mouseDragged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeListener</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxKinect</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>enableDepthNearValueWhite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAccelPitch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAccelRoll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getColorAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCurrentCameraTiltAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepthPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepthPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDepthTextureReference</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDeviceId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDistanceAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDistancePixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getDistancePixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFarClipping</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMksAccel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNearClipping</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRawAccel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRawDepthPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRawDepthPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSensorCameraDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSensorEmitterDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSerial</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTargetCameraTiltAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTextureReference</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWorldCoordinateAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getZeroPlaneDistance</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getZeroPlanePixelSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasAccelControl</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasCamTiltControl</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasLedControl</name>
+	<desc></desc>
+</method>
+<method>
+	<name>init</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isConnected</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDepthNearValueWhite</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isDeviceConnected</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNew</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNewDepth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isFrameNewVideo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>listDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>nextAvailableId</name>
+	<desc></desc>
+</method>
+<method>
+	<name>nextAvailableSerial</name>
+	<desc></desc>
+</method>
+<method>
+	<name>numAvailableDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>numConnectedDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>numTotalDevices</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setCameraTiltAngle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setDepthClipping</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setLed</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setRegistration</name>
+	<desc></desc>
+</method>
+<method>
+	<name>open</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setUseTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxTCPClient</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIP</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumReceivedBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isConnected</name>
+	<desc></desc>
+</method>
+<method>
+	<name>peekReceiveRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveRaw</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveRawMsg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>send</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRaw</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawMsg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMessageDelimiter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVerbose</name>
+	<desc></desc>
+</method>
+<method>
+	<name>threadedFunction</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxTCPServer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disconnectAllClients</name>
+	<desc></desc>
+</method>
+<method>
+	<name>disconnectClient</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getClientIP</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getClientPort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getLastID</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumClients</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumReceivedBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isClientConnected</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isConnected</name>
+	<desc></desc>
+</method>
+<method>
+	<name>peekReceiveRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>close</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveRawMsg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawBytes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawBytesToAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawMsg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendRawMsgToAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendToAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setMessageDelimiter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setVerbose</name>
+	<desc></desc>
+</method>
+<method>
+	<name>waitConnectedClient</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxTCPSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxUDPManager</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Bind</name>
+	<desc></desc>
+</method>
+<method>
+	<name>BindMcast</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Close</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Connect</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ConnectMcast</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Create</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetListenAddr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetMaxMsgSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetReceiveBufferSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetRemoteAddr</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetSendBufferSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetTTL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetTimeoutReceive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>GetTimeoutSend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>HasSocket</name>
+	<desc></desc>
+</method>
+<method>
+	<name>PeekReceive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Receive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Send</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SendAll</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetEnableBroadcast</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetNonBlocking</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetReceiveBufferSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetReuseAddress</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetSendBufferSize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetTTL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetTimeoutReceive</name>
+	<desc></desc>
+</method>
+<method>
+	<name>SetTimeoutSend</name>
+	<desc></desc>
+</method>
+<method>
+	<name>Setup</name>
+	<desc></desc>
+</method>
+<method>
+	<name>receiveOn</name>
+	<desc></desc>
+</method>
+<method>
+	<name>sendTo</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvBlob</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvColorImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contrastStretch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertHsvToRgb</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertRgbToHsv</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToGrayscalePlanarImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToGrayscalePlanarImages</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvContourFinder</name>
+	<desc></desc>
+</method>
+<method>
+	<name>findContours</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>resetAnchor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAnchorPercent</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAnchorPoint</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvFloatImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addWeighted</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contrastStretch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flagImageChanged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getFloatPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNativeScaleMax</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNativeScaleMin</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixelsAsFloats</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRoiFloatPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRoiPixelsAsFloats</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvGrayscaleImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>absDiff</name>
+	<desc></desc>
+</method>
+<method>
+	<name>adaptiveThreshold</name>
+	<desc></desc>
+</method>
+<method>
+	<name>blurHeavily</name>
+	<desc></desc>
+</method>
+<method>
+	<name>brightnessContrast</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contrastStretch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dilate_3x3</name>
+	<desc></desc>
+</method>
+<method>
+	<name>erode_3x3</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setScaleHaar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>allocate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>blur</name>
+	<desc></desc>
+</method>
+<method>
+	<name>blurGaussian</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contrastStretch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>countNonZeroInRegion</name>
+	<desc></desc>
+</method>
+<method>
+	<name>dilate</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawBlobIntoMe</name>
+	<desc></desc>
+</method>
+<method>
+	<name>drawROI</name>
+	<desc></desc>
+</method>
+<method>
+	<name>erode</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flagImageChanged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getCvImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getIntersectionROI</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getROI</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRoiPixels</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>invert</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isUsingTexture</name>
+	<desc></desc>
+</method>
+<method>
+	<name>mirror</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxCvShortImage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addWeighted</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>contrastStretch</name>
+	<desc></desc>
+</method>
+<method>
+	<name>convertToRange</name>
+	<desc></desc>
+</method>
+<method>
+	<name>flagImageChanged</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRoiShortPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getShortPixelsRef</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgBlob</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgBool</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgChar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgDouble</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgInt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgMidiMessage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgNone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgRgbaColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgSymbol</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgTimetag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscArgTrigger</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscBundle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addBundle</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addMessage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copy</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBundleAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getBundleCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMessageAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getMessageCount</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscMessage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addBlobArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addBoolArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addCharArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addDoubleArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addFloatArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addImpulseArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addInfinitumArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addInt32Arg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addInt64Arg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addIntArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addMidiMessageArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addNoneArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addRgbaColorArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addStringArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addSymbolArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTimetagArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTriggerArg</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copy</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAddress</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsBlob</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsBool</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsChar</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsDouble</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsFloat</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsImpulse</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsInfinitum</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsInt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsInt32</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsInt64</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsMidiMessage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsNone</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsRgbaColor</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsSymbol</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsTimetag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgAsTrigger</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgType</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getArgTypeName</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumArgs</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRemoteHost</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getRemotePort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getTypeString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscParameterSync</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxOscReceiver</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copy</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNextMessage</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getParameter</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>hasWaitingMessages</name>
+	<desc></desc>
+</method>
+<method>
+	<name>isListening</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copy</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHost</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPort</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getHeight</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumPath</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPathAt</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPaths</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getWidth</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxThreadedImageLoader</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFromDisk</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFromURL</name>
+	<desc></desc>
+</method>
+<method>
+	<name>ofxXmlSettings</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addTag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>addValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>attributeExists</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clear</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearTagAttributes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>clearTagContents</name>
+	<desc></desc>
+</method>
+<method>
+	<name>copyXmlToString</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getAttributeNames</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumAttributes</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getNumTags</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getPushLevel</name>
+	<desc></desc>
+</method>
+<method>
+	<name>getValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>load</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>loadFromBuffer</name>
+	<desc></desc>
+</method>
+<method>
+	<name>popTag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>pushTag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>removeTag</name>
+	<desc></desc>
+</method>
+<method>
+	<name>saveFile</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setAttribute</name>
+	<desc></desc>
+</method>
+<method>
+	<name>setValue</name>
+	<desc></desc>
+</method>
+<method>
+	<name>tagExists</name>
+	<desc></desc>
+</method>
+<method>
+	<name>deserialize</name>
+	<desc></desc>
+</method>
+<method>
+	<name>serialize</name>
+	<desc></desc>
+</method>

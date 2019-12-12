@@ -190,8 +190,6 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
-    checkIfAtomIsInstalled();
-
     takeScreenshot      = false;
     saveNewScreenshot   = false;
     lastScreenshot      = "";
@@ -539,19 +537,18 @@ void ofApp::drawImGuiInterface(){
 
             if (ImGui::BeginMenuBar()){
                 if (ImGui::BeginMenu("File")){
-                    if (ImGui::MenuItem("Save")){
+                    if (ImGui::MenuItem("Save/Reload",ofToString(shortcutFunc+"+R").c_str())){
                         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
 
                         ofBuffer buff;
                         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
 
                         ofBufferToFile(tempPath,buff,false);
-
                     }
                     ImGui::EndMenu();
                 }
                 if (ImGui::BeginMenu("Edit")){
-                    if (ImGui::MenuItem("Undo", "ALT-Backspace", nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
+                    if (ImGui::MenuItem("Undo", ofToString(shortcutFunc+"+Z").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
                         codeEditors[editedFilesNames[actualCodeEditor]].Undo();
                     if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
                         codeEditors[editedFilesNames[actualCodeEditor]].Redo();
@@ -699,6 +696,11 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         visualProgramming->openLastPatch();
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
         visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as","mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml");
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
+        filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
+        ofBuffer buff;
+        buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
+        ofBufferToFile(tempPath,buff,false);
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
         takeScreenshot = true;
     }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
@@ -896,7 +898,7 @@ void ofApp::pathChanged(const PathWatcher::Event &event) {
             break;
         case PathWatcher::MODIFIED:
             //ofLogVerbose(PACKAGE) << "path modified " << event.path;
-            codeEditors[tempfile.getFileName()].SetText(tempcontent.getText());
+            codeEditors[tempfile.getFileName()].SetText(tempcontent.getText(),false);
             break;
         case PathWatcher::DELETED:
             //ofLogVerbose(PACKAGE) << "path deleted " << event.path;
@@ -1111,46 +1113,6 @@ void ofApp::checkForUpdates(){
 }
 
 //--------------------------------------------------------------
-void ofApp::checkIfAtomIsInstalled(){
-    string cmd = "";
-    FILE *execFile;
-    string output = "";
-#ifdef TARGET_WIN32
-    cmd = "Powershell.exe -File check_atom.ps1";
-    execFile = _popen(cmd.c_str(), "r");
-#elif defined(TARGET_OSX)
-    cmd = "ls /Applications/ | grep -i Atom";
-    execFile = popen(cmd.c_str(), "r");
-#elif defined(TARGET_LINUX)
-    cmd = "which atom";
-    execFile = popen(cmd.c_str(), "r");
-#endif
-
-    if (execFile){
-        char buffer[128];
-        if(fgets(buffer, sizeof(buffer), execFile) != nullptr){
-            char *s = buffer;
-            std::string tempstr(s);
-            output = tempstr;
-        }
-
-        output.pop_back();
-
-#ifdef TARGET_LINUX
-        pclose(execFile);
-#elif defined(TARGET_OSX)
-        pclose(execFile);
-#elif defined(TARGET_OSX)
-        _pclose(execFile);
-#endif
-
-        if(output == ""){
-            ofLog(OF_LOG_NOTICE,"Atom Editor is not installed! For a proper Mosaic interaction, please install Atom Editor - https://atom.io/");
-        }
-    }
-}
-
-//--------------------------------------------------------------
 void ofApp::createDirectoryNode(ofFile file){
     if(file.isDirectory()){
         if(ImGui::BeginMenu(file.getBaseName().c_str())){
@@ -1279,31 +1241,29 @@ void ofApp::initScriptLanguages(){
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
     }
 
-    static const char* const lua_of_identifiers[] = {
-        "of", "setup", "update", "draw", "keyPressed", "keyReleased", "mouseMoved", "mouseDragged", "mouseReleased", "mouseScrolled",
-        "mosaicBackground", "checkMosaicDataInlet", "getMosaicDataInletSize",
-        "background","setColor", "drawRectangle"
-    };
 
-    static const char* const lua_mosaic_identifiers_decl[] = {
-        "","The initialize standard function. This run 1 TIME ONLY at script startup!","The update thread run in loop till the script is closed. Use it for all your general code routines.",
-        "The draw thread, as the update, run in loop till the script is closed. Use it for your drawing routines.", "", "", "", "", "", "", "Use this method to draw a transparent background.\n\nmosaicBackground(int red, int green, int blue, int alpha)",
-        "Mosaic internal method", "Mosaic internal method", "Use this to draw a simple background with the specified color (0 - 255) .\n\nof.background(int grayscale)\nof.background(int red, int green, int blue)",
-        "Use this method to set the color (0 - 255) of the next drawing.\n\nof.setColor(int grayscale)\nof.setColor(int red, int green, int blue)",
-        "Use this method to draw a rectangle.\n\nof.drawRectangle(float x, float y, float width, float height)"
-    };
 
-    for (int i = 0; i < sizeof(lua_of_identifiers) / sizeof(lua_of_identifiers[0]); ++i){
-        TextEditor::Identifier id;
-        id.mDeclaration = lua_mosaic_identifiers_decl[i];
-        luaLang.mIdentifiers.insert(std::make_pair(std::string(lua_of_identifiers[i]), id));
+    ofxXmlSettings XML;
+
+    if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
+        int totalMethods = XML.getNumTags("method");
+
+        // Load all the lua_of_mosaic methods
+        for(int i=0;i<totalMethods;i++){
+            if(XML.pushTag("method", i)){
+                string methname = XML.getValue("name","");
+                string methdesc = XML.getValue("desc","");
+
+                TextEditor::Identifier id;
+                id.mDeclaration = fix_newlines(methdesc).c_str();
+                luaLang.mIdentifiers.insert(std::make_pair(std::string(methname.c_str()), id));
+
+                XML.popTag();
+            }
+        }
+
     }
 
-    /*for (auto& k : lua_of_identifiers){
-        TextEditor::Identifier id;
-        id.mDeclaration = "Built-in openFrameworks/Mosaic function";
-        luaLang.mIdentifiers.insert(std::make_pair(std::string(k), id));
-    }*/
 }
 
 //--------------------------------------------------------------
