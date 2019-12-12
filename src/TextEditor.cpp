@@ -3041,7 +3041,8 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::GLSL()
 		static const char* const keywords[] = {
 			"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register", "restrict", "return", "short",
 			"signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary",
-			"_Noreturn", "_Static_assert", "_Thread_local"
+            "_Noreturn", "_Static_assert", "_Thread_local","varying","uniform","gl_FragColor","gl_TexCoord","gl_ModelViewMatrix","gl_Vertex","gl_NormalMatrix","gl_Normal",
+            "gl_TexCoord","gl_MultiTexCoord0","gl_Position","vec2","vec3","vec4","mat2"
 		};
 		for (auto& k : keywords)
 			langDef.mKeywords.insert(k);
@@ -3146,6 +3147,7 @@ void TextEditor::LanguageDefinition::m_GLSLDocumentation(Identifiers& idents)
     idents.insert(std::make_pair("dot", desc("Returns the dot product of two vectors.")));
     idents.insert(std::make_pair("cross", desc("Returns the cross product of two 3D vectors.")));
     idents.insert(std::make_pair("normalize", desc("Returns a normalized vector.")));
+    idents.insert(std::make_pair("ftransform", desc("Transform composed of Scale, Rotation (as a quaternion), and Translation.")));
     idents.insert(std::make_pair("faceforward", desc("Returns -n * sign(dot(i, ng)).")));
     idents.insert(std::make_pair("reflect", desc("Returns a reflection vector.")));
     idents.insert(std::make_pair("refract", desc("Returns the refraction vector.")));
@@ -3201,6 +3203,7 @@ void TextEditor::LanguageDefinition::m_GLSLDocumentation(Identifiers& idents)
     idents.insert(std::make_pair("texture2DLod", desc("2D texture lookup with LOD.")));
     idents.insert(std::make_pair("texture2DProj", desc("2D texture lookup with projective divide.")));
     idents.insert(std::make_pair("texture2DProjLod", desc("2D texture lookup with projective divide and with LOD.")));
+    idents.insert(std::make_pair("texture2DRect", desc("non-power-of-two 2D texture lookup.")));
     idents.insert(std::make_pair("texture3D", desc("3D texture lookup.")));
     idents.insert(std::make_pair("texture3DLod", desc("3D texture lookup with LOD.")));
     idents.insert(std::make_pair("texture3DProj", desc("3D texture lookup with projective divide.")));
