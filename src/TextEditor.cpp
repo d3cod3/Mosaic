@@ -3394,8 +3394,8 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Python()
         langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[a-zA-Z_][a-zA-Z0-9_]*", PaletteIndex::Identifier));
         langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", PaletteIndex::Punctuation));
 
-        langDef.mCommentStart = "'''";
-        langDef.mCommentEnd = "'''";
+        langDef.mCommentStart = "#";
+        langDef.mCommentEnd = "#";
         langDef.mSingleLineComment = "#";
 
         langDef.mCaseSensitive = true;
