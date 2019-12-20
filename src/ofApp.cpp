@@ -640,8 +640,8 @@ void ofApp::drawImGuiInterface(){
 
         // floating logger window
         if(showConsoleWindow){
-            ImGui::SetNextWindowSize(ImVec2(ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor), ImGuiCond_Always);
-            ImGui::SetNextWindowPos(ImVec2(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor)), ImGuiCond_Always);
+            ImGui::SetNextWindowSize(ImVec2(loggerRect.width,loggerRect.height), ImGuiCond_Always);
+            ImGui::SetNextWindowPos(ImVec2(loggerRect.x,loggerRect.y), ImGuiCond_Always);
             mosaicLoggerChannel->Draw("Logger");
 
             isHoverLogger = loggerRect.inside(ofGetMouseX(),ofGetMouseY());
@@ -777,6 +777,16 @@ void ofApp::mouseExited(int x, int y){
 void ofApp::windowResized(int w, int h){
     if(isInited){
         isWindowResized = true;
+    }
+
+    if(isInited){
+        loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
+
+        if(isCodeEditorFullWindow){
+            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+        }else{
+            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+        }
     }
 }
 
