@@ -33,13 +33,13 @@
 #pragma mark once
 
 #define PACKAGE	"Mosaic"
-#define	VERSION	"0.3.0"
-#define VERSION_GRAPHIC "030"
+#define	VERSION	"0.3.1"
+#define VERSION_GRAPHIC "031"
 #define DESCRIPTION "Live Visual Patching Creative-Coding Platform"
 #define MOSAIC_WWW "https://mosaic.d3cod3.org/"
 #define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 
-#define WINDOW_TITLE "Mosaic 0.3.0"
+#define WINDOW_TITLE "Mosaic 0.3.1"
 #define WINDOW_START_WIDTH 1280
 #define WINDOW_START_HEIGHT 720
 
