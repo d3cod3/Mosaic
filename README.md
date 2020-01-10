@@ -41,7 +41,8 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 
 ## WINDOWS
 
-Just unzip the downloaded release and copy the Mosaic folder wherever you prefer. To open Mosaic just double click on Mosaic.exe
+Mosaic support for windows will continue at a source code level only. The code will be tested to compile correctly on windows machines, but no installers will be available for download.
+If you want to use Mosaic on windows, you'll need to build it yourself on your machine, just check the links below about openframeworks and qtcreator. After having openframeworks perfectly running, you'll need to clone from git all the required addons and this repository (details below for compiling).
 
 # OF COMPATIBLE RELEASE
 
