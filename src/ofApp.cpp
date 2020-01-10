@@ -815,21 +815,14 @@ void ofApp::onModalEvent(ofxModalEvent e){
 #ifdef TARGET_OSX
             fileName = "Mosaic_v"+lastRelease+"_osx_release.zip";
             mosaicURL = "https://github.com/d3cod3/Mosaic/releases/download/"+lastRelease+"/"+fileName;
-#elif defined(TARGET_WIN32)
-            fileName = "Mosaic_v"+lastRelease+"_windows_release.zip";
-            mosaicURL = "https://github.com/d3cod3/Mosaic/releases/download/"+lastRelease+"/"+fileName;
-#endif
 
-            #ifdef TARGET_LINUX
-            //ofLaunchBrowser("https://gist.github.com/d3cod3/2704377f0e7b9e844d775ae0151cd688#file-update_mosaic-sh");
-            #else
             if(mosaicURL != ""){
                 http.setUserAgent(USER_AGENT);
                 http.fetchURLToDisk(mosaicURL,true,userHome+"/Downloads");
             }else{
                 ofLog(OF_LOG_ERROR,"There was an error trying to download Mosaic update, please retry next time!");
             }
-            #endif
+#endif
 
         }
     }
@@ -1121,10 +1114,13 @@ void ofApp::checkForUpdates(){
     string actualVersion = VERSION;
     if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) ) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) == ofToInt(string(1,lastRelease.at(2))) && ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4))) )){
         ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
+
+#ifdef TARGET_OSX
         confirm.setTitle("Mosaic Update");
         confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
         confirm.setButtonLabel("ok");
         confirm.show();
+#endif
     }else{
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
