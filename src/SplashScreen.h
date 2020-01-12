@@ -48,6 +48,7 @@ public:
 
     ofVideoPlayer   background;
     ofTrueTypeFont  font;
+    ofTrueTypeFont  fontSmall;
     size_t          startTime;
 
 };

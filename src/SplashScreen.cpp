@@ -40,9 +40,11 @@ void SplashScreen::setup(){
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
         ofSetWindowShape(854,560);
         ofSetWindowPosition(ofGetScreenWidth()/2 - 427,ofGetScreenHeight()/2 - 280);
-        font.load("fonts/IBMPlexMono-Medium.ttf",160);
+        font.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),160);
+        fontSmall.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),48);
     }else{
         font.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),80);
+        fontSmall.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),24);
     }
 
     startTime = ofGetElapsedTimeMillis();
@@ -83,9 +85,12 @@ void SplashScreen::draw(){
     ofSetColor(255,66);
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
         font.drawString(VERSION_GRAPHIC,452,182);
+        fontSmall.drawString("BETA",ofGetCurrentWindow()->getWidth()-360,ofGetCurrentWindow()->getHeight()-200);
     }else{
         font.drawString(VERSION_GRAPHIC,226,91);
+        fontSmall.drawString("BETA",ofGetCurrentWindow()->getWidth()-180,ofGetCurrentWindow()->getHeight()-100);
     }
+
 }
 
 //--------------------------------------------------------------
