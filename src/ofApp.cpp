@@ -220,9 +220,7 @@ void ofApp::update(){
     if(autoinitDSP){
         if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
             autoinitDSP = false;
-            #ifdef TARGET_OSX
             visualProgramming->activateDSP();
-            #endif
             // reset code editor position and dimension
             codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
         }
