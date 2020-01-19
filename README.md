@@ -46,10 +46,10 @@ If you want to use Mosaic on windows, you'll need to build it yourself on your m
 
 # OF COMPATIBLE RELEASE
 
-## 0.10.1 STABLE (official download from [OF site](https://openframeworks.cc/))
+## 0.11.0 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
 
-If you want to build Mosaic, just download OF0.10.1 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
+If you want to build Mosaic, just download OF0.11.0 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
 
 # DESCRIPTION
 
@@ -133,7 +133,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxWarp](https://github.com/d3cod3/ofxWarp) -- Fork
 
-Some addons are forks of the original, due to some mods, compatibility with OF0.10 and the intention of cross-platform compiling (osx,linux,win)
+Some addons are forks of the original, due to some mods, compatibility with OF0.11 and the intention of cross-platform compiling (osx,linux,win)
 
 
 # SPECIFICATIONS
