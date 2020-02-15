@@ -81,6 +81,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxDatGui](https://github.com/d3cod3/ofxDatGui) -- Fork
 
+#### [ofxEasing](https://github.com/arturoc/ofxEasing)
+
 #### [ofxFaceTracker](https://github.com/kylemcdonald/ofxFaceTracker)
 
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
@@ -90,8 +92,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
 
 #### [ofxHistoryPlot](https://github.com/armadillu/ofxHistoryPlot)
-
-#### [ofxHttpForm](https://github.com/armadillu/ofxHttpForm)
 
 #### [ofxJava](https://github.com/d3cod3/ofxJava)
 
@@ -104,8 +104,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxLua](https://github.com/d3cod3/ofxLua) -- Fork
 
 #### [ofxMidi](https://github.com/d3cod3/ofxMidi) -- Fork
-
-#### [ofxModal](https://github.com/d3cod3/ofxModal) -- Fork
 
 #### [ofxMtlMapping2D](https://github.com/d3cod3/ofxMtlMapping2D) -- Fork
 
@@ -185,20 +183,19 @@ git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/d3cod3/ofxDatGui
+git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/kylemcdonald/ofxFaceTracker
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
 git clone https://github.com/armadillu/ofxGLError
 git clone https://github.com/armadillu/ofxHistoryPlot
-git clone https://github.com/armadillu/ofxHttpForm
 git clone https://github.com/d3cod3/ofxJava
 git clone https://github.com/jeffcrouse/ofxJSON
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/d3cod3/ofxMidi
-git clone https://github.com/d3cod3/ofxModal
 git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone https://github.com/d3cod3/ofxNDI
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
