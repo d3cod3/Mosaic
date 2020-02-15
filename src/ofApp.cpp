@@ -44,7 +44,6 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
                                     "bash script","lua script","processing script","python script","shader object",
                                     "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
                                     "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video receiver","video sender","video streaming","video timedelay","video transform",
-                                    "http form",
                                     "live patching","output window","projection mapping"};
 #elif defined(TARGET_WIN32)
 const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
@@ -58,7 +57,6 @@ const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extra
                                     "lua script","processing script","python script","shader object",
                                     "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
                                     "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video streaming","video timedelay","video transform",
-                                    "http form",
                                     "live patching","output window","projection mapping"};
 #endif
 
@@ -164,28 +162,13 @@ void ofApp::setup(){
     isHoverLogger           = false;
     isHoverCodeEditor       = false;
 
-    // MODALS
-    modalTheme = make_shared<ofxModalTheme>();
-    confirm.setup();
-    confirm.setTheme(modalTheme);
-    modalMessage.setup();
-    modalMessage.setTheme(modalTheme);
-
     ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
 
     // NET
     isInternetAvailable = false;
     isCheckingRelease = false;
 
-#if !defined(TARGET_WIN32)
-    ofxSimpleHttp::createSslContext();
-#endif
-
-    http.addCustomHttpHeader("Accept", "application/zip");
-    ofAddListener(http.httpResponse, this, &ofApp::newResponse);
-
     // Check for updates
-    confirm.addListener(this, &ofApp::onModalEvent);
     lastRelease = VERSION;
 
     isInternetAvailable = checkInternetReachability();
@@ -275,8 +258,6 @@ void ofApp::update(){
         autoinitDSP = true;
     }
 
-    http.update();
-
     // NET
     if(isInternetAvailable && !isCheckingRelease){
         isCheckingRelease = true;
@@ -320,14 +301,6 @@ void ofApp::draw(){
     // Logo
     ofSetColor(255,255,255,16);
     mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),(ofGetWindowHeight()- (240*visualProgramming->scaleFactor))/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
-
-    // Updates Downloading Progress
-    if(http.getPendingDownloads() > 0){
-        ofSetColor(64,128,255,100);
-        ofDrawRectRounded((ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2,(ofGetWindowHeight()-(33*visualProgramming->scaleFactor))/2,(333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress(),(33*visualProgramming->scaleFactor),3);
-        ofSetColor(255);
-        visualProgramming->font->draw(ofToString(static_cast<int>(http.getCurrentDownloadProgress()*100))+"%",visualProgramming->fontSize,(ofGetWindowWidth()-(333*visualProgramming->scaleFactor))/2 + ((333*visualProgramming->scaleFactor)*http.getCurrentDownloadProgress()/2),ofGetWindowHeight()/2 + 6*visualProgramming->scaleFactor);
-    }
 
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
@@ -802,31 +775,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 }
 
 //--------------------------------------------------------------
-void ofApp::onModalEvent(ofxModalEvent e){
-    if (e.type == ofxModalEvent::CONFIRM){
-        // Download Mosaic Last release
-        mosaicURL = "";
-
-        if(VERSION != lastRelease){
-            string fileName;
-
-#ifdef TARGET_OSX
-            fileName = "Mosaic_v"+lastRelease+"_osx_release.zip";
-            mosaicURL = "https://github.com/d3cod3/Mosaic/releases/download/"+lastRelease+"/"+fileName;
-
-            if(mosaicURL != ""){
-                http.setUserAgent(USER_AGENT);
-                http.fetchURLToDisk(mosaicURL,true,userHome+"/Downloads");
-            }else{
-                ofLog(OF_LOG_ERROR,"There was an error trying to download Mosaic update, please retry next time!");
-            }
-#endif
-
-        }
-    }
-}
-
-//--------------------------------------------------------------
 void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
     if(response.id == "open patch"){
         ofFile file(response.filepath);
@@ -881,14 +829,6 @@ void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
 }
 
 //--------------------------------------------------------------
-void ofApp::newResponse(ofxSimpleHttpResponse &r){
-    if(r.url == mosaicURL){
-        modalMessage.setTitle("Mosaic Update");
-        modalMessage.alert("Mosaic last release downloaded! Just unzip it and overwrite your previous version.");
-    }
-}
-
-//--------------------------------------------------------------
 void ofApp::urlResponse(ofHttpResponse & response) {
     if (response.status==200 && response.request.name == "check_release_async") {
         // check for updates
@@ -921,9 +861,6 @@ void ofApp::pathChanged(const PathWatcher::Event &event) {
 
 //--------------------------------------------------------------
 void ofApp::quitMosaic(){
-#if !defined(TARGET_WIN32)
-    ofxSimpleHttp::destroySslContext();
-#endif
     ofExit(0);
 }
 
@@ -1112,13 +1049,6 @@ void ofApp::checkForUpdates(){
     string actualVersion = VERSION;
     if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) ) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) == ofToInt(string(1,lastRelease.at(2))) && ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4))) )){
         ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
-
-#ifdef TARGET_OSX
-        confirm.setTitle("Mosaic Update");
-        confirm.setMessage("Mosaic "+lastRelease+" release available, would you like to update?");
-        confirm.setButtonLabel("ok");
-        confirm.show();
-#endif
     }else{
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }

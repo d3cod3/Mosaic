@@ -27,8 +27,6 @@ Project{
 
         of.addons: [
             'ofxImGui',
-            'ofxModal',
-            'ofxSimpleHttp',
             'ofxVisualProgramming'
         ]
 

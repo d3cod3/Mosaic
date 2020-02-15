@@ -71,11 +71,9 @@ public:
     void gotMessage(ofMessage msg);
 
     // GUI Events
-    void onModalEvent(ofxModalEvent e);
     void onFileDialogResponse(ofxThreadedFileDialogResponse &response);
 
     // NET Events
-    void newResponse(ofxSimpleHttpResponse &response);
     void urlResponse(ofHttpResponse & response);
 
     // Filepath watcher Events
@@ -108,9 +106,6 @@ public:
 
     // GUI
     ofxImGui::Gui               mainMenu;
-    ofxModalConfirm             confirm;
-    ofxModalAlert               modalMessage;
-    shared_ptr<ofxModalTheme>   modalTheme;
     string                      shortcutFunc;
     string                      searchedObject;
     bool                        showConsoleWindow;
@@ -158,7 +153,6 @@ public:
     ofImage                     *mosaicLogo;
 
     // NET
-    ofxSimpleHttp               http;
     int                         lastReleaseResp;
     bool                        isInternetAvailable;
     bool                        isCheckingRelease;

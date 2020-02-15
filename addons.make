@@ -4,7 +4,6 @@ ofxKinect
 ofxNetwork
 ofxOpenCv
 ofxOsc
-ofxPoco
 ofxSvg
 ofxVectorGraphics
 ofxXmlSettings
@@ -14,18 +13,17 @@ ofxBTrack
 ofxChromaKeyShader
 ofxCv
 ofxDatGui
+ofxEasing
 ofxFaceTracker
 ofxFFmpegRecorder
 ofxFontStash
 ofxGLEditor
 ofxHistoryPlot
 ofxJSON
-ofxHttpForm
 ofxImGui
 ofxInfiniteCanvas
 ofxLua
 ofxMidi
-ofxModal
 ofxMtlMapping2D
 ofxParagraph
 ofxPd
