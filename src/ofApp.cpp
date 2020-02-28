@@ -625,25 +625,26 @@ void ofApp::drawImGuiInterface(){
             ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Always);
             ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
 
-            ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse);
+            if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
-            MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
+                MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
 
-            isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
-                if(ImGui::BeginMenu(it->first.c_str())){
-                    for(int j=0;j<static_cast<int>(it->second.size());j++){
-                        if(ImGui::MenuItem(it->second.at(j).c_str())){
-                            visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                            showRightClickMenu = false;
+                for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
+                    if(ImGui::BeginMenu(it->first.c_str())){
+                        for(int j=0;j<static_cast<int>(it->second.size());j++){
+                            if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                showRightClickMenu = false;
+                            }
                         }
+                        ImGui::EndMenu();
                     }
-                    ImGui::EndMenu();
                 }
-            }
 
-            ImGui::End();
+                ImGui::End();
+            }
 
         }else{
             isHoverMenu = false;

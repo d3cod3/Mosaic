@@ -129,37 +129,39 @@ public:
         if (ImGui::Button("Clear")) Clear();
 
         ImGui::Separator();
-        ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar);
+        if (ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar) ){
 
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
 
-        ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-        for (int i = 0; i < Items.Size; i++){
-            const char* item = Items[i];
-            ImVec4 col = col_default_text;
-            if (strstr(item, "[notice")) col = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-            else if (strstr(item, "[warning")) col = ImColor(1.0f,0.5f,0.0f,1.0f);
-            else if (strstr(item, "[ error")) col = ImColor(1.0f,0.176f,0.176f,1.0f);
-            else if (strstr(item, "[silent")) col = ImColor(1.0f,0.78f,0.58f,1.0f);
-            else if (strncmp(item, "# ", 2) == 0) col = ImColor(1.0f,0.78f,0.58f,1.0f);
+            ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+            for (int i = 0; i < Items.Size; i++){
+                const char* item = Items[i];
+                ImVec4 col = col_default_text;
+                if (strstr(item, "[notice")) col = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+                else if (strstr(item, "[warning")) col = ImColor(1.0f,0.5f,0.0f,1.0f);
+                else if (strstr(item, "[ error")) col = ImColor(1.0f,0.176f,0.176f,1.0f);
+                else if (strstr(item, "[silent")) col = ImColor(1.0f,0.78f,0.58f,1.0f);
+                else if (strncmp(item, "# ", 2) == 0) col = ImColor(1.0f,0.78f,0.58f,1.0f);
 
-            // force verbose
-            if(strstr(item, "[verbose]")){
-                col = ImColor(0.235f,1.0f,0.235f,1.0f);
+                // force verbose
+                if(strstr(item, "[verbose]")){
+                    col = ImColor(0.235f,1.0f,0.235f,1.0f);
+                }
+
+                ImGui::PushStyleColor(ImGuiCol_Text, col);
+                ImGui::TextUnformatted(item);
+                ImGui::PopStyleColor();
             }
 
-            ImGui::PushStyleColor(ImGuiCol_Text, col);
-            ImGui::TextUnformatted(item);
-            ImGui::PopStyleColor();
+            if(scrollToBottom){
+                scrollToBottom = false;
+                ImGui::SetScrollHere(1.0f);
+            }
+
+            ImGui::PopStyleVar(1);
+
+            ImGui::EndChild();
         }
-
-        if(scrollToBottom){
-            scrollToBottom = false;
-            ImGui::SetScrollHere(1.0f);
-        }
-
-
-        ImGui::EndChild();
         ImGui::End();
     }
 
