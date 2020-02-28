@@ -498,115 +498,115 @@ void ofApp::drawImGuiInterface(){
 
         // code editor
         if(showCodeEditor){
-            ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-            ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
-            ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
+                ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
+                ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
 
-            //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
-            isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
+                //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
 
-            if(codeEditors.size() > 0){
+                if(codeEditors.size() > 0){
 
-                auto cpos = codeEditors[editedFilesNames[actualCodeEditor]].GetCursorPosition();
+                    auto cpos = codeEditors[editedFilesNames[actualCodeEditor]].GetCursorPosition();
 
-                if (ImGui::BeginMenuBar()){
-                    if (ImGui::BeginMenu("File")){
-                        if (ImGui::MenuItem("Save/Reload",ofToString(shortcutFunc+"+R").c_str())){
-                            filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
+                    if (ImGui::BeginMenuBar()){
+                        if (ImGui::BeginMenu("File")){
+                            if (ImGui::MenuItem("Save/Reload",ofToString(shortcutFunc+"+R").c_str())){
+                                filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
 
-                            ofBuffer buff;
-                            buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
+                                ofBuffer buff;
+                                buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
 
-                            ofBufferToFile(tempPath,buff,false);
-                        }
-                        ImGui::EndMenu();
-                    }
-                    if (ImGui::BeginMenu("Edit")){
-                        if (ImGui::MenuItem("Undo", ofToString(shortcutFunc+"+Z").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Undo();
-                        if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Redo();
-
-                        ImGui::Separator();
-
-                        if (ImGui::MenuItem("Copy", ofToString(shortcutFunc+"+C").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Copy();
-                        if (ImGui::MenuItem("Cut", ofToString(shortcutFunc+"+X").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Cut();
-                        if (ImGui::MenuItem("Paste", ofToString(shortcutFunc+"+V").c_str(), nullptr, ImGui::GetClipboardText() != nullptr))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Paste();
-
-                        ImGui::Separator();
-
-                        if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
-
-                        ImGui::EndMenu();
-                    }
-
-                    ImGui::EndMenuBar();
-                }
-
-                ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
-
-                //ImGuiIO& io = ImGui::GetIO();
-                //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
-                ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
-
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-                ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
-                    isCodeEditorFullWindow = !isCodeEditorFullWindow;
-                    if(isCodeEditorFullWindow){
-                        codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
-                    }else{
-                        codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
-                    }
-                }
-
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-                if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
-                    for(int i=0;i<editedFilesNames.size();i++){
-                        if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
-
-                            if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
-                                actualCodeEditor = i;
-                                actualEditedFilePath = editedFilesPaths[i];
-                                actualEditedFileName = editedFilesNames[i];
+                                ofBufferToFile(tempPath,buff,false);
                             }
+                            ImGui::EndMenu();
+                        }
+                        if (ImGui::BeginMenu("Edit")){
+                            if (ImGui::MenuItem("Undo", ofToString(shortcutFunc+"+Z").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Undo();
+                            if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Redo();
 
-                            ImGui::PushFont(tempfont);
+                            ImGui::Separator();
 
-                            codeEditors[editedFilesNames[i]].Render("TextEditor");
+                            if (ImGui::MenuItem("Copy", ofToString(shortcutFunc+"+C").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Copy();
+                            if (ImGui::MenuItem("Cut", ofToString(shortcutFunc+"+X").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Cut();
+                            if (ImGui::MenuItem("Paste", ofToString(shortcutFunc+"+V").c_str(), nullptr, ImGui::GetClipboardText() != nullptr))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Paste();
 
-                            ImGui::PopFont();
+                            ImGui::Separator();
 
-                            ImGui::EndTabItem();
+                            if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
+
+                            ImGui::EndMenu();
+                        }
+
+                        ImGui::EndMenuBar();
+                    }
+
+                    ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
+
+                    //ImGuiIO& io = ImGui::GetIO();
+                    //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
+                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
+                        isCodeEditorFullWindow = !isCodeEditorFullWindow;
+                        if(isCodeEditorFullWindow){
+                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+                        }else{
+                            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
                         }
                     }
-                    ImGui::EndTabBar();
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
+                        for(int i=0;i<editedFilesNames.size();i++){
+                            if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
+
+                                if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
+                                    actualCodeEditor = i;
+                                    actualEditedFilePath = editedFilesPaths[i];
+                                    actualEditedFileName = editedFilesNames[i];
+                                }
+
+                                ImGui::PushFont(tempfont);
+
+                                codeEditors[editedFilesNames[i]].Render("TextEditor");
+
+                                ImGui::PopFont();
+
+                                ImGui::EndTabItem();
+                            }
+                        }
+                        ImGui::EndTabBar();
+                    }
+
+                    //ImGui::End();
+
                 }
 
                 ImGui::End();
-
             }
-
-            ImGui::End();
-
         }
 
         // floating logger window
