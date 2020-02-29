@@ -115,6 +115,8 @@ public:
     }
 
     string GetLastLog() {
+        if(Items.empty()) return std::string("");
+
         std::string str(Items.back());
         return str;
     }
