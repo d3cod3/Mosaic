@@ -18,7 +18,6 @@ ofxFaceTracker
 ofxFFmpegRecorder
 ofxFontStash
 ofxGLEditor
-ofxHapPlayer
 ofxHistoryPlot
 ofxJSON
 ofxImGui
