@@ -107,7 +107,7 @@ public:
     // GUI
     ofxImGui::Gui               mainMenu;
     string                      shortcutFunc;
-    string                      searchedObject;
+    bool                        createSearchedObject;
     bool                        showConsoleWindow;
     bool                        showCodeEditor;
     bool                        showRightClickMenu;

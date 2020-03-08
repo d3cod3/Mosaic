@@ -32,34 +32,6 @@
 
 #include "ofApp.h"
 
-#if defined(TARGET_LINUX) || defined(TARGET_OSX)
-const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
-                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
-                                    "background subtraction","chroma key","color tracking","contour tracking","face tracker","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","bang to float","data to file","data to texture","file to data","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
-                                    "image exporter","image loader",
-                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
-                                    "add","clamp","constant","divide","map","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
-                                    "bash script","lua script","processing script","python script","shader object",
-                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
-                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video receiver","video sender","video streaming","video timedelay","video transform",
-                                    "live patching","output window","projection mapping"};
-#elif defined(TARGET_WIN32)
-const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
-                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
-                                    "background subtraction","chroma key","color tracking","contour tracking","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","bang to float","data to file","data to texture","file to data","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
-                                    "image exporter","image loader",
-                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
-                                    "add","clamp","constant","divide","map","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
-                                    "lua script","processing script","python script","shader object",
-                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
-                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video streaming","video timedelay","video transform",
-                                    "live patching","output window","projection mapping"};
-#endif
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -156,6 +128,7 @@ void ofApp::setup(){
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
     showRightClickMenu      = false;
+    createSearchedObject    = false;
     showConsoleWindow       = false;
     showCodeEditor          = false;
     isHoverMenu             = false;
@@ -371,7 +344,8 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu("Objects")){
-                for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
+                ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
                             if(ImGui::MenuItem(it->second.at(j).c_str())){
@@ -627,20 +601,71 @@ void ofApp::drawImGuiInterface(){
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
-                MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
-
                 isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-                for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
-                    if(ImGui::BeginMenu(it->first.c_str())){
-                        for(int j=0;j<static_cast<int>(it->second.size());j++){
-                            if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                                showRightClickMenu = false;
+                static ImGuiTextFilter filter;
+                filter.Draw("Search");
+                bool bIsFiltering = filter.IsActive();
+
+                bool bApplyFilter = false;
+                if( createSearchedObject ){
+                    createSearchedObject = false;
+                    bApplyFilter = true;
+                    bIsFiltering = true;
+                }
+                bool bDidSelectObject = false;
+
+                ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                    if(!bIsFiltering){
+                        if(ImGui::BeginMenu(it->first.c_str())){
+                            for(int j=0;j<static_cast<int>(it->second.size());j++){
+                                // show items
+                                if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                    showRightClickMenu = false;
+                                }
                             }
+                            ImGui::EndMenu();
                         }
-                        ImGui::EndMenu();
                     }
+                    else {
+                        bool bCatPrinted = false;
+                        for(int j=0;j<static_cast<int>(it->second.size());j++){
+                            // filter items
+                            if (!filter.PassFilter(it->second.at(j).c_str()))
+                                continue;
+
+                            // show sub cat
+                            if( !bCatPrinted ){
+                                bCatPrinted = ImGui::TreeNodeEx(it->first.c_str(), ImGuiTreeNodeFlags_DefaultOpen );
+                            }
+                            // show items
+                            ImGuiTreeNodeFlags tmpFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+                            if(!bDidSelectObject) tmpFlags |= ImGuiTreeNodeFlags_Selected;
+                            if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
+                                // choose by click or pick first one
+                                if (ImGui::IsItemClicked() || bApplyFilter){
+                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                    showRightClickMenu = false;
+                                    bApplyFilter = false;
+                                    filter.Clear();
+                                    break;
+                                }
+                            }
+                            bDidSelectObject = true;
+
+
+                        }
+                        if(bCatPrinted){
+                            ImGui::TreePop();
+                        }
+                    }
+                }
+
+                // at this point, if apply filter is true, there was no match, reset search.
+                if(bApplyFilter){
+                    filter.Clear();
                 }
 
                 ImGui::End();
@@ -693,11 +718,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     }else if(e.keycode == 259){
         //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
-        if(searchedObject != ""){
-            visualProgramming->addObject(searchedObject,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 300,visualProgramming->canvas.getMovingPoint().y + 200));
-            searchedObject = "";
-        }
-
+        createSearchedObject = true;
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
