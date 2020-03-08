@@ -79,6 +79,7 @@ void ofApp::setup(){
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     editorFullscreenButtonSource.load("images/fullscreen-icon.png");
     editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
+    mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -131,6 +132,7 @@ void ofApp::setup(){
     createSearchedObject    = false;
     showConsoleWindow       = false;
     showCodeEditor          = false;
+    showAboutWindow         = false;
     isHoverMenu             = false;
     isHoverLogger           = false;
     isHoverCodeEditor       = false;
@@ -452,6 +454,9 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem("Mosaic Reference")){
                     ofLaunchBrowser("https://mosaic.d3cod3.org/#reference");
                 }
+                if(ImGui::MenuItem("About Mosaic")){
+                    showAboutWindow = !showAboutWindow;
+                }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
@@ -469,6 +474,125 @@ void ofApp::drawImGuiInterface(){
         }
 
         ImGui::EndMainMenuBar();
+
+        // About window
+        if(showAboutWindow){
+
+            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-400)*.5f,(ofGetHeight()-400)*.5f), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(400,400), ImGuiCond_Appearing );
+
+            if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
+
+                if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
+                    float ratio = 150.f / mosaicLogo->getWidth();
+                    ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
+                }
+                ImGui::Text( "%s", PACKAGE);
+                ImGui::Text( "Version %s (%s)", VERSION, VERSION_GRAPHIC );
+                ImGui::Spacing();
+                ImGui::TextWrapped( DESCRIPTION );
+                ImGui::TextWrapped( MOSAIC_WWW );
+                ImGui::Spacing();
+                ImGui::Text(" ");
+                ImGui::Spacing();
+
+                if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None)){
+
+                    if (ImGui::BeginTabItem("Build Info")){
+
+                        ImGui::TextWrapped("Feel free to include the following information in bug reports.");
+                        bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
+
+                        ImGui::Spacing();
+                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+                        if (copy_to_clipboard){
+                            ImGui::LogToClipboard();
+                        }
+#ifdef DEBUG
+#define BUILDVARIANT "Debug"
+#else
+#define BUILDVARIANT "Release"
+#endif
+                        ImGui::Text( "%s version %s (%s) (%s build)", PACKAGE, VERSION, VERSION_GRAPHIC , BUILDVARIANT );
+                        ImGui::Separator();
+#ifdef _WIN32
+                        ImGui::Text("define: _WIN32");
+#endif
+#ifdef _WIN64
+                        ImGui::Text("define: _WIN64");
+#endif
+#ifdef __linux__
+                        ImGui::Text("define: __linux__");
+#endif
+#ifdef __APPLE__
+                        ImGui::Text("define: __APPLE__");
+#endif
+#ifdef _MSC_VER
+                        ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
+#endif
+#ifdef __MINGW32__
+                        ImGui::Text("define: __MINGW32__");
+#endif
+#ifdef __MINGW64__
+                        ImGui::Text("define: __MINGW64__");
+#endif
+#ifdef __GNUC__
+                        ImGui::Text("define: __GNUC__=%d", (int)__GNUC__);
+#endif
+                        ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
+
+                        ImGui::Separator();
+
+                        ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                        for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                            if(it->second.size()<1) continue;
+
+                            for(auto objIt=it->second.begin(); objIt!=it->second.end(); ++objIt){
+                                ImGui::Text("object/%s: %s", it->first.c_str(), (*objIt).c_str() );
+                            }
+                        }
+
+                        ImGui::Spacing();
+
+                        if (copy_to_clipboard){
+                            ImGui::LogFinish();
+                        }
+                        ImGui::EndChildFrame();
+
+                        ImGui::EndTabItem();
+                    }
+
+                    if (ImGui::BeginTabItem("Objects")){
+                        ImGui::TextWrapped("This version of Mosaic has been built with the following objects :" );
+                        ImGui::Spacing();
+
+                        ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                        if (objectsMatrix.size()>0){
+
+                            ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                            for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                                if (ImGui::TreeNodeEx( it->first.c_str(), ImGuiTreeNodeFlags_DefaultOpen )){
+                                    ImGui::Indent(10);
+                                    for(auto objIt=it->second.begin(); objIt!=it->second.end(); ++objIt){
+                                        ImGui::Text("%s", (*objIt).c_str());
+                                    }
+                                    ImGui::Unindent(10);
+                                    ImGui::TreePop();
+                                }
+                            }
+                        }
+                        else {
+                            ImGui::Text("There are no objects.");
+                        }
+
+                        ImGui::EndTabItem();
+                    }
+
+                    ImGui::EndTabBar();
+                }
+            }
+            ImGui::End(); // end showAboutWindow
+        }
 
         // code editor
         if(showCodeEditor){

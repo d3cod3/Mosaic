@@ -110,6 +110,7 @@ public:
     bool                        createSearchedObject;
     bool                        showConsoleWindow;
     bool                        showCodeEditor;
+    bool                        showAboutWindow;
     bool                        showRightClickMenu;
     bool                        isHoverMenu;
 
@@ -151,6 +152,7 @@ public:
 
     // GUI
     ofImage                     *mosaicLogo;
+    GLuint                      mosaicLogoID;
 
     // NET
     int                         lastReleaseResp;
