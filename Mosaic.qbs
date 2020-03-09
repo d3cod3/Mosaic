@@ -54,8 +54,8 @@ Project{
         of.linkerFlags: []      // flags passed to the linker
         of.defines: []          // defines are passed as -D to the compiler
         // and can be checked with #ifdef or #if in the code
-        //of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']       // osx only, additional frameworks to link with the project
-        of.frameworks: []       // osx only, additional
+        of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']       // osx only, additional frameworks to link with the project
+        //of.frameworks: []       // osx only, additional
         of.staticLibraries: []  // static libraries
         of.dynamicLibraries: [] // dynamic libraries
 
@@ -65,10 +65,10 @@ Project{
         // cpp.compilerWrapper: 'ccache'
 
         // add CoreMIDI for osx
-        Properties {
-            condition: qbs.targetOS.contains("osx")
+        /*Properties {
+            condition: qbs.hostOS.contains("osx")
             of.frameworks: outer.concat(['CoreMIDI']);
-        }
+        }*/
 
         // add QTKit support on osx 10.12
         Properties {
