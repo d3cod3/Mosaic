@@ -185,6 +185,7 @@ bool MosaicTheme::TextInputComboBox(const char* id, char* buffer, size_t maxInpu
         }
     }
     ImGui::EndChild();*/
+    ImGui::PopID();
 
     return ret;
 }

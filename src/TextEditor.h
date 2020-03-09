@@ -7,6 +7,9 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <map>
+#if defined(MAC_OS_X_VERSION_10_12)
+    #undef tolower // needed for pyport.h not to conflict with regex on osx 10.12
+#endif
 #include <regex>
 #include "imgui.h"
 

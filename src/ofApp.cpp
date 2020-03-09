@@ -32,34 +32,6 @@
 
 #include "ofApp.h"
 
-#if defined(TARGET_LINUX) || defined(TARGET_OSX)
-const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
-                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
-                                    "background subtraction","chroma key","color tracking","contour tracking","face tracker","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","bang to float","data to file","data to texture","file to data","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
-                                    "image exporter","image loader",
-                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
-                                    "add","clamp","constant","divide","map","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
-                                    "bash script","lua script","processing script","python script","shader object",
-                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
-                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video receiver","video sender","video streaming","video timedelay","video transform",
-                                    "live patching","output window","projection mapping"};
-#elif defined(TARGET_WIN32)
-const char* ofxVP_objectsArray[] = {"audio analyzer","beat extractor","bpm extractor","centroid extractor","dissonance extractor","fft extractor","hfc extractor","hpcp extractor","inharmonicity extractor","mel bands extractor","mfcc extractor","onset extractor","pitch extractor","power extractor","rms extractor","rolloff extractor","tristimulus extractor",
-                                    "arduino serial","key pressed","key released","midi key","midi knob","midi pad","midi receiver","midi score","midi sender","osc receiver","osc sender",
-                                    "background subtraction","chroma key","color tracking","contour tracking","haar tracking","motion detection","optical flow",
-                                    "bang multiplexer","bang to float","data to file","data to texture","file to data","floats to vector","texture to data","vector at","vector concat","vector gate","vector multiply",
-                                    "image exporter","image loader",
-                                    "2d pad","bang","comment","message","player controls","signal viewer","slider","sonogram","timeline","trigger","video viewer","vu meter",
-                                    "&&","||","==","!=",">","<","counter","delay bang","delay float","gate","inverter","loadbang","select","spigot","timed semaphore",
-                                    "add","clamp","constant","divide","map","metronome","modulus","multiply","range","simple noise","simple random","smooth","subtract",
-                                    "lua script","processing script","python script","shader object",
-                                    "ADSR envelope","AHR envelope","amp","audio exporter","audio gate","bit cruncher","bit noise","chorus","comb filter","compressor","crossfader","data oscillator","decimator","delay","ducker","hi pass","lfo","low pass","mixer","note to frequency","panner","pd patch","pulse","quad panner","resonant 2pole filter","reverb","saw","signal trigger","sine","soundfile player","triangle","white noise",
-                                    "kinect grabber","video crop","video feedback","video exporter","video gate","video grabber","video player","video streaming","video timedelay","video transform",
-                                    "live patching","output window","projection mapping"};
-#endif
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -107,6 +79,7 @@ void ofApp::setup(){
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     editorFullscreenButtonSource.load("images/fullscreen-icon.png");
     editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
+    mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -156,8 +129,10 @@ void ofApp::setup(){
     mainMenu.setup();
     mainMenu.setTheme(new MosaicTheme());
     showRightClickMenu      = false;
+    createSearchedObject    = false;
     showConsoleWindow       = false;
     showCodeEditor          = false;
+    showAboutWindow         = false;
     isHoverMenu             = false;
     isHoverLogger           = false;
     isHoverCodeEditor       = false;
@@ -371,7 +346,8 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu("Objects")){
-                for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
+                ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
                             if(ImGui::MenuItem(it->second.at(j).c_str())){
@@ -478,6 +454,9 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem("Mosaic Reference")){
                     ofLaunchBrowser("https://mosaic.d3cod3.org/#reference");
                 }
+                if(ImGui::MenuItem("About Mosaic")){
+                    showAboutWindow = !showAboutWindow;
+                }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
@@ -496,117 +475,236 @@ void ofApp::drawImGuiInterface(){
 
         ImGui::EndMainMenuBar();
 
+        // About window
+        if(showAboutWindow){
+
+            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-400)*.5f,(ofGetHeight()-400)*.5f), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(400,400), ImGuiCond_Appearing );
+
+            if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
+
+                if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
+                    float ratio = 150.f / mosaicLogo->getWidth();
+                    ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
+                }
+                ImGui::Text( "%s", PACKAGE);
+                ImGui::Text( "Version %s (%s)", VERSION, VERSION_GRAPHIC );
+                ImGui::Spacing();
+                ImGui::TextWrapped( DESCRIPTION );
+                ImGui::TextWrapped( MOSAIC_WWW );
+                ImGui::Spacing();
+                ImGui::Text(" ");
+                ImGui::Spacing();
+
+                if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None)){
+
+                    if (ImGui::BeginTabItem("Build Info")){
+
+                        ImGui::TextWrapped("Feel free to include the following information in bug reports.");
+                        bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
+
+                        ImGui::Spacing();
+                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+                        if (copy_to_clipboard){
+                            ImGui::LogToClipboard();
+                        }
+#ifdef DEBUG
+#define BUILDVARIANT "Debug"
+#else
+#define BUILDVARIANT "Release"
+#endif
+                        ImGui::Text( "%s version %s (%s) (%s build)", PACKAGE, VERSION, VERSION_GRAPHIC , BUILDVARIANT );
+                        ImGui::Separator();
+#ifdef _WIN32
+                        ImGui::Text("define: _WIN32");
+#endif
+#ifdef _WIN64
+                        ImGui::Text("define: _WIN64");
+#endif
+#ifdef __linux__
+                        ImGui::Text("define: __linux__");
+#endif
+#ifdef __APPLE__
+                        ImGui::Text("define: __APPLE__");
+#endif
+#ifdef _MSC_VER
+                        ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
+#endif
+#ifdef __MINGW32__
+                        ImGui::Text("define: __MINGW32__");
+#endif
+#ifdef __MINGW64__
+                        ImGui::Text("define: __MINGW64__");
+#endif
+#ifdef __GNUC__
+                        ImGui::Text("define: __GNUC__=%d", (int)__GNUC__);
+#endif
+                        ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
+
+                        ImGui::Separator();
+
+                        ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                        for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                            if(it->second.size()<1) continue;
+
+                            for(auto objIt=it->second.begin(); objIt!=it->second.end(); ++objIt){
+                                ImGui::Text("object/%s: %s", it->first.c_str(), (*objIt).c_str() );
+                            }
+                        }
+
+                        ImGui::Spacing();
+
+                        if (copy_to_clipboard){
+                            ImGui::LogFinish();
+                        }
+                        ImGui::EndChildFrame();
+
+                        ImGui::EndTabItem();
+                    }
+
+                    if (ImGui::BeginTabItem("Objects")){
+                        ImGui::TextWrapped("This version of Mosaic has been built with the following objects :" );
+                        ImGui::Spacing();
+
+                        ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                        if (objectsMatrix.size()>0){
+
+                            ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                            for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                                if (ImGui::TreeNodeEx( it->first.c_str(), ImGuiTreeNodeFlags_DefaultOpen )){
+                                    ImGui::Indent(10);
+                                    for(auto objIt=it->second.begin(); objIt!=it->second.end(); ++objIt){
+                                        ImGui::Text("%s", (*objIt).c_str());
+                                    }
+                                    ImGui::Unindent(10);
+                                    ImGui::TreePop();
+                                }
+                            }
+                        }
+                        else {
+                            ImGui::Text("There are no objects.");
+                        }
+
+                        ImGui::EndTabItem();
+                    }
+
+                    ImGui::EndTabBar();
+                }
+            }
+            ImGui::End(); // end showAboutWindow
+        }
+
         // code editor
         if(showCodeEditor){
-            ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-            ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
-            ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
+                ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
+                ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
 
-            //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
-            isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
+                //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
 
-            if(codeEditors.size() > 0){
+                if(codeEditors.size() > 0){
 
-                auto cpos = codeEditors[editedFilesNames[actualCodeEditor]].GetCursorPosition();
+                    auto cpos = codeEditors[editedFilesNames[actualCodeEditor]].GetCursorPosition();
 
-                if (ImGui::BeginMenuBar()){
-                    if (ImGui::BeginMenu("File")){
-                        if (ImGui::MenuItem("Save/Reload",ofToString(shortcutFunc+"+R").c_str())){
-                            filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
+                    if (ImGui::BeginMenuBar()){
+                        if (ImGui::BeginMenu("File")){
+                            if (ImGui::MenuItem("Save/Reload",ofToString(shortcutFunc+"+R").c_str())){
+                                filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
 
-                            ofBuffer buff;
-                            buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
+                                ofBuffer buff;
+                                buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
 
-                            ofBufferToFile(tempPath,buff,false);
-                        }
-                        ImGui::EndMenu();
-                    }
-                    if (ImGui::BeginMenu("Edit")){
-                        if (ImGui::MenuItem("Undo", ofToString(shortcutFunc+"+Z").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Undo();
-                        if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Redo();
-
-                        ImGui::Separator();
-
-                        if (ImGui::MenuItem("Copy", ofToString(shortcutFunc+"+C").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Copy();
-                        if (ImGui::MenuItem("Cut", ofToString(shortcutFunc+"+X").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Cut();
-                        if (ImGui::MenuItem("Paste", ofToString(shortcutFunc+"+V").c_str(), nullptr, ImGui::GetClipboardText() != nullptr))
-                            codeEditors[editedFilesNames[actualCodeEditor]].Paste();
-
-                        ImGui::Separator();
-
-                        if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
-                            codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
-
-                        ImGui::EndMenu();
-                    }
-
-                    ImGui::EndMenuBar();
-                }
-
-                ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
-
-                //ImGuiIO& io = ImGui::GetIO();
-                //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
-                ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
-
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-                ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                ImGui::Spacing();
-                ImGui::SameLine();
-                if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
-                    isCodeEditorFullWindow = !isCodeEditorFullWindow;
-                    if(isCodeEditorFullWindow){
-                        codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
-                    }else{
-                        codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
-                    }
-                }
-
-                ImGui::Spacing();
-                ImGui::Spacing();
-                ImGui::Spacing();
-
-                if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
-                    for(int i=0;i<editedFilesNames.size();i++){
-                        if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
-
-                            if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
-                                actualCodeEditor = i;
-                                actualEditedFilePath = editedFilesPaths[i];
-                                actualEditedFileName = editedFilesNames[i];
+                                ofBufferToFile(tempPath,buff,false);
                             }
+                            ImGui::EndMenu();
+                        }
+                        if (ImGui::BeginMenu("Edit")){
+                            if (ImGui::MenuItem("Undo", ofToString(shortcutFunc+"+Z").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Undo();
+                            if (ImGui::MenuItem("Redo", ofToString(shortcutFunc+"+Y").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Redo();
 
-                            ImGui::PushFont(tempfont);
+                            ImGui::Separator();
 
-                            codeEditors[editedFilesNames[i]].Render("TextEditor");
+                            if (ImGui::MenuItem("Copy", ofToString(shortcutFunc+"+C").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Copy();
+                            if (ImGui::MenuItem("Cut", ofToString(shortcutFunc+"+X").c_str(), nullptr, codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Cut();
+                            if (ImGui::MenuItem("Paste", ofToString(shortcutFunc+"+V").c_str(), nullptr, ImGui::GetClipboardText() != nullptr))
+                                codeEditors[editedFilesNames[actualCodeEditor]].Paste();
 
-                            ImGui::PopFont();
+                            ImGui::Separator();
 
-                            ImGui::EndTabItem();
+                            if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
+                                codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
+
+                            ImGui::EndMenu();
+                        }
+
+                        ImGui::EndMenuBar();
+                    }
+
+                    ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
+
+                    //ImGuiIO& io = ImGui::GetIO();
+                    //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
+                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    ImGui::Spacing();
+                    ImGui::SameLine();
+                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
+                        isCodeEditorFullWindow = !isCodeEditorFullWindow;
+                        if(isCodeEditorFullWindow){
+                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+                        }else{
+                            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
                         }
                     }
-                    ImGui::EndTabBar();
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
+                        for(int i=0;i<editedFilesNames.size();i++){
+                            if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
+
+                                if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
+                                    actualCodeEditor = i;
+                                    actualEditedFilePath = editedFilesPaths[i];
+                                    actualEditedFileName = editedFilesNames[i];
+                                }
+
+                                ImGui::PushFont(tempfont);
+
+                                codeEditors[editedFilesNames[i]].Render("TextEditor");
+
+                                ImGui::PopFont();
+
+                                ImGui::EndTabItem();
+                            }
+                        }
+                        ImGui::EndTabBar();
+                    }
+
+                    //ImGui::End();
+
                 }
 
                 ImGui::End();
-
             }
-
-            ImGui::End();
-
         }
 
         // floating logger window
@@ -625,25 +723,77 @@ void ofApp::drawImGuiInterface(){
             ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Always);
             ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
 
-            ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse);
+            if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
-            MosaicTheme::TextInputComboBox("Objects", searchedObject, 30, ofxVP_objectsArray, IM_ARRAYSIZE(ofxVP_objectsArray));
+                isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                static ImGuiTextFilter filter;
+                filter.Draw("Search");
+                bool bIsFiltering = filter.IsActive();
 
-            for(map<string,vector<string>>::iterator it = visualProgramming->objectsMatrix.begin(); it != visualProgramming->objectsMatrix.end(); it++ ){
-                if(ImGui::BeginMenu(it->first.c_str())){
-                    for(int j=0;j<static_cast<int>(it->second.size());j++){
-                        if(ImGui::MenuItem(it->second.at(j).c_str())){
-                            visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                            showRightClickMenu = false;
+                bool bApplyFilter = false;
+                if( createSearchedObject ){
+                    createSearchedObject = false;
+                    bApplyFilter = true;
+                    bIsFiltering = true;
+                }
+                bool bDidSelectObject = false;
+
+                ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
+                for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                    if(!bIsFiltering){
+                        if(ImGui::BeginMenu(it->first.c_str())){
+                            for(int j=0;j<static_cast<int>(it->second.size());j++){
+                                // show items
+                                if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                    showRightClickMenu = false;
+                                }
+                            }
+                            ImGui::EndMenu();
                         }
                     }
-                    ImGui::EndMenu();
-                }
-            }
+                    else {
+                        bool bCatPrinted = false;
+                        for(int j=0;j<static_cast<int>(it->second.size());j++){
+                            // filter items
+                            if (!filter.PassFilter(it->second.at(j).c_str()))
+                                continue;
 
-            ImGui::End();
+                            // show sub cat
+                            if( !bCatPrinted ){
+                                bCatPrinted = ImGui::TreeNodeEx(it->first.c_str(), ImGuiTreeNodeFlags_DefaultOpen );
+                            }
+                            // show items
+                            ImGuiTreeNodeFlags tmpFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+                            if(!bDidSelectObject) tmpFlags |= ImGuiTreeNodeFlags_Selected;
+                            if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
+                                // choose by click or pick first one
+                                if (ImGui::IsItemClicked() || bApplyFilter){
+                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                    showRightClickMenu = false;
+                                    bApplyFilter = false;
+                                    filter.Clear();
+                                    break;
+                                }
+                            }
+                            bDidSelectObject = true;
+
+
+                        }
+                        if(bCatPrinted){
+                            ImGui::TreePop();
+                        }
+                    }
+                }
+
+                // at this point, if apply filter is true, there was no match, reset search.
+                if(bApplyFilter){
+                    filter.Clear();
+                }
+
+                ImGui::End();
+            }
 
         }else{
             isHoverMenu = false;
@@ -692,11 +842,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     }else if(e.keycode == 259){
         //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
-        if(searchedObject != ""){
-            visualProgramming->addObject(searchedObject,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 300,visualProgramming->canvas.getMovingPoint().y + 200));
-            searchedObject = "";
-        }
-
+        createSearchedObject = true;
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
