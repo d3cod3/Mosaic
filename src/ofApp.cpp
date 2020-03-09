@@ -65,6 +65,7 @@ void ofApp::setup(){
 
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
     ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
+    ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
 
     // Visual Programming Environment Load
@@ -451,11 +452,11 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem("Mosaic Github")){
                     ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
                 }
+                if(ImGui::MenuItem("Mosaic Manual")){
+                    ofLaunchBrowser("https://mosaic.d3cod3.org/manual/");
+                }
                 if(ImGui::MenuItem("Mosaic Reference")){
                     ofLaunchBrowser("https://mosaic.d3cod3.org/#reference");
-                }
-                if(ImGui::MenuItem("About Mosaic")){
-                    showAboutWindow = !showAboutWindow;
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -466,6 +467,13 @@ void ofApp::drawImGuiInterface(){
                 }
                 if(ImGui::MenuItem("ofxAddons")){
                     ofLaunchBrowser("http://ofxaddons.com/categories");
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("About Mosaic")){
+                    showAboutWindow = !showAboutWindow;
                 }
                 ImGui::EndMenu();
             }
@@ -492,6 +500,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Spacing();
                 ImGui::TextWrapped( DESCRIPTION );
                 ImGui::TextWrapped( MOSAIC_WWW );
+                ImGui::TextWrapped( "Developers: %s", MOSAIC_DEVELOPERS );
                 ImGui::Spacing();
                 ImGui::Text(" ");
                 ImGui::Spacing();

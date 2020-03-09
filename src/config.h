@@ -37,6 +37,7 @@
 #define VERSION_GRAPHIC "033"
 #define DESCRIPTION "Live Visual Patching Creative-Coding Platform"
 #define MOSAIC_WWW "https://mosaic.d3cod3.org/"
+#define MOSAIC_DEVELOPERS "Emanuele Mazza, Daan de Lange"
 #define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 
 #define WINDOW_TITLE "Mosaic 0.3.3"
