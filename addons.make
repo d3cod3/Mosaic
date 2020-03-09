@@ -20,7 +20,6 @@ ofxFontStash
 ofxGLEditor
 ofxHistoryPlot
 ofxJSON
-ofxHttpForm
 ofxImGui
 ofxJava
 ofxInfiniteCanvas
