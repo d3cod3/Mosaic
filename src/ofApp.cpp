@@ -351,8 +351,11 @@ void ofApp::drawImGuiInterface(){
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
-                            if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                            if(it->second.at(j) != "audio device"){
+                                if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+
+                                }
                             }
                         }
                         ImGui::EndMenu();
@@ -754,9 +757,11 @@ void ofApp::drawImGuiInterface(){
                         if(ImGui::BeginMenu(it->first.c_str())){
                             for(int j=0;j<static_cast<int>(it->second.size());j++){
                                 // show items
-                                if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                                    showRightClickMenu = false;
+                                if(it->second.at(j) != "audio device"){
+                                    if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                        showRightClickMenu = false;
+                                    }
                                 }
                             }
                             ImGui::EndMenu();
@@ -776,14 +781,16 @@ void ofApp::drawImGuiInterface(){
                             // show items
                             ImGuiTreeNodeFlags tmpFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
                             if(!bDidSelectObject) tmpFlags |= ImGuiTreeNodeFlags_Selected;
-                            if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
-                                // choose by click or pick first one
-                                if (ImGui::IsItemClicked() || bApplyFilter){
-                                    visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                                    showRightClickMenu = false;
-                                    bApplyFilter = false;
-                                    filter.Clear();
-                                    break;
+                            if(it->second.at(j) != "audio device"){
+                                if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
+                                    // choose by click or pick first one
+                                    if (ImGui::IsItemClicked() || bApplyFilter){
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                        showRightClickMenu = false;
+                                        bApplyFilter = false;
+                                        filter.Clear();
+                                        break;
+                                    }
                                 }
                             }
                             bDidSelectObject = true;
