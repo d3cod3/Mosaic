@@ -350,6 +350,7 @@ void ofApp::drawImGuiInterface(){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
+                        std::sort(it->second.begin(), it->second.end());
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
                             if(it->second.at(j) != "audio device"){
                                 if(ImGui::MenuItem(it->second.at(j).c_str())){
