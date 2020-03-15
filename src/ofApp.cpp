@@ -318,6 +318,9 @@ void ofApp::drawImGuiInterface(){
         ImGui::BeginMainMenuBar();
 
         {
+
+            isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+
             if(ImGui::BeginMenu("File")){
                 if(ImGui::MenuItem("New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
@@ -813,7 +816,7 @@ void ofApp::drawImGuiInterface(){
             }
 
         }else{
-            isHoverMenu = false;
+            //isHoverMenu = false;
         }
 
     }
