@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
     shared_ptr<ofAppGLFWWindow> splashWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(splashSettings));
     shared_ptr<SplashScreen> splashApp(new SplashScreen);
 
-    TIME_SAMPLE_SET_FRAMERATE(30);
+    TIME_SAMPLE_SET_FRAMERATE(25);
 
     mosaicApp->arguments = options;
 

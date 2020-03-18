@@ -2,7 +2,7 @@
 
     Mosaic: Live Visual Patching Creative-Coding Platform
 
-    Copyright (c) 2018 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
+    Copyright (c) 2020 Emanuele Mazza aka n3m3da <emanuelemazza@d3cod3.org>
 
     Mosaic is distributed under the MIT License. This gives everyone the
     freedoms to use Mosaic in any context: commercial or non-commercial,
@@ -30,12 +30,37 @@
 
 ==============================================================================*/
 
-#pragma mark once
+#pragma once
 
-#include "ofxVisualProgramming.h"
-#include "ofxImGui.h"
+#include "ofMain.h"
 
-#include "MosaicTheme.h"
-#include "TextEditor.h"
-#include "SynchTimer.h"
-#include "PathWatcher.h"
+class SynchTimer {
+
+protected:
+  float period;
+  size_t thisTime;
+
+public:
+  SynchTimer() :
+    period(0),
+    thisTime(0){
+  };
+
+  void setFramerate(float framerate) {
+    period = 1.0f / framerate * 1000.0f;
+  }
+
+  float getPeriod(){
+    return period;
+  }
+
+  bool tick() {
+      if(ofGetElapsedTimeMillis()-thisTime > period){
+          thisTime = ofGetElapsedTimeMillis();
+          return true;
+      }else{
+          return false;
+      }
+  }
+
+};

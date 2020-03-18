@@ -39,13 +39,16 @@ void ofApp::setup(){
     // OF Stuff
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
-    ofSetFrameRate(30);
+    //ofSetFrameRate(30);
     ofEnableAntiAliasing();
     ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
 
     initDataFolderFromBundle();
     ///////////////////////////////////////////
+
+    // TIMING
+    mosaicTiming.setFramerate(25);
 
     // RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
@@ -164,7 +167,10 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     // Visual Programming Environment
-    visualProgramming->update();
+    if(mosaicTiming.tick()){
+        visualProgramming->update();
+    }
+
     visualProgramming->setIsHoverMenu(isHoverMenu);
     visualProgramming->setIsHoverLogger(isHoverLogger);
     visualProgramming->setIsHoverCodeEditor(isHoverCodeEditor);
@@ -414,20 +420,25 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu("System")){
-                static int fpsn = 2;
+                static int fpsn = 1;
                 if(ImGui::BeginMenu("FPS")){
                     vector<string> fpss {"24","25","30","60","120"};
                     if(ofxImGui::VectorCombo("FPS", &fpsn,fpss)){
                         if(fpsn == 0){
-                            ofSetFrameRate(24);
+                            //ofSetFrameRate(24);
+                            setMosaicFrameRate(24);
                         }else if(fpsn == 1){
-                            ofSetFrameRate(25);
+                            //ofSetFrameRate(25);
+                            setMosaicFrameRate(25);
                         }else if(fpsn == 2){
-                            ofSetFrameRate(30);
+                            //ofSetFrameRate(30);
+                            setMosaicFrameRate(30);
                         }else if(fpsn == 3){
-                            ofSetFrameRate(60);
+                            //ofSetFrameRate(60);
+                            setMosaicFrameRate(60);
                         }else if(fpsn == 4){
-                            ofSetFrameRate(120);
+                            //ofSetFrameRate(120);
+                            setMosaicFrameRate(120);
                         }
                     }
                     ImGui::EndMenu();
@@ -1028,6 +1039,12 @@ void ofApp::pathChanged(const PathWatcher::Event &event) {
 //--------------------------------------------------------------
 void ofApp::quitMosaic(){
     ofExit(0);
+}
+
+//--------------------------------------------------------------
+void ofApp::setMosaicFrameRate(float fps){
+    mosaicTiming.setFramerate(fps);
+    TIME_SAMPLE_SET_FRAMERATE(fps);
 }
 
 //--------------------------------------------------------------

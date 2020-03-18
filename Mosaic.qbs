@@ -18,6 +18,7 @@ Project{
             "src/SplashScreen.h",
             "src/TextEditor.cpp",
             "src/TextEditor.h",
+            "src/SynchTimer.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',

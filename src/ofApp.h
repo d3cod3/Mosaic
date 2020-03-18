@@ -81,6 +81,9 @@ public:
 
     void quitMosaic();
 
+    // TIMING
+    void            setMosaicFrameRate(float fps);
+
     // UTILS
     void            initDataFolderFromBundle();
     bool            checkInternetReachability();
@@ -144,6 +147,7 @@ public:
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
+    SynchTimer                  mosaicTiming;
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;
