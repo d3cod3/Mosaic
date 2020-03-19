@@ -167,7 +167,7 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     // Visual Programming Environment
-    if(mosaicTiming.tick()){
+    if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
         visualProgramming->update();
     }
 
@@ -286,7 +286,9 @@ void ofApp::draw(){
 
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
-    visualProgramming->draw();
+    if(!visualProgramming->bLoadingNewPatch){
+        visualProgramming->draw();
+    }
 
     // Last LOG on bottom bar
     string tmpMsg = mosaicLoggerChannel->GetLastLog();
