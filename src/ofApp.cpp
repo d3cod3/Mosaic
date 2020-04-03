@@ -750,7 +750,7 @@ void ofApp::drawImGuiInterface(){
         // right click menu
         if(showRightClickMenu){
             ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Always);
-            ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiSetCond_Appearing);
+            ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiCond_Appearing);
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
