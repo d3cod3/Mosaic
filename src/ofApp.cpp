@@ -72,19 +72,8 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
 
     // Visual Programming Environment Load
-    visualProgramming   = new ofxVisualProgramming();
-    visualProgramming->setup();
-    patchToLoad                 = "";
-    loadNewPatch                = false;
-    autoinitDSP                 = false;
-    resetInitDSP                = ofGetElapsedTimeMillis();
 
-    // GUI
-    mosaicLogo = new ofImage("images/logo_1024_bw.png");
-    editorFullscreenButtonSource.load("images/fullscreen-icon.png");
-    editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
-    mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
-
+    // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     ofFile fileToRead1(ofToDataPath(MAIN_FONT));
@@ -101,6 +90,32 @@ void ofApp::setup(){
 
     ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 2];
     io.FontDefault = defaultfont;
+
+    mainMenu.setup(new MosaicTheme(),false);
+
+    visualProgramming   = new ofxVisualProgramming();
+    visualProgramming->setup( &mainMenu );
+    visualProgramming->canvasViewport.set(glm::vec2(0,0), glm::vec2(ofGetWidth(), ofGetHeight()));
+
+    patchToLoad                 = "";
+    loadNewPatch                = false;
+    autoinitDSP                 = false;
+    resetInitDSP                = ofGetElapsedTimeMillis();
+
+    // GUI
+    mosaicLogo = new ofImage("images/logo_1024_bw.png");
+    editorFullscreenButtonSource.load("images/fullscreen-icon.png");
+    editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
+    mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
+
+    showRightClickMenu      = false;
+    createSearchedObject    = false;
+    showConsoleWindow       = false;
+    showCodeEditor          = false;
+    showAboutWindow         = false;
+    isHoverMenu             = false;
+    isHoverLogger           = false;
+    isHoverCodeEditor       = false;
 
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
@@ -128,18 +143,6 @@ void ofApp::setup(){
 #elif defined(TARGET_WIN32)
     shortcutFunc = "CTRL";
 #endif
-
-    // Main Menu Bar
-    mainMenu.setup();
-    mainMenu.setTheme(new MosaicTheme());
-    showRightClickMenu      = false;
-    createSearchedObject    = false;
-    showConsoleWindow       = false;
-    showCodeEditor          = false;
-    showAboutWindow         = false;
-    isHoverMenu             = false;
-    isHoverLogger           = false;
-    isHoverCodeEditor       = false;
 
     ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
 
@@ -169,6 +172,7 @@ void ofApp::update(){
     // Visual Programming Environment
     if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
         visualProgramming->update();
+        visualProgramming->canvasViewport.set(glm::vec2(0,0), glm::vec2(ofGetWidth(), ofGetHeight()));
     }
 
     visualProgramming->setIsHoverMenu(isHoverMenu);
@@ -287,7 +291,14 @@ void ofApp::draw(){
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     if(!visualProgramming->bLoadingNewPatch){
+        // draw main GUI interface
+        drawImGuiInterface();
+
+        // Draw to vp Gui
         visualProgramming->draw();
+
+        // Manually render ImGui once ofxVP rendered to it.
+        mainMenu.draw();
     }
 
     // Last LOG on bottom bar
@@ -305,10 +316,6 @@ void ofApp::draw(){
         ofSetColor(60, 255, 60);
     }
     visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
-
-    // IMGUI interface
-    ofSetColor(255,255,255);
-    drawImGuiInterface();
 
     // startup notification popup
     if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
