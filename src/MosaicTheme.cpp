@@ -106,9 +106,9 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_Header] = ImVec4(col_main_head, 0.76f);
     style->Colors[ImGuiCol_HeaderHovered] = ImVec4(col_main_head, 0.86f);
     style->Colors[ImGuiCol_HeaderActive] = ImVec4(col_main_head, 1.00f);
-    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(col_win_popup, 0.04f);
-    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(col_main_head, 0.78f);
-    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(col_main_head, 1.00f);
+    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(col_win_popup, 0.34f);
+    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(col_win_popup, 0.78f);
+    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(col_win_popup, 1.00f);
     style->Colors[ImGuiCol_PlotLines] = ImVec4(col_main_text, 0.63f);
     style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(col_main_head, 1.00f);
     style->Colors[ImGuiCol_PlotHistogram] = ImVec4(col_main_text, 0.63f);
@@ -119,7 +119,7 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_Separator] = ImVec4(col_main_head, 0.73f);
     style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_SeparatorActive] = ImVec4(col_main_head, 0.f);
-    style->Colors[ImGuiCol_DragDropTarget] = ImVec4(col_main_head, 0.f);
+    //style->Colors[ImGuiCol_DragDropTarget] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_NavHighlight] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(col_main_head, 0.f);
 
