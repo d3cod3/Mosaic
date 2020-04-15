@@ -60,8 +60,7 @@ void MosaicTheme::setup(){
 
     ImGuiStyle* style = &ImGui::GetStyle();
 
-    //style->WindowBorderSize = 0.0f;
-    //style->WindowPadding = ImVec2(0,0);
+    style->WindowBorderSize = 0.0f;
     style->WindowMinSize = ImVec2(160, 65);
     style->WindowRounding = 0.0f;
     style->FramePadding = ImVec2(4, 2);
@@ -77,7 +76,10 @@ void MosaicTheme::setup(){
     style->ScrollbarSize = 12.0f;
     style->ScrollbarRounding = 0.0f;
     style->TabRounding = 0.0f;
-    //style->PopupBorderSize = 0.0f;
+    style->PopupBorderSize = 0.0f;
+    style->TabBorderSize = 0.0f;
+    style->ChildBorderSize = 0.0f;
+    style->FrameBorderSize = 0.0f;
     style->PopupRounding = 0.0f;
 
     style->Colors[ImGuiCol_Text] = ImVec4(col_main_text, 1.00f);
@@ -106,9 +108,9 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_Header] = ImVec4(col_main_head, 0.76f);
     style->Colors[ImGuiCol_HeaderHovered] = ImVec4(col_main_head, 0.86f);
     style->Colors[ImGuiCol_HeaderActive] = ImVec4(col_main_head, 1.00f);
-    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(col_win_popup, 0.34f);
-    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(col_win_popup, 0.78f);
-    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(col_win_popup, 1.00f);
+    style->Colors[ImGuiCol_ResizeGrip] = ImVec4(col_win_popup, 0.20f);
+    style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(col_win_popup, 0.60f);
+    style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(col_win_popup, 0.80f);
     style->Colors[ImGuiCol_PlotLines] = ImVec4(col_main_text, 0.63f);
     style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(col_main_head, 1.00f);
     style->Colors[ImGuiCol_PlotHistogram] = ImVec4(col_main_text, 0.63f);
@@ -119,9 +121,12 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_Separator] = ImVec4(col_main_head, 0.73f);
     style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_SeparatorActive] = ImVec4(col_main_head, 0.f);
-    //style->Colors[ImGuiCol_DragDropTarget] = ImVec4(col_main_head, 0.f);
+    style->Colors[ImGuiCol_DragDropTarget] = ImVec4(col_main_head, 0.8f);
     style->Colors[ImGuiCol_NavHighlight] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(col_main_head, 0.f);
+    style->Colors[ImGuiCol_Tab] = ImVec4(col_main_area, 0.9f);
+    style->Colors[ImGuiCol_TabHovered] = ImVec4(col_win_backg, 0.7f);
+    style->Colors[ImGuiCol_TabActive] = ImVec4(col_win_backg, 0.7f);
 
 }
 
