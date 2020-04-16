@@ -12,6 +12,7 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/IconsFontAwesome5.h",
             "src/MosaicTheme.cpp",
             "src/MosaicTheme.h",
             "src/SplashScreen.cpp",

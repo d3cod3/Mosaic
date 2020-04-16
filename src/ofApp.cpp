@@ -76,19 +76,25 @@ void ofApp::setup(){
     // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+
     ofFile fileToRead1(ofToDataPath(MAIN_FONT));
     string absPath1 = fileToRead1.getAbsolutePath();
-    ofFile fileToRead2(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"));
+    ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f);
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f);
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f); // GUI font
     }else{
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f);
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f);
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f); // GUI font
     }
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 2];
+    // merge in icons from Font Awesome
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+    ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+    io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+
+    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
     io.FontDefault = defaultfont;
 
     mainMenu.setup(new MosaicTheme(),false);
@@ -337,20 +343,20 @@ void ofApp::drawImGuiInterface(){
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
             if(ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("New patch",ofToString(shortcutFunc+"+N").c_str())){
+                if(ImGui::MenuItem( ICON_FA_FILE " New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
                     resetInitDSP = ofGetElapsedTimeMillis();
                     autoinitDSP = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Open patch",ofToString(shortcutFunc+"+O").c_str())){
+                if(ImGui::MenuItem( ICON_FA_FOLDER_OPEN " Open patch",ofToString(shortcutFunc+"+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
                 }
-                if(ImGui::MenuItem("Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
+                if(ImGui::MenuItem( ICON_FA_BOX_OPEN " Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
+                if(ImGui::MenuItem( ICON_FA_SAVE " Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
                     string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
                     visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
                 }
@@ -358,13 +364,13 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Quit",ofToString(shortcutFunc+"+Q").c_str())){
+                if(ImGui::MenuItem( ICON_FA_SIGN_OUT_ALT " Quit",ofToString(shortcutFunc+"+Q").c_str())){
                     quitMosaic();
                 }
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Objects")){
+            if(ImGui::BeginMenu( ICON_FA_CUBES " Objects")){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
@@ -383,7 +389,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Examples")){
+            if(ImGui::BeginMenu( ICON_FA_BEZIER_CURVE " Examples")){
                 #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
                 #else
@@ -398,7 +404,7 @@ void ofApp::drawImGuiInterface(){
             }
 
 
-            if(ImGui::BeginMenu("Sound")){
+            if(ImGui::BeginMenu( ICON_FA_HEADPHONES_ALT " Sound")){
                 if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
                     visualProgramming->activateDSP();
                 }
@@ -428,7 +434,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("System")){
+            if(ImGui::BeginMenu( ICON_FA_COG " System")){
                 static int fpsn = 1;
                 if(ImGui::BeginMenu("FPS")){
                     vector<string> fpss {"24","25","30","60","120"};
@@ -462,7 +468,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("View")){
+            if(ImGui::BeginMenu( ICON_FA_BOXES " View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
                 }
@@ -475,7 +481,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Help")){
+            if(ImGui::BeginMenu( ICON_FA_HANDS_HELPING " Help")){
                 if(ImGui::MenuItem("Mosaic Github")){
                     ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
                 }
@@ -686,7 +692,7 @@ void ofApp::drawImGuiInterface(){
 
                     //ImGuiIO& io = ImGui::GetIO();
                     //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
-                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
+                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 2];
 
                     ImGui::Spacing();
                     ImGui::Spacing();

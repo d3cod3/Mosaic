@@ -34,6 +34,7 @@
 
 #include "ofxVisualProgramming.h"
 #include "ofxImGui.h"
+#include "IconsFontAwesome5.h"
 
 #include "MosaicTheme.h"
 #include "TextEditor.h"

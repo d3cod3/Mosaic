@@ -62,7 +62,7 @@ TextEditor::~TextEditor()
 void TextEditor::SetLanguageDefinition(const LanguageDefinition & aLanguageDef)
 {
 	mLanguageDefinition = aLanguageDef;
-	mRegexList.clear();
+    mRegexList.clear();
 
 	for (auto& r : mLanguageDefinition.mTokenRegexStrings)
 		mRegexList.push_back(std::make_pair(std::regex(r.first, std::regex_constants::optimize), r.second));
@@ -868,7 +868,7 @@ void TextEditor::HandleMouseInputs()
 void TextEditor::Render()
 {
 	/* Compute mCharAdvance regarding to scaled font size (Ctrl + mouse wheel)*/
-	const float fontSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, "#", nullptr, nullptr).x;
+    const float fontSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, "#", nullptr, nullptr).x;
 	mCharAdvance = ImVec2(fontSize, ImGui::GetTextLineHeightWithSpacing() * mLineSpacing);
 
 	/* Update palette with the current alpha from style */
@@ -902,11 +902,11 @@ void TextEditor::Render()
 	// Deduce mTextStart by evaluating mLines size (global lineMax) plus two spaces as text width
 	char buf[16];
 	snprintf(buf, 16, " %d ", globalLineMax);
-	mTextStart = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x + mLeftMargin;
+    mTextStart = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x + mLeftMargin;
 
 	if (!mLines.empty())
 	{
-		float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
+        float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
 
 		while (lineNo <= lineMax)
 		{
@@ -972,7 +972,7 @@ void TextEditor::Render()
 			// Draw line number (right aligned)
 			snprintf(buf, 16, "%d  ", lineNo + 1);
 
-			auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
+            auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
 			drawList->AddText(ImVec2(lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y), mPalette[(int)PaletteIndex::LineNumber], buf);
 
 			if (mState.mCursorPosition.mLine == lineNo)
@@ -1036,7 +1036,7 @@ void TextEditor::Render()
 				{
 					const ImVec2 newOffset(textScreenPos.x + bufferOffset.x, textScreenPos.y + bufferOffset.y);
 					drawList->AddText(newOffset, prevColor, mLineBuffer.c_str());
-					auto textSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, mLineBuffer.c_str(), nullptr, nullptr);
+                    auto textSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, mLineBuffer.c_str(), nullptr, nullptr);
 					bufferOffset.x += textSize.x;
 					mLineBuffer.clear();
 				}
@@ -1120,7 +1120,7 @@ void TextEditor::Render()
             if (local.x >= mTextStart)
             {
                 auto pos = ScreenPosToCoordinates(mpos);
-                printf("Coord(%d, %d)\n", pos.mLine, pos.mColumn);
+                //printf("Coord(%d, %d)\n", pos.mLine, pos.mColumn);
                 auto id = GetWordAt(pos);
                 if (!id.empty())
                 {
@@ -2461,7 +2461,7 @@ float TextEditor::TextDistanceToLineStart(const Coordinates& aFrom) const
 {
 	auto& line = mLines[aFrom.mLine];
 	float distance = 0.0f;
-	float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
+    float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
 	int colIndex = GetCharacterIndex(aFrom);
 	for (size_t it = 0u; it < line.size() && it < colIndex; )
 	{
@@ -2479,7 +2479,7 @@ float TextEditor::TextDistanceToLineStart(const Coordinates& aFrom) const
 				tempCString[i] = line[it].mChar;
 
 			tempCString[i] = '\0';
-			distance += ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, tempCString, nullptr, nullptr).x;
+            distance += ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, tempCString, nullptr, nullptr).x;
 		}
 	}
 
