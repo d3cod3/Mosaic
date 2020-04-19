@@ -342,21 +342,21 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            if(ImGui::BeginMenu( ICON_FA_FILE "\tFile")){
-                if(ImGui::MenuItem( ICON_FA_FILE "\tNew patch",ofToString(shortcutFunc+"+N").c_str())){
+            if(ImGui::BeginMenu( "File")){
+                if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
                     resetInitDSP = ofGetElapsedTimeMillis();
                     autoinitDSP = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem( ICON_FA_FOLDER_OPEN "\tOpen patch",ofToString(shortcutFunc+"+O").c_str())){
+                if(ImGui::MenuItem( "Open patch",ofToString(shortcutFunc+"+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
                 }
-                if(ImGui::MenuItem( ICON_FA_BOX_OPEN "\tOpen patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
+                if(ImGui::MenuItem( "Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
                     visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem( ICON_FA_SAVE "\tSave patch As..",ofToString(shortcutFunc+"+S").c_str())){
+                if(ImGui::MenuItem( "Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
                     string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
                     visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
                 }
@@ -364,13 +364,13 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem( ICON_FA_SIGN_OUT_ALT "\tQuit",ofToString(shortcutFunc+"+Q").c_str())){
+                if(ImGui::MenuItem( "Quit",ofToString(shortcutFunc+"+Q").c_str())){
                     quitMosaic();
                 }
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu( ICON_FA_CUBES "\tObjects")){
+            if(ImGui::BeginMenu( "Objects")){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
@@ -389,7 +389,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu( ICON_FA_BEZIER_CURVE "\tExamples")){
+            if(ImGui::BeginMenu( "Examples")){
                 #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
                 #else
@@ -404,7 +404,7 @@ void ofApp::drawImGuiInterface(){
             }
 
 
-            if(ImGui::BeginMenu( ICON_FA_HEADPHONES_ALT "\tSound")){
+            if(ImGui::BeginMenu( "Sound")){
                 if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
                     visualProgramming->activateDSP();
                 }
@@ -434,7 +434,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu( ICON_FA_COG "\tSystem")){
+            if(ImGui::BeginMenu( "System")){
                 static int fpsn = 1;
                 if(ImGui::BeginMenu("FPS")){
                     vector<string> fpss {"24","25","30","60","120"};
@@ -468,7 +468,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu( ICON_FA_BOXES "\tView")){
+            if(ImGui::BeginMenu( "View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
                 }
@@ -481,7 +481,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu( ICON_FA_BOOK "\tHelp")){
+            if(ImGui::BeginMenu( "Help")){
                 if(ImGui::MenuItem("Mosaic Github")){
                     ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
                 }
