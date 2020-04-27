@@ -150,7 +150,7 @@ void ofApp::setup(){
     shortcutFunc = "CTRL";
 #endif
 
-    ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
+    //ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
 
     // NET
     isInternetAvailable = false;
@@ -257,19 +257,19 @@ void ofApp::update(){
     }
 
     // Screenshot
-    if(takeScreenshot){
-        takeScreenshot = false;
-        string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
-        visualProgramming->fileDialog.saveFile("screenshot","Save Mosaic screenshot as",newFileName);
-    }
     if(saveNewScreenshot){
        saveNewScreenshot = false;
        if(lastScreenshot != ""){
            ofFile file(lastScreenshot);
+           // force .jpg file extension
+           string finalPath = file.getAbsolutePath();
+           if(ofToUpper(file.getExtension()) != "JPG"){
+               finalPath += ".jpg";
+           }
            ofImage tempScreenshot;
            tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
            tempScreenshot.getPixels().swapRgb();
-           tempScreenshot.save(file.getAbsolutePath());
+           tempScreenshot.save(finalPath);
        }
     }
 
@@ -342,6 +342,9 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
+            bool openPatch = false;
+            bool savePatchAs = false;
+
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
@@ -350,15 +353,11 @@ void ofApp::drawImGuiInterface(){
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch",ofToString(shortcutFunc+"+O").c_str())){
-                    visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
-                }
-                if(ImGui::MenuItem( "Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
-                    visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
+                    openPatch = true;
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
-                    string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
-                    visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
+                    savePatchAs = true;
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -511,6 +510,46 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
+            // file browser
+            if(openPatch) ImGui::OpenPopup("Open patch");
+            if(savePatchAs) ImGui::OpenPopup("Save patch");
+
+            if(takeScreenshot){
+                takeScreenshot = false;
+                ImGui::OpenPopup("Take Screenshot");
+            }
+
+            // open patch
+            if( visualProgramming->imguiFileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "xml") ){
+                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+                if (file.exists()){
+                    string fileExtension = ofToUpper(file.getExtension());
+                    if(fileExtension == "XML") {
+                        ofxXmlSettings XML;
+                        if (XML.loadFile(file.getAbsolutePath())){
+                            if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                                patchToLoad = file.getAbsolutePath();
+                                loadNewPatch = true;
+                            }else{
+                                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                            }
+                        }
+                    }
+                }
+            }
+
+            // save patch
+            if( visualProgramming->imguiFileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "xml", "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml") ){
+                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+                visualProgramming->savePatchAs(file.getAbsolutePath());
+            }
+
+            // take patch screenshot
+            if( visualProgramming->imguiFileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "jpg", "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg") ){
+                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+                lastScreenshot = file.getAbsolutePath();
+                saveNewScreenshot = true;
+            }
 
         }
 
@@ -968,7 +1007,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 //--------------------------------------------------------------
 void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
-    if(response.id == "open patch"){
+    /*if(response.id == "open patch"){
         ofFile file(response.filepath);
         if (file.exists()){
             string fileExtension = ofToUpper(file.getExtension());
@@ -1017,7 +1056,7 @@ void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
         ofFile file(response.filepath);
         lastScreenshot = file.getAbsolutePath();
         saveNewScreenshot = true;
-    }
+    }*/
 }
 
 //--------------------------------------------------------------
