@@ -83,8 +83,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxEasing](https://github.com/arturoc/ofxEasing)
 
-#### [ofxFaceTracker](https://github.com/kylemcdonald/ofxFaceTracker)
-
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
 
 #### [ofxFontStash](https://github.com/d3cod3/ofxFontStash) -- Fork
@@ -184,7 +182,6 @@ git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/d3cod3/ofxDatGui
 git clone https://github.com/arturoc/ofxEasing
-git clone https://github.com/kylemcdonald/ofxFaceTracker
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
