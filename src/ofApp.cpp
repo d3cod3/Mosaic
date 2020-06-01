@@ -48,7 +48,8 @@ void ofApp::setup(){
     ///////////////////////////////////////////
 
     // TIMING
-    mosaicTiming.setFramerate(25);
+    mosaicFPS = 30;
+    mosaicTiming.setFramerate(mosaicFPS);
 
     // RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
@@ -140,7 +141,7 @@ void ofApp::setup(){
     isCodeEditorON = false;
     isCodeEditorFullWindow = false;
 
-    loggerRect.set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
+    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -161,11 +162,8 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
-    takeScreenshot      = false;
     saveNewScreenshot   = false;
     lastScreenshot      = "";
-
-    setupLoaded         = true;
 
 }
 
@@ -198,6 +196,7 @@ void ofApp::update(){
             //visualProgramming->activateDSP();
             // reset code editor position and dimension
             codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+            loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
         }
     }
 
@@ -323,12 +322,6 @@ void ofApp::draw(){
     }
     visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
 
-    // startup notification popup
-    if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
-        setupLoaded = false;
-        visualProgramming->fileDialog.notificationPopup(WINDOW_TITLE, "Live Visual Patching Creative-Coding Platform\nhttps://mosaic.d3cod3.org/");
-    }
-
 }
 
 //--------------------------------------------------------------
@@ -342,8 +335,9 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            bool openPatch = false;
-            bool savePatchAs = false;
+            openPatch = false;
+            savePatchAs = false;
+            takeScreenshot = false;
 
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
@@ -352,11 +346,11 @@ void ofApp::drawImGuiInterface(){
                     autoinitDSP = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem( "Open patch",ofToString(shortcutFunc+"+O").c_str())){
+                if(ImGui::MenuItem( "Open patch" )){
                     openPatch = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem( "Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
+                if(ImGui::MenuItem( "Save patch As.." )){
                     savePatchAs = true;
                 }
                 ImGui::Spacing();
@@ -434,34 +428,14 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "System")){
-                static int fpsn = 1;
-                if(ImGui::BeginMenu("FPS")){
-                    vector<string> fpss {"24","25","30","60","120"};
-                    if(ofxImGui::VectorCombo("FPS", &fpsn,fpss)){
-                        if(fpsn == 0){
-                            //ofSetFrameRate(24);
-                            setMosaicFrameRate(24);
-                        }else if(fpsn == 1){
-                            //ofSetFrameRate(25);
-                            setMosaicFrameRate(25);
-                        }else if(fpsn == 2){
-                            //ofSetFrameRate(30);
-                            setMosaicFrameRate(30);
-                        }else if(fpsn == 3){
-                            //ofSetFrameRate(60);
-                            setMosaicFrameRate(60);
-                        }else if(fpsn == 4){
-                            //ofSetFrameRate(120);
-                            setMosaicFrameRate(120);
-                        }
-                    }
-                    ImGui::EndMenu();
+                if(ImGui::DragInt("FPS",&mosaicFPS,1.0f,1)){
+                    setMosaicFrameRate(mosaicFPS);
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Screenshot",ofToString(shortcutFunc+"+T").c_str())){
+                if(ImGui::MenuItem( "Screenshot" )){
                     takeScreenshot = true;
                 }
                 ImGui::EndMenu();
@@ -510,18 +484,14 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            // file browser
+            // File dialogs
             if(openPatch) ImGui::OpenPopup("Open patch");
             if(savePatchAs) ImGui::OpenPopup("Save patch");
-
-            if(takeScreenshot){
-                takeScreenshot = false;
-                ImGui::OpenPopup("Take Screenshot");
-            }
+            if(takeScreenshot) ImGui::OpenPopup("Take screenshot");
 
             // open patch
-            if( visualProgramming->imguiFileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "xml") ){
-                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".xml") ){
+                ofFile file(fileDialog.selected_path);
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
@@ -539,14 +509,14 @@ void ofApp::drawImGuiInterface(){
             }
 
             // save patch
-            if( visualProgramming->imguiFileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "xml", "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml") ){
-                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".xml") ){
+                ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
             }
 
             // take patch screenshot
-            if( visualProgramming->imguiFileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), "jpg", "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg") ){
-                ofFile file(visualProgramming->imguiFileDialog.selected_path);
+            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".jpg") ){
+                ofFile file(fileDialog.selected_path);
                 lastScreenshot = file.getAbsolutePath();
                 saveNewScreenshot = true;
             }
@@ -903,29 +873,17 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         visualProgramming->newPatch();
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
-    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
-        visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
-    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
-        visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
-        visualProgramming->openLastPatch();
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
-        visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as","mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml");
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
-        takeScreenshot = true;
     }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
         visualProgramming->activateDSP();
     }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
         #if defined(TARGET_LINUX) || defined(TARGET_OSX)
         visualProgramming->deactivateDSP();
         #endif
-    }else if(e.keycode == 259){
-        //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
         createSearchedObject = true;
     }
@@ -977,11 +935,10 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    if(isInited){
-        isWindowResized = true;
-    }
 
-    if(isInited){
+    if(isInited && ofGetElapsedTimeMillis() > 1000){
+        isWindowResized = true;
+
         loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
 
         if(isCodeEditorFullWindow){

@@ -105,17 +105,21 @@ public:
     std::filesystem::path       mosaicExamplesPath;
     string                      mosaicURL;
     string                      userHome;
-    bool                        setupLoaded;
 
     // GUI
-    ofxImGui::Gui               mainMenu;
-    string                      shortcutFunc;
-    bool                        createSearchedObject;
-    bool                        showConsoleWindow;
-    bool                        showCodeEditor;
-    bool                        showAboutWindow;
-    bool                        showRightClickMenu;
-    bool                        isHoverMenu;
+    ofxImGui::Gui                   mainMenu;
+    imgui_addons::ImGuiFileBrowser  fileDialog;
+    ofImage                         *mosaicLogo;
+    GLuint                          mosaicLogoID;
+    string                          shortcutFunc;
+    bool                            createSearchedObject;
+    bool                            showConsoleWindow;
+    bool                            showCodeEditor;
+    bool                            showAboutWindow;
+    bool                            showRightClickMenu;
+    bool                            isHoverMenu;
+    bool                            openPatch;
+    bool                            savePatchAs;
 
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
@@ -148,15 +152,12 @@ public:
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
     SynchTimer                  mosaicTiming;
+    int                         mosaicFPS;
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;
     bool                        autoinitDSP;
     size_t                      resetInitDSP;
-
-    // GUI
-    ofImage                     *mosaicLogo;
-    GLuint                      mosaicLogoID;
 
     // NET
     int                         lastReleaseResp;
