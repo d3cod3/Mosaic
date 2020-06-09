@@ -78,16 +78,21 @@ void ofApp::setup(){
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
 
+    // double font oversampling (default 3) for canvas zoom
+    ImFontConfig font_config;
+    font_config.OversampleH = 6;
+    font_config.OversampleV = 6;
+
     ofFile fileToRead1(ofToDataPath(MAIN_FONT));
     string absPath1 = fileToRead1.getAbsolutePath();
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f); // GUI font
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
     }else{
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f); // GUI font
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
     }
 
     // merge in icons from Font Awesome
