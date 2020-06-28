@@ -142,11 +142,11 @@ void ofApp::setup(){
     actualEditedFilePath            = "";
     actualEditedFileName            = "";
     scriptToRemoveFromCodeEditor    = "";
-    codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+    codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
     isCodeEditorON = false;
     isCodeEditorFullWindow = false;
 
-    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
+    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -200,8 +200,8 @@ void ofApp::update(){
             autoinitDSP = false;
             //visualProgramming->activateDSP();
             // reset code editor position and dimension
-            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
-            loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+            loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         }
     }
 
@@ -450,9 +450,7 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
                 }
-                if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
-                    TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
-                }
+                ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
                     showConsoleWindow       = isLoggerON;
                 }
@@ -723,9 +721,9 @@ void ofApp::drawImGuiInterface(){
                     if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
                         isCodeEditorFullWindow = !isCodeEditorFullWindow;
                         if(isCodeEditorFullWindow){
-                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
                         }else{
-                            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+                            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
                         }
                     }
 
@@ -944,12 +942,12 @@ void ofApp::windowResized(int w, int h){
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
 
-        loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
+        loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
 
         if(isCodeEditorFullWindow){
-            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
+            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
         }else{
-            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
         }
     }
 }
@@ -968,8 +966,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 }
 
 //--------------------------------------------------------------
-void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
-    /*if(response.id == "open patch"){
+/*void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
+    if(response.id == "open patch"){
         ofFile file(response.filepath);
         if (file.exists()){
             string fileExtension = ofToUpper(file.getExtension());
@@ -1018,8 +1016,8 @@ void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
         ofFile file(response.filepath);
         lastScreenshot = file.getAbsolutePath();
         saveNewScreenshot = true;
-    }*/
-}
+    }
+}*/
 
 //--------------------------------------------------------------
 void ofApp::urlResponse(ofHttpResponse & response) {
@@ -1060,7 +1058,6 @@ void ofApp::quitMosaic(){
 //--------------------------------------------------------------
 void ofApp::setMosaicFrameRate(float fps){
     mosaicTiming.setFramerate(fps);
-    TIME_SAMPLE_SET_FRAMERATE(fps);
 }
 
 //--------------------------------------------------------------

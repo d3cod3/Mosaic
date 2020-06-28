@@ -70,9 +70,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    // GUI Events
-    void onFileDialogResponse(ofxThreadedFileDialogResponse &response);
-
     // NET Events
     void urlResponse(ofHttpResponse & response);
 
@@ -109,6 +106,7 @@ public:
     // GUI
     ofxImGui::Gui                   mainMenu;
     imgui_addons::ImGuiFileBrowser  fileDialog;
+
     ofImage                         *mosaicLogo;
     GLuint                          mosaicLogoID;
     string                          shortcutFunc;
