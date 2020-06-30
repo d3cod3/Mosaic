@@ -13,43 +13,37 @@ __
 Table of Contents
 =================
 
-   * [DOWNLOAD](#download)
    * [INSTALL](#install)
    * [OF_COMPATIBLE_RELEASE](#of_compatible_release)
    * [DEPENDENCIES](#dependencies)
    * [DESCRIPTION](#description)
    * [SPECIFICATIONS](#specifications)
-   * [COMPILING](#compiling)
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
    * [CREDITS](#credits)
 
 
-# DOWNLOAD
-
-Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
-
 # INSTALL
 
 ## LINUX
 
-Use the automatic install script for your distro (Ubuntu/debian only for now, see [COMPILING](#compiling) section)
+Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
 
 ## MACOS
 
+Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 Just unzip the downloaded release and copy Mosaic app in your Application folder, that's it!
 
-## WINDOWS (UNTESTED)
+## WINDOWS
 
-Mosaic support for windows will continue at a source code level only. The code will be tested to compile correctly on windows machines, but no installers will be available for download.
-If you want to use Mosaic on windows, you'll need to build it yourself on your machine, just check the links below about openframeworks and qtcreator. After having openframeworks perfectly running, you'll need to clone from git all the required addons and this repository (details below for compiling).
+Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
 
 # OF COMPATIBLE RELEASE
 
 ## 0.11.0 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
 
-If you want to build Mosaic, just download OF0.11.0 for your OS (osx, linux, windows) and follow the setup guide for [qtcreator](https://www.qt.io/) IDE.
+If you want to build Mosaic, just download OF0.11.0 for your OS (osx, linux, windows) and follow the correspondent setup guide.
 
 # DESCRIPTION
 
@@ -143,30 +137,6 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
     - warping integrated on output window object
     - mapmap style projection mapping module
 
-# COMPILING
-
-## LINUX
-
-Here you can download (and check) a script for automatically download/clone/compile and build everything for your linux distro, and magically have Mosaic appearing on your desktop menu and perfectly working.
-
-[Ubuntu](https://gist.github.com/d3cod3/81b8971ebf5fc9a6d288ca93fc3c3dad#file-install_mosaic_ubuntu-sh)
-
-[Ubuntu Studio](https://gist.github.com/d3cod3/869d6d36b2e4c6a5aa01c17cf6395e6b#file-install_mosaic_ubuntustudio-sh)
-
-[Linux Mint](https://gist.github.com/d3cod3/d1a544e0cf21b8733b567a3d87905d23#file-install_mosaic_linuxmint-sh)
-
-[Debian](https://gist.github.com/d3cod3/fbb76735554c3b38e811414d96fc28d6#file-install_mosaic_debian-sh)
-
-[Fedora](https://gist.github.com/d3cod3/2a6e9f1f21045d763571cc4172cf2d6c#file-install_mosaic_fedora-sh)
-
-
-## MACOS
-
-Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues.
-
-## WINDOWS
-
-Compiling with [qtcreator 4.6.1](https://download.qt.io/official_releases/qtcreator/4.6/4.6.1/) with no issues.
 
 #### OFXADDONS
 
