@@ -151,6 +151,7 @@ public:
     ofxVisualProgramming        *visualProgramming;
     SynchTimer                  mosaicTiming;
     int                         mosaicFPS;
+    int                         mosaicBPM;
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;

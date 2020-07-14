@@ -50,6 +50,7 @@ void ofApp::setup(){
     // TIMING
     mosaicFPS = 30;
     mosaicTiming.setFramerate(mosaicFPS);
+    mosaicBPM = 108;
 
     // RETINA FIX
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
@@ -107,7 +108,7 @@ void ofApp::setup(){
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup( &mainMenu );
-    visualProgramming->canvasViewport.set(glm::vec2(0,0), glm::vec2(ofGetWidth(), ofGetHeight()));
+    visualProgramming->canvasViewport.set(glm::vec2(0,20), glm::vec2(ofGetWidth(), ofGetHeight()-20));
 
     patchToLoad                 = "";
     loadNewPatch                = false;
@@ -156,8 +157,6 @@ void ofApp::setup(){
     shortcutFunc = "CTRL";
 #endif
 
-    //ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
-
     // NET
     isInternetAvailable = false;
     isCheckingRelease = false;
@@ -181,7 +180,7 @@ void ofApp::update(){
     // Visual Programming Environment
     if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
         visualProgramming->update();
-        visualProgramming->canvasViewport.set(glm::vec2(0,0), glm::vec2(ofGetWidth(), ofGetHeight()));
+        visualProgramming->canvasViewport.set(glm::vec2(0,20), glm::vec2(ofGetWidth(), ofGetHeight()-20));
     }
 
     visualProgramming->setIsHoverMenu(isHoverMenu);
@@ -198,7 +197,8 @@ void ofApp::update(){
     if(autoinitDSP){
         if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
             autoinitDSP = false;
-            //visualProgramming->activateDSP();
+            visualProgramming->activateDSP();
+            mosaicBPM = visualProgramming->bpm;
             // reset code editor position and dimension
             codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
             loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
@@ -311,6 +311,15 @@ void ofApp::draw(){
         mainMenu.draw();
     }
 
+    // DSP flag
+    if(visualProgramming->dspON){
+        ofSetColor(ofColor::fromHex(0xFFD00B));
+        visualProgramming->font->draw("DSP ON",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+    }else{
+        ofSetColor(ofColor::fromHex(0x777777));
+        visualProgramming->font->draw("DSP OFF",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+    }
+
     // Last LOG on bottom bar
     string tmpMsg = mosaicLoggerChannel->GetLastLog();
     if(tmpMsg.find("[warning") != std::string::npos) {
@@ -403,31 +412,33 @@ void ofApp::drawImGuiInterface(){
 
 
             if(ImGui::BeginMenu( "Sound")){
-                if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
-                    visualProgramming->activateDSP();
+                if(ImGui::Checkbox("DSP",&visualProgramming->dspON)){
+                    if(visualProgramming->dspON){
+                        visualProgramming->activateDSP();
+                    }else{
+                        visualProgramming->deactivateDSP();
+                    }
                 }
-                #if defined(TARGET_LINUX) || defined(TARGET_OSX)
-                if(ImGui::MenuItem("DSP OFF",ofToString(shortcutFunc+"+SHIFT+D").c_str())){
-                    visualProgramming->deactivateDSP();
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::DragInt("TEMPO",&mosaicBPM,1.0f,1)){
+                    visualProgramming->bpm = mosaicBPM;
+                    visualProgramming->engine->sequencer.setTempo(mosaicBPM);
+                    visualProgramming->setPatchVariable("bpm",mosaicBPM);
                 }
-                #endif
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
                 static int inDev = visualProgramming->audioGUIINIndex;
-                if(ImGui::BeginMenu("Input Device")){
-                    if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
-                        visualProgramming->setAudioInDevice(inDev);
-                    }
-                    ImGui::EndMenu();
+                if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
+                    visualProgramming->setAudioInDevice(inDev);
                 }
                 static int outDev = visualProgramming->audioGUIOUTIndex;
-                if(ImGui::BeginMenu("Output Device")){
-                    if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
-                        visualProgramming->setAudioOutDevice(outDev);
-                    }
-                    ImGui::EndMenu();
+                if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
+                    visualProgramming->setAudioOutDevice(outDev);
                 }
                 ImGui::EndMenu();
             }
