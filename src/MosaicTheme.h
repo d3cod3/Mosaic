@@ -41,6 +41,8 @@ public:
 
     void setup() override;
 
+    void fixForRetinaScreen();
+
 
     // TextInput ComboBox
     static bool identical(const char* buf, const char* item);

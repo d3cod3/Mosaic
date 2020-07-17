@@ -105,7 +105,9 @@ public:
 
     // GUI
     ofxImGui::Gui                   mainMenu;
+    MosaicTheme                     *mainTheme;
     imgui_addons::ImGuiFileBrowser  fileDialog;
+    bool                            isRetina;
 
     ofImage                         *mosaicLogo;
     GLuint                          mosaicLogoID;

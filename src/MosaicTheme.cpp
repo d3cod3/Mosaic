@@ -131,6 +131,20 @@ void MosaicTheme::setup(){
 }
 
 //--------------------------------------------------------------
+void MosaicTheme::fixForRetinaScreen(){
+    ImGuiStyle* style = &ImGui::GetStyle();
+
+    style->FramePadding = ImVec2(8, 4);
+    style->ItemSpacing = ImVec2(12, 4);
+    style->ItemInnerSpacing = ImVec2(12, 8);
+    style->IndentSpacing = 12.0f;
+    style->ItemInnerSpacing = ImVec2(4, 8);
+    style->ColumnsMinSpacing = 100.0f;
+    style->GrabMinSize = 28.0f;
+    style->ScrollbarSize = 28.0f;
+}
+
+//--------------------------------------------------------------
 bool MosaicTheme::identical(const char* buf, const char* item){
     size_t buf_size = strlen(buf);
     size_t item_size = strlen(item);
