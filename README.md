@@ -9,9 +9,9 @@
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V21B90C)
 
 
-“[YOUR REPO] is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial”
+“Mosaic is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial”
 
-<a href="https://tracking.gitads.io/?repo=YOUR_REPO"> <img src="https://images.gitads.io/YOUR_REPO" alt="GitAds"/> </a>
+<a href="https://tracking.gitads.io/?repo=“Mosaic"> <img src="https://images.gitads.io/“Mosaic" alt="GitAds"/> </a>
 
 __
 
