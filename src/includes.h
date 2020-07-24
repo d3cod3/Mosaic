@@ -34,8 +34,8 @@
 
 #include "ofxVisualProgramming.h"
 #include "ofxImGui.h"
-#include "FileBrowser/ImGuiFileBrowser.h"
-#include "IconsFontAwesome5.h"
+#include "core/FileBrowser/ImGuiFileBrowser.h"
+#include "core/IconsFontAwesome5.h"
 
 #include "MosaicTheme.h"
 #include "TextEditor.h"
