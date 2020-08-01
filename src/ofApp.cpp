@@ -80,6 +80,7 @@ void ofApp::setup(){
     // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    io.IniFilename = nullptr;
 
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
