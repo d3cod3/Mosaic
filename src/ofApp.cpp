@@ -38,7 +38,7 @@ void ofApp::setup(){
     ///////////////////////////////////////////
     // OF Stuff
     ofSetEscapeQuitsApp(false);
-    ofSetVerticalSync(false);
+    ofSetVerticalSync(true);
     ofEnableAntiAliasing();
     ofSetLogLevel(PACKAGE,OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
@@ -101,7 +101,11 @@ void ofApp::setup(){
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-    io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+    }else{
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+    }
 
     ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
     io.FontDefault = defaultfont;
@@ -185,7 +189,7 @@ void ofApp::update(){
     // Visual Programming Environment
     if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
         visualProgramming->update();
-        visualProgramming->canvasViewport.set(glm::vec2(0,20), glm::vec2(ofGetWidth(), ofGetHeight()-20));
+        visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
     }
 
     visualProgramming->setIsHoverMenu(isHoverMenu);
@@ -551,13 +555,13 @@ void ofApp::drawImGuiInterface(){
         // About window
         if(showAboutWindow){
 
-            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-400)*.5f,(ofGetHeight()-400)*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(400,400), ImGuiCond_Appearing );
+            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*visualProgramming->scaleFactor))*.5f,(ofGetHeight()-(400*visualProgramming->scaleFactor))*.5f), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(400*visualProgramming->scaleFactor,400*visualProgramming->scaleFactor), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
                 if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
-                    float ratio = 150.f / mosaicLogo->getWidth();
+                    float ratio = (150.f*visualProgramming->scaleFactor) / mosaicLogo->getWidth();
                     ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
                 }
                 ImGui::Text( "%s", PACKAGE);
@@ -578,7 +582,7 @@ void ofApp::drawImGuiInterface(){
                         bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
 
                         ImGui::Spacing();
-                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*visualProgramming->scaleFactor)), ImGuiWindowFlags_NoMove);
                         if (copy_to_clipboard){
                             ImGui::LogToClipboard();
                         }
@@ -738,13 +742,9 @@ void ofApp::drawImGuiInterface(){
                     ImGui::SameLine();
                     ImGui::Spacing();
                     ImGui::SameLine();
-                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
+                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24*visualProgramming->scaleFactor,24*visualProgramming->scaleFactor))){
                         isCodeEditorFullWindow = !isCodeEditorFullWindow;
-                        if(isCodeEditorFullWindow){
-                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-                        }else{
-                            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-                        }
+                        initGuiPositions();
                     }
 
                     ImGui::Spacing();
@@ -772,8 +772,6 @@ void ofApp::drawImGuiInterface(){
                         }
                         ImGui::EndTabBar();
                     }
-
-                    //ImGui::End();
 
                 }
 
@@ -847,7 +845,7 @@ void ofApp::drawImGuiInterface(){
                                 if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
                                     // choose by click or pick first one
                                     if (ImGui::IsItemClicked() || bApplyFilter){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + (200*visualProgramming->scaleFactor),visualProgramming->canvas.getMovingPoint().y + (200*visualProgramming->scaleFactor)));
                                         showRightClickMenu = false;
                                         bApplyFilter = false;
                                         filter.Clear();
@@ -989,60 +987,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
         createObjectFromFile(file,false);
     }
 }
-
-//--------------------------------------------------------------
-/*void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
-    if(response.id == "open patch"){
-        ofFile file(response.filepath);
-        if (file.exists()){
-            string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "XML") {
-                ofxXmlSettings XML;
-
-                if (XML.loadFile(file.getAbsolutePath())){
-                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                        patchToLoad = file.getAbsolutePath();
-                        loadNewPatch = true;
-                    }else{
-                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                    }
-                }
-            }
-        }
-    }else if(response.id == "open patch source"){
-        ofFile file(response.filepath);
-        if (file.exists()){
-            string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "XML") {
-                ofxXmlSettings XML;
-
-                if (XML.loadFile(file.getAbsolutePath())){
-                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                        string cmd = "";
-        #ifdef TARGET_LINUX
-                        cmd = "atom "+file.getAbsolutePath();
-        #elif defined(TARGET_OSX)
-                        cmd = "open -a /Applications/Atom.app "+file.getAbsolutePath();
-        #elif defined(TARGET_WIN32)
-                        cmd = "atom "+file.getAbsolutePath();
-        #endif
-                        system(cmd.c_str());
-                    }else{
-                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                    }
-                }
-
-            }
-        }
-    }else if(response.id == "save patch"){
-        ofFile file(response.filepath);
-        visualProgramming->savePatchAs(file.getAbsolutePath());
-    }else if(response.id == "screenshot"){
-        ofFile file(response.filepath);
-        lastScreenshot = file.getAbsolutePath();
-        saveNewScreenshot = true;
-    }
-}*/
 
 //--------------------------------------------------------------
 void ofApp::urlResponse(ofHttpResponse & response) {
@@ -1388,7 +1332,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
 //--------------------------------------------------------------
 void ofApp::initScriptLanguages(){
     // ------------------------------------------- LUA
-    static const char* const lua_mosaic_keywords[] = {
+    /*static const char* const lua_mosaic_keywords[] = {
         "USING_DATA_INLET", "OUTPUT_WIDTH", "OUTPUT_HEIGHT", "_mosaic_data_inlet", "_mosaic_data_outlet", "SCRIPT_PATH", "mouseX", "mouseY" };
 
     static const char* const lua_mosaic_keywords_decl[] = {
@@ -1403,7 +1347,7 @@ void ofApp::initScriptLanguages(){
         TextEditor::Identifier id;
         id.mDeclaration = lua_mosaic_keywords_decl[i];
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
-    }
+    }*/
 
 
 

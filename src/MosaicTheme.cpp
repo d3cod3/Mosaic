@@ -61,19 +61,19 @@ void MosaicTheme::setup(){
     ImGuiStyle* style = &ImGui::GetStyle();
 
     style->WindowBorderSize = 0.0f;
-    style->WindowMinSize = ImVec2(160, 65);
+    style->WindowMinSize = ImVec2(160, 70);
     style->WindowRounding = 0.0f;
-    style->FramePadding = ImVec2(4, 2);
-    style->ItemSpacing = ImVec2(6, 2);
+    style->WindowPadding = ImVec2(8, 8);
+    style->FramePadding = ImVec2(4, 6);
+    style->ItemSpacing = ImVec2(8, 2);
     style->ItemInnerSpacing = ImVec2(6, 4);
     style->Alpha = 1.0f;
     style->FrameRounding = 0.0f;
     style->IndentSpacing = 6.0f;
-    style->ItemInnerSpacing = ImVec2(2, 4);
     style->ColumnsMinSpacing = 50.0f;
     style->GrabMinSize = 14.0f;
     style->GrabRounding = 0.0f;
-    style->ScrollbarSize = 12.0f;
+    style->ScrollbarSize = 14.0f;
     style->ScrollbarRounding = 0.0f;
     style->TabRounding = 0.0f;
     style->PopupBorderSize = 0.0f;
@@ -134,11 +134,12 @@ void MosaicTheme::setup(){
 void MosaicTheme::fixForRetinaScreen(){
     ImGuiStyle* style = &ImGui::GetStyle();
 
-    style->FramePadding = ImVec2(8, 4);
-    style->ItemSpacing = ImVec2(12, 4);
+    style->WindowMinSize = ImVec2(320, 140);
+    style->WindowPadding = ImVec2(16, 16);
+    style->FramePadding = ImVec2(8, 12);
+    style->ItemSpacing = ImVec2(16, 4);
     style->ItemInnerSpacing = ImVec2(12, 8);
     style->IndentSpacing = 12.0f;
-    style->ItemInnerSpacing = ImVec2(4, 8);
     style->ColumnsMinSpacing = 100.0f;
     style->GrabMinSize = 28.0f;
     style->ScrollbarSize = 28.0f;
