@@ -38,10 +38,9 @@ void ofApp::setup(){
     ///////////////////////////////////////////
     // OF Stuff
     ofSetEscapeQuitsApp(false);
-    ofSetVerticalSync(true);
-    //ofSetFrameRate(30);
+    ofSetVerticalSync(false);
     ofEnableAntiAliasing();
-    ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
+    ofSetLogLevel(PACKAGE,OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
 
     initDataFolderFromBundle();
@@ -50,7 +49,7 @@ void ofApp::setup(){
     // TIMING
     mosaicFPS = 30;
     mosaicTiming.setFramerate(mosaicFPS);
-    mosaicBPM = 108;
+    mosaicBPM = 120;
 
     // RETINA FIX
     isRetina = false;
@@ -115,7 +114,7 @@ void ofApp::setup(){
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup( &mainMenu );
-    visualProgramming->canvasViewport.set(glm::vec2(0,20), glm::vec2(ofGetWidth(), ofGetHeight()-20));
+    visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
 
     patchToLoad                 = "";
     loadNewPatch                = false;
@@ -150,11 +149,8 @@ void ofApp::setup(){
     actualEditedFilePath            = "";
     actualEditedFileName            = "";
     scriptToRemoveFromCodeEditor    = "";
-    codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
     isCodeEditorON = false;
     isCodeEditorFullWindow = false;
-
-    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -173,8 +169,10 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
-    saveNewScreenshot   = false;
-    lastScreenshot      = "";
+    saveNewScreenshot       = false;
+    lastScreenshot          = "";
+    waitForScreenshotTime   = 200;
+    resetScreenshotTime     = ofGetElapsedTimeMillis();
 
 }
 
@@ -206,9 +204,6 @@ void ofApp::update(){
             autoinitDSP = false;
             visualProgramming->activateDSP();
             mosaicBPM = visualProgramming->bpm;
-            // reset code editor position and dimension
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-            loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
         }
     }
 
@@ -259,6 +254,8 @@ void ofApp::update(){
         // reinit DSP
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
+        // init gui positions
+        initGuiPositions();
     }
 
     // NET
@@ -269,19 +266,21 @@ void ofApp::update(){
 
     // Screenshot
     if(saveNewScreenshot){
-       saveNewScreenshot = false;
-       if(lastScreenshot != ""){
-           ofFile file(lastScreenshot);
-           // force .jpg file extension
-           string finalPath = file.getAbsolutePath();
-           if(ofToUpper(file.getExtension()) != "JPG"){
-               finalPath += ".jpg";
-           }
-           ofImage tempScreenshot;
-           tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
-           tempScreenshot.getPixels().swapRgb();
-           tempScreenshot.save(finalPath);
-       }
+        if(ofGetElapsedTimeMillis()-resetScreenshotTime > waitForScreenshotTime){ // avoid imgui filebrowser
+            saveNewScreenshot = false;
+            if(lastScreenshot != ""){
+                ofFile file(lastScreenshot);
+                // force .jpg file extension
+                string finalPath = file.getAbsolutePath();
+                if(ofToUpper(file.getExtension()) != "JPG"){
+                    finalPath += ".jpg";
+                }
+                ofImage tempScreenshot;
+                tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
+                tempScreenshot.getPixels().swapRgb();
+                tempScreenshot.save(finalPath);
+            }
+        }
     }
 
 }
@@ -467,10 +466,12 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
+                    initGuiPositions();
                 }
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
                     showConsoleWindow       = isLoggerON;
+                    initGuiPositions();
                 }
                 ImGui::EndMenu();
             }
@@ -540,6 +541,7 @@ void ofApp::drawImGuiInterface(){
                 ofFile file(fileDialog.selected_path);
                 lastScreenshot = file.getAbsolutePath();
                 saveNewScreenshot = true;
+                resetScreenshotTime = ofGetElapsedTimeMillis();
             }
 
         }
@@ -881,6 +883,22 @@ void ofApp::drawImGuiInterface(){
 }
 
 //--------------------------------------------------------------
+void ofApp::initGuiPositions(){
+    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+
+    if(isCodeEditorFullWindow){
+        codeEditorRect.set(0, (20*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+    }else{
+        if(isLoggerON){
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (20*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        }else{
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (20*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(20*visualProgramming->scaleFactor));
+        }
+
+    }
+}
+
+//--------------------------------------------------------------
 void ofApp::exit() {
     visualProgramming->exit();
 }
@@ -894,17 +912,12 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         visualProgramming->newPatch();
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
+    // refresh/save actual editing script
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
-    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
-        visualProgramming->activateDSP();
-    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
-        #if defined(TARGET_LINUX) || defined(TARGET_OSX)
-        visualProgramming->deactivateDSP();
-        #endif
     }else if(e.keycode == 257){
         createSearchedObject = true;
     }
@@ -960,13 +973,7 @@ void ofApp::windowResized(int w, int h){
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
 
-        loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
-
-        if(isCodeEditorFullWindow){
-            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-        }else{
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-        }
+        initGuiPositions();
     }
 }
 

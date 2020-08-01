@@ -89,6 +89,7 @@ public:
     void            createObjectFromFile(ofFile file,bool temp);
 
     // Code Editor
+    void            initGuiPositions();
     void            initScriptLanguages();
     void            initNewCodeEditor(ofFile file);
     void            removeScriptFromCodeEditor(string filename);
@@ -173,6 +174,8 @@ private:
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;
+    size_t                              waitForScreenshotTime;
+    size_t                              resetScreenshotTime;
 
 protected:
 
