@@ -47,7 +47,7 @@ void ofApp::setup(){
     ///////////////////////////////////////////
 
     // TIMING
-    mosaicFPS = 30;
+    mosaicFPS = 60;
     mosaicTiming.setFramerate(mosaicFPS);
     mosaicBPM = 120;
 
@@ -115,6 +115,8 @@ void ofApp::setup(){
         mainTheme->fixForRetinaScreen();
     }
     mainMenu.setup(mainTheme,false);
+
+    fileDialog.setIsRetina(isRetina);
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup( &mainMenu );
@@ -472,11 +474,14 @@ void ofApp::drawImGuiInterface(){
                     showCodeEditor          = isCodeEditorON;
                     initGuiPositions();
                 }
-                ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
                     showConsoleWindow       = isLoggerON;
                     initGuiPositions();
                 }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+                ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
                 ImGui::EndMenu();
             }
 
@@ -882,15 +887,15 @@ void ofApp::drawImGuiInterface(){
 
 //--------------------------------------------------------------
 void ofApp::initGuiPositions(){
-    loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth(),240*visualProgramming->scaleFactor);
+    loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
 
     if(isCodeEditorFullWindow){
-        codeEditorRect.set(0, (20*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
     }else{
         if(isLoggerON){
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (20*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
         }else{
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (20*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(20*visualProgramming->scaleFactor));
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
         }
 
     }
