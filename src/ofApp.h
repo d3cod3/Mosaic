@@ -171,6 +171,16 @@ public:
 private:
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
 
+    ofxFFmpegRecorder                   recorder;
+    ofxFastFboReader                    reader;
+    ofFbo                               captureFbo;
+    ofPixels                            capturePix;
+    vector<string>                      codecsList;
+    string                              recordFilepath;
+    int                                 selectedCodec;
+    string                              recButtonLabel;
+    bool                                exportVideoFlag;
+
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;

@@ -142,6 +142,23 @@ void ofApp::setup(){
     isHoverLogger           = false;
     isHoverCodeEditor       = false;
 
+    // VIDEo EXPORTER ( documenting patches, tutorials, etc...)
+    recordFilepath = "";
+    exportVideoFlag = false;
+    codecsList = {"hevc","libx264","jpeg2000","mjpeg","mpeg4"};
+    selectedCodec = 4;
+    recButtonLabel = "REC";
+
+    captureFbo.allocate( ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
+    recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
+    recorder.setOverWrite(true);
+
+#if defined(TARGET_OSX)
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg/osx/ffmpeg",true));
+#elif defined(TARGET_WIN32)
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg/win/ffmpeg.exe",true));
+#endif
+
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
     glslLang = TextEditor::LanguageDefinition::GLSL();
@@ -348,6 +365,23 @@ void ofApp::draw(){
     }
     visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
 
+    // Video Recording
+    if(recorder.isRecording()) {
+        ofImage recordFrame;
+        recordFrame.grabScreen(ofGetWindowPositionX(),ofGetWindowPositionY()-40,ofGetWindowWidth(),ofGetWindowHeight());
+
+        captureFbo.begin();
+        ofClear(0,0,0,255);
+        ofSetColor(255);
+        recordFrame.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
+        captureFbo.end();
+
+        reader.readToPixels(captureFbo, capturePix,OF_IMAGE_COLOR); // ofxFastFboReader
+        if(capturePix.getWidth() > 0 && capturePix.getHeight() > 0) {
+            recorder.addFrame(capturePix);
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -361,9 +395,10 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            openPatch = false;
-            savePatchAs = false;
-            takeScreenshot = false;
+            openPatch       = false;
+            savePatchAs     = false;
+            takeScreenshot  = false;
+            exportVideoFlag = false;
 
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
@@ -463,7 +498,69 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem( "Screenshot" )){
+
+                ImGui::Spacing();
+                ImGui::Text("Desktop Recorder");
+
+                ImGui::Spacing();
+                if(ImGui::Button(ICON_FA_FILE_UPLOAD)){
+                    exportVideoFlag = true;
+                }
+                ImGui::SameLine();
+                if(recordFilepath == ""){
+                    ImGui::Text("Select file...");
+                }else{
+                    ofFile tempFilename(recordFilepath);
+                    ImGui::Text("%s",tempFilename.getFileName().c_str());
+                    if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s",tempFilename.getAbsolutePath().c_str());
+                }
+
+                ImGui::Spacing();
+                ImGui::PushStyleColor(ImGuiCol_Button, VHS_RED);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_RED_OVER);
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
+                char tmp[256];
+                sprintf(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
+                if(ImGui::Button(tmp,ImVec2(-1,26*visualProgramming->scaleFactor))){
+                    if(recordFilepath != ""){
+                        if(!recorder.isRecording()){
+                            captureFbo.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
+                            recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
+                            ofSetVerticalSync(false);
+                            recorder.setOverWrite(true);
+                            recorder.setBitRate(20000);
+                            recorder.startCustomRecord();
+                            recButtonLabel = "STOP";
+                            ofLog(OF_LOG_NOTICE,"START RECORDING MOSAIC WINDOW");
+                        }else if(recorder.isRecording()){
+                            ofSetVerticalSync(true);
+                            recorder.stop();
+                            recButtonLabel = "REC";
+                            ofLog(OF_LOG_NOTICE,"FINISHED RECORDING MOSAIC WINDOW");
+                        }
+                    }else{
+                        ofLog(OF_LOG_ERROR,"SELECT FILE BEFORE RECORD VIDEO!");
+                    }
+                }
+                ImGui::PopStyleColor(3);
+                ImGui::Spacing();
+                if(ImGui::BeginCombo("Codec", codecsList.at(selectedCodec).c_str() )){
+                    for(int i=0; i < codecsList.size(); ++i){
+                        bool is_selected = (selectedCodec == i );
+                        if (ImGui::Selectable(codecsList.at(i).c_str(), is_selected)){
+                            selectedCodec = i;
+                            recorder.setVideoCodec(codecsList.at(selectedCodec));
+                        }
+                        if (is_selected) ImGui::SetItemDefaultFocus();
+                    }
+
+                    ImGui::EndCombo();
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::Button("Screenshot", ImVec2(-1,26*visualProgramming->scaleFactor))){
                     takeScreenshot = true;
                 }
                 ImGui::EndMenu();
@@ -519,9 +616,10 @@ void ofApp::drawImGuiInterface(){
             if(openPatch) ImGui::OpenPopup("Open patch");
             if(savePatchAs) ImGui::OpenPopup("Save patch");
             if(takeScreenshot) ImGui::OpenPopup("Take screenshot");
+            if(exportVideoFlag) ImGui::OpenPopup("Record video");
 
             // open patch
-            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".xml") ){
+            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml") ){
                 ofFile file(fileDialog.selected_path);
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
@@ -540,19 +638,52 @@ void ofApp::drawImGuiInterface(){
             }
 
             // save patch
-            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".xml") ){
+            string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
+            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml", newFileName) ){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
             }
 
             // take patch screenshot
-            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH, FILE_DIALOG_HEIGHT), ".jpg") ){
+            string newShotName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
+            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".jpg", newShotName) ){
                 ofFile file(fileDialog.selected_path);
                 lastScreenshot = file.getAbsolutePath();
                 saveNewScreenshot = true;
                 resetScreenshotTime = ofGetElapsedTimeMillis();
             }
 
+            // record video
+            #if defined(TARGET_WIN32)
+            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".avi";
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".avi", newRecordVideoName) ){
+                ofFile file(fileDialog.selected_path);
+                recordFilepath = file.getAbsolutePath();
+                // check extension
+                if(fileDialog.ext != ".avi"){
+                    recordFilepath += ".avi";
+                }
+                recorder.setOutputPath(recordFilepath);
+                // prepare blank video file
+                recorder.startCustomRecord();
+                recorder.stop();
+            }
+            #else
+
+            #endif
+            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".mp4";
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".mp4", newRecordVideoName) ){
+                ofFile file(fileDialog.selected_path);
+                recordFilepath = file.getAbsolutePath();
+                // check extension
+                if(fileDialog.ext != ".mp4"){
+                    recordFilepath += ".mp4";
+                }
+                recorder.setOutputPath(recordFilepath);
+                // prepare blank video file
+                recorder.startCustomRecord();
+                recorder.stop();
+            }
         }
 
         ImGui::EndMainMenuBar();
