@@ -111,10 +111,10 @@ void ofApp::setup(){
     io.FontDefault = defaultfont;
 
     mainTheme = new MosaicTheme();
+    mainMenu.setup(mainTheme,false);
     if(isRetina){
         mainTheme->fixForRetinaScreen();
     }
-    mainMenu.setup(mainTheme,false);
 
     fileDialog.setIsRetina(isRetina);
 
@@ -148,6 +148,10 @@ void ofApp::setup(){
     codecsList = {"hevc","libx264","jpeg2000","mjpeg","mpeg4"};
     selectedCodec = 4;
     recButtonLabel = "REC";
+
+    // SUBTITLER
+    actualSubtitle = "";
+    showSubtitler = false;
 
     captureFbo.allocate( ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
     recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
@@ -365,6 +369,27 @@ void ofApp::draw(){
     }
     visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
 
+    // subtitler
+    if(showSubtitler){
+        ofSetColor(0,0,0,100);
+        ofDrawRectangle(0,ofGetWindowHeight()-(166*visualProgramming->scaleFactor),ofGetWindowWidth(),147*visualProgramming->scaleFactor);
+        ofSetColor(245);
+        // cut subtitle at second newline
+        int subLastPos = nthOccurrence(actualSubtitle,"\n",2);
+        string finalSubtitle = "";
+        if(subLastPos != -1){
+            finalSubtitle = actualSubtitle.substr(0,subLastPos);
+        }else{
+            finalSubtitle = actualSubtitle;
+        }
+        if(isRetina){
+            visualProgramming->font->drawMultiLine(finalSubtitle,96,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        }else{
+            visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        }
+
+    }
+
     // Video Recording
     if(recorder.isRecording()) {
         ofImage recordFrame;
@@ -556,6 +581,18 @@ void ofApp::drawImGuiInterface(){
 
                     ImGui::EndCombo();
                 }
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                ImGui::Checkbox("Subtitler",&showSubtitler);
+                ImGui::Spacing();
+                ImGui::PushItemWidth(-1);
+                ImGui::InputTextMultiline("##subtitle",&actualSubtitle,ImVec2(-1,ImGui::GetFontSize()*3));
+                ImGui::PopItemWidth();
+
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
@@ -810,7 +847,7 @@ void ofApp::drawImGuiInterface(){
 
         // code editor
         if(showCodeEditor){
-            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
+            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
                 ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
                 ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
@@ -1021,7 +1058,11 @@ void ofApp::initGuiPositions(){
     loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
 
     if(isCodeEditorFullWindow){
-        codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        if(isLoggerON){
+            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        }else{
+            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
+        }
     }else{
         if(isLoggerON){
             codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
@@ -1468,7 +1509,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
 //--------------------------------------------------------------
 void ofApp::initScriptLanguages(){
     // ------------------------------------------- LUA
-    /*static const char* const lua_mosaic_keywords[] = {
+    static const char* const lua_mosaic_keywords[] = {
         "USING_DATA_INLET", "OUTPUT_WIDTH", "OUTPUT_HEIGHT", "_mosaic_data_inlet", "_mosaic_data_outlet", "SCRIPT_PATH", "mouseX", "mouseY" };
 
     static const char* const lua_mosaic_keywords_decl[] = {
@@ -1481,9 +1522,10 @@ void ofApp::initScriptLanguages(){
 
     for (int i = 0; i < sizeof(lua_mosaic_keywords) / sizeof(lua_mosaic_keywords[0]); ++i){
         TextEditor::Identifier id;
-        id.mDeclaration = lua_mosaic_keywords_decl[i];
+        //id.mDeclaration = lua_mosaic_keywords_decl[i];
+        id.mDeclaration = "";
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
-    }*/
+    }
 
 
 
@@ -1499,7 +1541,8 @@ void ofApp::initScriptLanguages(){
                 string methdesc = XML.getValue("desc","");
 
                 TextEditor::Identifier id;
-                id.mDeclaration = fix_newlines(methdesc).c_str();
+                //id.mDeclaration = fix_newlines(methdesc).c_str();
+                id.mDeclaration = "";
                 luaLang.mIdentifiers.insert(std::make_pair(std::string(methname.c_str()), id));
 
                 XML.popTag();

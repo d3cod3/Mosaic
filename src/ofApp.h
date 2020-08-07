@@ -179,7 +179,9 @@ private:
     string                              recordFilepath;
     int                                 selectedCodec;
     string                              recButtonLabel;
+    string                              actualSubtitle;
     bool                                exportVideoFlag;
+    bool                                showSubtitler;
 
     string                              lastScreenshot;
     bool                                takeScreenshot;

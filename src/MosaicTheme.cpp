@@ -62,7 +62,7 @@ void MosaicTheme::setup(){
 
     style->WindowBorderSize = 0.0f;
     style->WindowMinSize = ImVec2(160, 70);
-    style->WindowRounding = 0.0f;
+    style->WindowRounding = 4.0f;
     style->WindowPadding = ImVec2(8, 8);
     style->FramePadding = ImVec2(4, 6);
     style->ItemSpacing = ImVec2(8, 2);
@@ -74,7 +74,7 @@ void MosaicTheme::setup(){
     style->GrabMinSize = 14.0f;
     style->GrabRounding = 0.0f;
     style->ScrollbarSize = 14.0f;
-    style->ScrollbarRounding = 0.0f;
+    style->ScrollbarRounding = 4.0f;
     style->TabRounding = 0.0f;
     style->PopupBorderSize = 0.0f;
     style->TabBorderSize = 0.0f;
