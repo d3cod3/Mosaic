@@ -1127,18 +1127,23 @@ void TextEditor::Render()
                     auto it = mLanguageDefinition.mIdentifiers.find(id);
                     if (it != mLanguageDefinition.mIdentifiers.end())
                     {
-                        ImGui::BeginTooltip();
-                        ImGui::TextUnformatted(it->second.mDeclaration.c_str());
-                        ImGui::EndTooltip();
+                        if(it->second.mDeclaration != ""){
+                            ImGui::BeginTooltip();
+                            ImGui::TextUnformatted(it->second.mDeclaration.c_str());
+                            ImGui::EndTooltip();
+                        }
+
                     }
                     else
                     {
                         auto pi = mLanguageDefinition.mPreprocIdentifiers.find(id);
                         if (pi != mLanguageDefinition.mPreprocIdentifiers.end())
                         {
-                            ImGui::BeginTooltip();
-                            ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
-                            ImGui::EndTooltip();
+                            if(pi->second.mDeclaration != ""){
+                                ImGui::BeginTooltip();
+                                ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
+                                ImGui::EndTooltip();
+                            }
                         }
                     }
                 }
