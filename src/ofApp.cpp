@@ -988,11 +988,15 @@ void ofApp::drawImGuiInterface(){
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(!bIsFiltering){
                         if(ImGui::BeginMenu(it->first.c_str())){
+                            std::set<std::string> tempSecond; // for alphabetical sort
                             for(int j=0;j<static_cast<int>(it->second.size());j++){
+                                tempSecond.emplace(it->second.at(j));
+                            }
+                            for(auto const &on : tempSecond){
                                 // show items
-                                if(it->second.at(j) != "audio device"){
-                                    if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                if(on != "audio device"){
+                                    if(ImGui::MenuItem(on.c_str())){
+                                        visualProgramming->addObject(on,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                                         showRightClickMenu = false;
                                     }
                                 }
