@@ -1487,7 +1487,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
         }else if(fileExtension == "FRAG" || fileExtension == "VERT") {
-            visualProgramming->addObject("shader object",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+            visualProgramming->addObject("glsl shader",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
             if(visualProgramming->getLastAddedObject() != nullptr){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
