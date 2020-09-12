@@ -616,6 +616,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Spacing();
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
+                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
                 ImGui::EndMenu();
             }
 
