@@ -18,6 +18,7 @@ Table of Contents
    * [DEPENDENCIES](#dependencies)
    * [DESCRIPTION](#description)
    * [SPECIFICATIONS](#specifications)
+   * [CONTRIBUTING](#contributing)
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
    * [CREDITS](#credits)
@@ -170,6 +171,12 @@ git clone --recursive https://github.com/d3cod3/Mosaic
 ```
 
 Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compile it. Or just enter in Mosaic folder and run a make Release.
+
+# CONTRIBUTING, WRITING PLUGINS ( YEAH! )
+
+Contributing to the project adding new objects is relatively easy, as ofxVisualProgramming is at the core of [Mosaic](https://github.com/d3cod3/Mosaic) software, i've implemented a plugin mechanism based on [Pugg](http://pugg.sourceforge.net/), in order to facilitate the extension and the creation of new objects/nodes to add at the ofxVisualProgramming/Mosaic default objects/nodes library. (see objects/nodes list below)
+
+You can find the repo of the plugin template here: [Mosaic-Plugin](https://github.com/d3cod3/Mosaic-Plugin), with some generic objects templates and more detailed info in the readme.
 
 # SCREENSHOTS
 
