@@ -39,6 +39,7 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
 Windows is only maintained at code level, compiling is tested regularly but releases are neither published or tested.
 
+
 # OF COMPATIBLE RELEASE
 
 ## 0.11.0 STABLE (official download from [OF site](https://openframeworks.cc/))
