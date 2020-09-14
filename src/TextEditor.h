@@ -403,5 +403,5 @@ private:
 	std::string mLineBuffer;
 	uint64_t mStartTime;
 
-	float mLastClick;
+    float mLastClick;
 };

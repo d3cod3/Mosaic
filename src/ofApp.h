@@ -70,9 +70,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    // GUI Events
-    void onFileDialogResponse(ofxThreadedFileDialogResponse &response);
-
     // NET Events
     void urlResponse(ofHttpResponse & response);
 
@@ -92,6 +89,7 @@ public:
     void            createObjectFromFile(ofFile file,bool temp);
 
     // Code Editor
+    void            initGuiPositions();
     void            initScriptLanguages();
     void            initNewCodeEditor(ofFile file);
     void            removeScriptFromCodeEditor(string filename);
@@ -105,17 +103,24 @@ public:
     std::filesystem::path       mosaicExamplesPath;
     string                      mosaicURL;
     string                      userHome;
-    bool                        setupLoaded;
 
     // GUI
-    ofxImGui::Gui               mainMenu;
-    string                      shortcutFunc;
-    bool                        createSearchedObject;
-    bool                        showConsoleWindow;
-    bool                        showCodeEditor;
-    bool                        showAboutWindow;
-    bool                        showRightClickMenu;
-    bool                        isHoverMenu;
+    ofxImGui::Gui                   mainMenu;
+    MosaicTheme                     *mainTheme;
+    imgui_addons::ImGuiFileBrowser  fileDialog;
+    bool                            isRetina;
+
+    ofImage                         *mosaicLogo;
+    GLuint                          mosaicLogoID;
+    string                          shortcutFunc;
+    bool                            createSearchedObject;
+    bool                            showConsoleWindow;
+    bool                            showCodeEditor;
+    bool                            showAboutWindow;
+    bool                            showRightClickMenu;
+    bool                            isHoverMenu;
+    bool                            openPatch;
+    bool                            savePatchAs;
 
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
@@ -148,15 +153,13 @@ public:
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;
     SynchTimer                  mosaicTiming;
+    int                         mosaicFPS;
+    int                         mosaicBPM;
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;
     bool                        autoinitDSP;
     size_t                      resetInitDSP;
-
-    // GUI
-    ofImage                     *mosaicLogo;
-    GLuint                      mosaicLogoID;
 
     // NET
     int                         lastReleaseResp;
@@ -168,9 +171,23 @@ public:
 private:
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
 
+    ofxFFmpegRecorder                   recorder;
+    ofxFastFboReader                    reader;
+    ofFbo                               captureFbo;
+    ofPixels                            capturePix;
+    vector<string>                      codecsList;
+    string                              recordFilepath;
+    int                                 selectedCodec;
+    string                              recButtonLabel;
+    string                              actualSubtitle;
+    bool                                exportVideoFlag;
+    bool                                showSubtitler;
+
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;
+    size_t                              waitForScreenshotTime;
+    size_t                              resetScreenshotTime;
 
 protected:
 

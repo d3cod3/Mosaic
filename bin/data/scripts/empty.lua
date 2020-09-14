@@ -138,38 +138,6 @@ function mouseScrolled(x,y)
 
 end
 
-----------------------------------------------------
-
--- MOSAIC custom methods
-
-function mosaicBackground(r,g,b,a)
-	of.setColor(r,g,b,a)
-	of.drawRectangle(0,0,OUTPUT_WIDTH,OUTPUT_HEIGHT)
-end
-
-function checkMosaicDataInlet()
-	-- first check if we are using the data inlet
-	if USING_DATA_INLET then
-		-- avoid null readings
-		if next(_mosaic_data_inlet) == nil then
-			return
-		end
-	end
-end
-
-function getMosaicDataInletSize()
-	if USING_DATA_INLET then
-		checkMosaicDataInlet()
-		-- get _mosaic_data_inlet size
-		tableSize = 0
-		for k,v in pairs(_mosaic_data_inlet) do
-			tableSize = tableSize + 1
-		end
-		return tableSize
-	else
-		return 0
-	end
-end
 
 ----------------------------------------------------
 

@@ -33,16 +33,20 @@
 #pragma mark once
 
 #define PACKAGE	"Mosaic"
-#define	VERSION	"0.3.4"
-#define VERSION_GRAPHIC "034"
+#define	VERSION	"0.4.0"
+#define VERSION_GRAPHIC "040"
 #define DESCRIPTION "Live Visual Patching Creative-Coding Platform"
 #define MOSAIC_WWW "https://mosaic.d3cod3.org/"
 #define MOSAIC_DEVELOPERS "Emanuele Mazza, Daan de Lange"
 #define TAGS "mosaic,openframeworks,macos,linux,windows,creative-coding,video,audio,graphics,live-coding,visual-programming,creative-coding,transmedia"
 
-#define WINDOW_TITLE "Mosaic 0.3.4"
+#define WINDOW_TITLE "Mosaic 0.4.0"
 #define WINDOW_START_WIDTH 1280
 #define WINDOW_START_HEIGHT 720
+
+#define FILE_DIALOG_WIDTH   700
+#define FILE_DIALOG_HEIGHT  380
+
 
 #define USER_AGENT "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:62.0) Gecko/20100101 Firefox/62.0"
 

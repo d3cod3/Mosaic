@@ -34,8 +34,12 @@
 
 #include "ofxVisualProgramming.h"
 #include "ofxImGui.h"
+#include "ofxFFmpegRecorder.h"
+#include "ofxFastFboReader.h"
 
 #include "MosaicTheme.h"
 #include "TextEditor.h"
 #include "SynchTimer.h"
 #include "PathWatcher.h"
+
+#include "core/imgui_stdlib.h"

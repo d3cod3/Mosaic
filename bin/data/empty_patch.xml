@@ -11,4 +11,5 @@
     <buffer_size>1024</buffer_size>
     <input_channels>0</input_channels>
     <output_channels>0</output_channels>
+    <bpm>120</bpm>
 </settings>
