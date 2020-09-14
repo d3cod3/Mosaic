@@ -37,6 +37,8 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 ## WINDOWS
 
 Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
+Windows is only maintained at code level, compiling is tested regularly but releases are neither published or tested.
+
 
 # OF COMPATIBLE RELEASE
 
@@ -73,8 +75,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxCv](https://github.com/kylemcdonald/ofxCv)
 
-#### [ofxDatGui](https://github.com/d3cod3/ofxDatGui) -- Fork
-
 #### [ofxEasing](https://github.com/arturoc/ofxEasing)
 
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
@@ -82,10 +82,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxFontStash](https://github.com/d3cod3/ofxFontStash) -- Fork
 
 #### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
-
-#### [ofxHistoryPlot](https://github.com/armadillu/ofxHistoryPlot)
-
-#### [ofxJava](https://github.com/d3cod3/ofxJava)
 
 #### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
 
@@ -101,8 +97,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxNDI](https://github.com/d3cod3/ofxNDI) -- Fork
 
-#### [ofxParagraph](https://github.com/d3cod3/ofxParagraph) -- Fork
-
 #### [ofxPd](https://github.com/danomatika/ofxPd)
 
 #### [ofxPdExternals](https://github.com/d3cod3/ofxPdExternals)
@@ -111,13 +105,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
 
-#### [ofxSimpleHttp](https://github.com/armadillu/ofxSimpleHttp)
-
-#### [ofxThreadedFileDialog](https://github.com/d3cod3/ofxThreadedFileDialog)
-
 #### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
-
-#### [ofxTimeMeasurements](https://github.com/armadillu/ofxTimeMeasurements)
 
 #### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
 
@@ -129,13 +117,15 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 # SPECIFICATIONS
 
     - cross-platform
-    - multi-threaded
+    - ImGui based GUI interface
+    - included automatic window video exporter with subtitler for easy tutorial creation
     - non-blocking system dialogs
     - lua/python/glsl/bash live-coding
     - pure data live-patching
     - non-linear interactive timeline
     - warping integrated on output window object
     - mapmap style projection mapping module
+    - objects/nodes plugin system for easy platform extension
 
 
 #### OFXADDONS
@@ -150,14 +140,10 @@ git clone https://github.com/npisanti/ofxAudioFile
 git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
-git clone https://github.com/d3cod3/ofxDatGui
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
 git clone https://github.com/d3cod3/ofxGLEditor
-git clone https://github.com/armadillu/ofxGLError
-git clone https://github.com/armadillu/ofxHistoryPlot
-git clone https://github.com/d3cod3/ofxJava
 git clone https://github.com/jeffcrouse/ofxJSON
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
@@ -166,14 +152,10 @@ git clone https://github.com/d3cod3/ofxMidi
 git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone https://github.com/d3cod3/ofxNDI
 git clone --branch=OF0.9.8 https://github.com/d3cod3/ofxPython
-git clone https://github.com/d3cod3/ofxParagraph
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPdExternals
 git clone https://github.com/npisanti/ofxPDSP
-git clone https://github.com/armadillu/ofxSimpleHttp
-git clone https://github.com/d3cod3/ofxThreadedFileDialog
 git clone https://github.com/d3cod3/ofxTimeline
-git clone https://github.com/armadillu/ofxTimeMeasurements
 git clone https://github.com/d3cod3/ofxVisualProgramming
 git clone https://github.com/d3cod3/ofxWarp
 

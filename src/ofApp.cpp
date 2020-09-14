@@ -39,20 +39,23 @@ void ofApp::setup(){
     // OF Stuff
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
-    //ofSetFrameRate(30);
     ofEnableAntiAliasing();
-    ofSetLogLevel("Mosaic",OF_LOG_NOTICE);
+    ofSetLogLevel(PACKAGE,OF_LOG_NOTICE);
     ofRegisterURLNotification(this);
 
     initDataFolderFromBundle();
     ///////////////////////////////////////////
 
     // TIMING
-    mosaicTiming.setFramerate(25);
+    mosaicFPS = 60;
+    mosaicTiming.setFramerate(mosaicFPS);
+    mosaicBPM = 120;
 
     // RETINA FIX
+    isRetina = false;
     if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
         ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
+        isRetina = true;
     }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
         ofSetWindowShape(1920-4,ofGetScreenHeight());
     }else{ // STANDARD SCREEN
@@ -72,8 +75,53 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
 
     // Visual Programming Environment Load
+
+    // ImGui
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.IniFilename = nullptr;
+
+    // double font oversampling (default 3) for canvas zoom
+    ImFontConfig font_config;
+    font_config.OversampleH = 6;
+    font_config.OversampleV = 6;
+
+    ofFile fileToRead1(ofToDataPath(MAIN_FONT));
+    string absPath1 = fileToRead1.getAbsolutePath();
+    ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
+    string absPath2 = fileToRead2.getAbsolutePath();
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
+    }else{
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
+    }
+
+    // merge in icons from Font Awesome
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+    ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+    }else{
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+    }
+
+    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
+    io.FontDefault = defaultfont;
+
+    mainTheme = new MosaicTheme();
+    mainMenu.setup(mainTheme,false);
+    if(isRetina){
+        mainTheme->fixForRetinaScreen();
+    }
+
+    fileDialog.setIsRetina(isRetina);
+
     visualProgramming   = new ofxVisualProgramming();
-    visualProgramming->setup();
+    visualProgramming->setup( &mainMenu );
+    visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
+
     patchToLoad                 = "";
     loadNewPatch                = false;
     autoinitDSP                 = false;
@@ -85,22 +133,35 @@ void ofApp::setup(){
     editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    ofFile fileToRead1(ofToDataPath(MAIN_FONT));
-    string absPath1 = fileToRead1.getAbsolutePath();
-    ofFile fileToRead2(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"));
-    string absPath2 = fileToRead2.getAbsolutePath();
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f);
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f);
-    }else{
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f);
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f);
-    }
+    showRightClickMenu      = false;
+    createSearchedObject    = false;
+    showConsoleWindow       = false;
+    showCodeEditor          = false;
+    showAboutWindow         = false;
+    isHoverMenu             = false;
+    isHoverLogger           = false;
+    isHoverCodeEditor       = false;
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 2];
-    io.FontDefault = defaultfont;
+    // VIDEo EXPORTER ( documenting patches, tutorials, etc...)
+    recordFilepath = "";
+    exportVideoFlag = false;
+    codecsList = {"hevc","libx264","jpeg2000","mjpeg","mpeg4"};
+    selectedCodec = 4;
+    recButtonLabel = "REC";
+
+    // SUBTITLER
+    actualSubtitle = "";
+    showSubtitler = false;
+
+    captureFbo.allocate( ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
+    recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
+    recorder.setOverWrite(true);
+
+#if defined(TARGET_OSX)
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg/osx/ffmpeg",true));
+#elif defined(TARGET_WIN32)
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg/win/ffmpeg.exe",true));
+#endif
 
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
@@ -115,11 +176,8 @@ void ofApp::setup(){
     actualEditedFilePath            = "";
     actualEditedFileName            = "";
     scriptToRemoveFromCodeEditor    = "";
-    codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
     isCodeEditorON = false;
     isCodeEditorFullWindow = false;
-
-    loggerRect.set(0,ofGetWindowHeight()-(258*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -128,20 +186,6 @@ void ofApp::setup(){
 #elif defined(TARGET_WIN32)
     shortcutFunc = "CTRL";
 #endif
-
-    // Main Menu Bar
-    mainMenu.setup();
-    mainMenu.setTheme(new MosaicTheme());
-    showRightClickMenu      = false;
-    createSearchedObject    = false;
-    showConsoleWindow       = false;
-    showCodeEditor          = false;
-    showAboutWindow         = false;
-    isHoverMenu             = false;
-    isHoverLogger           = false;
-    isHoverCodeEditor       = false;
-
-    ofAddListener(visualProgramming->fileDialog.fileDialogEvent, this, &ofApp::onFileDialogResponse);
 
     // NET
     isInternetAvailable = false;
@@ -152,11 +196,10 @@ void ofApp::setup(){
 
     isInternetAvailable = checkInternetReachability();
 
-    takeScreenshot      = false;
-    saveNewScreenshot   = false;
-    lastScreenshot      = "";
-
-    setupLoaded         = true;
+    saveNewScreenshot       = false;
+    lastScreenshot          = "";
+    waitForScreenshotTime   = 200;
+    resetScreenshotTime     = ofGetElapsedTimeMillis();
 
 }
 
@@ -169,6 +212,7 @@ void ofApp::update(){
     // Visual Programming Environment
     if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
         visualProgramming->update();
+        visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
     }
 
     visualProgramming->setIsHoverMenu(isHoverMenu);
@@ -185,9 +229,8 @@ void ofApp::update(){
     if(autoinitDSP){
         if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
             autoinitDSP = false;
-            //visualProgramming->activateDSP();
-            // reset code editor position and dimension
-            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
+            visualProgramming->activateDSP();
+            mosaicBPM = visualProgramming->bpm;
         }
     }
 
@@ -238,6 +281,8 @@ void ofApp::update(){
         // reinit DSP
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
+        // init gui positions
+        initGuiPositions();
     }
 
     // NET
@@ -247,20 +292,22 @@ void ofApp::update(){
     }
 
     // Screenshot
-    if(takeScreenshot){
-        takeScreenshot = false;
-        string newFileName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
-        visualProgramming->fileDialog.saveFile("screenshot","Save Mosaic screenshot as",newFileName);
-    }
     if(saveNewScreenshot){
-       saveNewScreenshot = false;
-       if(lastScreenshot != ""){
-           ofFile file(lastScreenshot);
-           ofImage tempScreenshot;
-           tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
-           tempScreenshot.getPixels().swapRgb();
-           tempScreenshot.save(file.getAbsolutePath());
-       }
+        if(ofGetElapsedTimeMillis()-resetScreenshotTime > waitForScreenshotTime){ // avoid imgui filebrowser
+            saveNewScreenshot = false;
+            if(lastScreenshot != ""){
+                ofFile file(lastScreenshot);
+                // force .jpg file extension
+                string finalPath = file.getAbsolutePath();
+                if(ofToUpper(file.getExtension()) != "JPG"){
+                    finalPath += ".jpg";
+                }
+                ofImage tempScreenshot;
+                tempScreenshot.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
+                tempScreenshot.getPixels().swapRgb();
+                tempScreenshot.save(finalPath);
+            }
+        }
     }
 
 }
@@ -287,7 +334,23 @@ void ofApp::draw(){
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     if(!visualProgramming->bLoadingNewPatch){
+        // draw main GUI interface
+        drawImGuiInterface();
+
+        // Draw to vp Gui
         visualProgramming->draw();
+
+        // Manually render ImGui once ofxVP rendered to it.
+        mainMenu.draw();
+    }
+
+    // DSP flag
+    if(visualProgramming->dspON){
+        ofSetColor(ofColor::fromHex(0xFFD00B));
+        visualProgramming->font->draw("DSP ON",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+    }else{
+        ofSetColor(ofColor::fromHex(0x777777));
+        visualProgramming->font->draw("DSP OFF",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
     }
 
     // Last LOG on bottom bar
@@ -306,14 +369,42 @@ void ofApp::draw(){
     }
     visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
 
-    // IMGUI interface
-    ofSetColor(255,255,255);
-    drawImGuiInterface();
+    // subtitler
+    if(showSubtitler){
+        ofSetColor(0,0,0,100);
+        ofDrawRectangle(0,ofGetWindowHeight()-(166*visualProgramming->scaleFactor),ofGetWindowWidth(),147*visualProgramming->scaleFactor);
+        ofSetColor(245);
+        // cut subtitle at second newline
+        int subLastPos = nthOccurrence(actualSubtitle,"\n",2);
+        string finalSubtitle = "";
+        if(subLastPos != -1){
+            finalSubtitle = actualSubtitle.substr(0,subLastPos);
+        }else{
+            finalSubtitle = actualSubtitle;
+        }
+        if(isRetina){
+            visualProgramming->font->drawMultiLine(finalSubtitle,96,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        }else{
+            visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        }
 
-    // startup notification popup
-    if(setupLoaded && ofGetElapsedTimeMillis() > 1000){
-        setupLoaded = false;
-        visualProgramming->fileDialog.notificationPopup(WINDOW_TITLE, "Live Visual Patching Creative-Coding Platform\nhttps://mosaic.d3cod3.org/");
+    }
+
+    // Video Recording
+    if(recorder.isRecording()) {
+        ofImage recordFrame;
+        recordFrame.grabScreen(ofGetWindowPositionX(),ofGetWindowPositionY()-40,ofGetWindowWidth(),ofGetWindowHeight());
+
+        captureFbo.begin();
+        ofClear(0,0,0,255);
+        ofSetColor(255);
+        recordFrame.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
+        captureFbo.end();
+
+        reader.readToPixels(captureFbo, capturePix,OF_IMAGE_COLOR); // ofxFastFboReader
+        if(capturePix.getWidth() > 0 && capturePix.getHeight() > 0) {
+            recorder.addFrame(capturePix);
+        }
     }
 
 }
@@ -329,35 +420,36 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            if(ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("New patch",ofToString(shortcutFunc+"+N").c_str())){
+            openPatch       = false;
+            savePatchAs     = false;
+            takeScreenshot  = false;
+            exportVideoFlag = false;
+
+            if(ImGui::BeginMenu( "File")){
+                if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
                     resetInitDSP = ofGetElapsedTimeMillis();
                     autoinitDSP = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Open patch",ofToString(shortcutFunc+"+O").c_str())){
-                    visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
-                }
-                if(ImGui::MenuItem("Open patch source",ofToString(shortcutFunc+"+SHIFT+O").c_str())){
-                    visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
+                if(ImGui::MenuItem( "Open patch" )){
+                    openPatch = true;
                 }
                 ImGui::Separator();
-                if(ImGui::MenuItem("Save patch As..",ofToString(shortcutFunc+"+S").c_str())){
-                    string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
-                    visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as",newFileName);
+                if(ImGui::MenuItem( "Save patch As.." )){
+                    savePatchAs = true;
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Quit",ofToString(shortcutFunc+"+Q").c_str())){
+                if(ImGui::MenuItem( "Quit",ofToString(shortcutFunc+"+Q").c_str())){
                     quitMosaic();
                 }
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Objects")){
+            if(ImGui::BeginMenu( "Objects")){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(ImGui::BeginMenu(it->first.c_str())){
@@ -376,7 +468,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Examples")){
+            if(ImGui::BeginMenu( "Examples")){
                 #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
                 #else
@@ -391,84 +483,144 @@ void ofApp::drawImGuiInterface(){
             }
 
 
-            if(ImGui::BeginMenu("Sound")){
-                if(ImGui::MenuItem("DSP ON",ofToString(shortcutFunc+"+D").c_str())){
-                    visualProgramming->activateDSP();
+            if(ImGui::BeginMenu( "Sound")){
+                if(ImGui::Checkbox("DSP",&visualProgramming->dspON)){
+                    if(visualProgramming->dspON){
+                        visualProgramming->activateDSP();
+                    }else{
+                        visualProgramming->deactivateDSP();
+                    }
                 }
-                #if defined(TARGET_LINUX) || defined(TARGET_OSX)
-                if(ImGui::MenuItem("DSP OFF",ofToString(shortcutFunc+"+SHIFT+D").c_str())){
-                    visualProgramming->deactivateDSP();
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::DragInt("TEMPO",&mosaicBPM,1.0f,1)){
+                    visualProgramming->bpm = mosaicBPM;
+                    visualProgramming->engine->sequencer.setTempo(mosaicBPM);
+                    visualProgramming->setPatchVariable("bpm",mosaicBPM);
                 }
-                #endif
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
                 static int inDev = visualProgramming->audioGUIINIndex;
-                if(ImGui::BeginMenu("Input Device")){
-                    if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
-                        visualProgramming->setAudioInDevice(inDev);
-                    }
-                    ImGui::EndMenu();
+                if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
+                    visualProgramming->setAudioInDevice(inDev);
                 }
                 static int outDev = visualProgramming->audioGUIOUTIndex;
-                if(ImGui::BeginMenu("Output Device")){
-                    if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
-                        visualProgramming->setAudioOutDevice(outDev);
-                    }
-                    ImGui::EndMenu();
+                if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
+                    visualProgramming->setAudioOutDevice(outDev);
                 }
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("System")){
-                static int fpsn = 1;
-                if(ImGui::BeginMenu("FPS")){
-                    vector<string> fpss {"24","25","30","60","120"};
-                    if(ofxImGui::VectorCombo("FPS", &fpsn,fpss)){
-                        if(fpsn == 0){
-                            //ofSetFrameRate(24);
-                            setMosaicFrameRate(24);
-                        }else if(fpsn == 1){
-                            //ofSetFrameRate(25);
-                            setMosaicFrameRate(25);
-                        }else if(fpsn == 2){
-                            //ofSetFrameRate(30);
-                            setMosaicFrameRate(30);
-                        }else if(fpsn == 3){
-                            //ofSetFrameRate(60);
-                            setMosaicFrameRate(60);
-                        }else if(fpsn == 4){
-                            //ofSetFrameRate(120);
-                            setMosaicFrameRate(120);
-                        }
-                    }
-                    ImGui::EndMenu();
+            if(ImGui::BeginMenu( "System")){
+                if(ImGui::DragInt("FPS",&mosaicFPS,1.0f,1)){
+                    setMosaicFrameRate(mosaicFPS);
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Screenshot",ofToString(shortcutFunc+"+T").c_str())){
+
+                ImGui::Spacing();
+                ImGui::Text("Desktop Recorder");
+
+                ImGui::Spacing();
+                if(ImGui::Button(ICON_FA_FILE_UPLOAD)){
+                    exportVideoFlag = true;
+                }
+                ImGui::SameLine();
+                if(recordFilepath == ""){
+                    ImGui::Text("Select file...");
+                }else{
+                    ofFile tempFilename(recordFilepath);
+                    ImGui::Text("%s",tempFilename.getFileName().c_str());
+                    if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s",tempFilename.getAbsolutePath().c_str());
+                }
+
+                ImGui::Spacing();
+                ImGui::PushStyleColor(ImGuiCol_Button, VHS_RED);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_RED_OVER);
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
+                char tmp[256];
+                sprintf(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
+                if(ImGui::Button(tmp,ImVec2(-1,26*visualProgramming->scaleFactor))){
+                    if(recordFilepath != ""){
+                        if(!recorder.isRecording()){
+                            captureFbo.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
+                            recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
+                            ofSetVerticalSync(false);
+                            recorder.setOverWrite(true);
+                            recorder.setBitRate(20000);
+                            recorder.startCustomRecord();
+                            recButtonLabel = "STOP";
+                            ofLog(OF_LOG_NOTICE,"START RECORDING MOSAIC WINDOW");
+                        }else if(recorder.isRecording()){
+                            ofSetVerticalSync(true);
+                            recorder.stop();
+                            recButtonLabel = "REC";
+                            ofLog(OF_LOG_NOTICE,"FINISHED RECORDING MOSAIC WINDOW");
+                        }
+                    }else{
+                        ofLog(OF_LOG_ERROR,"SELECT FILE BEFORE RECORD VIDEO!");
+                    }
+                }
+                ImGui::PopStyleColor(3);
+                ImGui::Spacing();
+                if(ImGui::BeginCombo("Codec", codecsList.at(selectedCodec).c_str() )){
+                    for(int i=0; i < codecsList.size(); ++i){
+                        bool is_selected = (selectedCodec == i );
+                        if (ImGui::Selectable(codecsList.at(i).c_str(), is_selected)){
+                            selectedCodec = i;
+                            recorder.setVideoCodec(codecsList.at(selectedCodec));
+                        }
+                        if (is_selected) ImGui::SetItemDefaultFocus();
+                    }
+
+                    ImGui::EndCombo();
+                }
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                ImGui::Checkbox("Subtitler",&showSubtitler);
+                ImGui::Spacing();
+                ImGui::PushItemWidth(-1);
+                ImGui::InputTextMultiline("##subtitle",&actualSubtitle,ImVec2(-1,ImGui::GetFontSize()*3));
+                ImGui::PopItemWidth();
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::Button("Screenshot", ImVec2(-1,26*visualProgramming->scaleFactor))){
                     takeScreenshot = true;
                 }
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("View")){
+            if(ImGui::BeginMenu( "View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
-                }
-                if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
-                    TIME_SAMPLE_SET_ENABLED(visualProgramming->profilerActive);
+                    initGuiPositions();
                 }
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
                     showConsoleWindow       = isLoggerON;
+                    initGuiPositions();
                 }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+                ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
+                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
                 ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Help")){
+            if(ImGui::BeginMenu( "Help")){
                 if(ImGui::MenuItem("Mosaic Github")){
                     ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
                 }
@@ -498,7 +650,78 @@ void ofApp::drawImGuiInterface(){
                 ImGui::EndMenu();
             }
 
+            // File dialogs
+            if(openPatch) ImGui::OpenPopup("Open patch");
+            if(savePatchAs) ImGui::OpenPopup("Save patch");
+            if(takeScreenshot) ImGui::OpenPopup("Take screenshot");
+            if(exportVideoFlag) ImGui::OpenPopup("Record video");
 
+            // open patch
+            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml") ){
+                ofFile file(fileDialog.selected_path);
+                if (file.exists()){
+                    string fileExtension = ofToUpper(file.getExtension());
+                    if(fileExtension == "XML") {
+                        ofxXmlSettings XML;
+                        if (XML.loadFile(file.getAbsolutePath())){
+                            if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                                patchToLoad = file.getAbsolutePath();
+                                loadNewPatch = true;
+                            }else{
+                                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                            }
+                        }
+                    }
+                }
+            }
+
+            // save patch
+            string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
+            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml", newFileName) ){
+                ofFile file(fileDialog.selected_path);
+                visualProgramming->savePatchAs(file.getAbsolutePath());
+            }
+
+            // take patch screenshot
+            string newShotName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
+            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".jpg", newShotName) ){
+                ofFile file(fileDialog.selected_path);
+                lastScreenshot = file.getAbsolutePath();
+                saveNewScreenshot = true;
+                resetScreenshotTime = ofGetElapsedTimeMillis();
+            }
+
+            // record video
+            #if defined(TARGET_WIN32)
+            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".avi";
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".avi", newRecordVideoName) ){
+                ofFile file(fileDialog.selected_path);
+                recordFilepath = file.getAbsolutePath();
+                // check extension
+                if(fileDialog.ext != ".avi"){
+                    recordFilepath += ".avi";
+                }
+                recorder.setOutputPath(recordFilepath);
+                // prepare blank video file
+                recorder.startCustomRecord();
+                recorder.stop();
+            }
+            #else
+
+            #endif
+            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".mp4";
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".mp4", newRecordVideoName) ){
+                ofFile file(fileDialog.selected_path);
+                recordFilepath = file.getAbsolutePath();
+                // check extension
+                if(fileDialog.ext != ".mp4"){
+                    recordFilepath += ".mp4";
+                }
+                recorder.setOutputPath(recordFilepath);
+                // prepare blank video file
+                recorder.startCustomRecord();
+                recorder.stop();
+            }
         }
 
         ImGui::EndMainMenuBar();
@@ -506,13 +729,13 @@ void ofApp::drawImGuiInterface(){
         // About window
         if(showAboutWindow){
 
-            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-400)*.5f,(ofGetHeight()-400)*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(400,400), ImGuiCond_Appearing );
+            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*visualProgramming->scaleFactor))*.5f,(ofGetHeight()-(400*visualProgramming->scaleFactor))*.5f), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(400*visualProgramming->scaleFactor,400*visualProgramming->scaleFactor), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
                 if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
-                    float ratio = 150.f / mosaicLogo->getWidth();
+                    float ratio = (150.f*visualProgramming->scaleFactor) / mosaicLogo->getWidth();
                     ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
                 }
                 ImGui::Text( "%s", PACKAGE);
@@ -533,7 +756,7 @@ void ofApp::drawImGuiInterface(){
                         bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
 
                         ImGui::Spacing();
-                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*visualProgramming->scaleFactor)), ImGuiWindowFlags_NoMove);
                         if (copy_to_clipboard){
                             ImGui::LogToClipboard();
                         }
@@ -625,7 +848,7 @@ void ofApp::drawImGuiInterface(){
 
         // code editor
         if(showCodeEditor){
-            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
+            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
                 ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
                 ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
@@ -679,7 +902,7 @@ void ofApp::drawImGuiInterface(){
 
                     //ImGuiIO& io = ImGui::GetIO();
                     //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
-                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 1];
+                    ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 2];
 
                     ImGui::Spacing();
                     ImGui::Spacing();
@@ -693,13 +916,9 @@ void ofApp::drawImGuiInterface(){
                     ImGui::SameLine();
                     ImGui::Spacing();
                     ImGui::SameLine();
-                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24,24))){
+                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24*visualProgramming->scaleFactor,24*visualProgramming->scaleFactor))){
                         isCodeEditorFullWindow = !isCodeEditorFullWindow;
-                        if(isCodeEditorFullWindow){
-                            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
-                        }else{
-                            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
-                        }
+                        initGuiPositions();
                     }
 
                     ImGui::Spacing();
@@ -727,8 +946,6 @@ void ofApp::drawImGuiInterface(){
                         }
                         ImGui::EndTabBar();
                     }
-
-                    //ImGui::End();
 
                 }
 
@@ -772,11 +989,15 @@ void ofApp::drawImGuiInterface(){
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(!bIsFiltering){
                         if(ImGui::BeginMenu(it->first.c_str())){
+                            std::set<std::string> tempSecond; // for alphabetical sort
                             for(int j=0;j<static_cast<int>(it->second.size());j++){
+                                tempSecond.emplace(it->second.at(j));
+                            }
+                            for(auto const &on : tempSecond){
                                 // show items
-                                if(it->second.at(j) != "audio device"){
-                                    if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                if(on != "audio device"){
+                                    if(ImGui::MenuItem(on.c_str())){
+                                        visualProgramming->addObject(on,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                                         showRightClickMenu = false;
                                     }
                                 }
@@ -802,7 +1023,7 @@ void ofApp::drawImGuiInterface(){
                                 if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
                                     // choose by click or pick first one
                                     if (ImGui::IsItemClicked() || bApplyFilter){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + (200*visualProgramming->scaleFactor),visualProgramming->canvas.getMovingPoint().y + (200*visualProgramming->scaleFactor)));
                                         showRightClickMenu = false;
                                         bApplyFilter = false;
                                         filter.Clear();
@@ -838,6 +1059,26 @@ void ofApp::drawImGuiInterface(){
 }
 
 //--------------------------------------------------------------
+void ofApp::initGuiPositions(){
+    loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
+
+    if(isCodeEditorFullWindow){
+        if(isLoggerON){
+            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        }else{
+            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
+        }
+    }else{
+        if(isLoggerON){
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
+        }else{
+            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
+        }
+
+    }
+}
+
+//--------------------------------------------------------------
 void ofApp::exit() {
     visualProgramming->exit();
 }
@@ -851,29 +1092,12 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         visualProgramming->newPatch();
         resetInitDSP = ofGetElapsedTimeMillis();
         autoinitDSP = true;
-    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
-        visualProgramming->fileDialog.openFile("open patch source","Open a Mosaic patch as source code");
-    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 79){
-        visualProgramming->fileDialog.openFile("open patch","Open a Mosaic patch");
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
-        visualProgramming->openLastPatch();
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
-        visualProgramming->fileDialog.saveFile("save patch","Save Mosaic patch as","mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml");
+    // refresh/save actual editing script
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
-        takeScreenshot = true;
-    }else if(e.hasModifier(MOD_KEY) && !e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
-        visualProgramming->activateDSP();
-    }else if(e.hasModifier(MOD_KEY) && e.hasModifier(OF_KEY_SHIFT) && e.keycode == 68){
-        #if defined(TARGET_LINUX) || defined(TARGET_OSX)
-        visualProgramming->deactivateDSP();
-        #endif
-    }else if(e.keycode == 259){
-        //visualProgramming->deleteSelectedObject();
     }else if(e.keycode == 257){
         createSearchedObject = true;
     }
@@ -925,18 +1149,11 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    if(isInited){
+
+    if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
-    }
 
-    if(isInited){
-        loggerRect.set(0,ofGetWindowHeight()-(260*visualProgramming->scaleFactor),ofGetWindowWidth()/3*2,240*visualProgramming->scaleFactor);
-
-        if(isCodeEditorFullWindow){
-            codeEditorRect.set(0, 20,ofGetWindowWidth(), ofGetWindowHeight()-40);
-        }else{
-            codeEditorRect.set(ofGetWindowWidth()/3*2, 20,ofGetWindowWidth()/3, ofGetWindowHeight()-40);
-        }
+        initGuiPositions();
     }
 }
 
@@ -950,60 +1167,6 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
     if( dragInfo.files.size() == 1 ){
         ofFile file (dragInfo.files[0]);
         createObjectFromFile(file,false);
-    }
-}
-
-//--------------------------------------------------------------
-void ofApp::onFileDialogResponse(ofxThreadedFileDialogResponse &response){
-    if(response.id == "open patch"){
-        ofFile file(response.filepath);
-        if (file.exists()){
-            string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "XML") {
-                ofxXmlSettings XML;
-
-                if (XML.loadFile(file.getAbsolutePath())){
-                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                        patchToLoad = file.getAbsolutePath();
-                        loadNewPatch = true;
-                    }else{
-                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                    }
-                }
-            }
-        }
-    }else if(response.id == "open patch source"){
-        ofFile file(response.filepath);
-        if (file.exists()){
-            string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "XML") {
-                ofxXmlSettings XML;
-
-                if (XML.loadFile(file.getAbsolutePath())){
-                    if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                        string cmd = "";
-        #ifdef TARGET_LINUX
-                        cmd = "atom "+file.getAbsolutePath();
-        #elif defined(TARGET_OSX)
-                        cmd = "open -a /Applications/Atom.app "+file.getAbsolutePath();
-        #elif defined(TARGET_WIN32)
-                        cmd = "atom "+file.getAbsolutePath();
-        #endif
-                        system(cmd.c_str());
-                    }else{
-                        ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                    }
-                }
-
-            }
-        }
-    }else if(response.id == "save patch"){
-        ofFile file(response.filepath);
-        visualProgramming->savePatchAs(file.getAbsolutePath());
-    }else if(response.id == "screenshot"){
-        ofFile file(response.filepath);
-        lastScreenshot = file.getAbsolutePath();
-        saveNewScreenshot = true;
     }
 }
 
@@ -1046,7 +1209,6 @@ void ofApp::quitMosaic(){
 //--------------------------------------------------------------
 void ofApp::setMosaicFrameRate(float fps){
     mosaicTiming.setFramerate(fps);
-    TIME_SAMPLE_SET_FRAMERATE(fps);
 }
 
 //--------------------------------------------------------------
@@ -1326,7 +1488,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
         }else if(fileExtension == "FRAG" || fileExtension == "VERT") {
-            visualProgramming->addObject("shader object",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
+            visualProgramming->addObject("glsl shader",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
             if(visualProgramming->getLastAddedObject() != nullptr){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
@@ -1365,7 +1527,8 @@ void ofApp::initScriptLanguages(){
 
     for (int i = 0; i < sizeof(lua_mosaic_keywords) / sizeof(lua_mosaic_keywords[0]); ++i){
         TextEditor::Identifier id;
-        id.mDeclaration = lua_mosaic_keywords_decl[i];
+        //id.mDeclaration = lua_mosaic_keywords_decl[i];
+        id.mDeclaration = "";
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
     }
 
@@ -1383,7 +1546,8 @@ void ofApp::initScriptLanguages(){
                 string methdesc = XML.getValue("desc","");
 
                 TextEditor::Identifier id;
-                id.mDeclaration = fix_newlines(methdesc).c_str();
+                //id.mDeclaration = fix_newlines(methdesc).c_str();
+                id.mDeclaration = "";
                 luaLang.mIdentifiers.insert(std::make_pair(std::string(methname.c_str()), id));
 
                 XML.popTag();

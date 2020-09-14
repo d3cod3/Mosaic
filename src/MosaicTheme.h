@@ -41,6 +41,8 @@ public:
 
     void setup() override;
 
+    void fixForRetinaScreen();
+
 
     // TextInput ComboBox
     static bool identical(const char* buf, const char* item);
@@ -123,7 +125,7 @@ public:
 
     void Draw(const char* title){
 
-        if (!ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoCollapse))
+        if (!ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoResize))
         {
             ImGui::End();
             return;

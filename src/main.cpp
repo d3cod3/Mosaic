@@ -36,7 +36,6 @@
 #include "SplashScreen.h"
 
 #include "ofAppGLFWWindow.h"
-#include "ofxTimeMeasurements.h"
 
 #include "config.h"
 
@@ -84,8 +83,6 @@ int main(int argc, char *argv[]){
 
     shared_ptr<ofAppGLFWWindow> splashWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(splashSettings));
     shared_ptr<SplashScreen> splashApp(new SplashScreen);
-
-    TIME_SAMPLE_SET_FRAMERATE(25);
 
     mosaicApp->arguments = options;
 
