@@ -2,7 +2,7 @@
 
 # [MOSAIC](https://mosaic.d3cod3.org) - an openFrameworks based Visual Patching Creative-Coding Platform
 
-![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/24_videoSynth.jpg)
+![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/28_transparent_machines04.jpg)
 
 [![Slack MosaicProcess](https://img.shields.io/badge/slack-Mosaic-green.svg?logo=slack&longCache=true&colorB=E80C7A)](https://mosaicprocess.slack.com)
 
@@ -173,6 +173,8 @@ Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compi
 
 # SCREENSHOTS
 
+![Mosaic 0.4.0_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/25_transparent_machines.jpg)
+
 ![Mosaic pre_0.2.0](https://github.com/d3cod3/Mosaic/raw/master/process/img/23_helloSonogram.jpg)
 
 ![Mosaic pre_0.2.0](https://github.com/d3cod3/Mosaic/raw/master/process/img/22_Ry_ofLoffler.jpg)
@@ -203,6 +205,6 @@ All contributions are made under the [MIT License](https://opensource.org/licens
 
 Mosaic is an open source project.
 
-The Mosaic team is composed by Emanuele Mazza and Maria José Martínez de Pisón.
+The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3/Mosaic), [Daan de Lange](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
 Mosaic uses [FFTW3](http://fftw.org/),  [essentia](http://essentia.upf.edu/documentation/), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [fontstash](https://github.com/memononen/fontstash) and code from openframeworks all the included ofxAddons.
