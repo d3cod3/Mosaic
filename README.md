@@ -37,6 +37,7 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 ## WINDOWS
 
 Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
+Windows is only maintained at code level, compiling is tested regularly but releases are neither published or tested.
 
 # OF COMPATIBLE RELEASE
 
@@ -116,6 +117,7 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
     - cross-platform
     - ImGui based GUI interface
+    - included automatic window video exporter with subtitler for easy tutorial creation
     - non-blocking system dialogs
     - lua/python/glsl/bash live-coding
     - pure data live-patching
