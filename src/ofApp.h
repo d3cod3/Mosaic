@@ -126,7 +126,6 @@ public:
     TextEditor::LanguageDefinition  bashLang;
     TextEditor::LanguageDefinition  luaLang;
     TextEditor::LanguageDefinition  pythonLang;
-    TextEditor::LanguageDefinition  javaProcessingLang;
     TextEditor::LanguageDefinition  glslLang;
     ofRectangle                     codeEditorRect;
     ofImage                         editorFullscreenButtonSource;

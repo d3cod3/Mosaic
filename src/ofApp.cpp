@@ -166,7 +166,6 @@ void ofApp::setup(){
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
     glslLang = TextEditor::LanguageDefinition::GLSL();
-    javaProcessingLang = TextEditor::LanguageDefinition::JAVAProcessing();
     pythonLang= TextEditor::LanguageDefinition::Python();
     bashLang = TextEditor::LanguageDefinition::Bash();
 
@@ -1417,7 +1416,7 @@ void ofApp::createDirectoryNode(ofFile file){
     }else{
         if(file.getBaseName() != "LICENSE" && file.getBaseName() != "README"){
             string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "LUA" || fileExtension == "PY" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "JAVA" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
+            if(fileExtension == "LUA" || fileExtension == "PY" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
                 if(fileExtension == "LUA"){
                     string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('/'));
                     if(file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
@@ -1502,11 +1501,6 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
             if(visualProgramming->getLastAddedObject() != nullptr){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
-        }else if(fileExtension == "JAVA"){
-            visualProgramming->addObject("processing script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 20,visualProgramming->canvas.getMovingPoint().y + 20));
-            if(visualProgramming->getLastAddedObject() != nullptr){
-                visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
-            }
         }
     }
 }
@@ -1574,8 +1568,6 @@ void ofApp::initNewCodeEditor(ofFile file){
         codeEditor.SetLanguageDefinition(luaLang);
     }else if(fileExtension == "PY"){
         codeEditor.SetLanguageDefinition(pythonLang);
-    }else if(fileExtension == "JAVA"){
-        codeEditor.SetLanguageDefinition(javaProcessingLang);
     }else if(fileExtension == "SH"){
         codeEditor.SetLanguageDefinition(bashLang);
     }else if(fileExtension == "FRAG" || fileExtension == "VERT"){
