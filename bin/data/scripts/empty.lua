@@ -3,7 +3,7 @@
 --	----------------------------------------------------------
 --	Mosaic | OF Visual Patching Developer Platform
 --
---	Copyright (c) 2019 Emanuele Mazza aka n3m3da
+--	Copyright (c) 2020 Emanuele Mazza aka n3m3da
 --
 --	Mosaic is distributed under the MIT License.
 --	This gives everyone the freedoms to use Mosaic in any context:
