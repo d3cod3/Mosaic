@@ -166,6 +166,8 @@ git clone https://github.com/d3cod3/ofxWarp
 
 ```
 
+Some addons use specific branches and remotes (usually in order to provide easy multiplatform support). Specially if you have already worked with OpenFrameworks, your current addons folder might be incompatible with Mosaic. To verify compatibility, it can be useful to `cd path/to/mosaic && ./check_addons.sh` to get an oversight of ofxAddons compatibility.
+
 Then clone Mosaic project as an openFrameworks example:
 
 ```bash
