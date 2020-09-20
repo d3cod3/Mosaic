@@ -1217,6 +1217,7 @@ void ofApp::initDataFolderFromBundle(){
 
     string _bundleDataPath;
     string _bundleExamplesPath;
+    string _bundlePluginsPath;
 
     CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef appPath = CFURLCopyFileSystemPath(appUrl, kCFURLPOSIXPathStyle);
@@ -1240,6 +1241,7 @@ void ofApp::initDataFolderFromBundle(){
 
     _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
     _bundleExamplesPath = *appPathStr + "/Contents/examples/";
+    _bundlePluginsPath = *appPathStr + "/Contents/plugins/";
 
     const char *homeDir = getenv("HOME");
 
@@ -1253,16 +1255,20 @@ void ofApp::initDataFolderFromBundle(){
 
     string _MosaicDataPath(homeDir);
     string _MosaicExamplesPath(homeDir);
+    string _MosaicPluginsPath(homeDir);
     userHome = _MosaicDataPath;
 
     _MosaicDataPath += "/Documents/Mosaic/data";
     _MosaicExamplesPath += "/Documents/Mosaic/examples";
+    _MosaicPluginsPath += "/Documents/Mosaic/plugins";
 
     std::filesystem::path tempPath(_MosaicDataPath.c_str());
     std::filesystem::path examplesPath(_MosaicExamplesPath.c_str());
+    std::filesystem::path pluginsPath(_MosaicPluginsPath.c_str());
 
     mosaicPath = tempPath;
     mosaicExamplesPath = examplesPath;
+    mosaicPluginsPath = pluginsPath;
 
     ofDirectory mosaicDir;
 
@@ -1325,6 +1331,17 @@ void ofApp::initDataFolderFromBundle(){
         }
 
     }
+
+    // plugins directory
+    if(!mosaicDir.doesDirectoryExist(mosaicPluginsPath)){
+        mosaicDir.createDirectory(mosaicPluginsPath,true,true);
+
+        std::filesystem::path dataPath(_bundlePluginsPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicPluginsPath,true,true);
+    }
+
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 

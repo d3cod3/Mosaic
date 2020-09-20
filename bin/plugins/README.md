@@ -7,6 +7,6 @@ Leaving in this folder the shared libraries, will automatically load the new obj
 
 To start, just clone this repo:
 
-https://github.com/d3cod3/Mosaic-Plugin
+https://github.com/d3cod3/ofxMosaicPlugin
 
-you'll find there a template to write Mosaic plugins.
+you'll find there a template example to learn how to write Mosaic plugins.

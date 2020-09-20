@@ -101,6 +101,7 @@ public:
     ofDirectory                 examplesRoot;
     std::filesystem::path       mosaicPath;
     std::filesystem::path       mosaicExamplesPath;
+    std::filesystem::path       mosaicPluginsPath;
     string                      mosaicURL;
     string                      userHome;
 
