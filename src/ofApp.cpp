@@ -1285,6 +1285,11 @@ void ofApp::initDataFolderFromBundle(){
             if(VERSION != actualRel){
                 std::filesystem::path dataPath(_bundleDataPath.c_str());
 
+                // remove previous release data folder
+                mosaicDir.removeDirectory(mosaicPath,true);
+                mosaicDir.createDirectory(mosaicPath,true,true);
+
+                // copy the new one
                 ofDirectory dataDir(dataPath);
                 dataDir.copyTo(mosaicPath,true,true);
             }
@@ -1292,13 +1297,13 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     // examples directory
-    if(!mosaicDir.doesDirectoryExist(examplesPath)){
-        mosaicDir.createDirectory(examplesPath,true,true);
+    if(!mosaicDir.doesDirectoryExist(mosaicExamplesPath)){
+        mosaicDir.createDirectory(mosaicExamplesPath,true,true);
 
         std::filesystem::path dataPath(_bundleExamplesPath.c_str());
 
         ofDirectory dataDir(dataPath);
-        dataDir.copyTo(examplesPath,true,true);
+        dataDir.copyTo(mosaicExamplesPath,true,true);
     }else{
         string relfilepath = _MosaicDataPath+"/release.txt";
         std::filesystem::path releasePath(relfilepath.c_str());
@@ -1310,8 +1315,12 @@ void ofApp::initDataFolderFromBundle(){
             if(VERSION != actualRel){
                 std::filesystem::path dataPath(_bundleExamplesPath.c_str());
 
+                // remove previous release examples folder
+                mosaicDir.removeDirectory(mosaicExamplesPath,true);
+                mosaicDir.createDirectory(mosaicExamplesPath,true,true);
+
                 ofDirectory dataDir(dataPath);
-                dataDir.copyTo(examplesPath,true,true);
+                dataDir.copyTo(mosaicExamplesPath,true,true);
             }
         }
 
