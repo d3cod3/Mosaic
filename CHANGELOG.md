@@ -1,5 +1,7 @@
 # Mosaic CHANGELOG
 
+### 0.4.2
+- Added an utility for ofxAddon compatibility verifications.
 
 ### 0.4.1
 
