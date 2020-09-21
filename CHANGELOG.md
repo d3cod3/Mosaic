@@ -3,6 +3,7 @@
 ### 0.4.2
 - Added an utility for ofxAddon compatibility verifications.
 - Added string category with a bunch of basic string manipulation objects
+- Added multiple objects selection and delete/duplicate over selected objects
 - Various bugs fixes
 
 ### 0.4.1
