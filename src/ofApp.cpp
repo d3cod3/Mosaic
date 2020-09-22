@@ -1272,36 +1272,6 @@ void ofApp::initDataFolderFromBundle(){
 
     ofDirectory mosaicDir;
 
-    // data directory
-    if(!mosaicDir.doesDirectoryExist(mosaicPath)){
-        mosaicDir.createDirectory(mosaicPath,true,true);
-
-        std::filesystem::path dataPath(_bundleDataPath.c_str());
-
-        ofDirectory dataDir(dataPath);
-        dataDir.copyTo(mosaicPath,true,true);
-    }else{
-        string relfilepath = _MosaicDataPath+"/release.txt";
-        std::filesystem::path releasePath(relfilepath.c_str());
-        ofFile relFile(releasePath);
-
-        if(relFile.exists()){
-            string actualRel = relFile.readToBuffer().getText();
-
-            if(VERSION != actualRel){
-                std::filesystem::path dataPath(_bundleDataPath.c_str());
-
-                // remove previous release data folder
-                mosaicDir.removeDirectory(mosaicPath,true);
-                mosaicDir.createDirectory(mosaicPath,true,true);
-
-                // copy the new one
-                ofDirectory dataDir(dataPath);
-                dataDir.copyTo(mosaicPath,true,true);
-            }
-        }
-    }
-
     // examples directory
     if(!mosaicDir.doesDirectoryExist(mosaicExamplesPath)){
         mosaicDir.createDirectory(mosaicExamplesPath,true,true);
@@ -1330,6 +1300,36 @@ void ofApp::initDataFolderFromBundle(){
             }
         }
 
+    }
+
+    // data directory
+    if(!mosaicDir.doesDirectoryExist(mosaicPath)){
+        mosaicDir.createDirectory(mosaicPath,true,true);
+
+        std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicPath,true,true);
+    }else{
+        string relfilepath = _MosaicDataPath+"/release.txt";
+        std::filesystem::path releasePath(relfilepath.c_str());
+        ofFile relFile(releasePath);
+
+        if(relFile.exists()){
+            string actualRel = relFile.readToBuffer().getText();
+
+            if(VERSION != actualRel){
+                std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+                // remove previous release data folder
+                mosaicDir.removeDirectory(mosaicPath,true);
+                mosaicDir.createDirectory(mosaicPath,true,true);
+
+                // copy the new one
+                ofDirectory dataDir(dataPath);
+                dataDir.copyTo(mosaicPath,true,true);
+            }
+        }
     }
 
     // plugins directory
