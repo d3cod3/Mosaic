@@ -309,6 +309,23 @@ void ofApp::update(){
         }
     }
 
+    // Video Recording
+    if(recorder.isRecording()) {
+        ofImage recordFrame;
+        recordFrame.grabScreen(ofGetWindowPositionX(),ofGetWindowPositionY()-40,ofGetWindowWidth(),ofGetWindowHeight());
+
+        captureFbo.begin();
+        ofClear(0,0,0,255);
+        ofSetColor(255);
+        recordFrame.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
+        captureFbo.end();
+
+        reader.readToPixels(captureFbo, capturePix,OF_IMAGE_COLOR); // ofxFastFboReader
+        if(capturePix.getWidth() > 0 && capturePix.getHeight() > 0) {
+            recorder.addFrame(capturePix);
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -387,23 +404,6 @@ void ofApp::draw(){
             visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
         }
 
-    }
-
-    // Video Recording
-    if(recorder.isRecording()) {
-        ofImage recordFrame;
-        recordFrame.grabScreen(ofGetWindowPositionX(),ofGetWindowPositionY()-40,ofGetWindowWidth(),ofGetWindowHeight());
-
-        captureFbo.begin();
-        ofClear(0,0,0,255);
-        ofSetColor(255);
-        recordFrame.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
-        captureFbo.end();
-
-        reader.readToPixels(captureFbo, capturePix,OF_IMAGE_COLOR); // ofxFastFboReader
-        if(capturePix.getWidth() > 0 && capturePix.getHeight() > 0) {
-            recorder.addFrame(capturePix);
-        }
     }
 
 }
