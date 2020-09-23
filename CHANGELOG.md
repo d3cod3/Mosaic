@@ -4,6 +4,8 @@
 - Added an utility for ofxAddon compatibility verifications.
 - Added string category with a bunch of basic string manipulation objects
 - Added multiple objects selection and delete/duplicate over selected objects
+- Optimized code for high performance rendering
+- Updated examples
 - Various bugs fixes
 
 ### 0.4.1
