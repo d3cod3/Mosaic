@@ -220,13 +220,13 @@ void ofApp::update(){
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
-            visualProgramming->openPatch(patchToLoad);
+            visualProgramming->preloadPatch(patchToLoad);
             resetInitDSP = ofGetElapsedTimeMillis();
             autoinitDSP = true;
         }
     }
     if(autoinitDSP){
-        if(ofGetElapsedTimeMillis() - resetInitDSP > 1000){
+        if(ofGetElapsedTimeMillis() - resetInitDSP > 1000 && !visualProgramming->clearingObjectsMap && !visualProgramming->bLoadingNewPatch){
             autoinitDSP = false;
             visualProgramming->activateDSP();
             mosaicBPM = visualProgramming->bpm;
@@ -1491,7 +1491,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
                     }else{
-                        visualProgramming->openPatch(file.getAbsolutePath());
+                        visualProgramming->preloadPatch(file.getAbsolutePath());
                     }
                     // reinit DSP
                     resetInitDSP = ofGetElapsedTimeMillis();
