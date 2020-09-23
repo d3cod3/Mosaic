@@ -136,7 +136,6 @@ void ofApp::setup(){
     showRightClickMenu      = false;
     createSearchedObject    = false;
     showConsoleWindow       = false;
-    showCodeEditor          = false;
     showAboutWindow         = false;
     isHoverMenu             = false;
     isHoverLogger           = false;
@@ -604,8 +603,7 @@ void ofApp::drawImGuiInterface(){
 
             if(ImGui::BeginMenu( "View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
-                    showCodeEditor          = isCodeEditorON;
-                    if(visualProgramming->inspectorActive && showCodeEditor){
+                    if(visualProgramming->inspectorActive && isCodeEditorON){
                         visualProgramming->inspectorActive = false;
                     }
                     initGuiPositions();
@@ -619,8 +617,8 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Spacing();
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
                 if(ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive)){
-                    if(visualProgramming->inspectorActive && showCodeEditor){
-                        showCodeEditor = false;
+                    if(visualProgramming->inspectorActive && isCodeEditorON){
+                        isCodeEditorON = false;
                     }
                     initGuiPositions();
                 }
@@ -854,7 +852,7 @@ void ofApp::drawImGuiInterface(){
         }
 
         // code editor
-        if(showCodeEditor){
+        if(isCodeEditorON){
             if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
                 ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);

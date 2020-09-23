@@ -116,7 +116,6 @@ public:
     string                          shortcutFunc;
     bool                            createSearchedObject;
     bool                            showConsoleWindow;
-    bool                            showCodeEditor;
     bool                            showAboutWindow;
     bool                            showRightClickMenu;
     bool                            isHoverMenu;
