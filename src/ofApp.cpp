@@ -605,6 +605,9 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "View")){
                 if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
                     showCodeEditor          = isCodeEditorON;
+                    if(visualProgramming->inspectorActive && showCodeEditor){
+                        visualProgramming->inspectorActive = false;
+                    }
                     initGuiPositions();
                 }
                 if(ImGui::Checkbox("Logger",&isLoggerON)){
@@ -615,7 +618,12 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Spacing();
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
-                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
+                if(ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive)){
+                    if(visualProgramming->inspectorActive && showCodeEditor){
+                        showCodeEditor = false;
+                    }
+                    initGuiPositions();
+                }
                 ImGui::EndMenu();
             }
 
@@ -1059,7 +1067,12 @@ void ofApp::drawImGuiInterface(){
 
 //--------------------------------------------------------------
 void ofApp::initGuiPositions(){
-    loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
+
+    if(visualProgramming->inspectorActive){
+        loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth() - visualProgramming->lastInspectorWidth,234*visualProgramming->scaleFactor);
+    }else{
+        loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
+    }
 
     if(isCodeEditorFullWindow){
         if(isLoggerON){
