@@ -1,5 +1,10 @@
 # Mosaic CHANGELOG
 
+### 0.4.3
+- Properly adjusted clear timings and global std::map objects reference on reloading patches
+- General graphic fixes
+- Removed unused files
+
 ### 0.4.2
 - Added an utility for ofxAddon compatibility verifications.
 - Added string category with a bunch of basic string manipulation objects
