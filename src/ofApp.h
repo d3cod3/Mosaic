@@ -85,6 +85,8 @@ public:
     void            initDataFolderFromBundle();
     bool            checkInternetReachability();
     void            checkForUpdates();
+    void            checkAutoloadConfig();
+    void            setAutoloadConfig();
     void            createDirectoryNode(ofFile file);
     void            createObjectFromFile(ofFile file,bool temp);
 
@@ -120,6 +122,7 @@ public:
     bool                            showRightClickMenu;
     bool                            isHoverMenu;
     bool                            openPatch;
+    bool                            openAutoloadPatch;
     bool                            savePatchAs;
 
     // CODE EDITOR
@@ -159,6 +162,14 @@ public:
     bool                        loadNewPatch;
     bool                        autoinitDSP;
     size_t                      resetInitDSP;
+
+    // Autoload
+    ofFile                      _apf;
+    string                      autoloadPatchFile;
+    int                         autoloadDelaySeconds;
+    size_t                      autoloadStartTime;
+    size_t                      waitForAutoload;
+    bool                        isAutoloadedPatch;
 
     // NET
     int                         lastReleaseResp;

@@ -124,6 +124,7 @@ void ofApp::setup(){
 
     patchToLoad                 = "";
     loadNewPatch                = false;
+    isAutoloadedPatch           = false;
     autoinitDSP                 = false;
     resetInitDSP                = ofGetElapsedTimeMillis();
 
@@ -141,7 +142,7 @@ void ofApp::setup(){
     isHoverLogger           = false;
     isHoverCodeEditor       = false;
 
-    // VIDEo EXPORTER ( documenting patches, tutorials, etc...)
+    // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
     recordFilepath = "";
     exportVideoFlag = false;
     codecsList = {"hevc","libx264","jpeg2000","mjpeg","mpeg4"};
@@ -199,6 +200,10 @@ void ofApp::setup(){
     waitForScreenshotTime   = 200;
     resetScreenshotTime     = ofGetElapsedTimeMillis();
 
+
+    // AUTOLOAD PATCH ( if configured )
+    checkAutoloadConfig();
+
 }
 
 //--------------------------------------------------------------
@@ -229,6 +234,14 @@ void ofApp::update(){
             autoinitDSP = false;
             visualProgramming->activateDSP();
             mosaicBPM = visualProgramming->bpm;
+        }
+    }
+
+    // autoload patch on startup
+    if(autoloadPatchFile != "" && !autoinitDSP && isAutoloadedPatch){
+        if(ofGetElapsedTimeMillis() - autoloadStartTime > waitForAutoload){
+            isAutoloadedPatch = false;
+            visualProgramming->preloadPatch(autoloadPatchFile);
         }
     }
 
@@ -418,10 +431,11 @@ void ofApp::drawImGuiInterface(){
 
             isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
-            openPatch       = false;
-            savePatchAs     = false;
-            takeScreenshot  = false;
-            exportVideoFlag = false;
+            openPatch           = false;
+            savePatchAs         = false;
+            openAutoloadPatch   = false;
+            takeScreenshot      = false;
+            exportVideoFlag     = false;
 
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
@@ -437,6 +451,46 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem( "Save patch As.." )){
                     savePatchAs = true;
                 }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                if(ImGui::BeginMenu( "Autoload")){
+
+                    if(ImGui::MenuItem( "Set autoload patch" )){
+                        openAutoloadPatch = true;
+                    }
+                    ImGui::Separator();
+                    if(ImGui::MenuItem( "Remove autoload patch" )){
+                        autoloadPatchFile = "";
+                        autoloadDelaySeconds = 1;
+                        setAutoloadConfig();
+                    }
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    if(ImGui::DragInt("Delay ( Seconds )",&autoloadDelaySeconds)){
+                        if(autoloadDelaySeconds < 1){
+                            autoloadDelaySeconds = 1;
+                        }
+                    }
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    if(autoloadPatchFile == ""){
+                        ImGui::Text("no patch in autoload mode");
+                    }else{
+                        ImGui::Text("%s",_apf.getFileName().c_str());
+                        if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s",_apf.getAbsolutePath().c_str());
+                    }
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    if(ImGui::Button("APPLY",ImVec2(-1,26*visualProgramming->scaleFactor))){
+                        setAutoloadConfig();
+                    }
+
+                    ImGui::EndMenu();
+                }
+
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
@@ -658,6 +712,7 @@ void ofApp::drawImGuiInterface(){
             // File dialogs
             if(openPatch) ImGui::OpenPopup("Open patch");
             if(savePatchAs) ImGui::OpenPopup("Save patch");
+            if(openAutoloadPatch) ImGui::OpenPopup("Set autoload patch");
             if(takeScreenshot) ImGui::OpenPopup("Take screenshot");
             if(exportVideoFlag) ImGui::OpenPopup("Record video");
 
@@ -672,6 +727,25 @@ void ofApp::drawImGuiInterface(){
                             if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                                 patchToLoad = file.getAbsolutePath();
                                 loadNewPatch = true;
+                            }else{
+                                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                            }
+                        }
+                    }
+                }
+            }
+
+            // set autoload patch
+            if( fileDialog.showFileDialog("Set autoload patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml") ){
+                ofFile file(fileDialog.selected_path);
+                if (file.exists()){
+                    string fileExtension = ofToUpper(file.getExtension());
+                    if(fileExtension == "XML") {
+                        ofxXmlSettings XML;
+                        if (XML.loadFile(file.getAbsolutePath())){
+                            if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
+                                autoloadPatchFile = file.getAbsolutePath();
+                                _apf.open(autoloadPatchFile);
                             }else{
                                 ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
                             }
@@ -1436,6 +1510,57 @@ void ofApp::checkForUpdates(){
         ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
     }
 
+}
+
+//--------------------------------------------------------------
+void ofApp::checkAutoloadConfig(){
+    string autoloadfilepath = ofToDataPath("autoload.txt",true);
+    ofFile autoloadFile(autoloadfilepath);
+
+    autoloadPatchFile       = "";
+    autoloadDelaySeconds    = 1;
+    waitForAutoload         = autoloadDelaySeconds*1000;
+    isAutoloadedPatch       = false;
+
+    if(autoloadFile.exists()){
+        ofBuffer fileBuffer = ofBufferFromFile(autoloadfilepath);
+
+        // extract autoload data ( fixed txt file with two lines, line one: filepath, line two: delay seconds to load )
+        if(fileBuffer.size()) {
+            int counter = 0;
+            for (ofBuffer::Line it = fileBuffer.getLines().begin(), end = fileBuffer.getLines().end(); it != end; ++it) {
+                string line = *it;
+
+                if(counter == 0){
+                    autoloadPatchFile       = line;
+                }else if(counter == 1){
+                    autoloadDelaySeconds    = ofToInt(line);
+                    waitForAutoload         = autoloadDelaySeconds*1000;
+                    isAutoloadedPatch       = true;
+                }
+
+                counter++;
+            }
+        }
+    }
+
+    //ofLog(OF_LOG_NOTICE,"AUTOLOAD Data: %s --> Delay %i",autoloadPatchFile.c_str(),autoloadDelaySeconds);
+
+    autoloadStartTime = ofGetElapsedTimeMillis();
+}
+
+//--------------------------------------------------------------
+void ofApp::setAutoloadConfig(){
+    //std::ofstream file;
+    string autoloadfilepath = ofToDataPath("autoload.txt",true);
+
+    std::ofstream file(autoloadfilepath, std::ofstream::trunc);
+
+    //file.open(autoloadfilepath, std::ios::out | std::ios::app);
+
+    file << autoloadPatchFile << std::endl;
+    file << ofToString(autoloadDelaySeconds) << std::endl;
+    file.close();
 }
 
 //--------------------------------------------------------------
