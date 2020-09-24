@@ -160,8 +160,6 @@ public:
     string                      windowTitle;
     string                      patchToLoad;
     bool                        loadNewPatch;
-    bool                        autoinitDSP;
-    size_t                      resetInitDSP;
 
     // Autoload
     ofFile                      _apf;

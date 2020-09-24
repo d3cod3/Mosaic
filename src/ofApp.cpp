@@ -125,8 +125,6 @@ void ofApp::setup(){
     patchToLoad                 = "";
     loadNewPatch                = false;
     isAutoloadedPatch           = false;
-    autoinitDSP                 = false;
-    resetInitDSP                = ofGetElapsedTimeMillis();
 
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
@@ -221,27 +219,22 @@ void ofApp::update(){
     visualProgramming->setIsHoverMenu(isHoverMenu);
     visualProgramming->setIsHoverLogger(isHoverLogger);
     visualProgramming->setIsHoverCodeEditor(isHoverCodeEditor);
+
+    // init start empty patch
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
             visualProgramming->preloadPatch(patchToLoad);
-            resetInitDSP = ofGetElapsedTimeMillis();
-            autoinitDSP = true;
-        }
-    }
-    if(autoinitDSP){
-        if(ofGetElapsedTimeMillis() - resetInitDSP > 1000 && !visualProgramming->clearingObjectsMap && !visualProgramming->bLoadingNewPatch){
-            autoinitDSP = false;
-            visualProgramming->activateDSP();
             mosaicBPM = visualProgramming->bpm;
         }
     }
 
     // autoload patch on startup
-    if(autoloadPatchFile != "" && !autoinitDSP && isAutoloadedPatch){
+    if(autoloadPatchFile != "" && isAutoloadedPatch){
         if(ofGetElapsedTimeMillis() - autoloadStartTime > waitForAutoload){
             isAutoloadedPatch = false;
             visualProgramming->preloadPatch(autoloadPatchFile);
+            mosaicBPM = visualProgramming->bpm;
         }
     }
 
@@ -289,9 +282,6 @@ void ofApp::update(){
 
     if(!isInited){
         isInited = true;
-        // reinit DSP
-        resetInitDSP = ofGetElapsedTimeMillis();
-        autoinitDSP = true;
         // init gui positions
         initGuiPositions();
     }
@@ -440,8 +430,6 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
-                    resetInitDSP = ofGetElapsedTimeMillis();
-                    autoinitDSP = true;
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -1174,8 +1162,6 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
         visualProgramming->newPatch();
-        resetInitDSP = ofGetElapsedTimeMillis();
-        autoinitDSP = true;
     // refresh/save actual editing script
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
@@ -1616,9 +1602,6 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                     }else{
                         visualProgramming->preloadPatch(file.getAbsolutePath());
                     }
-                    // reinit DSP
-                    resetInitDSP = ofGetElapsedTimeMillis();
-                    autoinitDSP = true;
                 }else{
                     ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
                 }
