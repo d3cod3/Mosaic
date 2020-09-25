@@ -1,6 +1,7 @@
 # Mosaic CHANGELOG
 
 ### 0.4.3
+- Added patch autoload-on-startup mechanism
 - Properly adjusted clear timings and global std::map objects reference on reloading patches
 - General graphic fixes
 - Removed unused files

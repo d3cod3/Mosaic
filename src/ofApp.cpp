@@ -211,7 +211,7 @@ void ofApp::update(){
     ofSetWindowTitle(windowTitle);
 
     // Visual Programming Environment
-    if(mosaicTiming.tick() && !visualProgramming->bLoadingNewPatch){
+    if(mosaicTiming.tick()){
         visualProgramming->update();
         visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
     }
