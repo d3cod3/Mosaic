@@ -1,3 +1,6 @@
 [submodule "bin/examples"]
 	path = bin/examples
 	url = https://github.com/d3cod3/Mosaic_examples
+[submodule "scripts/ofxAddonTool"]
+	path = scripts/ofxAddonTool
+	url = https://github.com/Daandelange/ofxAddonTool
