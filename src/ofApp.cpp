@@ -1182,7 +1182,10 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(ofKeyEventArgs &e){
-
+    // OSX: CMD-F, WIN/LINUX: CTRL-F    (FULLSCREEN)
+    if(e.hasModifier(MOD_KEY) && e.keycode == 70){
+        ofToggleFullscreen();
+    }
 }
 
 //--------------------------------------------------------------
