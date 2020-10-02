@@ -314,7 +314,7 @@ void ofApp::update(){
     // Video Recording
     if(recorder.isRecording()) {
         static ofImage recordFrame;
-        recordFrame.grabScreen(ofGetWindowPositionX(),ofGetWindowPositionY()-40,ofGetWindowWidth(),ofGetWindowHeight());
+        recordFrame.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
 
         captureFbo.begin();
         ofClear(0,0,0,255);
