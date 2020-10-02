@@ -191,6 +191,11 @@ private:
     bool                                exportVideoFlag;
     bool                                showSubtitler;
 
+    ofVec2f                             lastclickPos;
+    float                               mouseClickRadius;
+    bool                                showingClickAnimation;
+    bool                                showMouseOnRec;
+
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;

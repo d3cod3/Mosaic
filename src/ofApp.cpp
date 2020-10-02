@@ -147,9 +147,13 @@ void ofApp::setup(){
     selectedCodec = 4;
     recButtonLabel = "REC";
 
-    // SUBTITLER
-    actualSubtitle = "";
-    showSubtitler = false;
+    // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
+    actualSubtitle          = "";
+    showSubtitler           = false;
+
+    showingClickAnimation   = false;
+    mouseClickRadius        = 0.0f;
+    showMouseOnRec          = false;
 
     captureFbo.allocate( ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
     recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
@@ -334,6 +338,8 @@ void ofApp::update(){
 void ofApp::draw(){
 
     ofBackground(20);
+    ofFill();
+    ofSetLineWidth(1);
 
     // BACKGROUND GUI
 
@@ -406,6 +412,19 @@ void ofApp::draw(){
             visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
         }
 
+    }
+
+    // mouse click on recording
+    if(showMouseOnRec && showingClickAnimation){ // && recorder.isRecording()
+        if(mouseClickRadius < 15.0f*visualProgramming->scaleFactor){
+            mouseClickRadius += 1.0f*visualProgramming->scaleFactor;
+        }else{
+            showingClickAnimation = false;
+        }
+        ofNoFill();
+        ofSetLineWidth(4);
+        ofSetColor(182,30,41,250);
+        ofDrawCircle(lastclickPos.x,lastclickPos.y,mouseClickRadius);
     }
 
 }
@@ -625,6 +644,9 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Separator();
+                ImGui::Spacing();
+
+                ImGui::Checkbox("Show mouse clicks",&showMouseOnRec);
                 ImGui::Spacing();
 
                 ImGui::Checkbox("Subtitler",&showSubtitler);
@@ -1203,6 +1225,13 @@ void ofApp::mousePressed(int x, int y, int button){
     if(button == 2){ // right click
         showRightClickMenu = !showRightClickMenu;
     }
+
+    if(showMouseOnRec){
+        lastclickPos.set(x,y);
+        mouseClickRadius = 0.0f;
+        showingClickAnimation = true;
+    }
+
 }
 
 //--------------------------------------------------------------
