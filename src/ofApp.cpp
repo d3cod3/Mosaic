@@ -53,14 +53,6 @@ void ofApp::setup(){
 
     // RETINA FIX
     isRetina = false;
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
-        ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
-        isRetina = true;
-    }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
-        ofSetWindowShape(1920-4,ofGetScreenHeight());
-    }else{ // STANDARD SCREEN
-        ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
-    }
 
     // LOGGER
     isInited        = false;
@@ -112,11 +104,6 @@ void ofApp::setup(){
 
     mainTheme = new MosaicTheme();
     mainMenu.setup(mainTheme,false);
-    if(isRetina){
-        mainTheme->fixForRetinaScreen();
-    }
-
-    fileDialog.setIsRetina(isRetina);
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup( &mainMenu );
@@ -286,6 +273,21 @@ void ofApp::update(){
 
     if(!isInited){
         isInited = true;
+
+        // RETINA FIX
+        if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
+            ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
+            isRetina = true;
+        }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
+            ofSetWindowShape(1920-4,ofGetScreenHeight());
+        }else{ // STANDARD SCREEN
+            ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
+        }
+        if(isRetina){
+            mainTheme->fixForRetinaScreen();
+        }
+        fileDialog.setIsRetina(isRetina);
+
         // init gui positions
         initGuiPositions();
     }
