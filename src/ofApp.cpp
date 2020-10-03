@@ -801,7 +801,6 @@ void ofApp::drawImGuiInterface(){
                 ofFile file(fileDialog.selected_path);
                 recordFilepath = file.getAbsolutePath();
                 // check extension
-                ofLog(OF_LOG_NOTICE,"%s",fileDialog.ext.c_str());
                 if(fileDialog.ext != ".mp4"){
                     recordFilepath += ".mp4";
                 }
