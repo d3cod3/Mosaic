@@ -796,13 +796,12 @@ void ofApp::drawImGuiInterface(){
                 recorder.stop();
             }
             #else
-
-            #endif
             string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".mp4";
             if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".mp4", newRecordVideoName) ){
                 ofFile file(fileDialog.selected_path);
                 recordFilepath = file.getAbsolutePath();
                 // check extension
+                ofLog(OF_LOG_NOTICE,"%s",fileDialog.ext.c_str());
                 if(fileDialog.ext != ".mp4"){
                     recordFilepath += ".mp4";
                 }
@@ -811,6 +810,8 @@ void ofApp::drawImGuiInterface(){
                 recorder.startCustomRecord();
                 recorder.stop();
             }
+            #endif
+
         }
 
         ImGui::EndMainMenuBar();
