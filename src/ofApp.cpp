@@ -515,6 +515,7 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "Objects")){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
+                    #if !defined(TARGET_WIN32)
                     if(ImGui::BeginMenu(it->first.c_str())){
                         std::sort(it->second.begin(), it->second.end());
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
@@ -527,6 +528,22 @@ void ofApp::drawImGuiInterface(){
                         }
                         ImGui::EndMenu();
                     }
+                    #else
+                    if(it->first != OFXVP_OBJECT_CAT_AUDIOANALYSIS && it->first != OFXVP_OBJECT_CAT_SOUND){
+                        if(ImGui::BeginMenu(it->first.c_str())){
+                            std::sort(it->second.begin(), it->second.end());
+                            for(int j=0;j<static_cast<int>(it->second.size());j++){
+                                if(it->second.at(j) != "audio device"){
+                                    if(ImGui::MenuItem(it->second.at(j).c_str())){
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+
+                                    }
+                                }
+                            }
+                            ImGui::EndMenu();
+                        }
+                    }
+                    #endif
                 }
                 ImGui::EndMenu();
             }
@@ -546,6 +563,7 @@ void ofApp::drawImGuiInterface(){
             }
 
 
+            #if !defined(TARGET_WIN32)
             if(ImGui::BeginMenu( "Sound")){
                 if(ImGui::Checkbox("DSP",&visualProgramming->dspON)){
                     if(visualProgramming->dspON){
@@ -577,6 +595,7 @@ void ofApp::drawImGuiInterface(){
                 }
                 ImGui::EndMenu();
             }
+            #endif
 
             if(ImGui::BeginMenu( "System")){
                 if(ImGui::DragInt("FPS",&mosaicFPS,1.0f,1)){
