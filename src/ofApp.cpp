@@ -283,9 +283,11 @@ void ofApp::update(){
         }else{ // STANDARD SCREEN
             ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
         }
+
         if(isRetina){
             mainTheme->fixForRetinaScreen();
         }
+        visualProgramming->setRetina(isRetina);
         fileDialog.setIsRetina(isRetina);
 
         // init gui positions
