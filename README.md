@@ -186,6 +186,8 @@ You can find the repo of the plugin template here: [Mosaic-Plugin](https://githu
 
 # SCREENSHOTS
 
+![Mosaic 0.4.3_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/29_1979.jpg)
+
 ![Mosaic 0.4.0_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/25_transparent_machines.jpg)
 
 ![Mosaic pre_0.2.0](https://github.com/d3cod3/Mosaic/raw/master/process/img/23_helloSonogram.jpg)
