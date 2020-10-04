@@ -52,13 +52,30 @@ If you want to build Mosaic, just download OF0.11.0 for your OS (osx, linux, win
 
 ![Mosaic-Data-Flow-Diagram](https://github.com/d3cod3/Mosaic/raw/master/process/img/10_Mosaic-Data-Flow-Diagram.jpg)
 
-Mosaic is an open source multi-platform (osx, linux, windows) live coding and visual programming application, based on openFrameworks.
+A very commonly used quote from Albert Einstein goes like this: « If I can't picture it, I can't understand it. ». Following that thought, we'll eventually enter the realm of visual thinking, where complex ideas can be communicated in a simple way.
 
-This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding. As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container, aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, GLSL, Python and BASH(macOS & linux) ).
+Mosaic is a visual thinking toolkit made by artists, for artists.
 
-As this project is based on openFrameworks, one of the goals is to offer as more objects as possible, using the pre-defined OF classes for trans-media manipulation (audio, text, image, video, electronics, computer vision), plus all the gigantic ofxaddons ecosystem actually available (machine learning, protocols, web, hardware interface, among a lot more).
+[Emanuele Mazza](https://github.com/d3cod3) started the Mosaic project in 2018, in strict relation with the work of ART+TECHNOLOGY research group Laboluz from the Fine Art faculty of the Universidad Politécnica de Valéncia (Spain). From the very beginning, the source code was released on the Github development platform with a focus on making the code modular and simple to read, in order to encourage potentially interested coders in participating and collaborating on the project. Recently in 2020, digital artist [Daan de Lange](https://github.com/Daandelange) became a contributor of Mosaic code, actively participating in code development and restructuring.
 
-While the described characteristics could potentially offer an extremely high complex result (OF and OFXADDONS ecosystem is really huge, and the possibility of multiple scripting languages could lead every unexperienced user to confusion), the idea behind the interface design aim at avoiding the "high complex" situation, embodying a direct and natural drag&drop connect/disconnet interface (mouse/trackpad) on the most basic level of interaction, adding text editing (keyboard) on a intermediate level of interaction (script editing), following most advanced level of interaction for experienced users (external devices communication, automated interaction, etc...)
+Mosaic is a multi-platform livecoding programming/patching environment for creating real-time audio-visual compositions. It's principally designed for live needs, as can be teaching in class, live performing in an algorave, or running a generative audio-visual installation in a museum.
+It aims to empower artists, creative coders, scenographers and other creative technologists in their creative workflow.
+It's a FLOSS, Free/Libre and Open Source Software with multi-platform support, and it's written in C++, offering high performance.
+
+Mosaic is shipped with an internal code editor, non-blocking system dialogs, a programmable non-linear interactive timeline, an included patch video exporter with subtitler for easy tutorial creation, lua/python/glsl/bash live-coding and pure data live-patching capability, a good selection of audio synthesis modules, multiple fullscreen output windows capabilities ( as many as your system can have ) with an independent warping for each window, a map-map style integrated mapping module, and an easy to use osc sending/receiving objects/nodes for network communication.
+
+The idea behind Mosaic is to facilitate human-machine communication, to amplify imagination and to speed up the creative workflow, without sacrificing the spectrum of possibilities. To achieve this, it bundles together various creative-coding tools, acting as an interactive bridge between them.
+It includes a collection of audio-visual objects that can be easily connected together using a nodal-based graphical interface, defining a custom dataflow.
+
+Mosaic is mainly based on two frameworks : OpenFrameworks and ImGui. OpenFrameworks is an open source C++ toolkit for creative coding.
+Dear ImGui is a bloat-free graphical user interface for C++ with minimal dependencies.
+Together with the latter ones, Mosaic bundles comes with other 3rd party libraries such as PureData Vanilla and numerous ofxAddons.
+It also embeds various programing languages for live-coding purposes : Lua with OF-bindings, Python 2.7 scripting interpreter, live compiling of GLSL shaders and editing/execute Bash scripts (macOS & linux) capabilities.
+
+Mosaic is extendable : you can easily [add custom objects](https://github.com/d3cod3/ofxMosaicPlugin).
+While this involves writing and compiling code, requiring some C++ knowledge, we aim to make this process as easy as possible. Thus, Mosaic is flexible and devoted to grow over time.
+For example, any Openframeworks project can be easily ported to Mosaic Objects, exposing them to the live-patching environment. This way, working with OF becomes way more modular, and you can make run-time adjustments. Possibilities are endless.
+Once created, plugins can either be statically compiled into Mosaic, or if you wish, there's also support for dynamically loading them, making it easy to share and distribute your objects with others.
 
 
 #### KEYWORDS
@@ -180,9 +197,12 @@ Now you're ready to compile Mosaic! Load the .qbs project in QTCreator and compi
 
 # CONTRIBUTING
 
-Contributing to the project adding new objects is relatively easy, as ofxVisualProgramming is at the core of [Mosaic](https://github.com/d3cod3/Mosaic) software, i've implemented a plugin mechanism based on [Pugg](http://pugg.sourceforge.net/), in order to facilitate the extension and the creation of new objects/nodes to add at the ofxVisualProgramming/Mosaic default objects/nodes library. (see objects/nodes list below)
+Contributing to the project adding new objects is relatively easy, as ofxVisualProgramming is at the core of [Mosaic](https://github.com/d3cod3/Mosaic) software, it has been implemented a plugin mechanism based on [Pugg](http://pugg.sourceforge.net/), in order to facilitate the extension and the creation of new objects/nodes to add at the ofxVisualProgramming/Mosaic default objects/nodes library. (see objects/nodes list below)
 
-You can find the repo of the plugin template here: [Mosaic-Plugin](https://github.com/d3cod3/Mosaic-Plugin), with some generic objects templates and more detailed info in the readme.
+You can find the repo of the plugin template here: [ofxMosaicPlugin](https://github.com/d3cod3/ofxMosaicPlugin), with some generic objects templates and more detailed info in the readme.
+
+If you're curious, please try out Mosaic and don't hesitate to get in touch.
+Mosaic is open to anybody, contributions of any kind are welcome.
 
 # SCREENSHOTS
 
@@ -218,8 +238,8 @@ All contributions are made under the [MIT License](https://opensource.org/licens
 
 # CREDITS
 
-Mosaic is an open source project.
+Mosaic is a [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free/Libre and Open Source Software.
 
-The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3/Mosaic), [Daan de Lange](https://github.com/Daandelange) and Maria José Martínez de Pisón.
+The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
 Mosaic uses [FFTW3](http://fftw.org/),  [essentia](http://essentia.upf.edu/documentation/), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [fontstash](https://github.com/memononen/fontstash) and code from openframeworks all the included ofxAddons.
