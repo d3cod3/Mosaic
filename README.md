@@ -134,20 +134,20 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 
 # SPECIFICATIONS
 
-    - [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free/Libre and Open Source Software
-    - cross-platform (until Apple and Microsoft decides to drop support for openGL, then it will be Linux only)
-    - plugin injection capable, see [ofxMosaicPlugin](https://github.com/d3cod3/ofxMosaicPlugin)
-    - multi-threaded
-    - ImGui based GUI interface
-    - included automatic window video exporter with subtitler for easy tutorial creation
-    - non-blocking system dialogs
-    - internal code editor
-    - lua/python/glsl/bash live-coding
-    - pure data live-patching
-    - non-linear interactive timeline
-    - good selection of audio synthesis modules
-    - warping integrated on output window object
-    - mapmap style projection mapping module
+  - [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free/Libre and Open Source Software
+  - cross-platform (until Apple and Microsoft decides to drop support for openGL, then it will be Linux only)
+  - plugin injection capable, see [ofxMosaicPlugin](https://github.com/d3cod3/ofxMosaicPlugin)
+  - multi-threaded
+  - ImGui based GUI interface
+  - included automatic window video exporter with subtitler for easy tutorial creation
+  - non-blocking system dialogs
+  - internal code editor
+  - lua/python/glsl/bash live-coding
+  - pure data live-patching
+  - non-linear interactive timeline
+  - good selection of audio synthesis modules
+  - warping integrated on output window object
+  - mapmap style projection mapping module
 
 
 #### OFXADDONS
