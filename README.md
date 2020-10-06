@@ -68,7 +68,7 @@ It includes a collection of audio-visual objects that can be easily connected to
 
 Mosaic is mainly based on two frameworks : OpenFrameworks and ImGui. OpenFrameworks is an open source C++ toolkit for creative coding.
 Dear ImGui is a bloat-free graphical user interface for C++ with minimal dependencies.
-Together with the latter ones, Mosaic bundles comes with other 3rd party libraries such as PureData Vanilla and numerous ofxAddons.
+Together with the latter ones, Mosaic bundles comes with other 3rd party libraries such as libpd and numerous ofxAddons.
 It also embeds various programing languages for live-coding purposes : Lua with OF-bindings, Python ( 2.7 on osx, 3.8 on linux ) scripting interpreter, live compiling of GLSL shaders and editing/execute Bash scripts (macOS & linux) capabilities.
 
 Mosaic is extendable : you can easily [add custom objects](https://github.com/d3cod3/ofxMosaicPlugin).
