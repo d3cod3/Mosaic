@@ -37,8 +37,7 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 
 ## WINDOWS
 
-Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
-Windows is only maintained at code level, compiling is tested regularly but releases are neither published or tested.
+At the moment, Mosaic for windows is available as a release: https://github.com/d3cod3/Mosaic/releases, just download and run, or can be compiled using the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer, where you'll find a ```mosaic_windows_installer.sh``` script to run in a MSYS2 console. You'll find instructions for compiling in the repo readme.
 
 
 # OF COMPATIBLE RELEASE
