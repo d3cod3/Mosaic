@@ -1,5 +1,16 @@
 # Mosaic CHANGELOG
 
+### 0.4.4
+- fixed main window recording on external monitors
+- added fullscreen shortcut for main window
+- added ofxAddonTool as submodule
+- added patch autoload-on-startup mechanism
+- updated python to 3.8 on linux
+- fixed compile on windows
+- cleaned audio process code
+- bug fixes
+- code cleaning
+
 ### 0.4.3
 - Added patch autoload-on-startup mechanism
 - Properly adjusted clear timings and global std::map objects reference on reloading patches
