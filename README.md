@@ -98,7 +98,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFontStash](https://github.com/d3cod3/ofxFontStash) -- Fork
 
-#### [ofxGLEditor](https://github.com/d3cod3/ofxGLEditor) -- Fork
+#### [ofxGLEditor](https://github.com/Akira-Hayasaka/ofxGLEditor)
 
 #### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
 
@@ -108,7 +108,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxLua](https://github.com/d3cod3/ofxLua) -- Fork
 
-#### [ofxMidi](https://github.com/d3cod3/ofxMidi) -- Fork
+#### [ofxMidi](https://github.com/danomatika/ofxMidi)
 
 #### [ofxMtlMapping2D](https://github.com/d3cod3/ofxMtlMapping2D) -- Fork
 
@@ -164,12 +164,12 @@ git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/d3cod3/ofxFontStash
-git clone https://github.com/d3cod3/ofxGLEditor
+git clone https://github.com/Akira-Hayasaka/ofxGLEditor
 git clone https://github.com/jeffcrouse/ofxJSON
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
-git clone https://github.com/d3cod3/ofxMidi
+git clone https://github.com/danomatika/ofxMidi
 git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone https://github.com/d3cod3/ofxNDI
 git clone https://github.com/d3cod3/ofxPython
