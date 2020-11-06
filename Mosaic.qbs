@@ -27,7 +27,6 @@ Project{
         ]
 
         of.addons: [
-            'ofxImGui',
             'ofxVisualProgramming'
         ]
 

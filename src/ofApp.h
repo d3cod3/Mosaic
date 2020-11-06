@@ -91,7 +91,6 @@ public:
     void            createObjectFromFile(ofFile file,bool temp);
 
     // Code Editor
-    void            initGuiPositions();
     void            initScriptLanguages();
     void            initNewCodeEditor(ofFile file);
     void            removeScriptFromCodeEditor(string filename);
@@ -117,10 +116,8 @@ public:
     GLuint                          mosaicLogoID;
     string                          shortcutFunc;
     bool                            createSearchedObject;
-    bool                            showConsoleWindow;
     bool                            showAboutWindow;
     bool                            showRightClickMenu;
-    bool                            isHoverMenu;
     bool                            openPatch;
     bool                            openAutoloadPatch;
     bool                            savePatchAs;
@@ -130,11 +127,8 @@ public:
     TextEditor::LanguageDefinition  luaLang;
     TextEditor::LanguageDefinition  pythonLang;
     TextEditor::LanguageDefinition  glslLang;
-    ofRectangle                     codeEditorRect;
-    ofImage                         editorFullscreenButtonSource;
-    GLuint                          editorFullscreenButtonID;
     map<string,TextEditor>          codeEditors;
-    map<string,PathWatcher*>         codeWatchers;
+    map<string,PathWatcher*>        codeWatchers;
     vector<string>                  editedFilesPaths;
     vector<string>                  editedFilesNames;
     string                          actualEditedFilePath;
@@ -142,15 +136,11 @@ public:
     string                          scriptToRemoveFromCodeEditor;
     int                             actualCodeEditor;
     bool                            isCodeEditorON;
-    bool                            isHoverCodeEditor;
-    bool                            isCodeEditorFullWindow;
 
     // LOGGER
     bool                        isInited;
     bool                        isWindowResized;
     bool                        isLoggerON;
-    ofRectangle                 loggerRect;
-    bool                        isHoverLogger;
 
     // Core visual programming
     ofxVisualProgramming        *visualProgramming;

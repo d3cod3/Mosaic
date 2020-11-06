@@ -72,6 +72,8 @@ void ofApp::setup(){
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.MouseDrawCursor = false;
 
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
@@ -115,17 +117,11 @@ void ofApp::setup(){
 
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
-    editorFullscreenButtonSource.load("images/fullscreen-icon.png");
-    editorFullscreenButtonID = mainMenu.loadImage(editorFullscreenButtonSource);
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
     showRightClickMenu      = false;
     createSearchedObject    = false;
-    showConsoleWindow       = false;
     showAboutWindow         = false;
-    isHoverMenu             = false;
-    isHoverLogger           = false;
-    isHoverCodeEditor       = false;
 
     // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
     recordFilepath = "";
@@ -165,7 +161,6 @@ void ofApp::setup(){
     actualEditedFileName            = "";
     scriptToRemoveFromCodeEditor    = "";
     isCodeEditorON = false;
-    isCodeEditorFullWindow = false;
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -206,10 +201,6 @@ void ofApp::update(){
         visualProgramming->update();
         visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
     }
-
-    visualProgramming->setIsHoverMenu(isHoverMenu);
-    visualProgramming->setIsHoverLogger(isHoverLogger);
-    visualProgramming->setIsHoverCodeEditor(isHoverCodeEditor);
 
     // init start empty patch
     if(loadNewPatch){
@@ -291,7 +282,7 @@ void ofApp::update(){
         fileDialog.setIsRetina(isRetina);
 
         // init gui positions
-        initGuiPositions();
+        //initGuiPositions();
     }
 
     // NET
@@ -435,14 +426,33 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::drawImGuiInterface(){
+
     mainMenu.begin();
 
     {
+
+        // Fullscreen transparent DockSpace
+        static bool showDockspace = true;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->GetWorkPos());
+        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*visualProgramming->scaleFactor)));
+        ImGui::SetNextWindowViewport(viewport->ID);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+        window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+
+        ImGui::Begin("DockSpace", &showDockspace, window_flags);
+        ImGui::PopStyleVar(3);
+
+        ImGui::SetNextWindowBgAlpha(0.0f);
+        ImGui::DockSpace(ImGui::GetID("MosaicDockSpace"), ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode);
+
         ImGui::BeginMainMenuBar();
 
         {
-
-            isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
             openPatch           = false;
             savePatchAs         = false;
@@ -689,26 +699,13 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "View")){
-                if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
-                    if(visualProgramming->inspectorActive && isCodeEditorON){
-                        visualProgramming->inspectorActive = false;
-                    }
-                    initGuiPositions();
-                }
-                if(ImGui::Checkbox("Logger",&isLoggerON)){
-                    showConsoleWindow       = isLoggerON;
-                    initGuiPositions();
-                }
+                ImGui::Checkbox("Code Editor",&isCodeEditorON);
+                ImGui::Checkbox("Logger",&isLoggerON);
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
-                if(ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive)){
-                    if(visualProgramming->inspectorActive && isCodeEditorON){
-                        isCodeEditorON = false;
-                    }
-                    initGuiPositions();
-                }
+                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
                 ImGui::EndMenu();
             }
 
@@ -841,7 +838,7 @@ void ofApp::drawImGuiInterface(){
         // About window
         if(showAboutWindow){
 
-            ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*visualProgramming->scaleFactor))*.5f,(ofGetHeight()-(400*visualProgramming->scaleFactor))*.5f), ImGuiCond_Appearing );
+            //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*visualProgramming->scaleFactor))*.5f,(ofGetHeight()-(400*visualProgramming->scaleFactor))*.5f), ImGuiCond_Appearing );
             ImGui::SetNextWindowSize(ImVec2(400*visualProgramming->scaleFactor,400*visualProgramming->scaleFactor), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
@@ -962,11 +959,7 @@ void ofApp::drawImGuiInterface(){
         if(isCodeEditorON){
             if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-                ImGui::SetWindowPos(ImVec2(codeEditorRect.x,codeEditorRect.y), ImGuiCond_Always);
-                ImGui::SetWindowSize(ImVec2(codeEditorRect.width, codeEditorRect.height), ImGuiCond_Always);
-
-                //isHoverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
-                isHoverCodeEditor = codeEditorRect.inside(ofGetMouseX(),ofGetMouseY());
+                ImGui::SetWindowSize(ImVec2(640*visualProgramming->scaleFactor,640*visualProgramming->scaleFactor), ImGuiCond_Appearing);
 
                 if(codeEditors.size() > 0){
 
@@ -1012,8 +1005,6 @@ void ofApp::drawImGuiInterface(){
 
                     ImGui::Text("%6d/%-6d %6d lines | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), codeEditors[editedFilesNames[actualCodeEditor]].GetLanguageDefinition().mName.c_str(), editedFilesPaths[actualCodeEditor].c_str());
 
-                    //ImGuiIO& io = ImGui::GetIO();
-                    //ImFontAtlas* atlas = ImGui::GetIO().Fonts;
                     ImFont* tempfont = ImGui::GetIO().Fonts->Fonts[ImGui::GetIO().Fonts->Fonts.Size - 2];
 
                     ImGui::Spacing();
@@ -1021,17 +1012,6 @@ void ofApp::drawImGuiInterface(){
                     ImGui::Spacing();
 
                     ImGui::SliderFloat("Font scale", &tempfont->Scale, 1.0f, 2.0f);
-                    ImGui::SameLine();
-                    ImGui::Spacing();
-                    ImGui::SameLine();
-                    ImGui::Spacing();
-                    ImGui::SameLine();
-                    ImGui::Spacing();
-                    ImGui::SameLine();
-                    if(ImGui::ImageButton(GetImTextureID(editorFullscreenButtonID), ImVec2(24*visualProgramming->scaleFactor,24*visualProgramming->scaleFactor))){
-                        isCodeEditorFullWindow = !isCodeEditorFullWindow;
-                        initGuiPositions();
-                    }
 
                     ImGui::Spacing();
                     ImGui::Spacing();
@@ -1066,24 +1046,18 @@ void ofApp::drawImGuiInterface(){
         }
 
         // floating logger window
-        if(showConsoleWindow){
-            ImGui::SetNextWindowSize(ImVec2(loggerRect.width,loggerRect.height), ImGuiCond_Always);
-            ImGui::SetNextWindowPos(ImVec2(loggerRect.x,loggerRect.y), ImGuiCond_Always);
+        if(isLoggerON){
+            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            //ImGui::SetNextWindowPos(ImVec2(loggerRect.x,loggerRect.y), ImGuiCond_Appearing);
             mosaicLoggerChannel->Draw("Logger");
-
-            isHoverLogger = loggerRect.inside(ofGetMouseX(),ofGetMouseY());
-        }else{
-            isHoverLogger = false;
         }
 
         // right click menu
         if(showRightClickMenu){
-            ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Always);
+            ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Appearing);
             ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiCond_Appearing);
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
-
-                isHoverMenu = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
                 static ImGuiTextFilter filter;
                 filter.Draw("Search");
@@ -1110,7 +1084,7 @@ void ofApp::drawImGuiInterface(){
                                 if(on != "audio device"){
                                     if(ImGui::MenuItem(on.c_str())){
                                         visualProgramming->addObject(on,ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-                                        showRightClickMenu = false;
+                                        //showRightClickMenu = false;
                                     }
                                 }
                             }
@@ -1136,7 +1110,7 @@ void ofApp::drawImGuiInterface(){
                                     // choose by click or pick first one
                                     if (ImGui::IsItemClicked() || bApplyFilter){
                                         visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + (200*visualProgramming->scaleFactor),visualProgramming->canvas.getMovingPoint().y + (200*visualProgramming->scaleFactor)));
-                                        showRightClickMenu = false;
+                                        //showRightClickMenu = false;
                                         bApplyFilter = false;
                                         filter.Clear();
                                         break;
@@ -1161,38 +1135,13 @@ void ofApp::drawImGuiInterface(){
                 ImGui::End();
             }
 
-        }else{
-            //isHoverMenu = false;
         }
 
     }
+
+    ImGui::End();
 
     mainMenu.end();
-}
-
-//--------------------------------------------------------------
-void ofApp::initGuiPositions(){
-
-    if(visualProgramming->inspectorActive){
-        loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth() - visualProgramming->lastInspectorWidth,234*visualProgramming->scaleFactor);
-    }else{
-        loggerRect.set(0,ofGetWindowHeight()-(254*visualProgramming->scaleFactor),ofGetWindowWidth(),234*visualProgramming->scaleFactor);
-    }
-
-    if(isCodeEditorFullWindow){
-        if(isLoggerON){
-            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-        }else{
-            codeEditorRect.set(0, (26*visualProgramming->scaleFactor),ofGetWindowWidth(), ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
-        }
-    }else{
-        if(isLoggerON){
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(280*visualProgramming->scaleFactor));
-        }else{
-            codeEditorRect.set((ofGetWindowWidth()/3*2) + 1, (26*visualProgramming->scaleFactor),ofGetWindowWidth()/3, ofGetWindowHeight()-(26*visualProgramming->scaleFactor));
-        }
-
-    }
 }
 
 //--------------------------------------------------------------
@@ -1278,7 +1227,7 @@ void ofApp::windowResized(int w, int h){
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
 
-        initGuiPositions();
+        //initGuiPositions();
     }
 }
 
