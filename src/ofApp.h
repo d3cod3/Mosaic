@@ -78,6 +78,9 @@ public:
 
     void quitMosaic();
 
+    // VISUAL PROGRAMMING
+    void            refreshScriptTabs();
+
     // TIMING
     void            setMosaicFrameRate(float fps);
 

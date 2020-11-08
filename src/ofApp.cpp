@@ -200,6 +200,7 @@ void ofApp::update(){
     if(mosaicTiming.tick()){
         visualProgramming->update();
         visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
+        refreshScriptTabs();
     }
 
     // init start empty patch
@@ -220,30 +221,6 @@ void ofApp::update(){
         }
     }
 
-    // load new script files in code editor
-    if(visualProgramming->scriptsObjectsFilesPaths.size() > 0){
-        for(map<string,string>::iterator it = visualProgramming->scriptsObjectsFilesPaths.begin(); it != visualProgramming->scriptsObjectsFilesPaths.end(); it++ ){
-            ofFile tempsofp(it->second);
-
-            map<string,TextEditor>::iterator sofpIT = codeEditors.find(tempsofp.getFileName());
-            if (sofpIT == codeEditors.end()){
-                // script not found in code editor, insert it
-                initNewCodeEditor(tempsofp);
-            }
-        }
-    }
-
-    // remove deleted script files from code editor
-    if(codeEditors.size() > 0){
-        for(map<string,TextEditor>::iterator it = codeEditors.begin(); it != codeEditors.end(); it++ ){
-            map<string,string>::iterator sofpVP = visualProgramming->scriptsObjectsFilesPaths.find(it->first);
-            if (sofpVP == visualProgramming->scriptsObjectsFilesPaths.end()){
-                // script not found in main map, remove it from code editor
-                scriptToRemoveFromCodeEditor = it->first;
-            }
-        }
-    }
-
     // listen for editing scripts external changes
     if(codeWatchers.size() > 0){
         for(map<string,PathWatcher*>::iterator it = codeWatchers.begin(); it != codeWatchers.end(); it++ ){
@@ -251,10 +228,6 @@ void ofApp::update(){
                 pathChanged(it->second->nextEvent());
             }
         }
-    }
-
-    if(scriptToRemoveFromCodeEditor != ""){
-       removeScriptFromCodeEditor(scriptToRemoveFromCodeEditor);
     }
 
     if(isWindowResized){
@@ -280,9 +253,6 @@ void ofApp::update(){
         }
         visualProgramming->setRetina(isRetina);
         fileDialog.setIsRetina(isRetina);
-
-        // init gui positions
-        //initGuiPositions();
     }
 
     // NET
@@ -1281,6 +1251,39 @@ void ofApp::quitMosaic(){
 }
 
 //--------------------------------------------------------------
+void ofApp::refreshScriptTabs(){
+    // load new script files in code editor
+    if(visualProgramming->scriptsObjectsFilesPaths.size() > 0){
+        for(map<string,string>::iterator it = visualProgramming->scriptsObjectsFilesPaths.begin(); it != visualProgramming->scriptsObjectsFilesPaths.end(); it++ ){
+            ofFile tempsofp(it->second);
+
+            map<string,TextEditor>::iterator sofpIT = codeEditors.find(tempsofp.getFileName());
+            if (sofpIT == codeEditors.end()){
+                // script not found in code editor, insert it
+                initNewCodeEditor(tempsofp);
+            }
+        }
+    }
+
+    // remove deleted script files from code editor
+    if(codeEditors.size() > 0){
+        for(map<string,TextEditor>::iterator it = codeEditors.begin(); it != codeEditors.end(); it++ ){
+            map<string,string>::iterator sofpVP = visualProgramming->scriptsObjectsFilesPaths.find(it->first);
+            if (sofpVP == visualProgramming->scriptsObjectsFilesPaths.end()){
+                // script not found in main map, remove it from code editor
+                scriptToRemoveFromCodeEditor = it->first;
+            }
+        }
+    }
+
+    if(scriptToRemoveFromCodeEditor != ""){
+       removeScriptFromCodeEditor(scriptToRemoveFromCodeEditor);
+    }
+
+
+}
+
+//--------------------------------------------------------------
 void ofApp::setMosaicFrameRate(float fps){
     mosaicTiming.setFramerate(fps);
 }
@@ -1604,7 +1607,9 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
                     }else{
-                        visualProgramming->preloadPatch(file.getAbsolutePath());
+                        patchToLoad = file.getAbsolutePath();
+                        loadNewPatch = true;
+                        //visualProgramming->preloadPatch(file.getAbsolutePath());
                     }
                 }else{
                     ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
@@ -1651,6 +1656,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
         }
+
     }
 }
 
@@ -1734,7 +1740,6 @@ void ofApp::initNewCodeEditor(ofFile file){
     codeWatchers[actualEditedFileName]->removeAllPaths();
     codeWatchers[actualEditedFileName]->addPath(actualEditedFilePath);
 
-    actualCodeEditor = codeEditors.size()-1;
 }
 
 //--------------------------------------------------------------
