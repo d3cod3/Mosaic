@@ -160,7 +160,8 @@ void ofApp::setup(){
     actualEditedFilePath            = "";
     actualEditedFileName            = "";
     scriptToRemoveFromCodeEditor    = "";
-    isCodeEditorON = false;
+    isCodeEditorON                  = false;
+    isOverCodeEditor                = false;
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -926,9 +927,11 @@ void ofApp::drawImGuiInterface(){
 
         // code editor
         if(isCodeEditorON){
-            if( ImGui::Begin("Code Editor", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
+            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,640*visualProgramming->scaleFactor), ImGuiCond_Appearing);
 
-                ImGui::SetWindowSize(ImVec2(640*visualProgramming->scaleFactor,640*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            if( ImGui::Begin("Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
+
+                isOverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
                 if(codeEditors.size() > 0){
 
@@ -965,6 +968,14 @@ void ofApp::drawImGuiInterface(){
 
                             if (ImGui::MenuItem("Select all", ofToString(shortcutFunc+"+A").c_str()))
                                 codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
+
+                            ImGui::EndMenu();
+                        }
+
+                        if (ImGui::BeginMenu("Find")){
+                            if (ImGui::MenuItem("Find and Replace",ofToString(shortcutFunc+"+S").c_str())){
+                                codeEditors[editedFilesNames[actualCodeEditor]].Find();
+                            }
 
                             ImGui::EndMenu();
                         }
@@ -1012,13 +1023,15 @@ void ofApp::drawImGuiInterface(){
 
                 ImGui::End();
             }
+        }else{
+            isOverCodeEditor = false;
         }
 
         // floating logger window
         if(isLoggerON){
             ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
             //ImGui::SetNextWindowPos(ImVec2(loggerRect.x,loggerRect.y), ImGuiCond_Appearing);
-            mosaicLoggerChannel->Draw("Logger");
+            mosaicLoggerChannel->Draw("Logger", &isLoggerON);
         }
 
         // right click menu
@@ -1163,8 +1176,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if(button == 2){ // right click
-        showRightClickMenu = !showRightClickMenu;
+    if(button == 2 && !isOverCodeEditor){ // right click
+        showRightClickMenu = true;
     }
 
     if(showMouseOnRec){

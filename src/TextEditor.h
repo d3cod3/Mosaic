@@ -133,6 +133,7 @@ public:
 	typedef std::unordered_set<std::string> Keywords;
 	typedef std::map<int, std::string> ErrorMarkers;
 	typedef std::unordered_set<int> Breakpoints;
+    typedef std::map<int, std::unordered_set<int>> MmlHighlights;
 	typedef std::array<ImU32, (unsigned)PaletteIndex::Max> Palette;
 	typedef uint8_t Char;
 
@@ -206,6 +207,7 @@ public:
 
 	void SetErrorMarkers(const ErrorMarkers& aMarkers) { mErrorMarkers = aMarkers; }
 	void SetBreakpoints(const Breakpoints& aMarkers) { mBreakpoints = aMarkers; }
+    void SetMmlHighlights(const MmlHighlights& aMarkers) { mMmlHighlights = aMarkers; }
 
 	void Render(const char* aTitle, const ImVec2& aSize = ImVec2(), bool aBorder = false);
     void SetText(const std::string& aText, bool scroll2Top = true);
@@ -237,6 +239,9 @@ public:
 	inline void SetHandleKeyboardInputs (bool aValue){ mHandleKeyboardInputs = aValue;}
 	inline bool IsHandleKeyboardInputsEnabled() const { return mHandleKeyboardInputs; }
 
+    inline void SetContextMenuEnable    (bool aValue){ mHandleMouseInputs    = aValue;}
+    inline bool IsContextMenuEnabled() const { return mHandleKeyboardInputs; }
+
 	inline void SetImGuiChildIgnored    (bool aValue){ mIgnoreImGuiChild     = aValue;}
 	inline bool IsImGuiChildIgnored() const { return mIgnoreImGuiChild; }
 
@@ -245,6 +250,8 @@ public:
 
     inline void SetShowShortTabGlyphs(bool aValue) { mShowShortTabGlyphs = aValue; }
     inline bool IsShowingShortTabGlyphs() const { return mShowShortTabGlyphs; }
+
+    inline bool IsWindowFocused() const { return mWindowIsFocused; }
 
 	void SetTabSize(int aValue);
 	inline int GetTabSize() const { return mTabSize; }
@@ -277,6 +284,8 @@ public:
 	bool CanRedo() const;
 	void Undo(int aSteps = 1);
 	void Redo(int aSteps = 1);
+
+    void Find();
 
     static const Palette& GetMosaicPalette();
 	static const Palette& GetDarkPalette();
@@ -363,13 +372,34 @@ private:
 
 	void HandleKeyboardInputs();
 	void HandleMouseInputs();
-	void Render();
+    void HandleContextMenu();
+    void RenderInternal(const char* aTitle);
+
+    float mUIScale, mUIFontSize, mEditorFontSize;
+    inline float mUICalculateSize(float h)
+    {
+        return h * (mUIScale + mUIFontSize / 18.0f - 1.0f);
+    }
+    inline float mEditorCalculateSize(float h)
+    {
+        return h * (mUIScale + mEditorFontSize / 18.0f - 1.0f);
+    }
 
 	float mLineSpacing;
 	Lines mLines;
 	EditorState mState;
 	UndoBuffer mUndoBuffer;
 	int mUndoIndex;
+    int mReplaceIndex;
+
+    bool mHasSearch;
+
+    char mFindWord[256];
+    bool mFindOpened;
+    bool mFindJustOpened;
+    bool mFindNext;
+    bool mFindFocused, mReplaceFocused;
+    char mReplaceWord[256];
 
 	int mTabSize;
 	bool mOverwrite;
@@ -386,9 +416,11 @@ private:
 	SelectionMode mSelectionMode;
 	bool mHandleKeyboardInputs;
 	bool mHandleMouseInputs;
+    bool mContextMenuEnabled;
 	bool mIgnoreImGuiChild;
 	bool mShowWhitespaces;
     bool mShowShortTabGlyphs;
+    bool mWindowIsFocused;
 
 	Palette mPaletteBase;
 	Palette mPalette;
@@ -398,6 +430,7 @@ private:
 	bool mCheckComments;
 	Breakpoints mBreakpoints;
 	ErrorMarkers mErrorMarkers;
+    MmlHighlights mMmlHighlights;
 	ImVec2 mCharAdvance;
 	Coordinates mInteractiveStart, mInteractiveEnd;
 	std::string mLineBuffer;

@@ -139,6 +139,7 @@ public:
     string                          scriptToRemoveFromCodeEditor;
     int                             actualCodeEditor;
     bool                            isCodeEditorON;
+    bool                            isOverCodeEditor;
 
     // LOGGER
     bool                        isInited;

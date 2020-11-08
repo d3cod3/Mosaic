@@ -260,5 +260,5 @@ void MosaicTheme::drawMosaicLogDemo(){
             last_time = time;
         }
 
-        log.Draw("Example: Log");
+        log.Draw("Example: Log",0);
 }

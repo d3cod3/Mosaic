@@ -123,9 +123,9 @@ public:
         return str;
     }
 
-    void Draw(const char* title){
+    void Draw(const char* title, bool* active){
 
-        if (!ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoResize))
+        if (!ImGui::Begin(title,active,ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoResize))
         {
             ImGui::End();
             return;
