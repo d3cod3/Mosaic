@@ -99,15 +99,15 @@ public:
     void            removeScriptFromCodeEditor(string filename);
 
     // Command line arguments
-    vector<string>              arguments;
+    vector<string>                  arguments;
 
     // CORE
-    ofDirectory                 examplesRoot;
-    std::filesystem::path       mosaicPath;
-    std::filesystem::path       mosaicExamplesPath;
-    std::filesystem::path       mosaicPluginsPath;
-    string                      mosaicURL;
-    string                      userHome;
+    ofDirectory                     examplesRoot;
+    std::filesystem::path           mosaicPath;
+    std::filesystem::path           mosaicExamplesPath;
+    std::filesystem::path           mosaicPluginsPath;
+    string                          mosaicURL;
+    string                          userHome;
 
     // GUI
     ofxImGui::Gui                   mainMenu;
@@ -124,6 +124,10 @@ public:
     bool                            openPatch;
     bool                            openAutoloadPatch;
     bool                            savePatchAs;
+
+    // ASSET LIBRARY
+    bool                            isAssetLibraryON;
+    bool                            isOverAssetLibrary;
 
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
@@ -142,32 +146,32 @@ public:
     bool                            isOverCodeEditor;
 
     // LOGGER
-    bool                        isInited;
-    bool                        isWindowResized;
-    bool                        isLoggerON;
+    bool                            isInited;
+    bool                            isWindowResized;
+    bool                            isLoggerON;
 
     // Core visual programming
-    ofxVisualProgramming        *visualProgramming;
-    SynchTimer                  mosaicTiming;
-    int                         mosaicFPS;
-    int                         mosaicBPM;
-    string                      windowTitle;
-    string                      patchToLoad;
-    bool                        loadNewPatch;
+    ofxVisualProgramming            *visualProgramming;
+    SynchTimer                      mosaicTiming;
+    int                             mosaicFPS;
+    int                             mosaicBPM;
+    string                          windowTitle;
+    string                          patchToLoad;
+    bool                            loadNewPatch;
 
     // Autoload
-    ofFile                      _apf;
-    string                      autoloadPatchFile;
-    int                         autoloadDelaySeconds;
-    size_t                      autoloadStartTime;
-    size_t                      waitForAutoload;
-    bool                        isAutoloadedPatch;
+    ofFile                          _apf;
+    string                          autoloadPatchFile;
+    int                             autoloadDelaySeconds;
+    size_t                          autoloadStartTime;
+    size_t                          waitForAutoload;
+    bool                            isAutoloadedPatch;
 
     // NET
-    int                         lastReleaseResp;
-    bool                        isInternetAvailable;
-    bool                        isCheckingRelease;
-    string                      lastRelease;
+    int                             lastReleaseResp;
+    bool                            isInternetAvailable;
+    bool                            isCheckingRelease;
+    string                          lastRelease;
 
 
 private:

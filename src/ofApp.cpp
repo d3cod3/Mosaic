@@ -1138,12 +1138,15 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
         visualProgramming->newPatch();
-    // refresh/save actual editing script
+    // refresh/save actual editing script ( MOD_KEY-r )
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
+    // find/replace inside current script ( MOD_KEY-s )
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
+        codeEditors[editedFilesNames[actualCodeEditor]].Find();
     }else if(e.keycode == 257){
         createSearchedObject = true;
     }
