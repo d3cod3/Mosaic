@@ -1283,7 +1283,6 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
             cindex += curPos.mColumn;
 
             std::string textSrc = GetText();
-            std::transform(textSrc.begin(), textSrc.end(), textSrc.begin(), ::tolower);
 
             size_t textLoc = textSrc.find(mFindWord, cindex);
             if (textLoc == std::string::npos)
