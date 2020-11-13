@@ -40,18 +40,17 @@ Project{
         // flags passed to the c++ compiler
         of.cxxFlags: {
             var flags = [];
-            if(qbs.targetOS.indexOf("windows")>-1){
-                flags = [];
-            }else if(qbs.targetOS.indexOf("osx")>-1){
-                flags = ["-Wno-macro-redefined","-Wno-inconsistent-missing-override","-Wno-undefined-var-template","-Wno-unsequenced"];
-            }else if(qbs.targetOS.indexOf("linux")>-1){
+            if(qbs.buildVariant.contains('debug')){
+                flags = ['-g'];
+            }else if(qbs.buildVariant.contains('release')){
                 flags = [];
             }
             return flags;
         }
 
+        // flags passed to the linker
+        of.linkerFlags: []
 
-        of.linkerFlags: []      // flags passed to the linker
         of.defines: []          // defines are passed as -D to the compiler
         // and can be checked with #ifdef or #if in the code
         of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']       // osx only, additional frameworks to link with the project
