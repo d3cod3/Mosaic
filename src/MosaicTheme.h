@@ -125,7 +125,7 @@ public:
 
     void Draw(const char* title, bool* active){
 
-        if (!ImGui::Begin(title,active,ImGuiWindowFlags_NoCollapse|ImGuiWindowFlags_NoResize))
+        if (!ImGui::Begin(title,active,ImGuiWindowFlags_NoCollapse))
         {
             ImGui::End();
             return;
