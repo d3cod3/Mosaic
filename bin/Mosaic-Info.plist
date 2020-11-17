@@ -7,17 +7,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mosaic_debug</string>
+	<string>Mosaic</string>
 	<key>CFBundleExecutable</key>
-	<string>Mosaic_debug</string>
+	<string>Mosaic</string>
 	<key>CFBundleIconFile</key>
-	<string>icon-debug.icns</string>
+	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.example.Mosaic-debug</string>
+	<string>org.example.Mosaic</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Mosaic_debug</string>
+	<string>Mosaic</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
