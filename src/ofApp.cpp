@@ -119,9 +119,9 @@ void ofApp::setup(){
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
-    showRightClickMenu      = false;
-    createSearchedObject    = false;
-    showAboutWindow         = false;
+    showRightClickMenu          = false;
+    createSearchedObject        = false;
+    showAboutWindow             = false;
 
     // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
     recordFilepath = "";
@@ -171,6 +171,13 @@ void ofApp::setup(){
     shortcutFunc = "CTRL";
 #endif
 
+    // ASSET LIBRARY
+    assetWatcher.start();
+    selectedFile                    = "";
+    isAssetLibraryON                = false;
+    isOverAssetLibrary              = false;
+    isDeleteModalON                 = false;
+
     // NET
     isInternetAvailable = false;
     isCheckingRelease = false;
@@ -210,6 +217,12 @@ void ofApp::update(){
         if(patchToLoad != ""){
             visualProgramming->preloadPatch(patchToLoad);
             mosaicBPM = visualProgramming->bpm;
+            ofFile temp(patchToLoad);
+            assetFolder.reset();
+            assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+            assetFolder.sort();
+            assetWatcher.removeAllPaths();
+            assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
         }
     }
 
@@ -219,6 +232,11 @@ void ofApp::update(){
             isAutoloadedPatch = false;
             visualProgramming->preloadPatch(autoloadPatchFile);
             mosaicBPM = visualProgramming->bpm;
+            ofFile temp(autoloadPatchFile);
+            assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+            assetFolder.sort();
+            assetWatcher.removeAllPaths();
+            assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
         }
     }
 
@@ -229,6 +247,11 @@ void ofApp::update(){
                 pathChanged(it->second->nextEvent());
             }
         }
+    }
+
+    // listen for asset folder changes
+    while(assetWatcher.waitingEvents()) {
+        pathChanged(assetWatcher.nextEvent());
     }
 
     if(isWindowResized){
@@ -254,6 +277,11 @@ void ofApp::update(){
         }
         visualProgramming->setRetina(isRetina);
         fileDialog.setIsRetina(isRetina);
+
+        assetFolder.reset();
+        assetFolder.listDir(ofToDataPath("temp/data/",true));
+        assetFolder.sort();
+        assetWatcher.addPath(ofToDataPath("temp/data/",true));
     }
 
     // NET
@@ -433,6 +461,12 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
                     visualProgramming->newPatch();
+                    ofFile temp(visualProgramming->currentPatchFile);
+                    assetFolder.reset();
+                    assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+                    assetFolder.sort();
+                    assetWatcher.removeAllPaths();
+                    assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -669,13 +703,14 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "View")){
+                ImGui::Checkbox("Asset Manager",&isAssetLibraryON);
                 ImGui::Checkbox("Code Editor",&isCodeEditorON);
-                ImGui::Checkbox("Logger",&isLoggerON);
+                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
+                ImGui::Checkbox("Logger",&isLoggerON);
                 ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
-                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
                 ImGui::EndMenu();
             }
 
@@ -759,6 +794,11 @@ void ofApp::drawImGuiInterface(){
             if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml", newFileName) ){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
+                assetFolder.reset();
+                assetFolder.listDir(file.getEnclosingDirectory()+"data/");
+                assetFolder.sort();
+                assetWatcher.removeAllPaths();
+                assetWatcher.addPath(file.getEnclosingDirectory()+"data/");
             }
 
             // take patch screenshot
@@ -929,7 +969,7 @@ void ofApp::drawImGuiInterface(){
         if(isCodeEditorON){
             ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,640*visualProgramming->scaleFactor), ImGuiCond_Appearing);
 
-            if( ImGui::Begin("Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
+            if( ImGui::Begin(ICON_FA_CODE "  Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
                 isOverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
@@ -1027,11 +1067,244 @@ void ofApp::drawImGuiInterface(){
             isOverCodeEditor = false;
         }
 
+        // asset manager window
+        if(isAssetLibraryON){
+            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+
+            if( ImGui::Begin(ICON_FA_FOLDER "  Asset Manager", &isAssetLibraryON, ImGuiWindowFlags_NoCollapse) ){
+
+                isOverAssetLibrary = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+
+                static int selected = -1;
+                static int node_clicked = -1;
+
+                // button bar
+
+                importAsset         = false;
+                confirmAssetDelete  = false;
+                assetWarning        = false;
+
+                ImGui::Dummy(ImVec2(1,6*visualProgramming->scaleFactor));
+
+                ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                if (ImGui::Button(ICON_FA_UPLOAD "  Add to patch") && selectedFile != ""){
+                    ofFile tmpf(selectedFile);
+                    if(tmpf.isFile()){
+                        createObjectFromFile(tmpf,true);
+                    }
+                }
+                isAddToPatchOver = ImGui::IsItemHovered();
+
+                /*ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                if (ImGui::Button(ICON_FA_FOLDER_PLUS "  Add folder")){
+                    newDirName = "";
+                    ImGui::OpenPopup("Add folder");
+                }
+
+                if(ImGui::BeginPopup("Add folder")){
+
+                    if(ImGui::InputText("##NewDirNameInput", &newDirName,ImGuiInputTextFlags_EnterReturnsTrue)){
+                        if(newDirName != ""){
+                            // create directory
+                            ofDirectory::createDirectory(assetFolder.getAbsolutePath()+"/"+newDirName,false,false);
+                        }
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SameLine();
+                    if(ImGui::Button("Cancel")){
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SameLine();
+                    if(ImGui::Button("Create")){
+                        if(newDirName != ""){
+                            // create directory
+                            ofDirectory::createDirectory(assetFolder.getAbsolutePath()+"/"+newDirName,false,false);
+                        }
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::EndPopup();
+
+                }*/
+
+                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+
+                if (ImGui::Button(ICON_FA_FILE_IMPORT "  Import asset")){
+                    importAsset = true;
+                }
+
+                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+
+                if (ImGui::Button(ICON_FA_TRASH_ALT "  Remove selected") && selectedFile != ""){
+                    // file not used in patch, can be deleted
+                    if(!checkFileUsedInPatch(selectedFile)){
+                        confirmAssetDelete = true;
+                    }else{ // file used in patch, show warning/info message
+                        assetWarning = true;
+                    }
+
+                }
+
+                // END button bar
+
+                if(ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsItemHovered() && !isAddToPatchOver && !isDeleteModalON){
+                    selected = -1;
+                    node_clicked = -1;
+                    selectedFile = "";
+                }
+
+                if(confirmAssetDelete){
+                    ImGui::OpenPopup("Confirm Delete");
+                    isDeleteModalON = true;
+                }
+
+                if(assetWarning){
+                    ImGui::OpenPopup("Warning! Asset In-Use");
+                    isDeleteModalON = true;
+                }
+
+                if (ImGui::BeginPopupModal("Confirm Delete", NULL, ImGuiWindowFlags_NoDocking|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_AlwaysAutoResize)){
+                    ofFile tmpf(selectedFile);
+                    if(tmpf.isDirectory()){
+                        ImGui::Text("Are you sure you want to delete\n%s\nfolder with all his content?\n\nThis operation cannot be undone!\n\n",selectedFile.c_str());
+                    }else{
+                        ImGui::Text("Are you sure you want to delete\n%s ?\n\nThis operation cannot be undone!\n\n",selectedFile.c_str());
+                    }
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - (ImGui::CalcTextSize("Cancel Delete").x + (ImGui::GetStyle().FramePadding.x*4.0)) - ImGui::GetStyle().ItemSpacing.x - ImGui::GetStyle().WindowPadding.x);
+
+                    if (ImGui::Button("Cancel")) {
+                        isDeleteModalON = false;
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::SetItemDefaultFocus();
+                    ImGui::SameLine();
+                    ImGui::PushStyleColor(ImGuiCol_Button, VHS_RED);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_RED_OVER);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
+                    if (ImGui::Button("Delete")) {
+                        if(selectedFile != ""){
+                            ofFile tmpr(selectedFile);
+                            if(tmpr.isDirectory()){
+                                tmpr.remove(true);
+                            }else if(tmpr.isFile()){
+                                tmpr.remove();
+                            }
+                            selected = -1;
+                            node_clicked = -1;
+                            selectedFile = "";
+                        }
+                        isDeleteModalON = false;
+
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::PopStyleColor(3);
+                    ImGui::EndPopup();
+                }
+
+                if (ImGui::BeginPopupModal("Warning! Asset In-Use", NULL, ImGuiWindowFlags_NoDocking|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_AlwaysAutoResize)){
+
+                    ImGui::Text("The selected file for removal:\n%s\n\nis currently used inside the patch!\n\nIf you want to remove this file, first disable/remove the related object from the patch.",selectedFile.c_str());
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Separator();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    ImGui::SetCursorPosX(ImGui::GetWindowSize().x - (ImGui::CalcTextSize("Understood").x + (ImGui::GetStyle().FramePadding.x*2.0)) - ImGui::GetStyle().ItemSpacing.x - ImGui::GetStyle().WindowPadding.x);
+
+                    if (ImGui::Button("Understood")) {
+                        isDeleteModalON = false;
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                }
+
+                // File dialog
+                if(importAsset) ImGui::OpenPopup("Import asset");
+
+                // import asset
+                if( fileDialog.showFileDialog("Import asset", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), "*.*") ){
+                    ofFile file(fileDialog.selected_path);
+                    if (file.exists()){
+                        copyFileToPatchFolder(assetFolder.getAbsolutePath()+"/",file.getAbsolutePath());
+                    }
+                }
+
+                ImGui::Dummy(ImVec2(1,16*visualProgramming->scaleFactor));
+
+                if(assetFolder.size() == 0){
+                    ImGui::Text("No assets loaded");
+                }
+
+                int listPos = 0;
+                for(int i=0;i<assetFolder.size();i++){
+                    if(assetFolder.getFile(i).isDirectory()){
+                        string tmps = "\uf07b "+assetFolder.getName(i);
+                        ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+                        if (node_clicked == i) node_flags |= ImGuiTreeNodeFlags_Selected;
+                        bool node_open = ImGui::TreeNodeEx(tmps.c_str(), node_flags);
+                        if (ImGui::IsItemClicked()){
+                            node_clicked = i;
+                            selected = -1;
+                            selectedFile = assetFolder.getFile(i).getAbsolutePath();
+                        }
+                        if (node_open){
+                            // list folder
+                            ofDirectory tmp;
+                            tmp.listDir(assetFolder.getFile(i).getAbsolutePath());
+                            for(int t=0;t<tmp.size();t++){
+                                ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
+                                ImGui::Dummy(ImVec2(30*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                                char buf[32];
+                                sprintf(buf, "\uf15b %s", tmp.getName(t).c_str());
+                                if (ImGui::Selectable(buf, selected == listPos)){
+                                    selected = listPos;
+                                    node_clicked = -1;
+                                    selectedFile = tmp.getFile(t).getAbsolutePath();
+                                }
+
+                                listPos++;
+                            }
+                            ImGui::TreePop();
+                        }
+
+                        ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
+                    }else{
+                        char buf[32];
+                        sprintf(buf, "\uf15b %s", assetFolder.getName(i).c_str());
+                        ImGui::Dummy(ImVec2(14*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                        if (ImGui::Selectable(buf, selected == listPos)){
+                            selected = listPos;
+                            node_clicked = -1;
+                            selectedFile = assetFolder.getFile(i).getAbsolutePath();
+                        }
+
+                        ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
+                    }
+
+                    listPos++;
+
+                }
+
+                ImGui::End();
+            }
+        }
+
         // floating logger window
         if(isLoggerON){
             ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
-            //ImGui::SetNextWindowPos(ImVec2(loggerRect.x,loggerRect.y), ImGuiCond_Appearing);
-            mosaicLoggerChannel->Draw("Logger", &isLoggerON);
+            mosaicLoggerChannel->Draw(ICON_FA_TERMINAL "  Logger", &isLoggerON);
         }
 
         // right click menu
@@ -1179,7 +1452,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if(button == 2 && !isOverCodeEditor){ // right click
+    if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
         showRightClickMenu = true;
     }
 
@@ -1211,8 +1484,6 @@ void ofApp::windowResized(int w, int h){
 
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
-
-        //initGuiPositions();
     }
 }
 
@@ -1240,23 +1511,34 @@ void ofApp::urlResponse(ofHttpResponse & response) {
 
 //--------------------------------------------------------------
 void ofApp::pathChanged(const PathWatcher::Event &event) {
-    ofFile tempfile(event.path);
-    ofBuffer tempcontent = ofBufferFromFile(tempfile.getAbsolutePath());
 
-    switch(event.change) {
-        case PathWatcher::CREATED:
-            //ofLogVerbose(PACKAGE) << "path created " << event.path;
-            break;
-        case PathWatcher::MODIFIED:
-            //ofLogVerbose(PACKAGE) << "path modified " << event.path;
-            codeEditors[tempfile.getFileName()].SetText(tempcontent.getText(),false);
-            break;
-        case PathWatcher::DELETED:
-            //ofLogVerbose(PACKAGE) << "path deleted " << event.path;
-            return;
-        default: // NONE
-            return;
+    ofFile tempfile(event.path);
+
+    if(tempfile.isFile()){
+        ofBuffer tempcontent = ofBufferFromFile(tempfile.getAbsolutePath());
+
+        switch(event.change) {
+            case PathWatcher::CREATED:
+                //ofLogVerbose(PACKAGE) << "path created " << event.path;
+                break;
+            case PathWatcher::MODIFIED:
+                //ofLogVerbose(PACKAGE) << "path modified " << event.path;
+                codeEditors[tempfile.getFileName()].SetText(tempcontent.getText(),false);
+                break;
+            case PathWatcher::DELETED:
+                //ofLogVerbose(PACKAGE) << "path deleted " << event.path;
+                return;
+            default: // NONE
+                return;
+        }
+    }else if(tempfile.isDirectory()){
+        if(event.change == PathWatcher::MODIFIED){
+            assetFolder.listDir(assetFolder.getAbsolutePath());
+            assetFolder.sort();
+        }
     }
+
+
 
 }
 
@@ -1621,6 +1903,12 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
                 if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
+                        ofFile temp(visualProgramming->currentPatchFile);
+                        assetFolder.reset();
+                        assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+                        assetFolder.sort();
+                        assetWatcher.removeAllPaths();
+                        assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
                     }else{
                         patchToLoad = file.getAbsolutePath();
                         loadNewPatch = true;
@@ -1673,6 +1961,16 @@ void ofApp::createObjectFromFile(ofFile file,bool temp){
         }
 
     }
+}
+
+//--------------------------------------------------------------
+bool ofApp::checkFileUsedInPatch(string filepath){
+    for(map<int,shared_ptr<PatchObject>>::iterator it = visualProgramming->patchObjects.begin(); it != visualProgramming->patchObjects.end(); it++ ){
+        if(it->second->getFilepath() == filepath){
+            return true;
+        }
+    }
+    return false;
 }
 
 //--------------------------------------------------------------

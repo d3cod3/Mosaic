@@ -92,6 +92,7 @@ public:
     void            setAutoloadConfig();
     void            createDirectoryNode(ofFile file);
     void            createObjectFromFile(ofFile file,bool temp);
+    bool            checkFileUsedInPatch(string filepath);
 
     // Code Editor
     void            initScriptLanguages();
@@ -125,9 +126,18 @@ public:
     bool                            openAutoloadPatch;
     bool                            savePatchAs;
 
-    // ASSET LIBRARY
+    // ASSET Manager
+    ofDirectory                     assetFolder;
+    PathWatcher                     assetWatcher;
+    string                          newDirName;
+    string                          selectedFile;
+    bool                            importAsset;
+    bool                            confirmAssetDelete;
+    bool                            assetWarning;
+    bool                            isDeleteModalON;
     bool                            isAssetLibraryON;
     bool                            isOverAssetLibrary;
+    bool                            isAddToPatchOver;
 
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
