@@ -174,6 +174,7 @@ void ofApp::setup(){
     // ASSET LIBRARY
     assetWatcher.start();
     selectedFile                    = "";
+    isAssetFolderInited             = false;
     isAssetLibraryON                = false;
     isOverAssetLibrary              = false;
     isDeleteModalON                 = false;
@@ -277,7 +278,10 @@ void ofApp::update(){
         }
         visualProgramming->setRetina(isRetina);
         fileDialog.setIsRetina(isRetina);
+    }
 
+    if(ofGetElapsedTimeMillis() > 3000 && !isAssetFolderInited){
+        isAssetFolderInited = true;
         assetFolder.reset();
         assetFolder.listDir(ofToDataPath("temp/data/",true));
         assetFolder.sort();

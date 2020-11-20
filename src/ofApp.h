@@ -138,6 +138,7 @@ public:
     bool                            isAssetLibraryON;
     bool                            isOverAssetLibrary;
     bool                            isAddToPatchOver;
+    bool                            isAssetFolderInited;
 
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
