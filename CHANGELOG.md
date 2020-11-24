@@ -1,5 +1,14 @@
 # Mosaic CHANGELOG
 
+### 0.4.6
+- added windows docking
+- fixed/enhanced internal text editor
+- added text editor find&replace
+- added GUI asset manager
+- optimized patch/resources interaction saving mechanism
+- updated ofxAddonTool
+- bug fixes
+
 ### 0.4.4
 - fixed main window recording on external monitors
 - added fullscreen shortcut for main window
