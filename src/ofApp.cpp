@@ -126,8 +126,6 @@ void ofApp::setup(){
     // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
     recordFilepath = "";
     exportVideoFlag = false;
-    codecsList = {"hevc","libx264","jpeg2000","mjpeg","mpeg4"};
-    selectedCodec = 4;
     recButtonLabel = "REC";
 
     // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
@@ -653,6 +651,7 @@ void ofApp::drawImGuiInterface(){
                             recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
                             ofSetVerticalSync(false);
                             recorder.setOverWrite(true);
+                            recorder.setVideoCodec("hevc"); // h265
                             recorder.setBitRate(20000);
                             recorder.startCustomRecord();
                             recButtonLabel = "STOP";
@@ -668,19 +667,6 @@ void ofApp::drawImGuiInterface(){
                     }
                 }
                 ImGui::PopStyleColor(3);
-                ImGui::Spacing();
-                if(ImGui::BeginCombo("Codec", codecsList.at(selectedCodec).c_str() )){
-                    for(int i=0; i < codecsList.size(); ++i){
-                        bool is_selected = (selectedCodec == i );
-                        if (ImGui::Selectable(codecsList.at(i).c_str(), is_selected)){
-                            selectedCodec = i;
-                            recorder.setVideoCodec(codecsList.at(selectedCodec));
-                        }
-                        if (is_selected) ImGui::SetItemDefaultFocus();
-                    }
-
-                    ImGui::EndCombo();
-                }
 
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -825,6 +811,7 @@ void ofApp::drawImGuiInterface(){
                     recordFilepath += ".avi";
                 }
                 recorder.setOutputPath(recordFilepath);
+                recorder.setVideoCodec("hevc");
                 // prepare blank video file
                 recorder.startCustomRecord();
                 recorder.stop();
@@ -839,6 +826,7 @@ void ofApp::drawImGuiInterface(){
                     recordFilepath += ".mp4";
                 }
                 recorder.setOutputPath(recordFilepath);
+                recorder.setVideoCodec("hevc");
                 // prepare blank video file
                 recorder.startCustomRecord();
                 recorder.stop();

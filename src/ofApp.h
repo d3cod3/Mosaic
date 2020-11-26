@@ -192,9 +192,7 @@ private:
     ofxFastFboReader                    reader;
     ofFbo                               captureFbo;
     ofPixels                            capturePix;
-    vector<string>                      codecsList;
     string                              recordFilepath;
-    int                                 selectedCodec;
     string                              recButtonLabel;
     string                              actualSubtitle;
     bool                                exportVideoFlag;
