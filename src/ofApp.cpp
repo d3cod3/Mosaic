@@ -785,10 +785,10 @@ void ofApp::drawImGuiInterface(){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
                 assetFolder.reset();
-                assetFolder.listDir(file.getEnclosingDirectory()+"data/");
+                assetFolder.listDir(visualProgramming->currentPatchFolderPath+"/data/");
                 assetFolder.sort();
                 assetWatcher.removeAllPaths();
-                assetWatcher.addPath(file.getEnclosingDirectory()+"data/");
+                assetWatcher.addPath(visualProgramming->currentPatchFolderPath+"/data/");
             }
 
             // take patch screenshot
