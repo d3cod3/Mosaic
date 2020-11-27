@@ -1,5 +1,8 @@
 # Mosaic CHANGELOG
 
+### 0.4.7
+- small fixes
+
 ### 0.4.6
 - added windows docking
 - fixed/enhanced internal text editor
