@@ -91,7 +91,7 @@ public:
     void            checkAutoloadConfig();
     void            setAutoloadConfig();
     void            createDirectoryNode(ofFile file);
-    void            createObjectFromFile(ofFile file,bool temp);
+    void            createObjectFromFile(ofFile file,bool temp,int px=-1, int py=-1);
     bool            checkFileUsedInPatch(string filepath);
 
     // Code Editor
