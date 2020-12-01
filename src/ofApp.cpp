@@ -52,7 +52,11 @@ void ofApp::setup(){
     mosaicBPM = 120;
 
     // RETINA FIX
+    retinaScale = dynamic_pointer_cast<ofAppGLFWWindow>(ofGetCurrentWindow())->getPixelScreenCoordScale();
     isRetina = false;
+    if(retinaScale > 1){
+        isRetina = true;
+    }
 
     // LOGGER
     isInited        = false;
@@ -84,7 +88,7 @@ void ofApp::setup(){
     string absPath1 = fileToRead1.getAbsolutePath();
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+    if(isRetina){
         io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
         io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
     }else{
@@ -95,7 +99,7 @@ void ofApp::setup(){
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-    if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){
+    if(isRetina){
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
     }else{
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
@@ -109,7 +113,7 @@ void ofApp::setup(){
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setup( &mainMenu );
-    visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
+    visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
     patchToLoad                 = "";
     loadNewPatch                = false;
@@ -206,7 +210,7 @@ void ofApp::update(){
     // Visual Programming Environment
     if(mosaicTiming.tick()){
         visualProgramming->update();
-        visualProgramming->canvasViewport.set(glm::vec2(0,20*visualProgramming->scaleFactor), glm::vec2(ofGetWidth(), ofGetHeight()-(20*visualProgramming->scaleFactor)));
+        visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
         refreshScriptTabs();
     }
 
@@ -262,14 +266,24 @@ void ofApp::update(){
         isInited = true;
 
         // RETINA FIX
-        if(ofGetScreenWidth() >= RETINA_MIN_WIDTH && ofGetScreenHeight() >= RETINA_MIN_HEIGHT){ // RETINA SCREEN
+        if(isRetina){
+            ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
+        }else{
+            if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
+                ofSetWindowShape(1920-4,ofGetScreenHeight());
+            }else{ // STANDARD SCREEN
+                ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
+            }
+        }
+
+        /*if(isRetina){ // RETINA SCREEN
             ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
             isRetina = true;
         }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
             ofSetWindowShape(1920-4,ofGetScreenHeight());
         }else{ // STANDARD SCREEN
             ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
-        }
+        }*/
 
         if(isRetina){
             mainTheme->fixForRetinaScreen();
@@ -349,7 +363,7 @@ void ofApp::draw(){
 
     // Logo
     ofSetColor(255,255,255,16);
-    mosaicLogo->draw(ofGetWindowWidth()/2 - (128*visualProgramming->scaleFactor),(ofGetWindowHeight()- (240*visualProgramming->scaleFactor))/2 - (128*visualProgramming->scaleFactor),256*visualProgramming->scaleFactor,256*visualProgramming->scaleFactor);
+    mosaicLogo->draw(ofGetWindowWidth()/2 - (128*retinaScale),(ofGetWindowHeight()- (240*retinaScale))/2 - (128*retinaScale),256*retinaScale,256*retinaScale);
 
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
@@ -367,10 +381,10 @@ void ofApp::draw(){
     // DSP flag
     if(visualProgramming->dspON){
         ofSetColor(ofColor::fromHex(0xFFD00B));
-        visualProgramming->font->draw("DSP ON",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+        visualProgramming->font->draw("DSP ON",visualProgramming->fontSize,10*retinaScale,ofGetHeight() - (6*retinaScale));
     }else{
         ofSetColor(ofColor::fromHex(0x777777));
-        visualProgramming->font->draw("DSP OFF",visualProgramming->fontSize,10*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+        visualProgramming->font->draw("DSP OFF",visualProgramming->fontSize,10*retinaScale,ofGetHeight() - (6*retinaScale));
     }
 
     // Last LOG on bottom bar
@@ -387,12 +401,12 @@ void ofApp::draw(){
     if(tmpMsg.find("[verbose]") != std::string::npos){
         ofSetColor(60, 255, 60);
     }
-    visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*visualProgramming->scaleFactor,ofGetHeight() - (6*visualProgramming->scaleFactor));
+    visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*retinaScale,ofGetHeight() - (6*retinaScale));
 
     // subtitler
     if(showSubtitler){
         ofSetColor(0,0,0,100);
-        ofDrawRectangle(0,ofGetWindowHeight()-(166*visualProgramming->scaleFactor),ofGetWindowWidth(),147*visualProgramming->scaleFactor);
+        ofDrawRectangle(0,ofGetWindowHeight()-(166*retinaScale),ofGetWindowWidth(),147*retinaScale);
         ofSetColor(245);
         // cut subtitle at second newline
         int subLastPos = nthOccurrence(actualSubtitle,"\n",2);
@@ -403,17 +417,17 @@ void ofApp::draw(){
             finalSubtitle = actualSubtitle;
         }
         if(isRetina){
-            visualProgramming->font->drawMultiLine(finalSubtitle,96,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+            visualProgramming->font->drawMultiLine(finalSubtitle,96,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
         }else{
-            visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*visualProgramming->scaleFactor),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+            visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
         }
 
     }
 
     // mouse click on recording
     if(showMouseOnRec && showingClickAnimation){ // && recorder.isRecording()
-        if(mouseClickRadius < 15.0f*visualProgramming->scaleFactor){
-            mouseClickRadius += 1.0f*visualProgramming->scaleFactor;
+        if(mouseClickRadius < 15.0f*retinaScale){
+            mouseClickRadius += 1.0f*retinaScale;
         }else{
             showingClickAnimation = false;
         }
@@ -437,7 +451,7 @@ void ofApp::drawImGuiInterface(){
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->GetWorkPos());
-        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*visualProgramming->scaleFactor)));
+        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*retinaScale)));
         ImGui::SetNextWindowViewport(viewport->ID);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -511,7 +525,7 @@ void ofApp::drawImGuiInterface(){
                     }
                     ImGui::Spacing();
                     ImGui::Spacing();
-                    if(ImGui::Button("APPLY",ImVec2(-1,26*visualProgramming->scaleFactor))){
+                    if(ImGui::Button("APPLY",ImVec2(-1,26*retinaScale))){
                         setAutoloadConfig();
                     }
 
@@ -644,7 +658,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
                 char tmp[256];
                 sprintf(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
-                if(ImGui::Button(tmp,ImVec2(-1,26*visualProgramming->scaleFactor))){
+                if(ImGui::Button(tmp,ImVec2(-1,26*retinaScale))){
                     if(recordFilepath != ""){
                         if(!recorder.isRecording()){
                             captureFbo.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
@@ -686,7 +700,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::Button("Screenshot", ImVec2(-1,26*visualProgramming->scaleFactor))){
+                if(ImGui::Button("Screenshot", ImVec2(-1,26*retinaScale))){
                     takeScreenshot = true;
                 }
                 ImGui::EndMenu();
@@ -742,7 +756,7 @@ void ofApp::drawImGuiInterface(){
             if(exportVideoFlag) ImGui::OpenPopup("Record video");
 
             // open patch
-            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml") ){
+            if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".xml") ){
                 ofFile file(fileDialog.selected_path);
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
@@ -761,7 +775,7 @@ void ofApp::drawImGuiInterface(){
             }
 
             // set autoload patch
-            if( fileDialog.showFileDialog("Set autoload patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml") ){
+            if( fileDialog.showFileDialog("Set autoload patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".xml") ){
                 ofFile file(fileDialog.selected_path);
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
@@ -781,7 +795,7 @@ void ofApp::drawImGuiInterface(){
 
             // save patch
             string newFileName = "mosaicPatch_"+ofGetTimestampString("%y%m%d")+".xml";
-            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".xml", newFileName) ){
+            if( fileDialog.showFileDialog("Save patch", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".xml", newFileName) ){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
                 assetFolder.reset();
@@ -793,7 +807,7 @@ void ofApp::drawImGuiInterface(){
 
             // take patch screenshot
             string newShotName = "mosaicScreenshot_"+ofGetTimestampString("%y%m%d")+".jpg";
-            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".jpg", newShotName) ){
+            if( fileDialog.showFileDialog("Take screenshot", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".jpg", newShotName) ){
                 ofFile file(fileDialog.selected_path);
                 lastScreenshot = file.getAbsolutePath();
                 saveNewScreenshot = true;
@@ -803,7 +817,7 @@ void ofApp::drawImGuiInterface(){
             // record video
             #if defined(TARGET_WIN32)
             string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".avi";
-            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".avi", newRecordVideoName) ){
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".avi", newRecordVideoName) ){
                 ofFile file(fileDialog.selected_path);
                 recordFilepath = file.getAbsolutePath();
                 // check extension
@@ -818,7 +832,7 @@ void ofApp::drawImGuiInterface(){
             }
             #else
             string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".mp4";
-            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), ".mp4", newRecordVideoName) ){
+            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".mp4", newRecordVideoName) ){
                 ofFile file(fileDialog.selected_path);
                 recordFilepath = file.getAbsolutePath();
                 // check extension
@@ -840,13 +854,13 @@ void ofApp::drawImGuiInterface(){
         // About window
         if(showAboutWindow){
 
-            //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*visualProgramming->scaleFactor))*.5f,(ofGetHeight()-(400*visualProgramming->scaleFactor))*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(400*visualProgramming->scaleFactor,400*visualProgramming->scaleFactor), ImGuiCond_Appearing );
+            //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(400*retinaScale,400*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
                 if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
-                    float ratio = (150.f*visualProgramming->scaleFactor) / mosaicLogo->getWidth();
+                    float ratio = (150.f*retinaScale) / mosaicLogo->getWidth();
                     ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
                 }
                 ImGui::Text( "%s", PACKAGE);
@@ -867,7 +881,7 @@ void ofApp::drawImGuiInterface(){
                         bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
 
                         ImGui::Spacing();
-                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*visualProgramming->scaleFactor)), ImGuiWindowFlags_NoMove);
+                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*retinaScale)), ImGuiWindowFlags_NoMove);
                         if (copy_to_clipboard){
                             ImGui::LogToClipboard();
                         }
@@ -959,7 +973,7 @@ void ofApp::drawImGuiInterface(){
 
         // code editor
         if(isCodeEditorON){
-            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,640*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            ImGui::SetNextWindowSize(ImVec2(640*retinaScale,640*retinaScale), ImGuiCond_Appearing);
 
             if( ImGui::Begin(ICON_FA_CODE "  Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
@@ -1061,7 +1075,7 @@ void ofApp::drawImGuiInterface(){
 
         // asset manager window
         if(isAssetLibraryON){
-            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
 
             if( ImGui::Begin(ICON_FA_FOLDER "  Asset Manager", &isAssetLibraryON, ImGuiWindowFlags_NoCollapse) ){
 
@@ -1076,9 +1090,9 @@ void ofApp::drawImGuiInterface(){
                 confirmAssetDelete  = false;
                 assetWarning        = false;
 
-                ImGui::Dummy(ImVec2(1,6*visualProgramming->scaleFactor));
+                ImGui::Dummy(ImVec2(1,6*retinaScale));
 
-                ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                ImGui::Dummy(ImVec2(6*retinaScale,1)); ImGui::SameLine();
                 if (ImGui::Button(ICON_FA_UPLOAD "  Add to patch") && selectedFile != ""){
                     ofFile tmpf(selectedFile);
                     if(tmpf.isFile()){
@@ -1088,7 +1102,7 @@ void ofApp::drawImGuiInterface(){
                 }
                 isAddToPatchOver = ImGui::IsItemHovered();
 
-                /*ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                /*ImGui::SameLine(); ImGui::Dummy(ImVec2(6*retinaScale,1)); ImGui::SameLine();
                 if (ImGui::Button(ICON_FA_FOLDER_PLUS "  Add folder")){
                     newDirName = "";
                     ImGui::OpenPopup("Add folder");
@@ -1119,13 +1133,13 @@ void ofApp::drawImGuiInterface(){
 
                 }*/
 
-                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*retinaScale,1)); ImGui::SameLine();
 
                 if (ImGui::Button(ICON_FA_FILE_IMPORT "  Import asset")){
                     importAsset = true;
                 }
 
-                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                ImGui::SameLine(); ImGui::Dummy(ImVec2(6*retinaScale,1)); ImGui::SameLine();
 
                 if (ImGui::Button(ICON_FA_TRASH_ALT "  Remove selected") && selectedFile != ""){
                     // file not used in patch, can be deleted
@@ -1227,14 +1241,14 @@ void ofApp::drawImGuiInterface(){
                 if(importAsset) ImGui::OpenPopup("Import asset");
 
                 // import asset
-                if( fileDialog.showFileDialog("Import asset", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*visualProgramming->scaleFactor, FILE_DIALOG_HEIGHT*visualProgramming->scaleFactor), "*.*") ){
+                if( fileDialog.showFileDialog("Import asset", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), "*.*") ){
                     ofFile file(fileDialog.selected_path);
                     if (file.exists()){
                         copyFileToPatchFolder(assetFolder.getAbsolutePath()+"/",file.getAbsolutePath());
                     }
                 }
 
-                ImGui::Dummy(ImVec2(1,16*visualProgramming->scaleFactor));
+                ImGui::Dummy(ImVec2(1,16*retinaScale));
 
                 if(assetFolder.size() == 0){
                     ImGui::Text("No assets loaded");
@@ -1257,8 +1271,8 @@ void ofApp::drawImGuiInterface(){
                             ofDirectory tmp;
                             tmp.listDir(assetFolder.getFile(i).getAbsolutePath());
                             for(int t=0;t<tmp.size();t++){
-                                ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
-                                ImGui::Dummy(ImVec2(30*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                                ImGui::Dummy(ImVec2(1,2*retinaScale));
+                                ImGui::Dummy(ImVec2(30*retinaScale,1)); ImGui::SameLine();
                                 char buf[32];
                                 sprintf(buf, "\uf15b %s", tmp.getName(t).c_str());
                                 if (ImGui::Selectable(buf, selected == listPos)){
@@ -1272,18 +1286,18 @@ void ofApp::drawImGuiInterface(){
                             ImGui::TreePop();
                         }
 
-                        ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
+                        ImGui::Dummy(ImVec2(1,2*retinaScale));
                     }else{
                         char buf[32];
                         sprintf(buf, "\uf15b %s", assetFolder.getName(i).c_str());
-                        ImGui::Dummy(ImVec2(14*visualProgramming->scaleFactor,1)); ImGui::SameLine();
+                        ImGui::Dummy(ImVec2(14*retinaScale,1)); ImGui::SameLine();
                         if (ImGui::Selectable(buf, selected == listPos)){
                             selected = listPos;
                             node_clicked = -1;
                             selectedFile = assetFolder.getFile(i).getAbsolutePath();
                         }
 
-                        ImGui::Dummy(ImVec2(1,2*visualProgramming->scaleFactor));
+                        ImGui::Dummy(ImVec2(1,2*retinaScale));
                     }
 
                     listPos++;
@@ -1296,13 +1310,13 @@ void ofApp::drawImGuiInterface(){
 
         // floating logger window
         if(isLoggerON){
-            ImGui::SetNextWindowSize(ImVec2(640*visualProgramming->scaleFactor,320*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
             mosaicLoggerChannel->Draw(ICON_FA_TERMINAL "  Logger", &isLoggerON);
         }
 
         // right click menu
         if(showRightClickMenu){
-            ImGui::SetNextWindowSize(ImVec2(200*visualProgramming->scaleFactor,280*visualProgramming->scaleFactor), ImGuiCond_Appearing);
+            ImGui::SetNextWindowSize(ImVec2(200*retinaScale,280*retinaScale), ImGuiCond_Appearing);
             ImGui::SetNextWindowPos(ImVec2(ofGetMouseX(),ofGetMouseY()), ImGuiCond_Appearing);
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
@@ -1357,7 +1371,7 @@ void ofApp::drawImGuiInterface(){
                                 if(ImGui::TreeNodeEx(it->second.at(j).c_str(), tmpFlags)){
                                     // choose by click or pick first one
                                     if (ImGui::IsItemClicked() || bApplyFilter){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + (200*visualProgramming->scaleFactor),visualProgramming->canvas.getMovingPoint().y + (200*visualProgramming->scaleFactor)));
+                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + (200*retinaScale),visualProgramming->canvas.getMovingPoint().y + (200*retinaScale)));
                                         //showRightClickMenu = false;
                                         bApplyFilter = false;
                                         filter.Clear();

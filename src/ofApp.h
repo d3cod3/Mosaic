@@ -115,6 +115,7 @@ public:
     MosaicTheme                     *mainTheme;
     imgui_addons::ImGuiFileBrowser  fileDialog;
     bool                            isRetina;
+    int                             retinaScale;
 
     ofImage                         *mosaicLogo;
     GLuint                          mosaicLogoID;
