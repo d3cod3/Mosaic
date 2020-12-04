@@ -51,11 +51,11 @@ int main(int argc, char *argv[]){
 
     ofGLFWWindowSettings settings;
 #ifdef TARGET_LINUX
-    settings.setGLVersion(2, 1);
+    settings.setGLVersion(4, 1);
 #elif defined(TARGET_OSX)
     settings.setGLVersion(4,1);
 #elif defined(TARGET_WIN32)
-    settings.setGLVersion(2, 1);
+    settings.setGLVersion(4, 1);
 #endif
 
     settings.stencilBits = 0;
