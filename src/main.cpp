@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 #ifdef TARGET_LINUX
     settings.setGLVersion(2, 1);
 #elif defined(TARGET_OSX)
-    settings.setGLVersion(2, 1);
+    settings.setGLVersion(4,1);
 #elif defined(TARGET_WIN32)
     settings.setGLVersion(2, 1);
 #endif
@@ -83,11 +83,12 @@ int main(int argc, char *argv[]){
 
     shared_ptr<ofAppGLFWWindow> splashWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(splashSettings));
     shared_ptr<SplashScreen> splashApp(new SplashScreen);
+    splashApp->splashWindow = splashWindow;
 
     mosaicApp->arguments = options;
 
     ofRunApp(mosaicWindow, mosaicApp);
-    ofRunApp(splashWindow,splashApp);
+    ofRunApp(splashWindow, splashApp);
     ofRunMainLoop();
 
     // done

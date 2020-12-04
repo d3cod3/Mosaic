@@ -61,7 +61,7 @@ void SplashScreen::setup(){
     background.setLoopState(OF_LOOP_NORMAL);
     background.play();
 
-    ofGetCurrentWindow()->makeCurrent();
+    splashWindow->makeCurrent();
 }
 
 //--------------------------------------------------------------
@@ -69,7 +69,7 @@ void SplashScreen::update(){
     background.update();
 
     if(ofGetElapsedTimeMillis()-startTime > 6000){
-        ofGetCurrentWindow()->setWindowShouldClose();
+        splashWindow->setWindowShouldClose();
     }
 }
 
@@ -80,20 +80,20 @@ void SplashScreen::draw(){
 
     ofSetColor(255);
     // draw background
-    background.draw(-40,0,ofGetCurrentWindow()->getWidth()+80,ofGetCurrentWindow()->getHeight());
+    background.draw(-40,0,splashWindow->getWidth()+80,splashWindow->getHeight());
 
-    ofSetColor(255,66);
+    ofSetColor(0,255,255,66);
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
         font.drawString(VERSION_GRAPHIC,452,182);
-        fontSmall.drawString("BETA",ofGetCurrentWindow()->getWidth()-360,ofGetCurrentWindow()->getHeight()-200);
+        fontSmall.drawString("BETA",splashWindow->getWidth()-360,splashWindow->getHeight()-200);
     }else{
         font.drawString(VERSION_GRAPHIC,226,91);
-        fontSmall.drawString("BETA",ofGetCurrentWindow()->getWidth()-180,ofGetCurrentWindow()->getHeight()-100);
+        fontSmall.drawString("BETA",splashWindow->getWidth()-180,splashWindow->getHeight()-100);
     }
 
 }
 
 //--------------------------------------------------------------
 void SplashScreen::mousePressed(int x, int y, int button){
-    ofGetCurrentWindow()->setWindowShouldClose();
+    splashWindow->setWindowShouldClose();
 }

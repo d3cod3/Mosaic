@@ -112,6 +112,7 @@ void ofApp::setup(){
     mainMenu.setup(mainTheme,false);
 
     visualProgramming   = new ofxVisualProgramming();
+    visualProgramming->setRetina(isRetina);
     visualProgramming->setup( &mainMenu );
     visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
@@ -288,7 +289,6 @@ void ofApp::update(){
         if(isRetina){
             mainTheme->fixForRetinaScreen();
         }
-        visualProgramming->setRetina(isRetina);
         fileDialog.setIsRetina(isRetina);
     }
 
@@ -381,10 +381,10 @@ void ofApp::draw(){
     // DSP flag
     if(visualProgramming->dspON){
         ofSetColor(ofColor::fromHex(0xFFD00B));
-        visualProgramming->font->draw("DSP ON",visualProgramming->fontSize,10*retinaScale,ofGetHeight() - (6*retinaScale));
+        visualProgramming->font->drawString("DSP ON",10*retinaScale,ofGetHeight() - (6*retinaScale));
     }else{
         ofSetColor(ofColor::fromHex(0x777777));
-        visualProgramming->font->draw("DSP OFF",visualProgramming->fontSize,10*retinaScale,ofGetHeight() - (6*retinaScale));
+        visualProgramming->font->drawString("DSP OFF",10*retinaScale,ofGetHeight() - (6*retinaScale));
     }
 
     // Last LOG on bottom bar
@@ -401,7 +401,7 @@ void ofApp::draw(){
     if(tmpMsg.find("[verbose]") != std::string::npos){
         ofSetColor(60, 255, 60);
     }
-    visualProgramming->font->draw(tmpMsg,visualProgramming->fontSize,100*retinaScale,ofGetHeight() - (6*retinaScale));
+    visualProgramming->font->drawString(tmpMsg,100*retinaScale,ofGetHeight() - (6*retinaScale));
 
     // subtitler
     if(showSubtitler){
@@ -416,11 +416,12 @@ void ofApp::draw(){
         }else{
             finalSubtitle = actualSubtitle;
         }
-        if(isRetina){
-            visualProgramming->font->drawMultiLine(finalSubtitle,96,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        /*if(isRetina){
+            visualProgramming->font->drawString(finalSubtitle,0,ofGetHeight()-(100*retinaScale));
         }else{
-            visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
-        }
+            visualProgramming->font->drawString(finalSubtitle,0,ofGetHeight()-(100*retinaScale));
+            //visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
+        }*/
 
     }
 

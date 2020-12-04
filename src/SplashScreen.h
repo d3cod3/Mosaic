@@ -51,4 +51,6 @@ public:
     ofTrueTypeFont  fontSmall;
     size_t          startTime;
 
+    shared_ptr<ofAppGLFWWindow>         splashWindow;
+
 };
