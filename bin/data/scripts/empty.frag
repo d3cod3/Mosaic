@@ -12,22 +12,22 @@
 	----------------------------------------------------------
 
 
-	empty.fs: A Fragment Shader template for Mosaic,
+	empty.frag: A GLSL 150 Fragment Shader template for Mosaic
 
 */
 
-#version 120
-
-varying vec3 v;
-varying vec3 N;
+#version 150
 
 uniform sampler2DRect tex0;
 
 uniform vec2 resolution;
 uniform float time;
 
-void main(){
-	vec4 textureColor = texture2DRect(tex0, gl_TexCoord[0].st);
+in vec2 texCoordVarying;
+out vec4 outputColor;
 
-	gl_FragColor = textureColor;
+void main(){
+  vec4 color = texture(tex0, texCoordVarying);
+
+  outputColor = color;
 }

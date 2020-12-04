@@ -12,19 +12,22 @@
 	----------------------------------------------------------
 
 
-	empty.vs: A Vertex Shader template for Mosaic,
+	empty.vert: A GLSL 150 Vertex Shader template for Mosaic
 
 */
 
-#version 120
+#version 150
 
-varying vec3 v;
-varying vec3 N;
+// these are for the programmable pipeline system
+uniform mat4 modelViewProjectionMatrix;
+
+in vec4 position;
+in vec2 texcoord;
+
+out vec2 texCoordVarying;
 
 void main(){
-    v = vec3(gl_ModelViewMatrix * gl_Vertex);
-    N = normalize(gl_NormalMatrix * gl_Normal);
+  texCoordVarying = texcoord;
 
-    gl_TexCoord[0] = gl_MultiTexCoord0;
-    gl_Position = ftransform();
+	gl_Position = modelViewProjectionMatrix * position;
 }
