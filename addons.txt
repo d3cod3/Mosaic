@@ -1,0 +1,34 @@
+# This file holds all repo information for ofxAddonTool to match your configuration
+# To comment out some addons, you may use a # in front of the line.
+ 
+# Regex to (manually) import/transcode from addons.make
+# Search  : git clone( --branch=([\S]+))? ([0-9a-zA-Z\-\.\/\:]+)\/(.+)
+# Replace : $4		$3/$4				$2
+
+# You'll find an example setup below, fit this to your needs !
+# Each line holds 3 variables separated by tabs : Title, Url, Branch
+
+ofxAudioAnalyzer		https://github.com/d3cod3/ofxAudioAnalyzer			master
+ofxAudioFile			https://github.com/npisanti/ofxAudioFile			master
+ofxBTrack				https://github.com/d3cod3/ofxBTrack					master
+ofxChromaKeyShader		https://github.com/d3cod3/ofxChromaKeyShader		master
+ofxCv					https://github.com/kylemcdonald/ofxCv				master
+ofxEasing				https://github.com/arturoc/ofxEasing				master
+ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
+ofxFontStash			https://github.com/d3cod3/ofxFontStash				master
+ofxGLEditor				https://github.com/Akira-Hayasaka/ofxGLEditor		master
+ofxJSON					https://github.com/jeffcrouse/ofxJSON				master
+ofxImGui				https://github.com/d3cod3/ofxImGui					master
+ofxInfiniteCanvas		https://github.com/d3cod3/ofxInfiniteCanvas			master
+ofxLua					https://github.com/d3cod3/ofxLua					of-0.10.0
+ofxMidi					https://github.com/danomatika/ofxMidi				master
+ofxMtlMapping2D			https://github.com/d3cod3/ofxMtlMapping2D			master
+ofxNDI					https://github.com/d3cod3/ofxNDI					master
+ofxPython				https://github.com/d3cod3/ofxPython					OF0.9.8
+ofxPd					https://github.com/danomatika/ofxPd					master
+ofxPdExternals			https://github.com/d3cod3/ofxPdExternals			master
+ofxPDSP					https://github.com/npisanti/ofxPDSP					master
+ofxTimeline				https://github.com/d3cod3/ofxTimeline				master
+ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master	
+ofxWarp					https://github.com/d3cod3/ofxWarp					master
+# always keep a commented line at the end !
