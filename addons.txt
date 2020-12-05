@@ -1,6 +1,6 @@
 # This file holds all repo information for ofxAddonTool to match your configuration
 # To comment out some addons, you may use a # in front of the line.
- 
+
 # Regex to (manually) import/transcode from addons.make
 # Search  : git clone( --branch=([\S]+))? ([0-9a-zA-Z\-\.\/\:]+)\/(.+)
 # Replace : $4		$3/$4				$2
@@ -24,11 +24,11 @@ ofxLua					https://github.com/d3cod3/ofxLua					of-0.10.0
 ofxMidi					https://github.com/danomatika/ofxMidi				master
 ofxMtlMapping2D			https://github.com/d3cod3/ofxMtlMapping2D			master
 ofxNDI					https://github.com/d3cod3/ofxNDI					master
-ofxPython				https://github.com/d3cod3/ofxPython					OF0.9.8
+ofxPython				https://github.com/d3cod3/ofxPython					master
 ofxPd					https://github.com/danomatika/ofxPd					master
 ofxPdExternals			https://github.com/d3cod3/ofxPdExternals			master
 ofxPDSP					https://github.com/npisanti/ofxPDSP					master
 ofxTimeline				https://github.com/d3cod3/ofxTimeline				master
-ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master	
+ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master
 ofxWarp					https://github.com/d3cod3/ofxWarp					master
 # always keep a commented line at the end !
