@@ -1596,11 +1596,11 @@ void ofApp::setMosaicFrameRate(float fps){
 //--------------------------------------------------------------
 void ofApp::initDataFolderFromBundle(){
 
-    #ifdef TARGET_OSX
-
     string _bundleDataPath;
     string _bundleExamplesPath;
     string _bundlePluginsPath;
+
+    #ifdef TARGET_OSX
 
     CFURLRef appUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     CFStringRef appPath = CFURLCopyFileSystemPath(appUrl, kCFURLPOSIXPathStyle);
@@ -1732,7 +1732,113 @@ void ofApp::initDataFolderFromBundle(){
 
     #else
 
-    examplesRoot.listDir(ofToDataPath("../examples"));
+    _bundleDataPath = ofToDataPath("../data");
+    _bundleExamplesPath = ofToDataPath("../examples");
+    _bundlePluginsPath = ofToDataPath("../plugins");
+
+    const char *homeDir = getenv("HOME");
+
+    if(!homeDir){
+        struct passwd* pwd;
+        pwd = getpwuid(getuid());
+        if (pwd){
+            homeDir = pwd->pw_dir;
+        }
+    }
+
+    string _MosaicDataPath(homeDir);
+    string _MosaicExamplesPath(homeDir);
+    string _MosaicPluginsPath(homeDir);
+    userHome = _MosaicDataPath;
+
+    _MosaicDataPath += "/Documents/Mosaic/data";
+    _MosaicExamplesPath += "/Documents/Mosaic/examples";
+    _MosaicPluginsPath += "/Documents/Mosaic/plugins";
+
+    std::filesystem::path tempPath(_MosaicDataPath.c_str());
+    std::filesystem::path examplesPath(_MosaicExamplesPath.c_str());
+    std::filesystem::path pluginsPath(_MosaicPluginsPath.c_str());
+
+    mosaicPath = tempPath;
+    mosaicExamplesPath = examplesPath;
+    mosaicPluginsPath = pluginsPath;
+
+    ofDirectory mosaicDir;
+
+    // examples directory
+    if(!mosaicDir.doesDirectoryExist(mosaicExamplesPath)){
+        mosaicDir.createDirectory(mosaicExamplesPath,true,true);
+
+        std::filesystem::path dataPath(_bundleExamplesPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicExamplesPath,true,true);
+    }else{
+        string relfilepath = _MosaicDataPath+"/release.txt";
+        std::filesystem::path releasePath(relfilepath.c_str());
+        ofFile relFile(releasePath);
+
+        if(relFile.exists()){
+            string actualRel = relFile.readToBuffer().getText();
+
+            if(VERSION != actualRel){
+                std::filesystem::path dataPath(_bundleExamplesPath.c_str());
+
+                // remove previous release examples folder
+                mosaicDir.removeDirectory(mosaicExamplesPath,true);
+                mosaicDir.createDirectory(mosaicExamplesPath,true,true);
+
+                ofDirectory dataDir(dataPath);
+                dataDir.copyTo(mosaicExamplesPath,true,true);
+            }
+        }
+
+    }
+
+    // data directory
+    if(!mosaicDir.doesDirectoryExist(mosaicPath)){
+        mosaicDir.createDirectory(mosaicPath,true,true);
+
+        std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicPath,true,true);
+    }else{
+        string relfilepath = _MosaicDataPath+"/release.txt";
+        std::filesystem::path releasePath(relfilepath.c_str());
+        ofFile relFile(releasePath);
+
+        if(relFile.exists()){
+            string actualRel = relFile.readToBuffer().getText();
+
+            if(VERSION != actualRel){
+                std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+                // remove previous release data folder
+                mosaicDir.removeDirectory(mosaicPath,true);
+                mosaicDir.createDirectory(mosaicPath,true,true);
+
+                // copy the new one
+                ofDirectory dataDir(dataPath);
+                dataDir.copyTo(mosaicPath,true,true);
+            }
+        }
+    }
+
+    // plugins directory
+    if(!mosaicDir.doesDirectoryExist(mosaicPluginsPath)){
+        mosaicDir.createDirectory(mosaicPluginsPath,true,true);
+
+        std::filesystem::path dataPath(_bundlePluginsPath.c_str());
+
+        ofDirectory dataDir(dataPath);
+        dataDir.copyTo(mosaicPluginsPath,true,true);
+    }
+
+
+    ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
+
+    examplesRoot.listDir(mosaicExamplesPath.string());
 
     #endif
 
