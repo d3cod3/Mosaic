@@ -1736,14 +1736,11 @@ void ofApp::initDataFolderFromBundle(){
     _bundleExamplesPath = ofToDataPath("../examples");
     _bundlePluginsPath = ofToDataPath("../plugins");
 
-    const char *homeDir = getenv("HOME");
-
-    if(!homeDir){
-        struct passwd* pwd;
-        pwd = getpwuid(getuid());
-        if (pwd){
-            homeDir = pwd->pw_dir;
-        }
+    string prevCMD = execCmd("cat ~/.config/user-dirs.dirs | grep XDG_DOCUMENTS_DIR | sed 's/XDG_DOCUMENTS_DIR=//g' | tr -d '\"' ");
+    string finalCMD = "echo "+prevCMD;
+    string homeDir = execCmd(finalCMD.c_str());
+    if(homeDir[homeDir.length()-1] < 97 || homeDir[homeDir.length()-1] > 122){
+        homeDir.pop_back();
     }
 
     string _MosaicDataPath(homeDir);
@@ -1751,9 +1748,9 @@ void ofApp::initDataFolderFromBundle(){
     string _MosaicPluginsPath(homeDir);
     userHome = _MosaicDataPath;
 
-    _MosaicDataPath += "/Documents/Mosaic/data";
-    _MosaicExamplesPath += "/Documents/Mosaic/examples";
-    _MosaicPluginsPath += "/Documents/Mosaic/plugins";
+    _MosaicDataPath += "/Mosaic/data";
+    _MosaicExamplesPath += "/Mosaic/examples";
+    _MosaicPluginsPath += "/Mosaic/plugins";
 
     std::filesystem::path tempPath(_MosaicDataPath.c_str());
     std::filesystem::path examplesPath(_MosaicExamplesPath.c_str());
