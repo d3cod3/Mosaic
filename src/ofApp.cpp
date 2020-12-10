@@ -123,6 +123,15 @@ void ofApp::setup(){
     // GUI
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
+    if(isRetina){
+        subtitlesParagraph.init(MAIN_FONT,72);
+        subtitlesParagraph.setSpacing(72*0.7f);
+    }else{
+        subtitlesParagraph.init(MAIN_FONT,42);
+        subtitlesParagraph.setSpacing(42*0.7f);
+    }
+    subtitlesParagraph.setAlignment(ofxParagraph::ALIGN_CENTER);
+    subtitlesParagraph.setMaxLines(2);
 
     showRightClickMenu          = false;
     createSearchedObject        = false;
@@ -408,21 +417,10 @@ void ofApp::draw(){
         ofSetColor(0,0,0,100);
         ofDrawRectangle(0,ofGetWindowHeight()-(166*retinaScale),ofGetWindowWidth(),147*retinaScale);
         ofSetColor(245);
-        // cut subtitle at second newline
-        int subLastPos = nthOccurrence(actualSubtitle,"\n",2);
-        string finalSubtitle = "";
-        if(subLastPos != -1){
-            finalSubtitle = actualSubtitle.substr(0,subLastPos);
-        }else{
-            finalSubtitle = actualSubtitle;
-        }
-        /*if(isRetina){
-            visualProgramming->font->drawString(finalSubtitle,0,ofGetHeight()-(100*retinaScale));
-        }else{
-            visualProgramming->font->drawString(finalSubtitle,0,ofGetHeight()-(100*retinaScale));
-            //visualProgramming->font->drawMultiLine(finalSubtitle,64,0,ofGetHeight()-(100*retinaScale),OF_ALIGN_HORZ_CENTER,ofGetWidth());
-        }*/
-
+        subtitlesParagraph.setText(actualSubtitle);
+        subtitlesParagraph.setWidth(ofGetWindowWidth());
+        subtitlesParagraph.setPosition(0,ofGetWindowHeight()-110*retinaScale);
+        subtitlesParagraph.draw();
     }
 
     // mouse click on recording
@@ -694,7 +692,8 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Checkbox("Subtitler",&showSubtitler);
                 ImGui::Spacing();
                 ImGui::PushItemWidth(-1);
-                ImGui::InputTextMultiline("##subtitle",&actualSubtitle,ImVec2(-1,ImGui::GetFontSize()*3));
+                ImGui::InputText("##subtitle",&actualSubtitle);
+                //ImGui::InputTextMultiline("##subtitle",&actualSubtitle,ImVec2(-1,ImGui::GetFontSize()*3));
                 ImGui::PopItemWidth();
 
                 ImGui::Spacing();

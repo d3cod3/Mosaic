@@ -114,6 +114,7 @@ public:
     ofxImGui::Gui                   mainMenu;
     MosaicTheme                     *mainTheme;
     imgui_addons::ImGuiFileBrowser  fileDialog;
+    ofxParagraph                    subtitlesParagraph;
     bool                            isRetina;
     int                             retinaScale;
 
