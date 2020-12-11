@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D uTexture;
+uniform sampler2DRect uTexture;
 uniform vec4 uExtends;
 uniform vec3 uLuminance;
 uniform vec3 uGamma;
