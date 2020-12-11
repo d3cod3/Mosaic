@@ -1,12 +1,21 @@
-#version 120
+#version 150
 
-varying vec3 v;
-varying vec3 N;
+// OF default uniforms and attributes
+uniform mat4 modelViewProjectionMatrix;
+uniform vec4 globalColor;
 
-void main(){
-    v = vec3(gl_ModelViewMatrix * gl_Vertex);
-    N = normalize(gl_NormalMatrix * gl_Normal);
+in vec4 position;
+in vec2 texcoord;
+in vec4 color;
 
-    gl_TexCoord[0] = gl_MultiTexCoord0;
-    gl_Position = ftransform();
+// App uniforms and attributes
+out vec2 vTexCoord;
+out vec4 vColor;
+
+void main(void)
+{
+	vTexCoord = texcoord;
+	vColor = globalColor;
+
+	gl_Position = modelViewProjectionMatrix * position;
 }

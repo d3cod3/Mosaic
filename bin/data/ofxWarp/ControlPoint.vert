@@ -1,23 +1,23 @@
-#version 120
+#version 150
 
-varying vec3 v;
-varying vec3 N;
+// OF default uniforms and attributes
+uniform mat4 modelViewProjectionMatrix;
+uniform vec4 globalColor;
 
-attribute vec4 iPositionScale;
-attribute vec4 iColor;
+in vec4 position;
+in vec2 texcoord;
+in vec4 color;
 
-attribute vec4 position;
-attribute vec2 texcoord;
-attribute vec4 color;
+// App uniforms and attributes
+in vec4 iPositionScale;
+in vec4 iColor;
 
-varying vec2 vTexCoord;
-varying vec4 vColor;
+out vec2 vTexCoord;
+out vec4 vColor;
 
-void main(void) {
-
+void main(void) 
+{
 	vTexCoord = texcoord;
-	vColor = gl_Color * iColor;
-  	gl_Position = gl_ModelViewProjectionMatrix * vec4(position.xy * iPositionScale.z + iPositionScale.xy, position.zw);
-
-
+	vColor = globalColor * iColor;
+	gl_Position = modelViewProjectionMatrix * vec4(position.xy * iPositionScale.z + iPositionScale.xy, position.zw);
 }

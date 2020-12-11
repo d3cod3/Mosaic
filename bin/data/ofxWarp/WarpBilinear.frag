@@ -1,9 +1,6 @@
-#version 120
+#version 150
 
-varying vec3 v;
-varying vec3 N;
-
-uniform sampler2DRect uTexture;
+uniform sampler2D uTexture;
 uniform vec4 uExtends;
 uniform vec3 uLuminance;
 uniform vec3 uGamma;
@@ -12,11 +9,18 @@ uniform vec4 uCorners;
 uniform float uExponent;
 uniform bool uEditing;
 
-float map(float value,float inMin,float inMax,float outMin,float outMax){
+in vec2 vTexCoord;
+in vec4 vColor;
+
+out vec4 fragColor;
+
+float map(in float value, in float inMin, in float inMax, in float outMin, in float outMax)
+{
 	return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
 }
 
-float grid(vec2 uv,vec2 size){
+float grid(in vec2 uv, in vec2 size)
+{
 	vec2 coord = uv / size;
 	vec2 grid = abs(fract(coord - 0.5) - 0.5) / (2.0 * fwidth(coord));
 	float line = min(grid.x, grid.y);
@@ -25,11 +29,9 @@ float grid(vec2 uv,vec2 size){
 
 void main(void)
 {
+	vec4 texColor = texture(uTexture, vTexCoord);
 
-	vec2 coord = gl_TexCoord[0].st;
-    vec4 texColor = texture2DRect(uTexture, coord);
-
-	vec2 mapCoord = vec2(map(coord.x, uCorners.x, uCorners.z, 0.0, 1.0), map(coord.y, uCorners.y, uCorners.w, 0.0, 1.0));
+	vec2 mapCoord = vec2(map(vTexCoord.x, uCorners.x, uCorners.z, 0.0, 1.0), map(vTexCoord.y, uCorners.y, uCorners.w, 0.0, 1.0));
 
 	float a = 1.0;
 	if (uEdges.x > 0.0) a *= clamp(mapCoord.x / uEdges.x, 0.0, 1.0);
@@ -46,10 +48,10 @@ void main(void)
 	{
 		float f = grid(mapCoord.xy * uExtends.xy, uExtends.zw);
 		vec4 gridColor = vec4(1.0f);
-		gl_FragColor = mix(texColor, gridColor, f);
+		fragColor = mix(texColor * vColor, gridColor, f);
 	}
 	else
 	{
-		gl_FragColor = texColor;
+		fragColor = texColor * vColor;
 	}
 }
