@@ -1,5 +1,16 @@
 # Mosaic CHANGELOG
 
+### 0.4.8
+- better retina screen detection
+- upgraded openGL to 4.1
+- glsl shaders languages availables from 150 to 410
+- included example shaders updated
+- updated ofxAddonsTool to last commit
+- removed ofxFontStash dependency
+- fixed flatpak sandbox issue
+- switched subtitler to text paragraph
+
+
 ### 0.4.7
 - small fixes
 
