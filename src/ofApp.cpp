@@ -1729,7 +1729,7 @@ void ofApp::initDataFolderFromBundle(){
 
     examplesRoot.listDir(mosaicExamplesPath.string());
 
-    #else
+    #elif defined(TARGET_LINUX)
 
     _bundleDataPath = ofToDataPath("../data");
     _bundleExamplesPath = ofToDataPath("../examples");
@@ -1835,6 +1835,10 @@ void ofApp::initDataFolderFromBundle(){
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 
     examplesRoot.listDir(mosaicExamplesPath.string());
+
+    #elif defined(TARGET_WIN32)
+
+    examplesRoot.listDir(ofToDataPath("../examples"));
 
     #endif
 
