@@ -4,3 +4,6 @@
 [submodule "scripts/ofxAddonTool"]
 	path = scripts/ofxAddonTool
 	url = https://github.com/Daandelange/ofxAddonTool
+[submodule "profiler/tracy"]
+	path = profiler/tracy
+	url = https://github.com/wolfpld/tracy
