@@ -12,6 +12,7 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "profiler/tracy/TracyClient.cpp",
             "src/MosaicTheme.cpp",
             "src/MosaicTheme.h",
             "src/SplashScreen.cpp",
@@ -34,7 +35,7 @@ Project{
         // flags by default to add the core libraries, search paths...
         // this flags can be augmented through the following properties:
         of.pkgConfigs: []       // list of additional system pkgs to include
-        of.includePaths: []     // include search paths
+        of.includePaths: ['profiler/tracy']     // include search paths
         of.cFlags: []           // flags passed to the c compiler
 
         // flags passed to the c++ compiler
@@ -43,7 +44,9 @@ Project{
             if(qbs.buildVariant.contains('debug')){
                 flags = ['-g'];
             }else if(qbs.buildVariant.contains('release')){
-                flags = [];
+                flags = ['-O2'];
+            }else if(qbs.buildVariant.contains('release_profiler')){
+                flags = ['-O2'];
             }
             return flags;
         }
@@ -51,10 +54,23 @@ Project{
         // flags passed to the linker
         of.linkerFlags: []
 
-        of.defines: []          // defines are passed as -D to the compiler
+        // defines are passed as -D to the compiler
+        of.defines: {
+            var defs = [];
+            if(qbs.buildVariant.contains('debug')){
+                defs = [];
+            }else if(qbs.buildVariant.contains('release')){
+                defs = [];
+            }else if(qbs.buildVariant.contains('release_profiler')){
+                defs = ['TRACY_ENABLE','TRACY_ONLY_IPV4','MOSAIC_ENABLE_PROFILING'];
+            }
+            return defs;
+        }
         // and can be checked with #ifdef or #if in the code
-        of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']       // osx only, additional frameworks to link with the project
-        //of.frameworks: []       // osx only, additional
+
+        // osx only, additional frameworks to link with the project
+        of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']
+
         of.staticLibraries: []  // static libraries
         of.dynamicLibraries: [] // dynamic libraries
 

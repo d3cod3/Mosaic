@@ -32,8 +32,16 @@
 
 #include "ofApp.h"
 
+#ifdef MOSAIC_ENABLE_PROFILING
+#include "Tracy.hpp"
+#endif
+
 //--------------------------------------------------------------
 void ofApp::setup(){
+
+    #ifdef MOSAIC_ENABLE_PROFILING
+    ZoneScopedN("ofApp::Setup()");
+    #endif
 
     ///////////////////////////////////////////
     // OF Stuff
@@ -209,10 +217,18 @@ void ofApp::setup(){
     // AUTOLOAD PATCH ( if configured )
     checkAutoloadConfig();
 
+    #ifdef MOSAIC_ENABLE_PROFILING
+    TracyAppInfo(WINDOW_TITLE, sizeof(WINDOW_TITLE));
+    #endif
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
+    #ifdef MOSAIC_ENABLE_PROFILING
+    ZoneScopedN("ofApp::Update()");
+    #endif
 
     windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
     ofSetWindowTitle(windowTitle);
@@ -286,15 +302,6 @@ void ofApp::update(){
             }
         }
 
-        /*if(isRetina){ // RETINA SCREEN
-            ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
-            isRetina = true;
-        }else if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
-            ofSetWindowShape(1920-4,ofGetScreenHeight());
-        }else{ // STANDARD SCREEN
-            ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
-        }*/
-
         if(isRetina){
             mainTheme->fixForRetinaScreen();
         }
@@ -351,10 +358,19 @@ void ofApp::update(){
         }
     }
 
+    #ifdef MOSAIC_ENABLE_PROFILING
+    TracyPlotConfig("MosaicFPS", tracy::PlotFormatType::Number);
+    TracyPlot("MosaicFPS", ofGetFrameRate());
+    #endif
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
+    #ifdef MOSAIC_ENABLE_PROFILING
+    ZoneScopedN("ofApp::Draw()");
+    #endif
 
     ofBackground(20);
     ofFill();
@@ -435,6 +451,10 @@ void ofApp::draw(){
         ofSetColor(182,30,41,250);
         ofDrawCircle(lastclickPos.x,lastclickPos.y,mouseClickRadius);
     }
+
+    #ifdef MOSAIC_ENABLE_PROFILING
+    FrameMark; // Tracy end of frame
+    #endif
 
 }
 

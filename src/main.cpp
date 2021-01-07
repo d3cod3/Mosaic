@@ -39,8 +39,30 @@
 
 #include "config.h"
 
+#ifdef MOSAIC_ENABLE_PROFILING
+#include "Tracy.hpp"
+#include <memory>
+
+// Overload global new and delete for memory inspection
+void* operator new(std::size_t n)
+{
+    void* ptr = malloc(n);
+    TracyAlloc(ptr, n);
+    return ptr;
+}
+void operator delete(void* ptr) noexcept
+{
+    TracyFree(ptr);
+    free(ptr);
+}
+#endif
+
 //========================================================================
 int main(int argc, char *argv[]){
+
+    #ifdef MOSAIC_ENABLE_PROFILING
+    ZoneScopedN("main()");
+    #endif
 
     vector<string> options;
     if(argc > 1){
