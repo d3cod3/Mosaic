@@ -121,7 +121,7 @@ void ofApp::setup(){
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setRetina(isRetina);
-    visualProgramming->setup( &mainMenu );
+    visualProgramming->setup( &mainMenu, ofToString(VERSION_GRAPHIC) );
     visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
     patchToLoad                 = "";
@@ -495,7 +495,7 @@ void ofApp::drawImGuiInterface(){
 
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
-                    visualProgramming->newPatch();
+                    visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
                     ofFile temp(visualProgramming->currentPatchFile);
                     assetFolder.reset();
                     assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
@@ -1437,7 +1437,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
-        visualProgramming->newPatch();
+        visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
     // refresh/save actual editing script ( MOD_KEY-r )
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
