@@ -78,15 +78,11 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
     ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
 
-    // Visual Programming Environment Load
+    // Initialise ImGui
+    mainTheme = new MosaicTheme();
+    mainMenu.setup(mainTheme,false, ImGuiConfigFlags_DockingEnable, false, false);
 
-    // ImGui
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.IniFilename = nullptr;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.MouseDrawCursor = false;
-
+    // Load fonts (after setup)
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
     font_config.OversampleH = 6;
@@ -97,28 +93,29 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
+        mainMenu.addFont(absPath2.c_str(),30.0f,&font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),26.0f,&font_config, nullptr, true); // GUI font
+        //io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
+        //io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
     }else{
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
+        mainMenu.addFont(absPath2.c_str(),18.0f, &font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),14.0f, &font_config, nullptr, true); // GUI font
+        //io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
+        //io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
     }
 
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+        mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+        //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
     }else{
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+        mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+        //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
     }
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
-    io.FontDefault = defaultfont;
-
-    mainTheme = new MosaicTheme();
-    mainMenu.setup(mainTheme,false);
-
+    // Setup ofxVisualProgramming
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setRetina(isRetina);
     visualProgramming->setup( &mainMenu, ofToString(VERSION_GRAPHIC) );
