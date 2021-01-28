@@ -4,7 +4,7 @@
 
 ![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/28_transparent_machines04.jpg)
 
-![Mosaic Forum](https://mosaicforum.cryptoriot.art/)
+[![Mosaic Forum](https://img.shields.io/badge/forum-Mosaic%20Forum-2000ff)](https://mosaicforum.cryptoriot.art/)
 
 [![Discord Mosaic Visual Programming](https://img.shields.io/badge/discord-Mosaic%20Visual%20Programming-2000ff)](https://discord.com/invite/sPJr6EEpyG)
 
