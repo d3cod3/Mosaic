@@ -40,11 +40,14 @@ Project{
 
         // flags passed to the c++ compiler
         of.cxxFlags: {
-            var flags = [];
+            var flags = []; // Enter global flags here
             if(qbs.configurationName.contains('Debug')){
-                flags = ['-g'];
-            }else{
-                flags = ['-O2'];
+                flags=flags.concat(['-g']);
+            else if(qbs.configurationName.contains('Release')){
+                flags=flags.concat(['-O2']);
+            }
+            else if(qbs.configurationName.contains('Profiling')){
+                flags=flags.concat(['-g', '-O2']); // Optimize to have release performance, but with exporting symbols for the profiler.
             }
             return flags;
         }
@@ -54,13 +57,13 @@ Project{
 
         // defines are passed as -D to the compiler
         of.defines: {
-            var defs = [];
+            var defs = []; // Enter global flags here
             if(qbs.configurationName.contains('Debug')){
-                defs = [];
+                defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){
-                defs = [];
+                defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Profiling')){
-                defs = ['TRACY_ENABLE','TRACY_ONLY_IPV4','MOSAIC_ENABLE_PROFILING'];
+                defs = defs.concat(['TRACY_ENABLE','TRACY_ONLY_IPV4','MOSAIC_ENABLE_PROFILING']);
             }
             return defs;
         }
