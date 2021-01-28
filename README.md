@@ -4,7 +4,9 @@
 
 ![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/28_transparent_machines04.jpg)
 
-[![Slack MosaicProcess](https://img.shields.io/badge/slack-Mosaic-green.svg?logo=slack&longCache=true&colorB=E80C7A)](https://mosaicprocess.slack.com)
+![Mosaic Forum](https://mosaicforum.cryptoriot.art/)
+
+[![Discord Mosaic Visual Programming](https://img.shields.io/badge/discord-Mosaic%20Visual%20Programming-2000ff)](https://discord.com/invite/sPJr6EEpyG)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V21B90C)
 
