@@ -43,10 +43,9 @@ Project{
             var flags = []; // Enter global flags here
             if(qbs.configurationName.contains('Debug')){
                 flags=flags.concat(['-g']);
-            else if(qbs.configurationName.contains('Release')){
+            } else if(qbs.configurationName.contains('Release')){
                 flags=flags.concat(['-O2']);
-            }
-            else if(qbs.configurationName.contains('Profiling')){
+            } else if(qbs.configurationName.contains('Profiling')){
                 flags=flags.concat(['-g', '-O2']); // Optimize to have release performance, but with exporting symbols for the profiler.
             }
             return flags;
