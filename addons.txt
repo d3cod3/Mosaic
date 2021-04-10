@@ -26,7 +26,7 @@ ofxNDI					https://github.com/d3cod3/ofxNDI					master
 ofxPython				https://github.com/d3cod3/ofxPython					master
 ofxPd					https://github.com/danomatika/ofxPd					master
 ofxPdExternals			https://github.com/d3cod3/ofxPdExternals			master
-ofxPDSP					https://github.com/npisanti/ofxPDSP					master
+ofxPDSP					https://github.com/d3cod3/ofxPDSP					master
 ofxTimeline				https://github.com/d3cod3/ofxTimeline				master
 ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master
 ofxWarp					https://github.com/d3cod3/ofxWarp					master
