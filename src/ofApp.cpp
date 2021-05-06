@@ -466,8 +466,8 @@ void ofApp::drawImGuiInterface(){
         static bool showDockspace = true;
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(viewport->GetWorkPos());
-        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*retinaScale)));
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(ImVec2(viewport->WorkSize.x,viewport->WorkSize.y-(20*retinaScale)));
         ImGui::SetNextWindowViewport(viewport->ID);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -994,7 +994,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_CODE "  Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-                isOverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isOverCodeEditor = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
 
                 if(codeEditors.size() > 0){
 
@@ -1096,7 +1096,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_FOLDER "  Asset Manager", &isAssetLibraryON, ImGuiWindowFlags_NoCollapse) ){
 
-                isOverAssetLibrary = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isOverAssetLibrary = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
 
                 static int selected = -1;
                 static int node_clicked = -1;

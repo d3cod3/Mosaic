@@ -42,9 +42,9 @@ Project{
         of.cxxFlags: {
             var flags = [];
             if(qbs.configurationName.contains('Debug')){
-                flags = ['-g'];
+                flags = flags.concat(['-g']);
             }else{
-                flags = ['-O2'];
+                flags = flag.concat(['-O2']);
             }
             return flags;
         }
@@ -55,12 +55,13 @@ Project{
         // defines are passed as -D to the compiler
         of.defines: {
             var defs = [];
+            //defs = defs.concat(['IMGUI_DISABLE_OBSOLETE_FUNCTIONS']); // Uncomment to check for depreciated imgui usage
             if(qbs.configurationName.contains('Debug')){
-                defs = [];
+                defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){
-                defs = [];
+                defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Profiling')){
-                defs = ['TRACY_ENABLE','TRACY_ONLY_IPV4','MOSAIC_ENABLE_PROFILING'];
+                defs = defs.concat(['TRACY_ENABLE','TRACY_ONLY_IPV4','MOSAIC_ENABLE_PROFILING']);
             }
             return defs;
         }
