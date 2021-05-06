@@ -44,7 +44,7 @@ Project{
             if(qbs.configurationName.contains('Debug')){
                 flags = flags.concat(['-g']);
             }else{
-                flags = flag.concat(['-O2']);
+                flags = flags.concat(['-O2']);
             }
             return flags;
         }
