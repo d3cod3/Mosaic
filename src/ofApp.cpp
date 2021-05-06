@@ -1086,6 +1086,7 @@ void ofApp::drawImGuiInterface(){
 
                 ImGui::End();
             }
+            ImGui::End(); // End code editor
         }else{
             isOverCodeEditor = false;
         }
@@ -1321,8 +1322,8 @@ void ofApp::drawImGuiInterface(){
 
                 }
 
-                ImGui::End();
             }
+            ImGui::End();
         }
 
         // floating logger window
@@ -1410,15 +1411,14 @@ void ofApp::drawImGuiInterface(){
                 if(bApplyFilter){
                     filter.Clear();
                 }
-
-                ImGui::End();
             }
-
+            ImGui::End(); // End  "Objects"
         }
 
+        ImGui::End(); // End "DockSpace" (tocheck: shouldn't this be way more up ?)
     }
 
-    ImGui::End();
+
 
     mainMenu.end();
 }
