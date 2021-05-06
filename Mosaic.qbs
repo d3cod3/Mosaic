@@ -28,7 +28,7 @@ Project{
         ]
 
         of.addons: [
-            'ofxVisualProgramming'
+            'ofxVisualProgramming',
         ]
 
         // additional flags for the project. the of module sets some
@@ -56,6 +56,7 @@ Project{
         of.defines: {
             var defs = [];
             //defs = defs.concat(['IMGUI_DISABLE_OBSOLETE_FUNCTIONS']); // Uncomment to check for depreciated imgui usage
+            //defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
             if(qbs.configurationName.contains('Debug')){
                 defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){
