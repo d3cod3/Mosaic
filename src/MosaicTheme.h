@@ -163,9 +163,9 @@ public:
             }
 
             ImGui::PopStyleVar(1);
-
-            ImGui::EndChild();
         }
+        ImGui::EndChild();
+
         ImGui::End();
     }
 
