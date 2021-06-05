@@ -92,6 +92,22 @@ Project{
             of.frameworks: outer.concat(['QTKit']);
         }
 
+        // Include ofxSyphon on osx
+        Properties {
+            // osx only, additional frameworks to link with the project
+            condition: qbs.targetOS.contains("osx") || qbs.targetOS.contains("macos")
+            of.addons: outer.concat(['ofxSyphon'])
+            of.frameworks: outer.concat(['Syphon'])
+            cpp.frameworkPaths: ['../../../addons/ofxSyphon/libs/Syphon/lib/osx/']
+            // dirty fix for compiling .mm files (not auto-detected on qt)
+            files: outer.concat([
+                                    '../../../addons/ofxSyphon/src/ofxSyphonClient.mm',
+                                    '../../../addons/ofxSyphon/src/ofxSyphonServer.mm',
+                                    '../../../addons/ofxSyphon/src/ofxSyphonServerDirectory.mm',
+                                    '../../../addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m',
+                                ])
+        }
+
         Depends{
             name: "cpp"
         }

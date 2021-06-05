@@ -1,6 +1,11 @@
 # Mosaic CHANGELOG
 
+### 0.5.0
+- **addition** : Added ofxSyphon addon ( retro compatibility fork ) and syphon sender + syphon receiver objects ( osx only, obviously )
+- **bug fixing** : Various imgui node editor gui fixings from @Daandelange
+
 ### 0.4.9
+
 - **bug fixing** : fixed file delete error form patch data folder when loading new patch
 - **bug fixing** : _osc sender_ throw out of range on reloading patch [68bc8a42](https://github.com/d3cod3/ofxVisualProgramming/commit/68bc8a42602374ee4fe8325b39a08493bc4550e2)
 - **feature** : added rescan devices button to MIDI send/receive objects [dae4f6d](https://github.com/d3cod3/ofxVisualProgramming/commit/dae4f6de2eca90ed1f06fa8efbee4c684ce445be)

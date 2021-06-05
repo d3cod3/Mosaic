@@ -8,8 +8,6 @@
 
 [![Discord Mosaic Visual Programming](https://img.shields.io/badge/discord-Mosaic%20Visual%20Programming-2000ff)](https://discord.com/invite/sPJr6EEpyG)
 
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V21B90C)
-
 __
 
 Table of Contents
@@ -122,6 +120,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
 
+#### [ofxSyphon](https://github.com/d3cod3/ofxSyphon) -- Fork
+
 #### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
 
 #### [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming)
@@ -175,6 +175,7 @@ git clone https://github.com/d3cod3/ofxPython
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPdExternals
 git clone https://github.com/d3cod3/ofxPDSP
+git clone https://github.com/d3cod3/ofxSyphon
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/d3cod3/ofxVisualProgramming
 git clone https://github.com/d3cod3/ofxWarp
