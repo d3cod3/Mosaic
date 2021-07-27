@@ -60,27 +60,45 @@ void MosaicTheme::setup(){
 
     ImGuiStyle* style = &ImGui::GetStyle();
 
-    style->WindowBorderSize = 0.0f;
-    style->WindowMinSize = ImVec2(160, 70);
-    style->WindowRounding = 4.0f;
-    style->WindowPadding = ImVec2(8, 8);
-    style->FramePadding = ImVec2(4, 6);
-    style->ItemSpacing = ImVec2(8, 2);
-    style->ItemInnerSpacing = ImVec2(6, 4);
-    style->Alpha = 1.0f;
-    style->FrameRounding = 0.0f;
-    style->IndentSpacing = 6.0f;
-    style->ColumnsMinSpacing = 50.0f;
-    style->GrabMinSize = 14.0f;
-    style->GrabRounding = 0.0f;
-    style->ScrollbarSize = 14.0f;
-    style->ScrollbarRounding = 4.0f;
-    style->TabRounding = 0.0f;
-    style->PopupBorderSize = 0.0f;
-    style->TabBorderSize = 0.0f;
-    style->ChildBorderSize = 0.0f;
-    style->FrameBorderSize = 0.0f;
-    style->PopupRounding = 0.0f;
+    style->Alpha                       = 1.0f;  // Global alpha applies to everything in Dear ImGui.
+    style->WindowPadding               = ImVec2(8, 8);  // Padding within a window.
+    style->WindowRounding              = 4.0f;  // Radius of window corners rounding. Set to 0.0f to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.
+    style->WindowBorderSize            = 0.0f;  // Thickness of border around windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+    style->WindowMinSize               = ImVec2(160, 70);  // Minimum window size. This is a global setting. If you want to constraint individual windows, use SetNextWindowSizeConstraints().
+    //style->WindowTitleAlign            = ;  // Alignment for title bar text. Defaults to (0.0f,0.5f) for left-aligned,vertically centered.
+    //style->WindowMenuButtonPosition    = ;  // Side of the collapsing/docking button in the title bar (None/Left/Right). Defaults to ImGuiDir_Left.
+    //style->ChildRounding               = ;  // Radius of child window corners rounding. Set to 0.0f to have rectangular windows.
+    style->ChildBorderSize             = 0.0f;  // Thickness of border around child windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+    style->PopupRounding               = 0.0f;  // Radius of popup window corners rounding. (Note that tooltip windows use WindowRounding)
+    style->PopupBorderSize             = 0.0f;  // Thickness of border around popup/tooltip windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+    style->FramePadding                = ImVec2(4, 6);  // Padding within a framed rectangle (used by most widgets).
+    style->FrameRounding               = 0.0f;  // Radius of frame corners rounding. Set to 0.0f to have rectangular frame (used by most widgets).
+    style->FrameBorderSize             = 0.0f;  // Thickness of border around frames. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+    style->ItemSpacing                 = ImVec2(8, 2);  // Horizontal and vertical spacing between widgets/lines.
+    style->ItemInnerSpacing            = ImVec2(6, 4);  // Horizontal and vertical spacing between within elements of a composed widget (e.g. a slider and its label).
+    //style->CellPadding                 = ;  // Padding within a table cell
+    //style->TouchExtraPadding           = ;  // Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!
+    style->IndentSpacing               = 6.0f;  // Horizontal indentation when e.g. entering a tree node. Generally == (FontSize + FramePadding.x*2).
+    style->ColumnsMinSpacing           = 50.0f;  // Minimum horizontal spacing between two columns. Preferably > (FramePadding.x + 1).
+    style->ScrollbarSize               = 14.0f;  // Width of the vertical scrollbar, Height of the horizontal scrollbar.
+    style->ScrollbarRounding           = 4.0f;  // Radius of grab corners for scrollbar.
+    style->GrabMinSize                 = 14.0f;  // Minimum width/height of a grab box for slider/scrollbar.
+    style->GrabRounding                = 0.0f;  // Radius of grabs corners rounding. Set to 0.0f to have rectangular slider grabs.
+    //style->LogSliderDeadzone           = ;  // The size in pixels of the dead-zone around zero on logarithmic sliders that cross zero.
+    style->TabRounding                 = 0.0f;  // Radius of upper corners of a tab. Set to 0.0f to have rectangular tabs.
+    style->TabBorderSize               = 0.0f;  // Thickness of border around tabs.
+    //style->TabMinWidthForCloseButton   = ;  // Minimum width for close button to appears on an unselected tab when hovered. Set to 0.0f to always show when hovering, set to FLT_MAX to never show close button unless selected.
+    //style->ColorButtonPosition         = ;  // Side of the color button in the ColorEdit4 widget (left/right). Defaults to ImGuiDir_Right.
+    //style->ButtonTextAlign             = ;  // Alignment of button text when button is larger than text. Defaults to (0.5f, 0.5f) (centered).
+    //style->SelectableTextAlign         = ;  // Alignment of selectable text. Defaults to (0.0f, 0.0f) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.
+    //style->DisplayWindowPadding        = ;  // Window position are clamped to be visible within the display area or monitors by at least this amount. Only applies to regular windows.
+    //style->DisplaySafeAreaPadding      = ;  // If you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!
+    //style->MouseCursorScale            = ;  // Scale software rendered mouse cursor (when io.MouseDrawCursor is enabled). We apply per-monitor DPI scaling over this scale. May be removed later.
+    //style->AntiAliasedLines            = ;  // Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+    //style->AntiAliasedLinesUseTex      = ;  // Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering. Latched at the beginning of the frame (copied to ImDrawList).
+    //style->AntiAliasedFill             = ;  // Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+    //style->CurveTessellationTol        = ;  // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
+    //style->CircleTessellationMaxError  = ;  // Maximum error (in pixels) allowed when using AddCircle()/AddCircleFilled() or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry.
 
     style->Colors[ImGuiCol_Text] = ImVec4(col_main_text, 1.00f);
     style->Colors[ImGuiCol_TextDisabled] = ImVec4(col_main_text, 0.58f);
@@ -117,7 +135,7 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(col_main_head, 1.00f);
     style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(col_main_head, 0.43f);
     style->Colors[ImGuiCol_PopupBg] = ImVec4(col_win_backg, 0.92f);
-    style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(col_main_area, 0.73f);
+    style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(col_main_area, 0.73f);
     style->Colors[ImGuiCol_Separator] = ImVec4(col_main_head, 0.73f);
     style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_SeparatorActive] = ImVec4(col_main_head, 0.f);
@@ -127,6 +145,17 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_Tab] = ImVec4(col_main_area, 0.9f);
     style->Colors[ImGuiCol_TabHovered] = ImVec4(col_win_backg, 0.7f);
     style->Colors[ImGuiCol_TabActive] = ImVec4(col_win_backg, 0.7f);
+
+    // New colors to be customized
+    //style->Colors[ImGuiCol_TabUnfocused]            = ImVec4();
+    //style->Colors[ImGuiCol_TabUnfocusedActive]      = ImVec4();
+    style->Colors[ImGuiCol_DockingPreview]          = ImVec4(col_main_head, .7f);
+    //style->Colors[ImGuiCol_DockingEmptyBg]          = ImVec4();
+    //style->Colors[ImGuiCol_TableHeaderBg]           = ImVec4();
+    //style->Colors[ImGuiCol_TableBorderStrong]       = ImVec4();
+    //style->Colors[ImGuiCol_TableBorderLight]        = ImVec4();
+    //style->Colors[ImGuiCol_TableRowBg]              = ImVec4();
+    //style->Colors[ImGuiCol_TableRowBgAlt]           = ImVec4();
 
 }
 

@@ -58,6 +58,7 @@ Project{
         // defines are passed as -D to the compiler
         of.defines: {
             var defs = []; // Enter global flags here
+            //defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
             if(qbs.configurationName.contains('Debug')){
                 defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){

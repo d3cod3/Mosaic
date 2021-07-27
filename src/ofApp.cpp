@@ -81,11 +81,15 @@ void ofApp::setup(){
     // Visual Programming Environment Load
 
     // ImGui
-    ImGui::CreateContext();
+    /*ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.MouseDrawCursor = false;
+    io.MouseDrawCursor = false;*/
+
+    // Initialise ImGui
+    mainTheme = new MosaicTheme();
+    mainMenu.setup(mainTheme,false, ImGuiConfigFlags_DockingEnable, false, false);
 
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
@@ -97,27 +101,33 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
+        mainMenu.addFont(absPath2.c_str(),30.0f,&font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),26.0f,&font_config, nullptr, true); // GUI font
+        //io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
+        //io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
     }else{
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
+        mainMenu.addFont(absPath2.c_str(),18.0f, &font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),14.0f, &font_config, nullptr, true); // GUI font
+        //io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
+        //io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
     }
 
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+        //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+        mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
     }else{
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+        //io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+        mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
     }
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
+    /*ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
     io.FontDefault = defaultfont;
 
     mainTheme = new MosaicTheme();
-    mainMenu.setup(mainTheme,false);
+    mainMenu.setup(mainTheme,false);*/
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setRetina(isRetina);
@@ -469,8 +479,8 @@ void ofApp::drawImGuiInterface(){
         static bool showDockspace = true;
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(viewport->GetWorkPos());
-        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*retinaScale)));
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(ImVec2(viewport->WorkSize.x,viewport->WorkSize.y-(20*retinaScale)));
         ImGui::SetNextWindowViewport(viewport->ID);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -997,7 +1007,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_CODE "  Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-                isOverCodeEditor = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isOverCodeEditor = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
 
                 if(codeEditors.size() > 0){
 
@@ -1089,6 +1099,7 @@ void ofApp::drawImGuiInterface(){
 
                 ImGui::End();
             }
+            ImGui::End(); // End code editor
         }else{
             isOverCodeEditor = false;
         }
@@ -1099,7 +1110,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_FOLDER "  Asset Manager", &isAssetLibraryON, ImGuiWindowFlags_NoCollapse) ){
 
-                isOverAssetLibrary = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+                isOverAssetLibrary = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
 
                 static int selected = -1;
                 static int node_clicked = -1;
@@ -1326,6 +1337,7 @@ void ofApp::drawImGuiInterface(){
 
                 ImGui::End();
             }
+            ImGui::End();
         }
 
         // floating logger window
@@ -1414,14 +1426,15 @@ void ofApp::drawImGuiInterface(){
                     filter.Clear();
                 }
 
-                ImGui::End();
             }
+
+            ImGui::End(); // End  "Objects"
 
         }
 
-    }
+        ImGui::End(); // End "DockSpace" (tocheck: shouldn't this be way more up ?)
 
-    ImGui::End();
+    }
 
     mainMenu.end();
 }

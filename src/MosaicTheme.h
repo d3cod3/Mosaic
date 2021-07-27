@@ -159,13 +159,15 @@ public:
 
             if(scrollToBottom){
                 scrollToBottom = false;
-                ImGui::SetScrollHere(1.0f);
+                ImGui::SetScrollHereY(1.0f);
             }
 
             ImGui::PopStyleVar(1);
 
-            ImGui::EndChild();
         }
+
+        ImGui::EndChild();
+
         ImGui::End();
     }
 
