@@ -50,15 +50,9 @@ void SplashScreen::setup(){
     startTime = ofGetElapsedTimeMillis();
 
     // load background
-#ifdef TARGET_LINUX
     background.load("videos/splash_background.mp4");
-#elif defined(TARGET_OSX)
-    background.load("videos/splash_background.mp4");
-#elif defined(TARGET_WIN32)
-    background.load("videos/splash_background.avi");
-#endif
 
-    background.setLoopState(OF_LOOP_NORMAL);
+    background.setLoopState(OF_LOOP_NONE);
     background.play();
 
     splashWindow->makeCurrent();
@@ -68,7 +62,7 @@ void SplashScreen::setup(){
 void SplashScreen::update(){
     background.update();
 
-    if(ofGetElapsedTimeMillis()-startTime > 6000){
+    if(ofGetElapsedTimeMillis()-startTime > 5600){
         splashWindow->setWindowShouldClose();
     }
 }

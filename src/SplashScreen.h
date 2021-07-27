@@ -36,6 +36,8 @@
 
 #include "config.h"
 
+#include "ofxHapPlayer.h"
+
 class SplashScreen : public ofBaseApp{
 
 public:
@@ -46,7 +48,7 @@ public:
 
     void mousePressed(int x, int y, int button);
 
-    ofVideoPlayer   background;
+    ofxHapPlayer    background;
     ofTrueTypeFont  font;
     ofTrueTypeFont  fontSmall;
     size_t          startTime;
