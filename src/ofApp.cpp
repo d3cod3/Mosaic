@@ -1441,6 +1441,15 @@ void ofApp::drawImGuiInterface(){
 
 //--------------------------------------------------------------
 void ofApp::exit() {
+
+    for(map<string,PathWatcher*>::iterator it = codeWatchers.begin(); it != codeWatchers.end(); it++ ){
+        it->second->removeAllPaths();
+        it->second->stop();
+    }
+
+    codeEditors.clear();
+    codeWatchers.clear();
+
     visualProgramming->exit();
 }
 
