@@ -1,9 +1,9 @@
 # Mosaic CHANGELOG
 
 ### 0.5.0
+
 - **addition**: added texture mixer object to mix up to 32 texture using alpha
 - **update** : Updated ofxAddonsTool to last commit
-- **upgrade** : Upgraded ofxImGui addon to fine tuned fork from @Daandelange
 - **addition** : Added ofxHapPlayer addon ( forked with some minor tweaks ) for using now in Mosaic the HAP codec as the standard for the video player object
 - **addition** : Added ofxSyphon addon ( retro compatibility fork ) and syphon sender + syphon receiver objects ( osx only, obviously )
 - **bug fixing** : Various imgui node editor gui fixings from @Daandelange

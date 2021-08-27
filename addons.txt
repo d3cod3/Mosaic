@@ -18,7 +18,7 @@ ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
 ofxGLEditor				https://github.com/Akira-Hayasaka/ofxGLEditor		master
 ofxJSON					https://github.com/jeffcrouse/ofxJSON				master
 ofxHapPlayer					https://github.com/d3cod3/ofxHapPlayer				master
-ofxImGui				https://github.com/Daandelange/ofxImGui					master
+ofxImGui				https://github.com/d3cod3/ofxImGui					master
 ofxInfiniteCanvas		https://github.com/d3cod3/ofxInfiniteCanvas			master
 ofxLua					https://github.com/d3cod3/ofxLua					of-0.10.0
 ofxMidi					https://github.com/danomatika/ofxMidi				master

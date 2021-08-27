@@ -102,7 +102,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxHapPlayer](https://github.com/d3cod3/ofxHapPlayer) -- Fork
 
-#### [ofxImGui](https://github.com/Daandelange/ofxImGui) -- Fork
+#### [ofxImGui](https://github.com/d3cod3/ofxImGui) -- Fork
 
 #### [ofxInfiniteCanvas](https://github.com/d3cod3/ofxInfiniteCanvas) -- Fork
 
@@ -168,7 +168,7 @@ git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/Akira-Hayasaka/ofxGLEditor
 git clone https://github.com/jeffcrouse/ofxJSON
 git clone https://github.com/d3cod3/ofxHapPlayer
-git clone https://github.com/Daandelange/ofxImGui
+git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone --branch=of-0.10.0 https://github.com/d3cod3/ofxLua
 git clone https://github.com/danomatika/ofxMidi
