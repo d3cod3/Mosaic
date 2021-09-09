@@ -15,7 +15,6 @@ ofxChromaKeyShader		https://github.com/d3cod3/ofxChromaKeyShader		master
 ofxCv					https://github.com/kylemcdonald/ofxCv				master
 ofxEasing				https://github.com/arturoc/ofxEasing				master
 ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
-ofxGLEditor				https://github.com/Akira-Hayasaka/ofxGLEditor		master
 ofxJSON					https://github.com/jeffcrouse/ofxJSON				master
 ofxHapPlayer					https://github.com/d3cod3/ofxHapPlayer				master
 ofxImGui				https://github.com/d3cod3/ofxImGui					master

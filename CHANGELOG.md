@@ -1,5 +1,9 @@
 # Mosaic CHANGELOG
 
+### 0.5.1
+
+- **cleanup** Removed ofxGLEditor addon and lua scripting onscreen live-coding, due to fontstash incompatibility with opengl4
+
 ### 0.5.0
 
 - **addition**: added texture mixer object to mix up to 32 texture using alpha
