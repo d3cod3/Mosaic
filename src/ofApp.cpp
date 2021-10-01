@@ -1726,7 +1726,7 @@ void ofApp::initDataFolderFromBundle(){
 
     }
 
-    // data directory
+    // Create data directory
     if(!mosaicDir.doesDirectoryExist(mosaicPath)){
         mosaicDir.createDirectory(mosaicPath,true,true);
 
@@ -1734,24 +1734,51 @@ void ofApp::initDataFolderFromBundle(){
 
         ofDirectory dataDir(dataPath);
         dataDir.copyTo(mosaicPath,true,true);
+    // Or Check data directory
     }else{
         string relfilepath = _MosaicDataPath+"/release.txt";
         std::filesystem::path releasePath(relfilepath.c_str());
         ofFile relFile(releasePath);
 
+        string actualRel = "";
         if(relFile.exists()){
-            string actualRel = relFile.readToBuffer().getText();
+            actualRel = relFile.readToBuffer().getText();
+            std::stringstream ss; ss << "Your Mosaic data folder was created by Mosaic version " << actualRel << ", while currently running Mosaic " VERSION ". Replacing the previous data folder with the newest one.";
+            ofLog(OF_LOG_NOTICE, ss.str());
+        }
+        else {
+            ofLog(OF_LOG_NOTICE, "release.txt was not found, Mosaic could not verify compatibility with your data folder.");
+            actualRel = "unknown"; // Note: setting this will trigger a data folder update
+        }
 
-            if(VERSION != actualRel){
-                std::filesystem::path dataPath(_bundleDataPath.c_str());
+        // If versions differ, copy data folder again (use a fresh one)
+        if(VERSION != actualRel){
+            ofLog(OF_LOG_NOTICE, "Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace.");
+            std::filesystem::path dataPath(_bundleDataPath.c_str());
 
-                // remove previous release data folder
-                mosaicDir.removeDirectory(mosaicPath,true);
-                mosaicDir.createDirectory(mosaicPath,true,true);
+            // Remove previous release data folder
+            mosaicDir.removeDirectory(mosaicPath,true);
+            mosaicDir.createDirectory(mosaicPath,true,true);
 
-                // copy the new one
-                ofDirectory dataDir(dataPath);
+            // Copy the new one from app bundle
+            ofDirectory dataDir(dataPath);
+#ifndef SHOULDTHISCODEBEINCLUDEDORNOT
+            // Cheat: github repos (source builds) + osx have the data folder lying in MosaicRepo/bin/data, releases have them in Mosaic.app/Contents/Ressources
+            if( !dataDir.exists() ){
+                if(dataDir.doesDirectoryExist(*appPathStr + "/../data", false)){
+                    ofLog(OF_LOG_NOTICE, "Regular data folder not found. Falling back on the source repo's data folder.");
+                    dataDir = ofDirectory(*appPathStr + "/../data");
+                }
+            }
+#endif
+            // Copy files if originals exists
+            if( dataDir.exists() ){
                 dataDir.copyTo(mosaicPath,true,true);
+            }
+            else {
+                ofLog(OF_LOG_ERROR, "Mosaic could not find a clean data folder to work with and will thus be unable to initialize correctly !");
+                // todo : close Mosaic, unable to initialize ! (latting run will probably cause a crash later)
+                // or return false to indicate a fail
             }
         }
     }
