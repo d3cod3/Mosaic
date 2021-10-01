@@ -1097,7 +1097,6 @@ void ofApp::drawImGuiInterface(){
 
                 }
 
-                ImGui::End();
             }
             ImGui::End(); // End code editor
         }else{
@@ -1334,10 +1333,9 @@ void ofApp::drawImGuiInterface(){
                     listPos++;
 
                 }
-
-                ImGui::End();
             }
-            ImGui::End();
+
+            ImGui::End(); // End Asset Manager window
         }
 
         // floating logger window
