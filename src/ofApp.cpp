@@ -1726,7 +1726,7 @@ void ofApp::initDataFolderFromBundle(){
 
     }
 
-    // data directory
+    // Create data directory
     if(!mosaicDir.doesDirectoryExist(mosaicPath)){
         mosaicDir.createDirectory(mosaicPath,true,true);
 
@@ -1734,15 +1734,17 @@ void ofApp::initDataFolderFromBundle(){
 
         ofDirectory dataDir(dataPath);
         dataDir.copyTo(mosaicPath,true,true);
+    // Or Check data directory
     }else{
         string relfilepath = _MosaicDataPath+"/release.txt";
         std::filesystem::path releasePath(relfilepath.c_str());
         ofFile relFile(releasePath);
 
+        string actualRel = "";
         if(relFile.exists()){
-            string actualRel = relFile.readToBuffer().getText();
+            actualRel = relFile.readToBuffer().getText();
 
-            if(VERSION != actualRel){
+            /*if(VERSION != actualRel){
                 std::filesystem::path dataPath(_bundleDataPath.c_str());
 
                 // remove previous release data folder
@@ -1752,8 +1754,36 @@ void ofApp::initDataFolderFromBundle(){
                 // copy the new one
                 ofDirectory dataDir(dataPath);
                 dataDir.copyTo(mosaicPath,true,true);
+            }*/
+
+            std::stringstream ss;
+            ss << "Your Mosaic data folder was created by Mosaic version " << actualRel << ", while currently running Mosaic " VERSION ". Replacing the previous data folder with the newest one.";
+            ofLog(OF_LOG_NOTICE, ss.str());
+        }else{
+            ofLog(OF_LOG_NOTICE, "release.txt was not found, Mosaic could not verify compatibility with your data folder.");
+            actualRel = "unknown"; // Note: setting this will trigger a data folder update
+        }
+
+        // If versions differ, copy data folder again (use a fresh one)
+        if(VERSION != actualRel){
+            ofLog(OF_LOG_NOTICE, "Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace.");
+            std::filesystem::path dataPath(_bundleDataPath.c_str());
+
+            // Remove previous release data folder
+            mosaicDir.removeDirectory(mosaicPath,true);
+            mosaicDir.createDirectory(mosaicPath,true,true);
+
+            // Copy the new one from app bundle
+            ofDirectory dataDir(dataPath);
+            // Copy files if originals exists
+            if( dataDir.exists() ){
+                dataDir.copyTo(mosaicPath,true,true);
+            }else {
+                ofLog(OF_LOG_ERROR, "Mosaic could not find a clean data folder to work with and will thus be unable to initialize correctly !");
+                exit();
             }
         }
+
     }
 
     // plugins directory
