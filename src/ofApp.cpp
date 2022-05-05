@@ -950,6 +950,101 @@ void ofApp::drawImGuiInterface(){
 
                         ImGui::Separator();
 
+                        // GPU information
+                        ImGui::Text("GPU Information:");
+                        static bool isProgrammable = ofIsGLProgrammableRenderer();
+
+                        static int minor; static int major;
+
+                        //glfwGetVersion(&minor, &major, nullptr); // Old way, seems to return maximal version (tested with GLFW 3.4)
+                        major = ofGetGLRenderer()->getGLVersionMajor();
+                        minor = ofGetGLRenderer()->getGLVersionMinor();
+#ifdef TARGET_OPENGLES
+                        ImGui::Text("GL ES %d.%d (fixed pipeline)", major, minor);
+#else
+                        ImGui::Text("GL SL %d.%d (programmable)", major, minor);
+#endif
+
+                        // Note: ofGLSLVersionFromGL is very outdated... we do it manually here.
+                        const char* glsl_name = "Unknown";
+                        const char* glsl_version = "Unknown";
+                        // ofGLSLVersionFromGL is very outdated... we do it manually here.
+                        // See imgui_impl_opengl3.cpp
+                        //----------------------------------------
+                        // OpenGL    GLSL      GLSL
+                        // version   version   string
+                        //----------------------------------------
+                        //  2.0       110       "#version 110"
+                        //  2.1       120       "#version 120"
+                        //  3.0       130       "#version 130"
+                        //  3.1       140       "#version 140"
+                        //  3.2       150       "#version 150"
+                        //  3.3       330       "#version 330 core"
+                        //  4.0       400       "#version 400 core"
+                        //  4.1       410       "#version 410 core"
+                        //  4.2       420       "#version 410 core"
+                        //  4.3       430       "#version 430 core"
+                        //  ES 2.0    100       "#version 100"      = WebGL 1.0
+                        //  ES 3.0    300       "#version 300 es"   = WebGL 2.0
+                        //----------------------------------------
+
+
+#ifdef TARGET_OPENGLES
+                        if( isProgrammable ){
+                            if( major==2 ){
+                                glsl_version = "#version 100";
+                                glsl_name = "GL ES 2";
+                            }
+                            else if( major==3 ){ // Note: not yet available in oF !!!
+                                glsl_version = "#version 300 es";
+                                glsl_name = "GL ES 3";
+                            }
+                        }
+                        else {
+                            glsl_name = "GL ES 1";
+                            glsl_version = "none";
+                        }
+#else
+                        if( isProgrammable ){
+                            if( major==3 ){
+                                glsl_name = "GLSL 3";
+
+                                if( minor==0 )      glsl_version="#version 130";
+                                else if( minor==1 ) glsl_version="#version 140";
+                                else if( minor==2 ) glsl_version="#version 150";
+                                else if( minor==3 ) glsl_version="#version 330 core";
+                            }
+                            else if( major==4 ){
+                                glsl_name = "GLSL 4";
+                                if( minor==0 )      glsl_version="#version 400 core";
+                                else if( minor==1 ) glsl_version="#version 410 core";
+                                else if( minor==2 ) glsl_version="#version 420 core";
+                                else if( minor==3 ) glsl_version="#version 430 core";
+                            }
+                        }
+                        else {
+                            glsl_name = "GL 2";
+                            glsl_version = "none";
+                        }
+#endif
+                        ImGui::Text("Shaders: %s (%s)", glsl_name, glsl_version);
+
+                        // Some info is double, but needs to be tested what works best in multiple environments
+                        ImGui::Text( "Vendor : %s", glGetString(GL_VENDOR) );
+                        ImGui::Text( "GPU : %s", glGetString(GL_RENDERER) );
+                        ImGui::Text( "OpenGL ver. %s", glGetString(GL_VERSION) ); // alt: glGetString(GL_MAJOR_VERSION), glGetString(GL_MINOR_VERSION)
+                        ImGui::Text( "GLSL ver. %s / %s", glGetString(GL_SHADING_LANGUAGE_VERSION), ofGLSLVersionFromGL(major, minor).c_str() );
+                        static int numExtensions = 0;
+                        std::string extensions = "";
+                        glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
+                        for(int i = 0; i<numExtensions; ++i){
+                            if(i!=0) extensions.append(", ");
+                            extensions.append( (char*)glGetStringi(GL_EXTENSIONS, i) );
+                        }
+                        ImGui::TextWrapped( "GL Extensions (%d) :\n%s", numExtensions, extensions.c_str());//, glGetString(GL_EXTENSIONS) );
+                        ImGui::Separator();
+
+                        // Installed objects
                         ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                         for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                             if(it->second.size()<1) continue;
@@ -961,6 +1056,7 @@ void ofApp::drawImGuiInterface(){
 
                         ImGui::Spacing();
 
+                        // End
                         if (copy_to_clipboard){
                             ImGui::LogFinish();
                         }
