@@ -179,7 +179,7 @@ git clone https://github.com/d3cod3/ofxSyphon
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/d3cod3/ofxVisualProgramming
 git clone https://github.com/d3cod3/ofxWarp
-
+git clone --branch=main https://github.com/armadillu/ofxTurboJpeg
 ```
 
 Some addons use specific branches and remotes (usually in order to provide easy multiplatform support). Specially if you have already worked with OpenFrameworks, your current addons folder might be incompatible with Mosaic. To verify compatibility, it can be useful to `cd path/to/mosaic && cd scripts/ofxAddonTool && ./ofxAddonTool.sh` to get an oversight of ofxAddons compatibility.

@@ -31,4 +31,5 @@ ofxSyphon					https://github.com/d3cod3/ofxSyphon					master
 ofxTimeline				https://github.com/d3cod3/ofxTimeline				master
 ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master
 ofxWarp					https://github.com/d3cod3/ofxWarp					master
+ofxTurboJpeg			https://github.com/armadillu/ofxTurboJpeg			main
 # always keep a commented line at the end !
