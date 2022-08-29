@@ -30,5 +30,10 @@
 	<string>10.9</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs to access the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs to access the microphone</string>
+	<key>NSHighResolutionCapable</key>
 </dict>
 </plist>
