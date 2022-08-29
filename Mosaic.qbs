@@ -71,7 +71,8 @@ Project{
         // and can be checked with #ifdef or #if in the code
 
         // osx only, additional frameworks to link with the project
-        of.frameworks: ['/System/Library/Frameworks/CoreMIDI.framework']
+
+        of.frameworks: []
 
         of.staticLibraries: []  // static libraries
         of.dynamicLibraries: [] // dynamic libraries
@@ -81,11 +82,11 @@ Project{
         //
         // cpp.compilerWrapper: 'ccache'
 
-        // add CoreMIDI for osx
-        /*Properties {
-            condition: qbs.hostOS.contains("osx")
-            of.frameworks: outer.concat(['CoreMIDI']);
-        }*/
+        // add CoreMIDI for osx before big sur
+        Properties {
+            condition: qbs.hostOS.contains("10.12") || qbs.hostOS.contains("10.13") || qbs.hostOS.contains("10.14") || qbs.hostOS.contains("10.15")
+            of.frameworks: outer.concat(['/System/Library/Frameworks/CoreMIDI.framework']);
+        }
 
         // add QTKit support on osx 10.12
         Properties {
