@@ -1043,6 +1043,7 @@ void ofApp::drawImGuiInterface(){
                         }
                         ImGui::TextWrapped( "GL Extensions (%d) :\n%s", numExtensions, extensions.c_str());//, glGetString(GL_EXTENSIONS) );
                         ImGui::Separator();
+                        ImGui::Separator();
 
                         // Installed objects
 
