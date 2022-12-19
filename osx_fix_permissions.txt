@@ -1,0 +1,12 @@
+sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
+
+
+insert into access
+values
+('kTCCServiceMicrophone','org.d3cod3.Mosaic', 0, 2, 2, 1, null, null, null, 'UNUSED', null, 0, 1671466672);
+
+insert into access
+values
+('kTCCServiceCamera','org.d3cod3.Mosaic', 0, 2, 2, 1, null, null, null, 'UNUSED', null, 0, 1671466672);
+
+.quit
