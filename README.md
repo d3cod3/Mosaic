@@ -42,10 +42,11 @@ At the moment, Mosaic for windows is available as a release: https://github.com/
 
 # OF COMPATIBLE RELEASE
 
-## 0.11.0 STABLE (official download from [OF site](https://openframeworks.cc/))
+## 0.11.2 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
+> Working on native VisualStudio Windows compiling...
 
-If you want to build Mosaic, just download OF0.11.0 for your OS (osx, linux, windows) and follow the correspondent setup guide.
+If you want to build Mosaic, just download OF0.11.2 for your OS (osx, linux, windows) and follow the correspondent setup guide.
 
 # DESCRIPTION
 
@@ -61,7 +62,7 @@ Mosaic is a multi-platform livecoding programming/patching environment for creat
 It aims to empower artists, creative coders, scenographers and other creative technologists in their creative workflow.
 It's a FLOSS, Free/Libre and Open Source Software with multi-platform support, and it's written in C++, offering high performance.
 
-Mosaic is shipped with an internal code editor, non-blocking system dialogs, a programmable non-linear interactive timeline, an included patch video exporter with subtitler for easy tutorial creation, lua/python/glsl/bash live-coding and pure data live-patching capability, a good selection of audio synthesis modules, multiple fullscreen output windows capabilities ( as many as your system can have ) with an independent warping for each window, a map-map style integrated mapping module, and an easy to use osc sending/receiving objects/nodes for network communication.
+Mosaic is shipped with an internal code editor, non-blocking system dialogs, a programmable non-linear interactive timeline, an included patch video exporter with subtitler for easy tutorial creation, lua/glsl/bash live-coding and pure data live-patching capability, a good selection of audio synthesis modules, multiple fullscreen output windows capabilities ( as many as your system can have ) with an independent warping for each window, a map-map style integrated mapping module, and an easy to use osc sending/receiving objects/nodes for network communication.
 
 The idea behind Mosaic is to facilitate human-machine communication, to amplify imagination and to speed up the creative workflow, without sacrificing the spectrum of possibilities. To achieve this, it bundles together various creative-coding tools, acting as an interactive bridge between them.
 It includes a collection of audio-visual objects that can be easily connected together using a nodal-based graphical interface, defining a custom dataflow.
@@ -82,7 +83,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 # DEPENDENCIES
 
-#### [ofxAudioAnalyzer](https://github.com/d3cod3/ofxAudioAnalyzer) -- Fork
 
 #### [ofxAudioFile](https://github.com/npisanti/ofxAudioFile)
 
@@ -95,6 +95,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxEasing](https://github.com/arturoc/ofxEasing)
 
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
+
+#### [ofxFft](https://github.com/kylemcdonald/ofxFft)
 
 #### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
 
@@ -156,15 +158,15 @@ Clone all the required addons listed:
 ```bash
 cd <your_openframeworks_release_folder>/addons
 
-git clone https://github.com/d3cod3/ofxAudioAnalyzer
 git clone https://github.com/npisanti/ofxAudioFile
 git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
+git clone https://github.com/kylemcdonald/ofxFft
 git clone https://github.com/jeffcrouse/ofxJSON
-git clone https://github.com/d3cod3/ofxHapPlayer
+git clone --branch=libavformat https://github.com/d3cod3/ofxHapPlayer
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/danomatika/ofxLua
@@ -241,4 +243,4 @@ Mosaic is a [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free
 
 The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
-Mosaic uses [FFTW3](http://fftw.org/),  [essentia](http://essentia.upf.edu/documentation/), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs) and code from openframeworks all the included ofxAddons.
+Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs) and code from openframeworks all the included ofxAddons.
