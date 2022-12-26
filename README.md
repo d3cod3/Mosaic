@@ -116,8 +116,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxPd](https://github.com/danomatika/ofxPd)
 
-#### [ofxPdExternals](https://github.com/d3cod3/ofxPdExternals)
-
 #### [ofxPDSP](https://github.com/d3cod3/ofxPDSP) -- Fork
 
 #### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
@@ -175,7 +173,6 @@ git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone https://github.com/d3cod3/ofxNDI
 git clone https://github.com/d3cod3/ofxPython
 git clone https://github.com/danomatika/ofxPd
-git clone https://github.com/d3cod3/ofxPdExternals
 git clone https://github.com/d3cod3/ofxPDSP
 git clone https://github.com/d3cod3/ofxSyphon
 git clone https://github.com/d3cod3/ofxTimeline
