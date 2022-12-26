@@ -139,7 +139,11 @@ void ofApp::setup(){
     isAutoloadedPatch           = false;
 
     // GUI
+#if defined (TARGET_WIN32)
+    mosaicLogo = new ofImage("images\logo_1024_bw.png");
+#else
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
+#endif
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
     if(isRetina){
         subtitlesParagraph.init(MAIN_FONT,72);
@@ -175,7 +179,7 @@ void ofApp::setup(){
 #if defined(TARGET_OSX)
     recorder.setFFmpegPath(ofToDataPath("ffmpeg/osx/ffmpeg",true));
 #elif defined(TARGET_WIN32)
-    recorder.setFFmpegPath(ofToDataPath("ffmpeg/win/ffmpeg.exe",true));
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg\win\ffmpeg.exe",true));
 #endif
 
     // CODE EDITOR
@@ -258,10 +262,17 @@ void ofApp::update(){
             mosaicBPM = visualProgramming->bpm;
             ofFile temp(patchToLoad);
             assetFolder.reset();
+#if defined (TARGET_WIN32)
+            assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
+            assetFolder.sort();
+            assetWatcher.removeAllPaths();
+            assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
+#else
             assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+#endif
         }
     }
 
@@ -272,10 +283,17 @@ void ofApp::update(){
             visualProgramming->preloadPatch(autoloadPatchFile);
             mosaicBPM = visualProgramming->bpm;
             ofFile temp(autoloadPatchFile);
+#if defined (TARGET_WIN32)
+            assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
+            assetFolder.sort();
+            assetWatcher.removeAllPaths();
+            assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
+#else
             assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+#endif
         }
     }
 
@@ -321,9 +339,16 @@ void ofApp::update(){
     if(ofGetElapsedTimeMillis() > 3000 && !isAssetFolderInited){
         isAssetFolderInited = true;
         assetFolder.reset();
+
+#if defined (TARGET_WIN32)
+        assetFolder.listDir(ofToDataPath("temp\data\",true));
+        assetFolder.sort();
+        assetWatcher.addPath(ofToDataPath("temp\data\",true));
+#else
         assetFolder.listDir(ofToDataPath("temp/data/",true));
         assetFolder.sort();
         assetWatcher.addPath(ofToDataPath("temp/data/",true));
+#endif
     }
 
     // NET
@@ -508,10 +533,17 @@ void ofApp::drawImGuiInterface(){
                     visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
                     ofFile temp(visualProgramming->currentPatchFile);
                     assetFolder.reset();
+#if defined (TARGET_WIN32)
+                    assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
+                    assetFolder.sort();
+                    assetWatcher.removeAllPaths();
+                    assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
+#else
                     assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
                     assetFolder.sort();
                     assetWatcher.removeAllPaths();
                     assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+#endif
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -574,7 +606,6 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "Objects")){
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
-                    #if !defined(TARGET_WIN32)
                     if(ImGui::BeginMenu(it->first.c_str())){
                         std::sort(it->second.begin(), it->second.end());
                         for(int j=0;j<static_cast<int>(it->second.size());j++){
@@ -587,22 +618,6 @@ void ofApp::drawImGuiInterface(){
                         }
                         ImGui::EndMenu();
                     }
-                    #else
-                    if(it->first != OFXVP_OBJECT_CAT_AUDIOANALYSIS && it->first != OFXVP_OBJECT_CAT_SOUND){
-                        if(ImGui::BeginMenu(it->first.c_str())){
-                            std::sort(it->second.begin(), it->second.end());
-                            for(int j=0;j<static_cast<int>(it->second.size());j++){
-                                if(it->second.at(j) != "audio device"){
-                                    if(ImGui::MenuItem(it->second.at(j).c_str())){
-                                        visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-
-                                    }
-                                }
-                            }
-                            ImGui::EndMenu();
-                        }
-                    }
-                    #endif
                 }
                 ImGui::EndMenu();
             }
@@ -610,11 +625,13 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "Examples")){
                 #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
+                #elif defined(TARGET_WIN32)
+                examplesRoot.listDir(ofToDataPath("..\examples"));
                 #else
                 examplesRoot.listDir(ofToDataPath("../examples"));
                 #endif
                 examplesRoot.sort();
-                for(int i=0;i<examplesRoot.getFiles().size();i++){
+                for(size_t i=0;i<examplesRoot.getFiles().size();i++){
                     createDirectoryNode(examplesRoot.getFiles().at(i));
                 }
 
@@ -622,7 +639,6 @@ void ofApp::drawImGuiInterface(){
             }
 
 
-            #if !defined(TARGET_WIN32)
             if(ImGui::BeginMenu( "Sound")){
                 if(ImGui::Checkbox("DSP",&visualProgramming->dspON)){
                     if(visualProgramming->dspON){
@@ -654,9 +670,8 @@ void ofApp::drawImGuiInterface(){
                 }
                 ImGui::EndMenu();
             }
-            #endif
 
-            if(ImGui::BeginMenu( "System")){
+            if(ImGui::BeginMenu("System")){
                 if(ImGui::DragInt("FPS",&mosaicFPS,1.0f,1)){
                     setMosaicFrameRate(mosaicFPS);
                 }
@@ -752,6 +767,9 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem("Mosaic Github")){
                     ofLaunchBrowser("https://github.com/d3cod3/Mosaic");
                 }
+                if(ImGui::MenuItem("Mosaic WIKI")){
+                    ofLaunchBrowser("https://github.com/d3cod3/Mosaic/wiki");
+                }
                 if(ImGui::MenuItem("Mosaic Manual")){
                     ofLaunchBrowser("https://mosaic.d3cod3.org/manual/");
                 }
@@ -829,10 +847,17 @@ void ofApp::drawImGuiInterface(){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
                 assetFolder.reset();
+#if defined (TARGET_WIN32)
+                assetFolder.listDir(visualProgramming->currentPatchFolderPath+"\data\");
+                assetFolder.sort();
+                assetWatcher.removeAllPaths();
+                assetWatcher.addPath(visualProgramming->currentPatchFolderPath+"\data\");
+#else
                 assetFolder.listDir(visualProgramming->currentPatchFolderPath+"/data/");
                 assetFolder.sort();
                 assetWatcher.removeAllPaths();
                 assetWatcher.addPath(visualProgramming->currentPatchFolderPath+"/data/");
+#endif
             }
 
             // take patch screenshot
@@ -1372,7 +1397,11 @@ void ofApp::drawImGuiInterface(){
                 if( fileDialog.showFileDialog("Import asset", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), "*.*") ){
                     ofFile file(fileDialog.selected_path);
                     if (file.exists()){
+#if defined (TARGET_WIN32)
+                        copyFileToPatchFolder(assetFolder.getAbsolutePath()+"\",file.getAbsolutePath());
+#else
                         copyFileToPatchFolder(assetFolder.getAbsolutePath()+"/",file.getAbsolutePath());
+#endif
                     }
                 }
 
@@ -1383,7 +1412,7 @@ void ofApp::drawImGuiInterface(){
                 }
 
                 int listPos = 0;
-                for(int i=0;i<assetFolder.size();i++){
+                for(int i=0;i<static_cast<int>(assetFolder.size());i++){
                     if(assetFolder.getFile(i).isDirectory()){
                         string tmps = "\uf07b "+assetFolder.getName(i);
                         ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -1398,7 +1427,7 @@ void ofApp::drawImGuiInterface(){
                             // list folder
                             ofDirectory tmp;
                             tmp.listDir(assetFolder.getFile(i).getAbsolutePath());
-                            for(int t=0;t<tmp.size();t++){
+                            for(size_t t=0;t<tmp.size();t++){
                                 ImGui::Dummy(ImVec2(1,2*retinaScale));
                                 ImGui::Dummy(ImVec2(30*retinaScale,1)); ImGui::SameLine();
                                 char buf[32];
@@ -1615,26 +1644,11 @@ void ofApp::mouseReleased(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
     }
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
 }
 
 //--------------------------------------------------------------
@@ -2017,45 +2031,6 @@ void ofApp::initDataFolderFromBundle(){
 //--------------------------------------------------------------
 bool ofApp::checkInternetReachability(){
 
-    string cmd = "";
-    FILE *execFile;
-    string output = "";
-#ifdef TARGET_LINUX
-    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
-    execFile = popen(cmd.c_str(), "r");
-#elif defined(TARGET_OSX)
-    cmd = "ping -q -c1 www.github.com > /dev/null && echo okk || echo err";
-    execFile = popen(cmd.c_str(), "r");
-#endif
-
-    if (execFile){
-        ofLog(OF_LOG_NOTICE,"CHECKING INTERNET CONNECTIVITY...");
-
-        char buffer[128];
-        if(fgets(buffer, sizeof(buffer), execFile) != nullptr){
-            char *s = buffer;
-            std::string tempstr(s);
-            output = tempstr;
-        }
-
-        output.pop_back();
-
-#ifdef TARGET_LINUX
-        pclose(execFile);
-#elif defined(TARGET_OSX)
-        pclose(execFile);
-#endif
-
-        if(output == "okk"){
-            ofLog(OF_LOG_NOTICE,"[verbose] INTERNET IS AVAILABLE!");
-            return true;
-        }else if(output == "err"){
-            ofLog(OF_LOG_ERROR,"INTERNET IS NOT AVAILABLE!");
-            return false;
-        }
-    }
-
-#ifdef TARGET_WIN32
     ofHttpResponse tempResp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
 
     if(tempResp.status == 200){
@@ -2065,9 +2040,6 @@ bool ofApp::checkInternetReachability(){
         ofLog(OF_LOG_ERROR,"INTERNET IS NOT AVAILABLE!");
         return false;
     }
-#else
-      return false;
-#endif
 
 }
 
@@ -2142,7 +2114,7 @@ void ofApp::createDirectoryNode(ofFile file){
             ofDirectory temp;
             temp.listDir(file.getAbsolutePath());
             temp.sort();
-            for(int i=0;i<temp.getFiles().size();i++){
+            for(size_t i=0;i<temp.getFiles().size();i++){
                 createDirectoryNode(temp.getFiles().at(i));
             }
             ImGui::EndMenu();
@@ -2150,10 +2122,15 @@ void ofApp::createDirectoryNode(ofFile file){
     }else{
         if(file.getBaseName() != "LICENSE" && file.getBaseName() != "README"){
             string fileExtension = ofToUpper(file.getExtension());
-            if(fileExtension == "LUA" || fileExtension == "PY" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
+            if(fileExtension == "LUA" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
                 if(fileExtension == "LUA"){
+#if defined(TARGET_WIN32)
+                    string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('\'));
+                    if(file.getEnclosingDirectory().substr(tempstr.find_last_of('\')+1,file.getEnclosingDirectory().find_last_of('\')-tempstr.find_last_of('\')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
+#else
                     string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('/'));
                     if(file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
+#endif
                         string menuName = file.getBaseName()+"."+file.getExtension();
                         if(ImGui::MenuItem(menuName.c_str())){
                             createObjectFromFile(file,true);
@@ -2196,10 +2173,17 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
                         ofFile temp(visualProgramming->currentPatchFile);
                         assetFolder.reset();
+                        #if defined(TARGET_WIN32)
+                        assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
+                        assetFolder.sort();
+                        assetWatcher.removeAllPaths();
+                        assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
+                        #else
                         assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
                         assetFolder.sort();
                         assetWatcher.removeAllPaths();
                         assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+                        #endif
                     }else{
                         patchToLoad = file.getAbsolutePath();
                         loadNewPatch = true;
@@ -2270,26 +2254,20 @@ void ofApp::initScriptLanguages(){
     static const char* const lua_mosaic_keywords[] = {
         "USING_DATA_INLET", "OUTPUT_WIDTH", "OUTPUT_HEIGHT", "_mosaic_data_inlet", "_mosaic_data_outlet", "SCRIPT_PATH", "mouseX", "mouseY" };
 
-    static const char* const lua_mosaic_keywords_decl[] = {
-        "", "The current width of the output window", "The current height of the output window",
-        "_mosaic_data_inlet is the name of the lua table storing data incoming from a Mosaic patch.\n A vector<float> is automatically converted to a lua table, where the index starts from 1, NOT 0!\n So the first position of your table will be accessed like this: _mosaic_data_inlet[1]",
-        "_mosaic_data_outlet is the name of the lua table storing data outgoing to a Mosaic patch.\n A lua table is automatically converted to a vector<float>. Remember that lua tables index starts from 1, NOT 0!\n So the first position of your table will be accessed like this: _mosaic_data_outlet[1]",
-        "Mosaic system variable for loading external resources (files). It returns the absolute path to the script file folder container.",
-        "The mouse over output window X (horizontal) coordinate", "The mouse over output window Y (vertical) coordinate"
-    };
-
-    for (int i = 0; i < sizeof(lua_mosaic_keywords) / sizeof(lua_mosaic_keywords[0]); ++i){
+    for (size_t i = 0; i < sizeof(lua_mosaic_keywords) / sizeof(lua_mosaic_keywords[0]); ++i){
         TextEditor::Identifier id;
         //id.mDeclaration = lua_mosaic_keywords_decl[i];
         id.mDeclaration = "";
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
     }
 
-
-
     ofxXmlSettings XML;
 
+#if defined(TARGET_WIN32)
+    if (XML.loadFile("livecoding\lua_mosaic_language.xml")){
+#else
     if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
+#endif
         int totalMethods = XML.getNumTags("method");
 
         // Load all the lua_of_mosaic methods
@@ -2325,8 +2303,6 @@ void ofApp::initNewCodeEditor(ofFile file){
     TextEditor codeEditor;
     if(fileExtension == "LUA"){
         codeEditor.SetLanguageDefinition(luaLang);
-    }else if(fileExtension == "PY"){
-        codeEditor.SetLanguageDefinition(pythonLang);
     }else if(fileExtension == "SH"){
         codeEditor.SetLanguageDefinition(bashLang);
     }else if(fileExtension == "FRAG" || fileExtension == "VERT"){
@@ -2349,7 +2325,7 @@ void ofApp::initNewCodeEditor(ofFile file){
 //--------------------------------------------------------------
 void ofApp::removeScriptFromCodeEditor(string filename){
 
-    for(int i=0;i<editedFilesNames.size();i++){
+    for(size_t i=0;i<editedFilesNames.size();i++){
         if(editedFilesNames[i] == filename){
             editedFilesPaths.erase(editedFilesPaths.begin()+i);
             editedFilesNames.erase(editedFilesNames.begin()+i);
