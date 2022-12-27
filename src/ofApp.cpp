@@ -139,11 +139,7 @@ void ofApp::setup(){
     isAutoloadedPatch           = false;
 
     // GUI
-#if defined (TARGET_WIN32)
-    mosaicLogo = new ofImage("images\logo_1024_bw.png");
-#else
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
-#endif
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
     if(isRetina){
         subtitlesParagraph.init(MAIN_FONT,72);
@@ -179,7 +175,7 @@ void ofApp::setup(){
 #if defined(TARGET_OSX)
     recorder.setFFmpegPath(ofToDataPath("ffmpeg/osx/ffmpeg",true));
 #elif defined(TARGET_WIN32)
-    recorder.setFFmpegPath(ofToDataPath("ffmpeg\win\ffmpeg.exe",true));
+    recorder.setFFmpegPath(ofToDataPath("ffmpeg/win/ffmpeg.exe",true));
 #endif
 
     // CODE EDITOR
@@ -262,17 +258,10 @@ void ofApp::update(){
             mosaicBPM = visualProgramming->bpm;
             ofFile temp(patchToLoad);
             assetFolder.reset();
-#if defined (TARGET_WIN32)
-            assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
-            assetFolder.sort();
-            assetWatcher.removeAllPaths();
-            assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
-#else
             assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
-#endif
         }
     }
 
@@ -283,17 +272,10 @@ void ofApp::update(){
             visualProgramming->preloadPatch(autoloadPatchFile);
             mosaicBPM = visualProgramming->bpm;
             ofFile temp(autoloadPatchFile);
-#if defined (TARGET_WIN32)
-            assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
-            assetFolder.sort();
-            assetWatcher.removeAllPaths();
-            assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
-#else
             assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
-#endif
         }
     }
 
@@ -340,15 +322,9 @@ void ofApp::update(){
         isAssetFolderInited = true;
         assetFolder.reset();
 
-#if defined (TARGET_WIN32)
-        assetFolder.listDir(ofToDataPath("temp\data\",true));
-        assetFolder.sort();
-        assetWatcher.addPath(ofToDataPath("temp\data\",true));
-#else
         assetFolder.listDir(ofToDataPath("temp/data/",true));
         assetFolder.sort();
         assetWatcher.addPath(ofToDataPath("temp/data/",true));
-#endif
     }
 
     // NET
@@ -533,17 +509,10 @@ void ofApp::drawImGuiInterface(){
                     visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
                     ofFile temp(visualProgramming->currentPatchFile);
                     assetFolder.reset();
-#if defined (TARGET_WIN32)
-                    assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
-                    assetFolder.sort();
-                    assetWatcher.removeAllPaths();
-                    assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
-#else
                     assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
                     assetFolder.sort();
                     assetWatcher.removeAllPaths();
                     assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
-#endif
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -625,8 +594,6 @@ void ofApp::drawImGuiInterface(){
             if(ImGui::BeginMenu( "Examples")){
                 #if defined(TARGET_OSX)
                 examplesRoot.listDir(mosaicExamplesPath.string());
-                #elif defined(TARGET_WIN32)
-                examplesRoot.listDir(ofToDataPath("..\examples"));
                 #else
                 examplesRoot.listDir(ofToDataPath("../examples"));
                 #endif
@@ -847,17 +814,10 @@ void ofApp::drawImGuiInterface(){
                 ofFile file(fileDialog.selected_path);
                 visualProgramming->savePatchAs(file.getAbsolutePath());
                 assetFolder.reset();
-#if defined (TARGET_WIN32)
-                assetFolder.listDir(visualProgramming->currentPatchFolderPath+"\data\");
-                assetFolder.sort();
-                assetWatcher.removeAllPaths();
-                assetWatcher.addPath(visualProgramming->currentPatchFolderPath+"\data\");
-#else
                 assetFolder.listDir(visualProgramming->currentPatchFolderPath+"/data/");
                 assetFolder.sort();
                 assetWatcher.removeAllPaths();
                 assetWatcher.addPath(visualProgramming->currentPatchFolderPath+"/data/");
-#endif
             }
 
             // take patch screenshot
@@ -2173,17 +2133,10 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
                         ofFile temp(visualProgramming->currentPatchFile);
                         assetFolder.reset();
-                        #if defined(TARGET_WIN32)
-                        assetFolder.listDir(temp.getEnclosingDirectory()+"data\");
-                        assetFolder.sort();
-                        assetWatcher.removeAllPaths();
-                        assetWatcher.addPath(temp.getEnclosingDirectory()+"data\");
-                        #else
                         assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
                         assetFolder.sort();
                         assetWatcher.removeAllPaths();
                         assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
-                        #endif
                     }else{
                         patchToLoad = file.getAbsolutePath();
                         loadNewPatch = true;
@@ -2210,11 +2163,6 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
             }
         }else if(fileExtension == "LUA") {
             visualProgramming->addObject("lua script",objPos);
-            if(visualProgramming->getLastAddedObject() != nullptr){
-                visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
-            }
-        }else if(fileExtension == "PY") {
-            visualProgramming->addObject("python script",objPos);
             if(visualProgramming->getLastAddedObject() != nullptr){
                 visualProgramming->getLastAddedObject()->autoloadFile(file.getAbsolutePath());
             }
@@ -2263,11 +2211,7 @@ void ofApp::initScriptLanguages(){
 
     ofxXmlSettings XML;
 
-#if defined(TARGET_WIN32)
-    if (XML.loadFile("livecoding\lua_mosaic_language.xml")){
-#else
     if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
-#endif
         int totalMethods = XML.getNumTags("method");
 
         // Load all the lua_of_mosaic methods
