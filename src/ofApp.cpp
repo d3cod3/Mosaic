@@ -668,7 +668,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_RED_OVER);
                 ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
                 char tmp[256];
-                sprintf(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
+                sprintf_s(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
                 if(ImGui::Button(tmp,ImVec2(-1,26*retinaScale))){
                     if(recordFilepath != ""){
                         if(!recorder.isRecording()){
@@ -1391,7 +1391,7 @@ void ofApp::drawImGuiInterface(){
                                 ImGui::Dummy(ImVec2(1,2*retinaScale));
                                 ImGui::Dummy(ImVec2(30*retinaScale,1)); ImGui::SameLine();
                                 char buf[32];
-                                sprintf(buf, "\uf15b %s", tmp.getName(t).c_str());
+                                sprintf_s(buf, "\uf15b %s", tmp.getName(t).c_str());
                                 if (ImGui::Selectable(buf, selected == listPos)){
                                     selected = listPos;
                                     node_clicked = -1;
@@ -1406,7 +1406,7 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Dummy(ImVec2(1,2*retinaScale));
                     }else{
                         char buf[32];
-                        sprintf(buf, "\uf15b %s", assetFolder.getName(i).c_str());
+                        sprintf_s(buf, "\uf15b %s", assetFolder.getName(i).c_str());
                         ImGui::Dummy(ImVec2(14*retinaScale,1)); ImGui::SameLine();
                         if (ImGui::Selectable(buf, selected == listPos)){
                             selected = listPos;
