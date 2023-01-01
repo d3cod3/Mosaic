@@ -1358,7 +1358,7 @@ void ofApp::drawImGuiInterface(){
                     ofFile file(fileDialog.selected_path);
                     if (file.exists()){
 #if defined (TARGET_WIN32)
-                        copyFileToPatchFolder(assetFolder.getAbsolutePath()+"\",file.getAbsolutePath());
+                        copyFileToPatchFolder(assetFolder.getAbsolutePath()+"\\",file.getAbsolutePath());
 #else
                         copyFileToPatchFolder(assetFolder.getAbsolutePath()+"/",file.getAbsolutePath());
 #endif
@@ -2085,8 +2085,8 @@ void ofApp::createDirectoryNode(ofFile file){
             if(fileExtension == "LUA" || fileExtension == "FRAG" || fileExtension == "SH" || fileExtension == "PD" || fileExtension == "XML" || fileExtension == "PNG" || fileExtension == "GIF" || fileExtension == "JPG" || fileExtension == "JPEG" || fileExtension == "TIF" || fileExtension == "TIFF" || fileExtension == "WAV" || fileExtension == "OGG" || fileExtension == "MP3" || fileExtension == "FLAC" || fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
                 if(fileExtension == "LUA"){
 #if defined(TARGET_WIN32)
-                    string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('\'));
-                    if(file.getEnclosingDirectory().substr(tempstr.find_last_of('\')+1,file.getEnclosingDirectory().find_last_of('\')-tempstr.find_last_of('\')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
+                    string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('\\'));
+                    if(file.getEnclosingDirectory().substr(tempstr.find_last_of('\\')+1,file.getEnclosingDirectory().find_last_of('\\')-tempstr.find_last_of('\\')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
 #else
                     string tempstr = file.getEnclosingDirectory().substr(0,file.getEnclosingDirectory().find_last_of('/'));
                     if(file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1) == file.getFileName().substr(0,file.getFileName().find_last_of('.'))){
