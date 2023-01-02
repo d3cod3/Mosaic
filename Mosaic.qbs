@@ -38,6 +38,7 @@ Project{
         of.includePaths: ['profiler/tracy']     // include search paths
         of.cFlags: []           // flags passed to the c compiler
 
+
         // flags passed to the c++ compiler
         of.cxxFlags: {
             var flags = []; // Enter global flags here
@@ -55,10 +56,11 @@ Project{
         // flags passed to the linker
         of.linkerFlags: []
 
-        // defines are passed as -D to the compiler
+        // defines are passed as -D to the compiler, and can be checked with #ifdef or #if in the code
         of.defines: {
             var defs = []; // Enter global flags here
-            //defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
+            // defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
+            defs = defs.concat(['MO_GL_VERSION_MAJOR']); // MO_GL_VERSION_MAJOR will use opengl 4.1, MO_GL_VERSION_MINOR will use opengl 3.2
             if(qbs.configurationName.contains('Debug')){
                 defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){
@@ -68,14 +70,37 @@ Project{
             }
             return defs;
         }
-        // and can be checked with #ifdef or #if in the code
 
         // osx only, additional frameworks to link with the project
-
         of.frameworks: []
 
-        of.staticLibraries: []  // static libraries
-        of.dynamicLibraries: [] // dynamic libraries
+        // static libraries
+        of.staticLibraries: {
+            var libs = [];
+            if(qbs.hostOS.contains("osx")){
+                libs = libs.concat([]);
+            }else if(qbs.hostOS.contains("windows")){
+                libs = libs.concat([]);
+            }else if(qbs.hostOS.contains("linux")){
+                libs = libs.concat([]);
+            }
+
+            return libs;
+        }
+
+        // dynamic libraries
+        of.dynamicLibraries: {
+            var libs = [];
+            if(qbs.hostOS.contains("osx")){
+                libs = libs.concat([]);
+            }else if(qbs.hostOS.contains("windows")){
+                libs = libs.concat([]);
+            }else if(qbs.hostOS.contains("linux")){
+                libs = libs.concat([]);
+            }
+
+            return libs;
+        }
 
         // other flags can be set through the cpp module: http://doc.qt.io/qbs/cpp-module.html
         // eg: this will enable ccache when compiling

@@ -72,7 +72,13 @@ int main(int argc, char *argv[]){
     }
 
     ofGLFWWindowSettings settings;
+#if defined(MO_GL_VERSION_MAJOR)
     settings.setGLVersion(4,1);
+#elif defined(MO_GL_VERSION_MINOR)
+    settings.setGLVersion(3,2);
+#else
+    settings.setGLVersion(3,2);
+#endif
 
     settings.stencilBits = 0;
     settings.setSize(WINDOW_START_WIDTH, WINDOW_START_HEIGHT);
