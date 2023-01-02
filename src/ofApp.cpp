@@ -627,13 +627,27 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                static int inDev = visualProgramming->audioGUIINIndex;
-                if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
-                    visualProgramming->setAudioInDevice(inDev);
+
+                if(visualProgramming->audioDevicesStringIN.size() > 0){
+                    static int inDev = visualProgramming->audioGUIINIndex;
+                    if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
+                        visualProgramming->setAudioInDevice(inDev);
+                    }
+                }else{
+                    static vector<string> emptyInputDevice = {"  No audio input device available"};
+                    static int inDev = 0;
+                    if(ofxImGui::VectorCombo("Input Device", &inDev,emptyInputDevice)){}
                 }
-                static int outDev = visualProgramming->audioGUIOUTIndex;
-                if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
-                    visualProgramming->setAudioOutDevice(outDev);
+
+                if(visualProgramming->audioDevicesStringOUT.size() > 0){
+                    static int outDev = visualProgramming->audioGUIOUTIndex;
+                    if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
+                        visualProgramming->setAudioOutDevice(outDev);
+                    }
+                }else{
+                    static vector<string> emptyOutputDevice = {"  No audio output device available"};
+                    static int outDev = 0;
+                    if(ofxImGui::VectorCombo("Output Device", &outDev,emptyOutputDevice)){}
                 }
                 ImGui::EndMenu();
             }
