@@ -618,7 +618,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Separator();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::DragInt("TEMPO",&mosaicBPM,1.0f,1)){
+                if(ImGui::DragInt("TEMPO (BPM)",&mosaicBPM,1.0f,1)){
                     visualProgramming->bpm = mosaicBPM;
                     visualProgramming->engine->sequencer.setTempo(mosaicBPM);
                     visualProgramming->setPatchVariable("bpm",mosaicBPM);
@@ -631,7 +631,8 @@ void ofApp::drawImGuiInterface(){
                 if(visualProgramming->audioDevicesStringIN.size() > 0){
                     static int inDev = visualProgramming->audioGUIINIndex;
                     if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
-                        visualProgramming->setAudioInDevice(inDev);
+                        //visualProgramming->setAudioInDevice(inDev);
+                        visualProgramming->audioGUIINIndex = inDev;
                     }
                 }else{
                     static vector<string> emptyInputDevice = {"  No audio input device available"};
@@ -642,13 +643,41 @@ void ofApp::drawImGuiInterface(){
                 if(visualProgramming->audioDevicesStringOUT.size() > 0){
                     static int outDev = visualProgramming->audioGUIOUTIndex;
                     if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
-                        visualProgramming->setAudioOutDevice(outDev);
+                        //visualProgramming->setAudioOutDevice(outDev);
+                        visualProgramming->audioGUIOUTIndex = outDev;
                     }
                 }else{
                     static vector<string> emptyOutputDevice = {"  No audio output device available"};
                     static int outDev = 0;
                     if(ofxImGui::VectorCombo("Output Device", &outDev,emptyOutputDevice)){}
                 }
+
+                if(visualProgramming->audioDevicesSR.size() > 0){
+                    static int adSR = visualProgramming->audioGUISRIndex;
+                    if(ofxImGui::VectorCombo("Sample Rate", &adSR,visualProgramming->audioDevicesSR)){
+                        visualProgramming->audioGUISRIndex = adSR;
+                    }
+                }
+
+                if(visualProgramming->audioDevicesBS.size() > 0){
+                    static int adBS= visualProgramming->audioGUIBSIndex;
+                    if(ofxImGui::VectorCombo("Buffer Size", &adBS,visualProgramming->audioDevicesBS)){
+                        visualProgramming->audioGUIBSIndex = adBS;
+                    }
+                }
+
+                ImGui::Spacing();ImGui::Spacing();ImGui::Spacing();
+                if(ImGui::Button("APPLY",ImVec2(224,26))){
+                    visualProgramming->setAudioSampleRate(visualProgramming->audioGUISRIndex);
+                    visualProgramming->setAudioBufferSize(visualProgramming->audioGUIBSIndex);
+                    if(visualProgramming->audioDevicesStringIN.size() > 0){
+                        visualProgramming->setAudioInDevice(visualProgramming->audioGUIINIndex);
+                    }
+                    if(visualProgramming->audioDevicesStringOUT.size() > 0){
+                        visualProgramming->setAudioOutDevice(visualProgramming->audioGUIOUTIndex);
+                    }
+                }
+
                 ImGui::EndMenu();
             }
 
