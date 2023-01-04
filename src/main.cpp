@@ -72,10 +72,8 @@ int main(int argc, char *argv[]){
     }
 
     ofGLFWWindowSettings settings;
-#if defined(MO_GL_VERSION_MAJOR)
-    settings.setGLVersion(4,1);
-#elif defined(MO_GL_VERSION_MINOR)
-    settings.setGLVersion(3,2);
+#if defined(OFXVP_GL_VERSION_MAJOR) && defined(OFXVP_GL_VERSION_MINOR)
+    settings.setGLVersion(OFXVP_GL_VERSION_MAJOR,OFXVP_GL_VERSION_MINOR);
 #else
     settings.setGLVersion(3,2);
 #endif

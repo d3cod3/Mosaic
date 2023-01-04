@@ -60,7 +60,7 @@ Project{
         of.defines: {
             var defs = []; // Enter global flags here
             // defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
-            defs = defs.concat(['MO_GL_VERSION_MAJOR']); // MO_GL_VERSION_MAJOR will use opengl 4.1, MO_GL_VERSION_MINOR will use opengl 3.2
+            defs = defs.concat([]);
             if(qbs.configurationName.contains('Debug')){
                 defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Release')){
