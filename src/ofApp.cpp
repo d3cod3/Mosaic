@@ -1598,7 +1598,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
         codeEditors[editedFilesNames[actualCodeEditor]].Find();
     }else if(e.keycode == 257){
-        createSearchedObject = true;
+        //createSearchedObject = true;
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
