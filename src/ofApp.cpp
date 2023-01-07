@@ -667,7 +667,7 @@ void ofApp::drawImGuiInterface(){
                 }
 
                 ImGui::Spacing();ImGui::Spacing();ImGui::Spacing();
-                if(ImGui::Button("APPLY",ImVec2(224,26))){
+                if(ImGui::Button("APPLY",ImVec2(224,26*retinaScale))){
                     visualProgramming->setAudioSampleRate(visualProgramming->audioGUISRIndex);
                     visualProgramming->setAudioBufferSize(visualProgramming->audioGUIBSIndex);
                     if(visualProgramming->audioDevicesStringIN.size() > 0){
