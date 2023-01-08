@@ -76,7 +76,7 @@ void ofApp::setup(){
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
     ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
     ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
-    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Processing/Java, Lua, Python, GLSL and BASH).\n");
+    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, GLSL and BASH).\n");
 
     // Visual Programming Environment Load
 
@@ -1609,16 +1609,6 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
         showRightClickMenu = true;
@@ -1847,18 +1837,6 @@ void ofApp::initDataFolderFromBundle(){
         string actualRel = "";
         if(relFile.exists()){
             actualRel = relFile.readToBuffer().getText();
-
-            /*if(VERSION != actualRel){
-                std::filesystem::path dataPath(_bundleDataPath.c_str());
-
-                // remove previous release data folder
-                mosaicDir.removeDirectory(mosaicPath,true);
-                mosaicDir.createDirectory(mosaicPath,true,true);
-
-                // copy the new one
-                ofDirectory dataDir(dataPath);
-                dataDir.copyTo(mosaicPath,true,true);
-            }*/
 
             std::stringstream ss;
             ss << "Your Mosaic data folder was created by Mosaic version " << actualRel << ", while currently running Mosaic " VERSION ". Replacing the previous data folder with the newest one.";

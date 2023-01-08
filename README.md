@@ -70,7 +70,7 @@ It includes a collection of audio-visual objects that can be easily connected to
 Mosaic is mainly based on two frameworks : OpenFrameworks and ImGui. OpenFrameworks is an open source C++ toolkit for creative coding.
 Dear ImGui is a bloat-free graphical user interface for C++ with minimal dependencies.
 Together with the latter ones, Mosaic bundles comes with other 3rd party libraries such as [libpd](https://github.com/libpd/libpd) and numerous ofxAddons.
-It also embeds various programing languages for live-coding purposes : Lua with OF-bindings, Python ( 2.7 on osx, 3.8 on linux ) scripting interpreter, live compiling of GLSL shaders and editing/execute Bash scripts (macOS & linux) capabilities.
+It also embeds various programming languages for live-coding purposes : Lua with OF-bindings scripting interpreter, live compiling of GLSL shaders and editing/execute Bash scripts (macOS & linux) capabilities.
 
 Mosaic is extendable : you can easily [add custom objects](https://github.com/d3cod3/ofxMosaicPlugin).
 While this involves writing and compiling code, requiring some C++ knowledge, we aim to make this process as easy as possible. Thus, Mosaic is flexible and devoted to grow over time.
@@ -118,8 +118,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxPDSP](https://github.com/d3cod3/ofxPDSP) -- Fork
 
-#### [ofxPython](https://github.com/d3cod3/ofxPython) -- Fork
-
 #### [ofxSyphon](https://github.com/d3cod3/ofxSyphon) -- Fork
 
 #### [ofxTimeline](https://github.com/d3cod3/ofxTimeline) -- Fork
@@ -134,14 +132,14 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
 # SPECIFICATIONS
 
   - [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free/Libre and Open Source Software
-  - cross-platform (until Apple and Microsoft decides to drop support for openGL, then it will be Linux only)
+  - cross-platform (Linux, macOS, Windows)
   - plugin injection capable, see [ofxMosaicPlugin](https://github.com/d3cod3/ofxMosaicPlugin)
   - multi-threaded
   - ImGui based GUI interface
   - included automatic window video exporter with subtitler for easy tutorial creation
   - non-blocking system dialogs
   - internal code editor
-  - lua/python/glsl/bash live-coding
+  - lua/glsl/bash live-coding
   - pure data live-patching
   - non-linear interactive timeline
   - good selection of audio synthesis modules
@@ -171,7 +169,6 @@ git clone https://github.com/danomatika/ofxLua
 git clone https://github.com/danomatika/ofxMidi
 git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone https://github.com/d3cod3/ofxNDI
-git clone https://github.com/d3cod3/ofxPython
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPDSP
 git clone https://github.com/d3cod3/ofxSyphon

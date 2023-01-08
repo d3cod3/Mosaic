@@ -58,8 +58,6 @@ public:
     void keyReleased(ofKeyEventArgs &e);
 
     // Mouse Events
-    void mouseMoved(int x, int y );
-    void mouseDragged(int x, int y, int button);
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
 
