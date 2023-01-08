@@ -88,8 +88,6 @@ void ofApp::setup(){
     io.MouseDrawCursor = false;
 
     // Initialise ImGui
-    //mainTheme = new MosaicTheme();
-    //mainMenu.setup(mainTheme,false, ImGuiConfigFlags_DockingEnable, false, false);
 
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
@@ -101,13 +99,9 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(isRetina){
-        //mainMenu.addFont(absPath2.c_str(),30.0f,&font_config); // code editor font
-        //mainMenu.addFont(absPath1.c_str(),26.0f,&font_config, nullptr, true); // GUI font
         io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
         io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
     }else{
-        //mainMenu.addFont(absPath2.c_str(),18.0f, &font_config); // code editor font
-        //mainMenu.addFont(absPath1.c_str(),14.0f, &font_config, nullptr, true); // GUI font
         io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
         io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
     }
@@ -117,10 +111,8 @@ void ofApp::setup(){
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
     if(isRetina){
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
-        //mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
     }else{
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
-        //mainMenu.addFont( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
     }
 
     ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
@@ -138,9 +130,20 @@ void ofApp::setup(){
     loadNewPatch                = false;
     isAutoloadedPatch           = false;
 
-    // GUI
+    showRightClickMenu          = false;
+    createSearchedObject        = false;
+    showAboutWindow             = false;
+
+    // LOGO
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
+
+    // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
+    recordFilepath = "";
+    exportVideoFlag = false;
+    recButtonLabel = "REC";
+
+    // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
     if(isRetina){
         subtitlesParagraph.init(MAIN_FONT,72);
         subtitlesParagraph.setSpacing(72*0.7f);
@@ -151,16 +154,6 @@ void ofApp::setup(){
     subtitlesParagraph.setAlignment(ofxParagraph::ALIGN_CENTER);
     subtitlesParagraph.setMaxLines(2);
 
-    showRightClickMenu          = false;
-    createSearchedObject        = false;
-    showAboutWindow             = false;
-
-    // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
-    recordFilepath = "";
-    exportVideoFlag = false;
-    recButtonLabel = "REC";
-
-    // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
     actualSubtitle          = "";
     showSubtitler           = false;
 
@@ -181,7 +174,6 @@ void ofApp::setup(){
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
     glslLang = TextEditor::LanguageDefinition::GLSL();
-    pythonLang= TextEditor::LanguageDefinition::Python();
     bashLang = TextEditor::LanguageDefinition::Bash();
 
     initScriptLanguages();
@@ -305,11 +297,7 @@ void ofApp::update(){
         if(isRetina){
             ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
         }else{
-            if(ofGetScreenWidth() >= 1920){ // DUAL HEAD, TRIPLE HEAD
-                ofSetWindowShape(1920-4,ofGetScreenHeight());
-            }else{ // STANDARD SCREEN
-                ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
-            }
+            ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
         }
 
         if(isRetina){
@@ -414,6 +402,8 @@ void ofApp::draw(){
         mainMenu.draw();
     }
 
+    // Bottom INFO BAR --------------------------------------------------------------------------------------
+
     // DSP flag
     if(visualProgramming->dspON){
         ofSetColor(ofColor::fromHex(0xFFD00B));
@@ -438,6 +428,7 @@ void ofApp::draw(){
         ofSetColor(60, 255, 60);
     }
     visualProgramming->font->drawString(tmpMsg,100*retinaScale,ofGetHeight() - (6*retinaScale));
+    // ------------------------------------------------------------------------------------------------------
 
     // subtitler
     if(showSubtitler){

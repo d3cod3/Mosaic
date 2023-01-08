@@ -142,7 +142,6 @@ public:
     // CODE EDITOR
     TextEditor::LanguageDefinition  bashLang;
     TextEditor::LanguageDefinition  luaLang;
-    TextEditor::LanguageDefinition  pythonLang;
     TextEditor::LanguageDefinition  glslLang;
     map<string,TextEditor>          codeEditors;
     map<string,PathWatcher*>        codeWatchers;
