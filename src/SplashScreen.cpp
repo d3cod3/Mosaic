@@ -31,6 +31,7 @@
 ==============================================================================*/
 
 #include "SplashScreen.h"
+#include "ofxVisualProgramming.h"
 
 //--------------------------------------------------------------
 void SplashScreen::setup(){
@@ -62,7 +63,7 @@ void SplashScreen::setup(){
 void SplashScreen::update(){
     background.update();
 
-    if(ofGetElapsedTimeMillis()-startTime > 5600){
+    if(ofGetElapsedTimeMillis()-startTime > 4800){
         splashWindow->setWindowShouldClose();
     }
 }
@@ -89,5 +90,7 @@ void SplashScreen::draw(){
 
 //--------------------------------------------------------------
 void SplashScreen::mousePressed(int x, int y, int button){
+    unusedArgs(x,y,button);
+
     splashWindow->setWindowShouldClose();
 }

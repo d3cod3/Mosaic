@@ -1624,11 +1624,12 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    unusedArgs(x,y,button);
 }
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
+    unusedArgs(w,h);
 
     if(isInited && ofGetElapsedTimeMillis() > 1000){
         isWindowResized = true;
