@@ -667,6 +667,7 @@ void ofApp::drawImGuiInterface(){
                     if(visualProgramming->audioDevicesStringOUT.size() > 0){
                         visualProgramming->setAudioOutDevice(visualProgramming->audioGUIOUTIndex);
                     }
+                    visualProgramming->reloadPatch();
                 }
 
                 ImGui::EndMenu();
