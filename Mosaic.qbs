@@ -94,7 +94,7 @@ Project{
             if(qbs.hostOS.contains("osx")){
                 libs = libs.concat([]);
             }else if(qbs.hostOS.contains("windows")){
-                libs = libs.concat(['openal','mpg123','libsndfile']);
+                libs = libs.concat(['openal','mpg123','libsndfile','pd']);
             }else if(qbs.hostOS.contains("linux")){
                 libs = libs.concat([]);
             }
