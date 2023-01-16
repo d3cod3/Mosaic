@@ -622,7 +622,6 @@ void ofApp::drawImGuiInterface(){
                 if(visualProgramming->audioDevicesStringIN.size() > 0){
                     static int inDev = visualProgramming->audioGUIINIndex;
                     if(ofxImGui::VectorCombo("Input Device", &inDev,visualProgramming->audioDevicesStringIN)){
-                        //visualProgramming->setAudioInDevice(inDev);
                         visualProgramming->audioGUIINIndex = inDev;
                     }
                 }else{
@@ -634,7 +633,6 @@ void ofApp::drawImGuiInterface(){
                 if(visualProgramming->audioDevicesStringOUT.size() > 0){
                     static int outDev = visualProgramming->audioGUIOUTIndex;
                     if(ofxImGui::VectorCombo("Output Device", &outDev,visualProgramming->audioDevicesStringOUT)){
-                        //visualProgramming->setAudioOutDevice(outDev);
                         visualProgramming->audioGUIOUTIndex = outDev;
                     }
                 }else{
@@ -668,6 +666,7 @@ void ofApp::drawImGuiInterface(){
                         visualProgramming->setAudioOutDevice(visualProgramming->audioGUIOUTIndex);
                     }
                     visualProgramming->reloadPatch();
+                    ImGui::CloseCurrentPopup();
                 }
 
                 ImGui::EndMenu();
