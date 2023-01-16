@@ -1,12 +1,29 @@
 # Mosaic CHANGELOG
 
+### 0.6.3
+
+- **update** : Now same identical basecode and functionalities on all supported OSs (various Linux distros, macOS starting from 10.11 and Windows starting from W10)
+- **update** : updated libs for cross-compile
+- **update** : disable object creation via keyboard from floating menu for better usability
+- **enhancement** : audio devices managing and setting refactored, removed lots of runtime crash situations
+- **update** : Now minimum macOS required is 10.11 ( El Capitan )
+- **update** : removed ofxPDExternal addon for cross-compile compatibility
+- **bug fixing** : Various windows fixes
+- **update** : switched ofxAudioAnalyzer for ofxFft due to windows native compiling issues with essentia lib (removed)
+- **feature** : added terminal instructions for fixing camera and microphone permissions on osx
+- **update** : switched to original maintained ofxLua addon by @danomatika
+- **feature** : Add GPU information section in "About Mosaic" from @Daandelange
+- **bug fixing** : internal code editor cleaned up and lots of fixes
+- **bug fixing** : Various fixes for Monterrey and later macOS
+- **update** : Updated core to OF 0.11.2
+
 ### 0.5.1
 
 - **cleanup** Removed ofxGLEditor addon and lua scripting onscreen live-coding, due to fontstash incompatibility with opengl4
 
 ### 0.5.0
 
-- **addition**: added texture mixer object to mix up to 32 texture using alpha
+- **addition** : added texture mixer object to mix up to 32 texture using alpha
 - **update** : Updated ofxAddonsTool to last commit
 - **addition** : Added ofxHapPlayer addon ( forked with some minor tweaks ) for using now in Mosaic the HAP codec as the standard for the video player object
 - **addition** : Added ofxSyphon addon ( retro compatibility fork ) and syphon sender + syphon receiver objects ( osx only, obviously )
