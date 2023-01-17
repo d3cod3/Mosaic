@@ -916,6 +916,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Text( "Version %s (%s)", VERSION, VERSION_GRAPHIC );
                 ImGui::Spacing();
                 ImGui::TextWrapped( DESCRIPTION );
+                ImGui::TextWrapped( "an open project by Emanuele Mazza aka n3m3da" );
                 ImGui::TextWrapped( MOSAIC_WWW );
                 ImGui::TextWrapped( "Developers: %s", MOSAIC_DEVELOPERS );
                 ImGui::Spacing();
