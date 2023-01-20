@@ -37,14 +37,15 @@ Just unzip the downloaded release and copy Mosaic app in your Application folder
 
 ## WINDOWS
 
-At the moment, Mosaic for windows is available as a release: https://github.com/d3cod3/Mosaic/releases, just download and run, or can be compiled using the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer, where you'll find a ```mosaic_windows_installer.sh``` script to run in a MSYS2 console. You'll find instructions for compiling in the repo readme.
+Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
+Just unzip the downloaded release and run it!
 
 
 # OF COMPATIBLE RELEASE
 
 ## 0.11.2 STABLE (official download from [OF site](https://openframeworks.cc/))
 > Compiled/tested with QTCreator on osx/linux/windows
-> Working on native VisualStudio Windows compiling...
+> Compiled on native VisualStudio on Windows
 
 If you want to build Mosaic, just download OF0.11.2 for your OS (osx, linux, windows) and follow the correspondent setup guide.
 
@@ -52,11 +53,11 @@ If you want to build Mosaic, just download OF0.11.2 for your OS (osx, linux, win
 
 ![Mosaic-Data-Flow-Diagram](https://github.com/d3cod3/Mosaic/raw/master/process/img/10_Mosaic-Data-Flow-Diagram.jpg)
 
-A very commonly used quote from Albert Einstein goes like this: « If I can't picture it, I can't understand it. ». Following that thought, we'll eventually enter the realm of visual thinking, where complex ideas can be communicated in a simple way.
+~~A very commonly used quote from Albert Einstein goes like this: « If I can't picture it, I can't understand it. »~~. A very commonly used quote from Henri Bergson goes like this: « The Eyes See Only What The Mind Is Prepared To Comprehend. » Following that thought, we'll eventually enter the realm of visual thinking, or better yet, the imagination realm, where complex ideas can be communicated in a simple way, or just the opposite.
 
 Mosaic is a visual thinking toolkit made by artists, for artists.
 
-[Emanuele Mazza](https://github.com/d3cod3) started the Mosaic project in 2018, in strict relation with the work of ART+TECHNOLOGY research group Laboluz from the Fine Art faculty of the Universidad Politécnica de Valéncia (Spain). From the very beginning, the source code was released on the Github development platform with a focus on making the code modular and simple to read, in order to encourage potentially interested coders in participating and collaborating on the project. Recently in 2020, digital artist [Daan de Lange](https://github.com/Daandelange) became a contributor of Mosaic code, actively participating in code development and restructuring.
+[Emanuele Mazza](https://github.com/d3cod3) started the Mosaic project in 2018, in strict relation with the work of ART+TECHNOLOGY research group Laboluz from the Fine Art faculty of the Universidad Politécnica de Valéncia (Spain). From the very beginning, the source code was released on the Github development platform with a focus on making the code modular and simple to read, in order to encourage potentially interested coders in participating and collaborating on the project. Recently in 2020, digital artist [Daan de Lange](https://github.com/Daandelange) became a contributor of Mosaic code, participating in code development and restructuring.
 
 Mosaic is a multi-platform livecoding programming/patching environment for creating real-time audio-visual compositions. It's principally designed for live needs, as can be teaching in class, live performing in an algorave, or running a generative audio-visual installation in a museum.
 It aims to empower artists, creative coders, scenographers and other creative technologists in their creative workflow.
@@ -201,6 +202,8 @@ Mosaic is open to anybody, contributions of any kind are welcome.
 
 # SCREENSHOTS
 
+![Mosaic 0.6.4_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/30_mosaicWireless.jpg)
+
 ![Mosaic 0.4.3_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/29_1979.jpg)
 
 ![Mosaic 0.4.0_beta](https://github.com/d3cod3/Mosaic/raw/master/process/img/25_transparent_machines.jpg)
@@ -237,4 +240,4 @@ Mosaic is a [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free
 
 The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
-Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs) and code from openframeworks all the included ofxAddons.
+Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [hap](https://github.com/Vidvox/hap), [snappy](https://github.com/google/snappy), [ffmpeg](https://github.com/FFmpeg/FFmpeg)  and code from openframeworks and all the included ofxAddons.
