@@ -238,6 +238,8 @@ All contributions are made under the [MIT License](https://opensource.org/licens
 
 Mosaic is a [FLOSS](https://www.gnu.org/philosophy/floss-and-foss.en.html), Free/Libre and Open Source Software.
 
+Mosaic is almost completely based on [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming) ofxaddon, if you like this software and are giving it a star, please consider giving another one at [ofxVisualProgramming](https://github.com/d3cod3/ofxVisualProgramming) repo.
+
 The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
 Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [hap](https://github.com/Vidvox/hap), [snappy](https://github.com/google/snappy), [ffmpeg](https://github.com/FFmpeg/FFmpeg)  and code from openframeworks and all the included ofxAddons.
