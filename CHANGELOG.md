@@ -1,5 +1,11 @@
 # Mosaic CHANGELOG
 
+### 0.6.5
+
+- **update** : added keyboard shortcut for most used objects
+- **bug fixing** : Fixed runtime errors when access on empty vectors
+- **code cleaning** : Lots of warning removal
+
 ### 0.6.4
 
 - **enhancement** : added sender and receiver objects, wireless data transport implemented
