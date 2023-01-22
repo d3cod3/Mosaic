@@ -572,12 +572,41 @@ void ofApp::drawImGuiInterface(){
                             if(it->second.at(j) != "audio device"){
                                 if(ImGui::MenuItem(it->second.at(j).c_str())){
                                     visualProgramming->addObject(it->second.at(j),ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
-
                                 }
                             }
                         }
                         ImGui::EndMenu();
                     }
+                }
+                // MOST WANTED
+                ImGui::Spacing();
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("bang",ofToString(shortcutFunc+"+1").c_str())){
+                    visualProgramming->addObject("bang",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("number",ofToString(shortcutFunc+"+2").c_str())){
+                    visualProgramming->addObject("number",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("comment",ofToString(shortcutFunc+"+3").c_str())){
+                    visualProgramming->addObject("comment",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("video viewer",ofToString(shortcutFunc+"+4").c_str())){
+                    visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("signal viewer",ofToString(shortcutFunc+"+5").c_str())){
+                    visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("audio analyzer",ofToString(shortcutFunc+"+6").c_str())){
+                    visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("lua script",ofToString(shortcutFunc+"+7").c_str())){
+                    visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("output window",ofToString(shortcutFunc+"+8").c_str())){
+                    visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
                 ImGui::EndMenu();
             }
@@ -1578,6 +1607,7 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 
+    // new patch ( MOD_KEY-n )
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
         visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
     // refresh/save actual editing script ( MOD_KEY-r )
@@ -1606,6 +1636,23 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // OSX: CMD-F, WIN/LINUX: CTRL-F    (FULLSCREEN)
     if(e.hasModifier(MOD_KEY) && e.keycode == 70){
         ofToggleFullscreen();
+    // most useful objects shortcuts
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 49){ // MOD_KEY 1
+        visualProgramming->addObject("bang",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 50){ // MOD_KEY 2
+        visualProgramming->addObject("number",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 51){ // MOD_KEY 3
+        visualProgramming->addObject("comment",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 52){ // MOD_KEY 4
+        visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 53){ // MOD_KEY 5
+        visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 54){ // MOD_KEY 6
+        visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 55){ // MOD_KEY 7
+        visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 56){ // MOD_KEY 8
+        visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }
 }
 
