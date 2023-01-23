@@ -16,16 +16,13 @@ ofxEasing				https://github.com/arturoc/ofxEasing				master
 ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
 ofxFft					https://github.com/kylemcdonald/ofxFft				master
 ofxJSON					https://github.com/jeffcrouse/ofxJSON				master
-ofxHapPlayer					https://github.com/d3cod3/ofxHapPlayer				master
 ofxImGui				https://github.com/d3cod3/ofxImGui					master
 ofxInfiniteCanvas		https://github.com/d3cod3/ofxInfiniteCanvas			master
-ofxLua					https://github.com/d3cod3/ofxLua					master
+ofxLua					https://github.com/danomatika/ofxLua					master
 ofxMidi					https://github.com/danomatika/ofxMidi				master
 ofxMtlMapping2D			https://github.com/d3cod3/ofxMtlMapping2D			master
 ofxNDI					https://github.com/d3cod3/ofxNDI					master
-ofxPython				https://github.com/d3cod3/ofxPython					master
 ofxPd					https://github.com/danomatika/ofxPd					master
-ofxPdExternals			https://github.com/d3cod3/ofxPdExternals			master
 ofxPDSP					https://github.com/d3cod3/ofxPDSP					master
 ofxSyphon					https://github.com/d3cod3/ofxSyphon					master
 ofxTimeline				https://github.com/d3cod3/ofxTimeline				master

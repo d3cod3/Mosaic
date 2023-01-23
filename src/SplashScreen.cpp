@@ -50,10 +50,14 @@ void SplashScreen::setup(){
 
     startTime = ofGetElapsedTimeMillis();
 
+    // load logo
+    logo.load("images/logo_1024_bw.png");
+
     // load background
     background.load("videos/splash_background.mp4");
 
     background.setLoopState(OF_LOOP_NONE);
+    background.setVolume(0.0f);
     background.play();
 
     splashWindow->makeCurrent();
@@ -75,13 +79,21 @@ void SplashScreen::draw(){
 
     ofSetColor(255);
     // draw background
-    background.draw(-40,0,splashWindow->getWidth()+80,splashWindow->getHeight());
+    background.draw(0,-60,splashWindow->getWidth(),splashWindow->getHeight()+120);
 
-    ofSetColor(255,255,255,66);
+    // draw info
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
+        // draw logo
+        ofSetColor(255,255,255,216);
+        logo.draw(20,10,256,256);
+        ofSetColor(20,20,20,229);
         font.drawStringAsShapes(VERSION_GRAPHIC,452,182);
         fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-360,splashWindow->getHeight()-200);
     }else{
+        // draw logo
+        ofSetColor(255,255,255,216);
+        logo.draw(20,10,128,128);
+        ofSetColor(20,20,20,229);
         font.drawStringAsShapes(VERSION_GRAPHIC,226,91);
         fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-180,splashWindow->getHeight()-100);
     }

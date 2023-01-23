@@ -36,10 +36,6 @@
 
 #include "config.h"
 
-#ifndef TARGET_WIN32
-    #include "ofxHapPlayer.h"
-#endif
-
 class SplashScreen : public ofBaseApp{
 
 public:
@@ -50,11 +46,8 @@ public:
 
     void mousePressed(int x, int y, int button);
 
-    #ifndef TARGET_WIN32
-        ofxHapPlayer    background;
-    #else
-        ofVideoPlayer   background;
-    #endif
+    ofVideoPlayer   background;
+    ofImage         logo;
 
     ofTrueTypeFont  font;
     ofTrueTypeFont  fontSmall;
