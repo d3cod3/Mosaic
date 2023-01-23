@@ -1221,7 +1221,7 @@ void ofApp::drawImGuiInterface(){
                     ImGui::Spacing();
 
                     if (ImGui::BeginTabBar("TabBar", ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)){
-                        for(int i=0;i<editedFilesNames.size();i++){
+                        for(int i=0;i<static_cast<int>(editedFilesNames.size());i++){
                             if (ImGui::BeginTabItem(editedFilesNames[i].c_str(), nullptr)){
 
                                 if(ImGui::IsItemClicked() || ImGui::IsItemActive()){
@@ -1514,6 +1514,12 @@ void ofApp::drawImGuiInterface(){
                 }
                 bool bDidSelectObject = false;
 
+                string tempFilter = filter.InputBuf;
+                if(tempFilter == ""){
+                    bApplyFilter = false;
+                    bIsFiltering = false;
+                }
+
                 ofxVPObjects::factory::objectCategories& objectsMatrix = ofxVPObjects::factory::getCategories();
                 for(ofxVPObjects::factory::objectCategories::iterator it = objectsMatrix.begin(); it != objectsMatrix.end(); ++it ){
                     if(!bIsFiltering){
@@ -1619,8 +1625,6 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     // find/replace inside current script ( MOD_KEY-s )
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
         codeEditors[editedFilesNames[actualCodeEditor]].Find();
-    }else if(e.keycode == 257){
-        //createSearchedObject = true;
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
@@ -1636,6 +1640,9 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // OSX: CMD-F, WIN/LINUX: CTRL-F    (FULLSCREEN)
     if(e.hasModifier(MOD_KEY) && e.keycode == 70){
         ofToggleFullscreen();
+    // add object from right click menu with enter
+    }else if(e.keycode == 257){
+        createSearchedObject = true;
     // most useful objects shortcuts
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 49){ // MOD_KEY 1
         visualProgramming->addObject("bang",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
