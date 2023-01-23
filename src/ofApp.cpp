@@ -1617,13 +1617,13 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
         visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
     // refresh/save actual editing script ( MOD_KEY-r )
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 82){
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 82 && isCodeEditorON && !codeEditors.empty()){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
     // find/replace inside current script ( MOD_KEY-s )
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83 && isCodeEditorON && !codeEditors.empty()){
         codeEditors[editedFilesNames[actualCodeEditor]].Find();
     }
 
