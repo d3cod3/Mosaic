@@ -184,21 +184,6 @@ public:
 private:
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
 
-    ofxFFmpegRecorder                   recorder;
-    ofxFastFboReader                    reader;
-    ofFbo                               captureFbo;
-    ofPixels                            capturePix;
-    string                              recordFilepath;
-    string                              recButtonLabel;
-    string                              actualSubtitle;
-    bool                                exportVideoFlag;
-    bool                                showSubtitler;
-
-    ofVec2f                             lastclickPos;
-    float                               mouseClickRadius;
-    bool                                showingClickAnimation;
-    bool                                showMouseOnRec;
-
     string                              lastScreenshot;
     bool                                takeScreenshot;
     bool                                saveNewScreenshot;

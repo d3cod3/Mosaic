@@ -138,11 +138,6 @@ void ofApp::setup(){
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
-    // VIDEO EXPORTER ( documenting patches, tutorials, etc...)
-    recordFilepath = "";
-    exportVideoFlag = false;
-    recButtonLabel = "REC";
-
     // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
     if(isRetina){
         subtitlesParagraph.init(MAIN_FONT,72);
@@ -153,23 +148,6 @@ void ofApp::setup(){
     }
     subtitlesParagraph.setAlignment(ofxParagraph::ALIGN_CENTER);
     subtitlesParagraph.setMaxLines(2);
-
-    actualSubtitle          = "";
-    showSubtitler           = false;
-
-    showingClickAnimation   = false;
-    mouseClickRadius        = 0.0f;
-    showMouseOnRec          = false;
-
-    captureFbo.allocate( ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
-    recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
-    recorder.setOverWrite(true);
-
-#if defined(TARGET_OSX)
-    recorder.setFFmpegPath(ofToDataPath("ffmpeg/osx/ffmpeg",true));
-#elif defined(TARGET_WIN32)
-    recorder.setFFmpegPath(ofToDataPath("ffmpeg/win/ffmpeg.exe",true));
-#endif
 
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
@@ -340,23 +318,6 @@ void ofApp::update(){
         }
     }
 
-    // Video Recording
-    if(recorder.isRecording()) {
-        static ofImage recordFrame;
-        recordFrame.grabScreen(ofGetWindowRect().x,ofGetWindowRect().y,ofGetWindowWidth(),ofGetWindowHeight());
-
-        captureFbo.begin();
-        ofClear(0,0,0,255);
-        ofSetColor(255);
-        recordFrame.draw(0,0,ofGetWindowWidth(),ofGetWindowHeight());
-        captureFbo.end();
-
-        reader.readToPixels(captureFbo, capturePix,OF_IMAGE_COLOR); // ofxFastFboReader
-        if(capturePix.getWidth() > 0 && capturePix.getHeight() > 0) {
-            recorder.addFrame(capturePix);
-        }
-    }
-
     #ifdef MOSAIC_ENABLE_PROFILING
     TracyPlotConfig("MosaicFPS", tracy::PlotFormatType::Number);
     TracyPlot("MosaicFPS", ofGetFrameRate());
@@ -430,30 +391,6 @@ void ofApp::draw(){
     visualProgramming->font->drawString(tmpMsg,100*retinaScale,ofGetHeight() - (6*retinaScale));
     // ------------------------------------------------------------------------------------------------------
 
-    // subtitler
-    if(showSubtitler){
-        ofSetColor(0,0,0,100);
-        ofDrawRectangle(0,ofGetWindowHeight()-(166*retinaScale),ofGetWindowWidth(),147*retinaScale);
-        ofSetColor(245);
-        subtitlesParagraph.setText(actualSubtitle);
-        subtitlesParagraph.setWidth(ofGetWindowWidth());
-        subtitlesParagraph.setPosition(0,ofGetWindowHeight()-110*retinaScale);
-        subtitlesParagraph.draw();
-    }
-
-    // mouse click on recording
-    if(showMouseOnRec && showingClickAnimation){ // && recorder.isRecording()
-        if(mouseClickRadius < 15.0f*retinaScale){
-            mouseClickRadius += 1.0f*retinaScale;
-        }else{
-            showingClickAnimation = false;
-        }
-        ofNoFill();
-        ofSetLineWidth(4);
-        ofSetColor(182,30,41,250);
-        ofDrawCircle(lastclickPos.x,lastclickPos.y,mouseClickRadius);
-    }
-
     #ifdef MOSAIC_ENABLE_PROFILING
     FrameMark; // Tracy end of frame
     #endif
@@ -493,7 +430,6 @@ void ofApp::drawImGuiInterface(){
             savePatchAs         = false;
             openAutoloadPatch   = false;
             takeScreenshot      = false;
-            exportVideoFlag     = false;
 
             if(ImGui::BeginMenu( "File")){
                 if(ImGui::MenuItem( "New patch",ofToString(shortcutFunc+"+N").c_str())){
@@ -705,71 +641,6 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::DragInt("FPS",&mosaicFPS,1.0f,1)){
                     setMosaicFrameRate(mosaicFPS);
                 }
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Separator();
-                ImGui::Spacing();
-
-                ImGui::Spacing();
-                ImGui::Text("Desktop Recorder");
-
-                ImGui::Spacing();
-                if(ImGui::Button(ICON_FA_FILE_UPLOAD)){
-                    exportVideoFlag = true;
-                }
-                ImGui::SameLine();
-                if(recordFilepath == ""){
-                    ImGui::Text("Select file...");
-                }else{
-                    ofFile tempFilename(recordFilepath);
-                    ImGui::Text("%s",tempFilename.getFileName().c_str());
-                    if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s",tempFilename.getAbsolutePath().c_str());
-                }
-
-                ImGui::Spacing();
-                ImGui::PushStyleColor(ImGuiCol_Button, VHS_RED);
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_RED_OVER);
-                ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_RED_OVER);
-                char tmp[256];
-                sprintf_s(tmp,"%s %s",ICON_FA_CIRCLE, recButtonLabel.c_str());
-                if(ImGui::Button(tmp,ImVec2(-1,26*retinaScale))){
-                    if(recordFilepath != ""){
-                        if(!recorder.isRecording()){
-                            captureFbo.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGB );
-                            recorder.setup(true, false, glm::vec2(ofGetWindowWidth(), ofGetWindowHeight())); // record video only
-                            ofSetVerticalSync(false);
-                            recorder.setOverWrite(true);
-                            recorder.setVideoCodec("hevc"); // h265
-                            recorder.setBitRate(20000);
-                            recorder.startCustomRecord();
-                            recButtonLabel = "STOP";
-                            ofLog(OF_LOG_NOTICE,"START RECORDING MOSAIC WINDOW");
-                        }else if(recorder.isRecording()){
-                            ofSetVerticalSync(true);
-                            recorder.stop();
-                            recButtonLabel = "REC";
-                            ofLog(OF_LOG_NOTICE,"FINISHED RECORDING MOSAIC WINDOW");
-                        }
-                    }else{
-                        ofLog(OF_LOG_ERROR,"SELECT FILE BEFORE RECORD VIDEO!");
-                    }
-                }
-                ImGui::PopStyleColor(3);
-
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Separator();
-                ImGui::Spacing();
-
-                ImGui::Checkbox("Show mouse clicks",&showMouseOnRec);
-                ImGui::Spacing();
-
-                ImGui::Checkbox("Subtitler",&showSubtitler);
-                ImGui::Spacing();
-                ImGui::PushItemWidth(-1);
-                ImGui::InputText("##subtitle",&actualSubtitle);
-                //ImGui::InputTextMultiline("##subtitle",&actualSubtitle,ImVec2(-1,ImGui::GetFontSize()*3));
-                ImGui::PopItemWidth();
 
                 ImGui::Spacing();
                 ImGui::Separator();
@@ -831,7 +702,6 @@ void ofApp::drawImGuiInterface(){
             if(savePatchAs) ImGui::OpenPopup("Save patch");
             if(openAutoloadPatch) ImGui::OpenPopup("Set autoload patch");
             if(takeScreenshot) ImGui::OpenPopup("Take screenshot");
-            if(exportVideoFlag) ImGui::OpenPopup("Record video");
 
             // open patch
             if( fileDialog.showFileDialog("Open patch", imgui_addons::ImGuiFileBrowser::DialogMode::OPEN, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".xml") ){
@@ -891,39 +761,6 @@ void ofApp::drawImGuiInterface(){
                 saveNewScreenshot = true;
                 resetScreenshotTime = ofGetElapsedTimeMillis();
             }
-
-            // record video
-            #if defined(TARGET_WIN32)
-            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".avi";
-            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".avi", newRecordVideoName) ){
-                ofFile file(fileDialog.selected_path);
-                recordFilepath = file.getAbsolutePath();
-                // check extension
-                if(fileDialog.ext != ".avi"){
-                    recordFilepath += ".avi";
-                }
-                recorder.setOutputPath(recordFilepath);
-                recorder.setVideoCodec("hevc");
-                // prepare blank video file
-                recorder.startCustomRecord();
-                recorder.stop();
-            }
-            #else
-            string newRecordVideoName = "mosaicVideoRecorder_"+ofGetTimestampString("%y%m%d")+".mp4";
-            if( fileDialog.showFileDialog("Record video", imgui_addons::ImGuiFileBrowser::DialogMode::SAVE, ImVec2(FILE_DIALOG_WIDTH*retinaScale, FILE_DIALOG_HEIGHT*retinaScale), ".mp4", newRecordVideoName) ){
-                ofFile file(fileDialog.selected_path);
-                recordFilepath = file.getAbsolutePath();
-                // check extension
-                if(fileDialog.ext != ".mp4"){
-                    recordFilepath += ".mp4";
-                }
-                recorder.setOutputPath(recordFilepath);
-                recorder.setVideoCodec("hevc");
-                // prepare blank video file
-                recorder.startCustomRecord();
-                recorder.stop();
-            }
-            #endif
 
         }
 
@@ -1665,16 +1502,11 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+    unusedArgs(x,y);
+
     if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
         showRightClickMenu = true;
     }
-
-    if(showMouseOnRec){
-        lastclickPos.set(x,y);
-        mouseClickRadius = 0.0f;
-        showingClickAnimation = true;
-    }
-
 }
 
 //--------------------------------------------------------------
