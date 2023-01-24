@@ -2,6 +2,8 @@
 
 ### 0.6.5
 
+- **update** : removed Mosaic window video exporter due to cross-compatibility issues
+- **bug fixing** : fixed video exporter object
 - **update** : switched from ofxHapPlayer to native OF video player due to some incompatibility issues with of0.11.2
 - **update** : added keyboard shortcut for most used objects
 - **bug fixing** : Fixed runtime errors when access on empty vectors
