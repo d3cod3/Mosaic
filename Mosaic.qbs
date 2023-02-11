@@ -59,8 +59,9 @@ Project{
         // defines are passed as -D to the compiler, and can be checked with #ifdef or #if in the code
         of.defines: {
             var defs = []; // Enter global flags here
-            // defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
-            defs = defs.concat([]);
+            defs = defs.concat([]); // This does nothing, I guess it fixes something ?
+            //defs = defs.concat(['IMGUI_DISABLE_OBSOLETE_FUNCTIONS']); // Uncomment to check for depreciated imgui usage
+            //defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
             if(qbs.configurationName.contains('Debug')){
                 defs = defs.concat(['NDEBUG']);
             }else if(qbs.configurationName.contains('Release')){

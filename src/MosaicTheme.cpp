@@ -60,6 +60,7 @@ void MosaicTheme::setup(){
 
     ImGuiStyle* style = &ImGui::GetStyle();
 
+    // Prefer to use the original imgui order for easier syncing new style variables
     style->Alpha                       = 1.0f;  // Global alpha applies to everything in Dear ImGui.
     style->WindowPadding               = ImVec2(8, 8);  // Padding within a window.
     style->WindowRounding              = 4.0f;  // Radius of window corners rounding. Set to 0.0f to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.
