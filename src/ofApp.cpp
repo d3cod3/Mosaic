@@ -1645,9 +1645,32 @@ void ofApp::initDataFolderFromBundle(){
     CFRelease(resourcePath);
     CFRelease(resourceUrl);
 
-    _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
-    _bundleExamplesPath = *appPathStr + "/Contents/examples/";
-    _bundlePluginsPath = *appPathStr + "/Contents/plugins/";
+    // GIT CLONE CUSTOM BUILD ?
+    // Fallback on MosaicRepo/bin/data if Mosaic.app/Contents/Ressources has not been copied for deployment (custom GIT compilers on Qt-creator)
+    // This part could be removed when the deployment scripts are ready.
+    if(
+        // No ressources folder (only distributed builds have these)
+        !ofDirectory::doesDirectoryExist(*appPathStr + "/" + *resourcePathStr + "/") &&
+        // App is in a "bin" folder and there's a "data" folder
+        // (MosaicGit/bin/data and MosaicGit/bin/Mosaic_xxx.app/Contents/MacOs/mosaicBinary)
+        ofDirectory::doesDirectoryExist(*appPathStr + "/../../bin/data/")
+    ){
+        std::string gitBinPath = ofDirectory(*appPathStr + "/../../bin/").getAbsolutePath();
+        ofLog(OF_LOG_VERBOSE, "Mosaic Build: Detected a custom git build application, setting application paths accordingly.");
+        _bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
+        _bundleExamplesPath = gitBinPath + "/examples/";
+        _bundlePluginsPath = gitBinPath + "/plugins/";
+    }
+    // DISTRIBUTED RELEASE BINARY
+    else {
+        ofLog(OF_LOG_VERBOSE, "Mosaic Build: Detected a distributed release application.");
+        _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
+        _bundleExamplesPath = *appPathStr + "/Contents/examples/";
+        _bundlePluginsPath = *appPathStr + "/Contents/plugins/";
+    }
+    ofLog(OF_LOG_VERBOSE, "Mosaic binary data path:     %s", _bundleDataPath.c_str());
+    ofLog(OF_LOG_VERBOSE, "Mosaic binary examples path: %s", _bundleExamplesPath.c_str());
+    ofLog(OF_LOG_VERBOSE, "Mosaic binary plugins path:  %s", _bundlePluginsPath.c_str());
 
     const char *homeDir = getenv("HOME");
 
@@ -1679,8 +1702,8 @@ void ofApp::initDataFolderFromBundle(){
     ofDirectory mosaicDir;
 
     // examples directory
-    if(!mosaicDir.doesDirectoryExist(mosaicExamplesPath)){
-        mosaicDir.createDirectory(mosaicExamplesPath,true,true);
+    if(!ofDirectory::doesDirectoryExist(mosaicExamplesPath)){
+        ofDirectory::createDirectory(mosaicExamplesPath,true,true);
 
         std::filesystem::path dataPath(_bundleExamplesPath.c_str());
 
@@ -1692,14 +1715,14 @@ void ofApp::initDataFolderFromBundle(){
         ofFile relFile(releasePath);
 
         if(relFile.exists()){
-            string actualRel = relFile.readToBuffer().getText();
+            string actualRel = relFile.readToBuffer().getLines().begin().asString();
 
             if(VERSION != actualRel){
                 std::filesystem::path dataPath(_bundleExamplesPath.c_str());
 
                 // remove previous release examples folder
-                mosaicDir.removeDirectory(mosaicExamplesPath,true);
-                mosaicDir.createDirectory(mosaicExamplesPath,true,true);
+                ofDirectory::removeDirectory(mosaicExamplesPath,true);
+                ofDirectory::createDirectory(mosaicExamplesPath,true,true);
 
                 ofDirectory dataDir(dataPath);
                 dataDir.copyTo(mosaicExamplesPath,true,true);
@@ -1709,8 +1732,8 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     // Create data directory
-    if(!mosaicDir.doesDirectoryExist(mosaicPath)){
-        mosaicDir.createDirectory(mosaicPath,true,true);
+    if(!ofDirectory::doesDirectoryExist(mosaicPath)){
+        ofDirectory::createDirectory(mosaicPath,true,true);
 
         std::filesystem::path dataPath(_bundleDataPath.c_str());
 
@@ -1724,29 +1747,28 @@ void ofApp::initDataFolderFromBundle(){
 
         string actualRel = "";
         if(relFile.exists()){
-            actualRel = relFile.readToBuffer().getText();
-
-            std::stringstream ss;
-            ss << "Your Mosaic data folder was created by Mosaic version " << actualRel << ", while currently running Mosaic " VERSION ". Replacing the previous data folder with the newest one.";
-            ofLog(OF_LOG_NOTICE, ss.str());
+            actualRel = relFile.readToBuffer().getLines().begin().asString();
+            ofLog(OF_LOG_VERBOSE, "Mosaic user data path: %s (saved with version %s, Mosaic is %s)", _MosaicDataPath.c_str(), actualRel.c_str(), VERSION);
         }else{
-            ofLog(OF_LOG_NOTICE, "release.txt was not found, Mosaic could not verify compatibility with your data folder.");
+            ofLog(OF_LOG_WARNING, "release.txt was not found, Mosaic could not verify compatibility with your data folder.");
             actualRel = "unknown"; // Note: setting this will trigger a data folder update
         }
 
         // If versions differ, copy data folder again (use a fresh one)
         if(VERSION != actualRel){
-            ofLog(OF_LOG_NOTICE, "Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace.");
+            ofLog(OF_LOG_NOTICE, "Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace to ensure full compatibility.");
             std::filesystem::path dataPath(_bundleDataPath.c_str());
 
             // Remove previous release data folder
-            mosaicDir.removeDirectory(mosaicPath,true);
-            mosaicDir.createDirectory(mosaicPath,true,true);
+            ofDirectory::removeDirectory(mosaicPath,true);
+            ofDirectory::createDirectory(mosaicPath,true,true);
 
             // Copy the new one from app bundle
             ofDirectory dataDir(dataPath);
+
             // Copy files if originals exists
             if( dataDir.exists() ){
+                ofLog(OF_LOG_NOTICE, "Copying data folder from  %s to %s.", dataDir.getAbsolutePath().c_str(), mosaicPath.c_str());
                 dataDir.copyTo(mosaicPath,true,true);
             }else {
                 ofLog(OF_LOG_ERROR, "Mosaic could not find a clean data folder to work with and will thus be unable to initialize correctly !");
@@ -1757,8 +1779,8 @@ void ofApp::initDataFolderFromBundle(){
     }
 
     // plugins directory
-    if(!mosaicDir.doesDirectoryExist(mosaicPluginsPath)){
-        mosaicDir.createDirectory(mosaicPluginsPath,true,true);
+    if(!ofDirectory::doesDirectoryExist(mosaicPluginsPath)){
+        ofDirectory::createDirectory(mosaicPluginsPath,true,true);
 
         std::filesystem::path dataPath(_bundlePluginsPath.c_str());
 
