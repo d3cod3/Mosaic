@@ -95,11 +95,11 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(isRetina){
-        mainMenu.addFont(absPath1.c_str(),26.0f,&font_config, nullptr, true); // GUI font
         mainMenu.addFont(absPath2.c_str(),30.0f,&font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),26.0f,&font_config, nullptr, true); // GUI font
     }else{
-        mainMenu.addFont(absPath1.c_str(),14.0f, &font_config, nullptr, true); // GUI font
         mainMenu.addFont(absPath2.c_str(),18.0f, &font_config); // code editor font
+        mainMenu.addFont(absPath1.c_str(),14.0f, &font_config, nullptr, true); // GUI font
     }
 
     // merge in icons from Font Awesome
