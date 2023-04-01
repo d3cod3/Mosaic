@@ -350,6 +350,8 @@ void ofApp::draw(){
         // Draw to vp Gui
         visualProgramming->draw();
 
+        mainMenu.end();
+
         // Manually render ImGui once ofxVP rendered to it.
         mainMenu.draw();
     }
@@ -1419,7 +1421,7 @@ void ofApp::drawImGuiInterface(){
 
     }
 
-    mainMenu.end();
+    //mainMenu.end();
 }
 
 //--------------------------------------------------------------

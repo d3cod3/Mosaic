@@ -148,15 +148,15 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_TabActive] = ImVec4(col_win_backg, 0.7f);
 
     // New colors to be customized
-    //style->Colors[ImGuiCol_TabUnfocused]            = ImVec4();
-    //style->Colors[ImGuiCol_TabUnfocusedActive]      = ImVec4();
+    style->Colors[ImGuiCol_TabUnfocused]            = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TabUnfocusedActive]      = ImVec4(col_main_head, .7f);
     style->Colors[ImGuiCol_DockingPreview]          = ImVec4(col_main_head, .7f);
-    //style->Colors[ImGuiCol_DockingEmptyBg]          = ImVec4();
-    //style->Colors[ImGuiCol_TableHeaderBg]           = ImVec4();
-    //style->Colors[ImGuiCol_TableBorderStrong]       = ImVec4();
-    //style->Colors[ImGuiCol_TableBorderLight]        = ImVec4();
-    //style->Colors[ImGuiCol_TableRowBg]              = ImVec4();
-    //style->Colors[ImGuiCol_TableRowBgAlt]           = ImVec4();
+    style->Colors[ImGuiCol_DockingEmptyBg]          = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TableHeaderBg]           = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TableBorderStrong]       = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TableBorderLight]        = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TableRowBg]              = ImVec4(col_main_head, .7f);
+    style->Colors[ImGuiCol_TableRowBgAlt]           = ImVec4(col_main_head, .7f);
 
 }
 
@@ -181,7 +181,7 @@ bool MosaicTheme::identical(const char* buf, const char* item){
     size_t item_size = strlen(item);
     //Check if the item length is shorter or equal --> exclude
     if (buf_size >= item_size) return false;
-    for (int i = 0; i < strlen(buf); ++i)
+    for (size_t i = 0; i < strlen(buf); ++i)
         // set the current pos if matching or return the pos if not
         if (buf[i] != item[i]) return false;
     // Complete match
@@ -209,7 +209,7 @@ int MosaicTheme::propose(ImGuiInputTextCallbackData* data){
     }
 
     if(ofGetKeyPressed(OF_KEY_TAB)){
-        for (int i = 0; i < length; i++) {
+        for (size_t i = 0; i < length; i++) {
             if (identical(data->Buf, items[i])) {
                 const int cursor = data->CursorPos;
                 //Insert the first match

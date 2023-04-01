@@ -42,4 +42,3 @@
 #include "SynchTimer.h"
 #include "PathWatcher.h"
 
-#include "core/imgui_stdlib.h"

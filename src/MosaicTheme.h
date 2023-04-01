@@ -34,6 +34,7 @@
 
 #include "BaseTheme.h"
 #include "ofMain.h"
+#include "ofxImGui.h"
 
 class MosaicTheme : public ofxImGui::BaseTheme{
 
