@@ -41,4 +41,3 @@
 #include "TextEditor.h"
 #include "SynchTimer.h"
 #include "PathWatcher.h"
-
