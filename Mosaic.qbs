@@ -60,6 +60,9 @@ Project{
         of.defines: {
             var defs = []; // Enter global flags here
             defs = defs.concat([]); // This does nothing, I guess it fixes something ?
+            defs = defs.concat(['OFXIMGUI_GLFW_EVENTS_REPLACE_OF_CALLBACKS=1']);    // Replace GFLW callbacks (Default value)
+            defs = defs.concat(['OFXIMGUI_GLFW_FIX_MULTICONTEXT_PRIMARY_VP=0']);    // Disable multicontext tweaks
+            defs = defs.concat(['OFXIMGUI_GLFW_FIX_MULTICONTEXT_SECONDARY_VP=0']);  // Disable multicontext tweaks (bis)
             //defs = defs.concat(['IMGUI_DISABLE_OBSOLETE_FUNCTIONS']); // Uncomment to check for depreciated imgui usage
             //defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
             if(qbs.configurationName.contains('Debug')){
