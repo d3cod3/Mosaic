@@ -115,7 +115,7 @@ void ofApp::setup(){
     // Setup ofxVisualProgramming
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setRetina(isRetina);
-    visualProgramming->setup( &mainMenu, ofToString(VERSION_GRAPHIC) );
+    visualProgramming->setup( ofToString(VERSION_GRAPHIC) );
     visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
     patchToLoad                 = "";
@@ -334,12 +334,16 @@ void ofApp::draw(){
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     if(!visualProgramming->bLoadingNewPatch){
+        // Begin composing the gui
+        mainMenu.begin();
+
         // draw main GUI interface
         drawImGuiInterface();
 
         // Draw to vp Gui
         visualProgramming->draw();
 
+        // Mostly an empty call, but needed in case it becomes not shared anymore.
         mainMenu.end();
 
         // Manually render ImGui once ofxVP rendered to it.
@@ -383,7 +387,6 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::drawImGuiInterface(){
 
-    mainMenu.begin();
 
     {
 
@@ -1411,7 +1414,6 @@ void ofApp::drawImGuiInterface(){
 
     }
 
-    //mainMenu.end();
 }
 
 //--------------------------------------------------------------
