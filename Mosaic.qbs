@@ -50,10 +50,6 @@ Project{
                 flags = flags.concat(['-g', '-O2']); // Optimize to have release performance, but with exporting symbols for the profiler.
             }
 
-            if(qbs.hostOS.contains("linux")){
-                flags = flags.concat(['-std=c++17']);
-            }
-
             return flags;
         }
 
