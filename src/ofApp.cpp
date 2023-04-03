@@ -696,7 +696,7 @@ void ofApp::drawImGuiInterface(){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
                         ofxXmlSettings XML;
-                        if (XML.loadFile(file.getAbsolutePath())){
+                        if (XML.load(file.getAbsolutePath())){
                             if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                                 patchToLoad = file.getAbsolutePath();
                                 loadNewPatch = true;
@@ -715,7 +715,7 @@ void ofApp::drawImGuiInterface(){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
                         ofxXmlSettings XML;
-                        if (XML.loadFile(file.getAbsolutePath())){
+                        if (XML.load(file.getAbsolutePath())){
                             if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                                 autoloadPatchFile = file.getAbsolutePath();
                                 _apf.open(autoloadPatchFile);
@@ -2034,7 +2034,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
         if(fileExtension == "XML") {
             ofxXmlSettings XML;
 
-            if (XML.loadFile(file.getAbsolutePath())){
+            if (XML.load(file.getAbsolutePath())){
                 if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
@@ -2118,7 +2118,7 @@ void ofApp::initScriptLanguages(){
 
     ofxXmlSettings XML;
 
-    if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
+    if (XML.load("livecoding/lua_mosaic_language.xml")){
         int totalMethods = XML.getNumTags("method");
 
         // Load all the lua_of_mosaic methods
