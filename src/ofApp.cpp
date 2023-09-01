@@ -99,8 +99,8 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),30.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),26.0f,&font_config); // GUI font
+        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),36.0f,&font_config); // code editor font
+        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),28.0f,&font_config); // GUI font
     }else{
         io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
         io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
@@ -110,7 +110,7 @@ void ofApp::setup(){
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 24.0f, &icons_config, icons_ranges );
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 28.0f, &icons_config, icons_ranges );
     }else{
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
     }
