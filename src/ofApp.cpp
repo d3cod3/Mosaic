@@ -138,17 +138,6 @@ void ofApp::setup(){
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
     mosaicLogoID = mainMenu.loadImage(*mosaicLogo);
 
-    // PATCH WINDOW ( MAIN ) VIDEO EXPORTER
-    if(isRetina){
-        subtitlesParagraph.init(MAIN_FONT,72);
-        subtitlesParagraph.setSpacing(72*0.7f);
-    }else{
-        subtitlesParagraph.init(MAIN_FONT,42);
-        subtitlesParagraph.setSpacing(42*0.7f);
-    }
-    subtitlesParagraph.setAlignment(ofxParagraph::ALIGN_CENTER);
-    subtitlesParagraph.setMaxLines(2);
-
     // CODE EDITOR
     luaLang = TextEditor::LanguageDefinition::Lua();
     glslLang = TextEditor::LanguageDefinition::GLSL();
