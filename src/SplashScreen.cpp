@@ -60,12 +60,15 @@ void SplashScreen::setup(){
     background.setVolume(0.0f);
     background.play();
 
-    splashWindow->makeCurrent();
 }
 
 //--------------------------------------------------------------
 void SplashScreen::update(){
     background.update();
+
+    if(ofGetElapsedTimeMillis()-startTime > 200 && ofGetElapsedTimeMillis()-startTime < 500){
+        glfwFocusWindow(splashWindow->getGLFWWindow());
+    }
 
     if(ofGetElapsedTimeMillis()-startTime > 4800){
         splashWindow->setWindowShouldClose();
@@ -79,7 +82,7 @@ void SplashScreen::draw(){
 
     ofSetColor(255);
     // draw background
-    background.draw(0,-60,splashWindow->getWidth(),splashWindow->getHeight()+120);
+    background.draw(-60,-60,splashWindow->getWidth()+120,splashWindow->getHeight()+120);
 
     // draw info
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN

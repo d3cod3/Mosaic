@@ -1853,7 +1853,7 @@ void ofApp::initDataFolderFromBundle(){
         ofDirectory dataDir(dataPath);
         dataDir.copyTo(mosaicPath,true,true);
     }else{
-        string relfilepath = _MosaicDataPath+"/release.txt";
+        /*string relfilepath = _MosaicDataPath+"/release.txt";
         std::filesystem::path releasePath(relfilepath.c_str());
         ofFile relFile(releasePath);
 
@@ -1871,7 +1871,7 @@ void ofApp::initDataFolderFromBundle(){
                 ofDirectory dataDir(dataPath);
                 dataDir.copyTo(mosaicPath,true,true);
             }
-        }
+        }*/
     }
 
     // plugins directory
