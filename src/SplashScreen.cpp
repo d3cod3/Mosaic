@@ -82,7 +82,7 @@ void SplashScreen::draw(){
 
     ofSetColor(255);
     // draw background
-    background.draw(-60,-60,splashWindow->getWidth()+120,splashWindow->getHeight()+120);
+    background.draw(-80,-60,splashWindow->getWidth()+160,splashWindow->getHeight()+120);
 
     // draw info
     if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
