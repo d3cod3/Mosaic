@@ -73,10 +73,17 @@ void ofApp::setup(){
     mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
     ofSetLoggerChannel(mosaicLoggerChannel);
 
+    std::string tmp_msg = "";
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
-    ofLog(OF_LOG_NOTICE," an open project by Emanuele Mazza aka n3m3da");
+    tmp_msg = " an open project by Emanuele Mazza aka n3m3da";
+    ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
     ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
-    ofLog(OF_LOG_NOTICE,"This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.\nAs live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,\naim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, GLSL and BASH).\n");
+    tmp_msg = "This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.";
+    ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
+    tmp_msg = "As live-coding scripting languages offer a high level coding environment, ofxVisualProgramming and the Mosaic Project as his parent layer container,";
+    ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
+    tmp_msg = "aim at a high level visual-programming environment, with embedded multi scripting languages availability (Lua, GLSL and BASH).\n";
+    ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
 
     // Visual Programming Environment Load
 
@@ -699,7 +706,12 @@ void ofApp::drawImGuiInterface(){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
                         ofxXmlSettings XML;
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
                         if (XML.loadFile(file.getAbsolutePath())){
+#else
+                        if (XML.load(file.getAbsolutePath())){
+#endif
+
                             if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                                 patchToLoad = file.getAbsolutePath();
                                 loadNewPatch = true;
@@ -718,7 +730,11 @@ void ofApp::drawImGuiInterface(){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
                         ofxXmlSettings XML;
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
                         if (XML.loadFile(file.getAbsolutePath())){
+#else
+                        if (XML.load(file.getAbsolutePath())){
+#endif
                             if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                                 autoloadPatchFile = file.getAbsolutePath();
                                 _apf.open(autoloadPatchFile);
@@ -1905,10 +1921,12 @@ bool ofApp::checkInternetReachability(){
     ofHttpResponse tempResp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
 
     if(tempResp.status == 200){
-        ofLog(OF_LOG_NOTICE,"[verbose] INTERNET IS AVAILABLE!");
+        string tmpstr = "[verbose] INTERNET IS AVAILABLE!";
+        ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
         return true;
     }else{
-        ofLog(OF_LOG_ERROR,"INTERNET IS NOT AVAILABLE!");
+        string tmpstr = "INTERNET IS NOT AVAILABLE!";
+        ofLog(OF_LOG_ERROR,"%s",tmpstr.c_str());
         return false;
     }
 
@@ -1916,13 +1934,15 @@ bool ofApp::checkInternetReachability(){
 
 //--------------------------------------------------------------
 void ofApp::checkForUpdates(){
-    ofLog(OF_LOG_NOTICE,"CHECKING FOR MOSAIC UPDATES...");
+    string tmpstr = "CHECKING FOR MOSAIC UPDATES...";
+    ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
 
     string actualVersion = VERSION;
     if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) ) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) == ofToInt(string(1,lastRelease.at(2))) && ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4))) )){
-        ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC "+lastRelease+" UPDATE AVAILABLE!");
+        ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC %s UPDATE AVAILABLE!",lastRelease.c_str());
     }else{
-        ofLog(OF_LOG_NOTICE,"NO NEW MOSAIC UPDATE AVAILABLE!");
+        tmpstr = "NO NEW MOSAIC UPDATE AVAILABLE!";
+        ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
     }
 
 }
@@ -2038,7 +2058,11 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
         if(fileExtension == "XML") {
             ofxXmlSettings XML;
 
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
             if (XML.loadFile(file.getAbsolutePath())){
+#else
+            if (XML.load(file.getAbsolutePath())){
+#endif
                 if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
@@ -2122,7 +2146,12 @@ void ofApp::initScriptLanguages(){
 
     ofxXmlSettings XML;
 
+
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
     if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
+#else
+    if (XML.load("livecoding/lua_mosaic_language.xml")){
+#endif
         int totalMethods = XML.getNumTags("method");
 
         // Load all the lua_of_mosaic methods
