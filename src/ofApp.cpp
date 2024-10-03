@@ -645,6 +645,13 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::Button("Screenshot", ImVec2(-1,26*retinaScale))){
                     takeScreenshot = true;
                 }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::Button("Reset Canvas", ImVec2(-1,26*retinaScale))){
+                    visualProgramming->resetCanvas();
+                }
                 ImGui::EndMenu();
             }
 
@@ -1661,14 +1668,14 @@ void ofApp::initDataFolderFromBundle(){
         ofDirectory::doesDirectoryExist(*appPathStr + "/../../bin/data/")
     ){
         std::string gitBinPath = ofDirectory(*appPathStr + "/../../bin/").getAbsolutePath();
-        ofLog(OF_LOG_VERBOSE, "Mosaic Build: Detected a custom git build application, setting application paths accordingly.");
+        ofLog(OF_LOG_VERBOSE, "%s","Mosaic Build: Detected a custom git build application, setting application paths accordingly.");
         _bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
         _bundleExamplesPath = gitBinPath + "/examples/";
         _bundlePluginsPath = gitBinPath + "/plugins/";
     }
     // DISTRIBUTED RELEASE BINARY
     else {
-        ofLog(OF_LOG_VERBOSE, "Mosaic Build: Detected a distributed release application.");
+        ofLog(OF_LOG_VERBOSE, "%s","Mosaic Build: Detected a distributed release application.");
         _bundleDataPath = *appPathStr + "/" + *resourcePathStr + "/"; // the absolute path to the resources folder
         _bundleExamplesPath = *appPathStr + "/Contents/examples/";
         _bundlePluginsPath = *appPathStr + "/Contents/plugins/";
@@ -1755,13 +1762,13 @@ void ofApp::initDataFolderFromBundle(){
             actualRel = relFile.readToBuffer().getLines().begin().asString();
             ofLog(OF_LOG_VERBOSE, "Mosaic user data path: %s (saved with version %s, Mosaic is %s)", _MosaicDataPath.c_str(), actualRel.c_str(), VERSION);
         }else{
-            ofLog(OF_LOG_WARNING, "release.txt was not found, Mosaic could not verify compatibility with your data folder.");
+            ofLog(OF_LOG_WARNING, "%s","release.txt was not found, Mosaic could not verify compatibility with your data folder.");
             actualRel = "unknown"; // Note: setting this will trigger a data folder update
         }
 
         // If versions differ, copy data folder again (use a fresh one)
         if(VERSION != actualRel){
-            ofLog(OF_LOG_NOTICE, "Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace to ensure full compatibility.");
+            ofLog(OF_LOG_NOTICE, "%s","Mosaic was updated since you last used it. Copying the new data folder structure to your user workspace to ensure full compatibility.");
             std::filesystem::path dataPath(_bundleDataPath.c_str());
 
             // Remove previous release data folder
@@ -1776,7 +1783,7 @@ void ofApp::initDataFolderFromBundle(){
                 ofLog(OF_LOG_NOTICE, "Copying data folder from  %s to %s.", dataDir.getAbsolutePath().c_str(), mosaicPath.c_str());
                 dataDir.copyTo(mosaicPath,true,true);
             }else {
-                ofLog(OF_LOG_ERROR, "Mosaic could not find a clean data folder to work with and will thus be unable to initialize correctly !");
+                ofLog(OF_LOG_ERROR,"%s", "Mosaic could not find a clean data folder to work with and will thus be unable to initialize correctly !");
                 exit();
             }
         }
