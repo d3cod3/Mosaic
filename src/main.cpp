@@ -92,7 +92,9 @@ int main(int argc, char *argv[]){
 
     // Mosaic main visual-programming window
     shared_ptr<ofAppGLFWWindow> mosaicWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(settings));
+    #ifdef TARGET_LINUX
     mosaicWindow->setWindowIcon("images/logo_128.png");
+    #endif
     shared_ptr<ofApp> mosaicApp(new ofApp);
 
     // Splash Screen Window
@@ -103,7 +105,9 @@ int main(int argc, char *argv[]){
     splashSettings.decorated = false;
 
     shared_ptr<ofAppGLFWWindow> splashWindow = dynamic_pointer_cast<ofAppGLFWWindow>(ofCreateWindow(splashSettings));
-    splashWindow->setWindowIcon("images/logo_128.png");
+    #ifdef TARGET_LINUX
+    mosaicWindow->setWindowIcon("images/logo_128.png");
+    #endif
     shared_ptr<SplashScreen> splashApp(new SplashScreen);
     splashApp->splashWindow = splashWindow;
 
