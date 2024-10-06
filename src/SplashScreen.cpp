@@ -71,7 +71,8 @@ void SplashScreen::update(){
     }
 
     if(ofGetElapsedTimeMillis()-startTime > 4800){
-        splashWindow->setWindowShouldClose();
+        //splashWindow->setWindowShouldClose();
+        glfwHideWindow(splashWindow->getGLFWWindow());
     }
 }
 
@@ -107,5 +108,6 @@ void SplashScreen::draw(){
 void SplashScreen::mousePressed(int x, int y, int button){
     unusedArgs(x,y,button);
 
-    splashWindow->setWindowShouldClose();
+    //splashWindow->setWindowShouldClose();
+    glfwHideWindow(splashWindow->getGLFWWindow());
 }
