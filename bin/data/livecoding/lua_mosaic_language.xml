@@ -4374,7 +4374,7 @@
 	<desc></desc>
 </method>
 <method>
-	<name>seedRandom</name>
+	<name>setRandomSeed</name>
 	<desc></desc>
 </method>
 <method>
