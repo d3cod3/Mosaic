@@ -96,6 +96,11 @@ void ofApp::setup(){
 
     // Initialise ImGui
 
+    // window config ini file
+    ofFile guiIniFile(ofToDataPath("imgui.ini"));
+    iniFilePath = guiIniFile.getAbsolutePath();
+    io.IniFilename = iniFilePath.c_str();
+
     // double font oversampling (default 3) for canvas zoom
     ImFontConfig font_config;
     font_config.OversampleH = 6;
@@ -193,6 +198,9 @@ void ofApp::setup(){
     // AUTOLOAD PATCH ( if configured )
     checkAutoloadConfig();
 
+    // Load imgui window config
+    ImGui::LoadIniSettingsFromDisk(iniFilePath.c_str());
+
     #ifdef MOSAIC_ENABLE_PROFILING
     TracyAppInfo(WINDOW_TITLE, sizeof(WINDOW_TITLE));
     #endif
@@ -216,18 +224,38 @@ void ofApp::update(){
         refreshScriptTabs();
     }
 
-    // init start empty patch
+    // init start empty patch or load selected patch
     if(loadNewPatch){
         loadNewPatch = false;
         if(patchToLoad != ""){
+            // load patch
             visualProgramming->preloadPatch(patchToLoad);
             mosaicBPM = visualProgramming->bpm;
+            // reset asset library
             ofFile temp(patchToLoad);
             assetFolder.reset();
             assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+            // load patch gui windows config
+            ofxXmlSettings XML;
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
+            if (XML.loadFile(patchToLoad)){
+#else
+            if (XML.load(patchToLoad)){
+#endif
+                if (XML.pushTag("settings")){
+                    isAssetLibraryON = static_cast<bool>(XML.getValue("AssetManager",0));
+                    isCodeEditorON = static_cast<bool>(XML.getValue("CodeEditor",0));
+                    visualProgramming->inspectorActive = static_cast<bool>(XML.getValue("Inspector",0));
+                    isLoggerON = static_cast<bool>(XML.getValue("Logger",0));
+                    visualProgramming->profilerActive = static_cast<bool>(XML.getValue("Profiler",0));
+
+                    XML.popTag();
+                }
+
+            }
         }
     }
 
@@ -656,14 +684,24 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "View")){
-                ImGui::Checkbox("Asset Manager",&isAssetLibraryON);
-                ImGui::Checkbox("Code Editor",&isCodeEditorON);
-                ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive);
+                if(ImGui::Checkbox("Asset Manager",&isAssetLibraryON)){
+                    visualProgramming->setPatchVariable("AssetManager",static_cast<int>(isAssetLibraryON));
+                }
+                if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
+                    visualProgramming->setPatchVariable("CodeEditor",static_cast<int>(isCodeEditorON));
+                }
+                if(ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive)){
+                    visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
+                }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
-                ImGui::Checkbox("Logger",&isLoggerON);
-                ImGui::Checkbox("Profiler",&visualProgramming->profilerActive);
+                if(ImGui::Checkbox("Logger",&isLoggerON)){
+                    visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
+                }
+                if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
+                    visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
+                }
                 ImGui::EndMenu();
             }
 
@@ -1445,6 +1483,14 @@ void ofApp::drawImGuiInterface(){
 
 //--------------------------------------------------------------
 void ofApp::exit() {
+
+    visualProgramming->setPatchVariable("AssetManager",static_cast<int>(isAssetLibraryON));
+    visualProgramming->setPatchVariable("CodeEditor",static_cast<int>(isCodeEditorON));
+    visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
+    visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
+    visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
+
+    ImGui::SaveIniSettingsToDisk(iniFilePath.c_str());
 
     for(map<string,PathWatcher*>::iterator it = codeWatchers.begin(); it != codeWatchers.end(); it++ ){
         it->second->removeAllPaths();
