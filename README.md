@@ -35,7 +35,7 @@ Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
 Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 Just unzip the downloaded release and copy Mosaic app in your Application folder, that's it!
 
-## WINDOWS
+## WINDOWS ( DISCONTINUED, last official release [0.6.6](https://github.com/d3cod3/Mosaic/releases/tag/0.6.6) )
 
 Get Mosaic last release here: https://github.com/d3cod3/Mosaic/releases
 Just unzip the downloaded release and run it!
@@ -43,11 +43,11 @@ Just unzip the downloaded release and run it!
 
 # OF COMPATIBLE RELEASE
 
-## 0.11.2 STABLE (official download from [OF site](https://openframeworks.cc/))
-> Compiled/tested with QTCreator on osx/linux/windows
+## 0.12.0 STABLE (official download from [OF site](https://openframeworks.cc/))
+> Compiled/tested with QTCreator on osx/linux
 > Compiled on native VisualStudio on Windows
 
-If you want to build Mosaic, just download OF0.11.2 for your OS (osx, linux, windows) and follow the correspondent setup guide.
+If you want to build Mosaic, just download OF0.12.0 for your OS (osx, linux, windows) and follow the correspondent setup guide.
 
 # DESCRIPTION
 
@@ -63,7 +63,7 @@ Mosaic is a multi-platform livecoding programming/patching environment for creat
 It aims to empower artists, creative coders, scenographers and other creative technologists in their creative workflow.
 It's a FLOSS, Free/Libre and Open Source Software with multi-platform support, and it's written in C++, offering high performance.
 
-Mosaic is shipped with an internal code editor, non-blocking system dialogs, a programmable non-linear interactive timeline, an included patch video exporter with subtitler for easy tutorial creation, lua/glsl/bash live-coding and pure data live-patching capability, a good selection of audio synthesis modules, multiple fullscreen output windows capabilities ( as many as your system can have ) with an independent warping for each window, a map-map style integrated mapping module, and an easy to use osc sending/receiving objects/nodes for network communication.
+Mosaic is shipped with an internal code editor, non-blocking system dialogs, a programmable non-linear interactive timeline, lua/glsl/bash live-coding and pure data live-patching capability, a good selection of audio synthesis modules, multiple fullscreen output windows capabilities ( as many as your system can have ) with an independent warping for each window, a map-map style integrated mapping module, arduino communication made easy, midi capabilities and an easy to use osc sending/receiving objects/nodes for network communication.
 
 The idea behind Mosaic is to facilitate human-machine communication, to amplify imagination and to speed up the creative workflow, without sacrificing the spectrum of possibilities. To achieve this, it bundles together various creative-coding tools, acting as an interactive bridge between them.
 It includes a collection of audio-visual objects that can be easily connected together using a nodal-based graphical interface, defining a custom dataflow.
@@ -85,7 +85,7 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 # DEPENDENCIES
 
 
-#### [ofxAudioFile](https://github.com/npisanti/ofxAudioFile)
+#### [ofxAudioFile](https://github.com/d3cod3/ofxAudioFile) -- FOrk
 
 #### [ofxBTrack](https://github.com/d3cod3/ofxBTrack) -- Fork
 
@@ -135,7 +135,6 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
   - plugin injection capable, see [ofxMosaicPlugin](https://github.com/d3cod3/ofxMosaicPlugin)
   - multi-threaded
   - ImGui based GUI interface
-  - included automatic window video exporter with subtitler for easy tutorial creation
   - non-blocking system dialogs
   - internal code editor
   - lua/glsl/bash live-coding
@@ -153,7 +152,7 @@ Clone all the required addons listed:
 ```bash
 cd <your_openframeworks_release_folder>/addons
 
-git clone https://github.com/npisanti/ofxAudioFile
+git clone https://github.com/d3cod3/ofxAudioFile
 git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
@@ -239,4 +238,4 @@ Mosaic is almost completely based on [ofxVisualProgramming](https://github.com/d
 
 The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
-Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [dr_libs](https://github.com/mackron/dr_libs), [hap](https://github.com/Vidvox/hap), [snappy](https://github.com/google/snappy), [ffmpeg](https://github.com/FFmpeg/FFmpeg)  and code from openframeworks and all the included ofxAddons.
+Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [ffmpeg](https://github.com/FFmpeg/FFmpeg)  and code from openframeworks and all the included ofxAddons.
