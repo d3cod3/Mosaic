@@ -109,9 +109,20 @@ public:
     ofxImGui::Gui                   mainMenu;
     MosaicTheme                     *mainTheme;
     imgui_addons::ImGuiFileBrowser  fileDialog;
+    ImFontConfig                    font_config;
+    ImFont*                         font1;
+    int                             suggestedFontSize;
     string                          iniFilePath;
+
     bool                            isRetina;
     int                             retinaScale;
+    int                             pixelScreenScale;
+    float                           xScreenContentScale, yScreenContentScale;
+    int                             wScreenMM, hScreenMM;
+    int                             wRes,hRes;
+    float                           monitorContentScale;
+    float                           pixelsxMM;
+    float                           fontScaling;
 
     ofImage                         *mosaicLogo;
     GLuint                          mosaicLogoID;

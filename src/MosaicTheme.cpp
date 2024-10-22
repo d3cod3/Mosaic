@@ -57,6 +57,8 @@ void MosaicTheme::setup(){
     ofColor col_main_area = ofColor::fromHex(0x222222);
     ofColor col_win_popup = ofColor::fromHex(0xd1d1d1);
     ofColor col_win_backg = ofColor::fromHex(0x2b2b2b);
+    ofColor col_win_detail = ofColor::fromHex(0x3B445B);
+
 
     ImGuiStyle* style = &ImGui::GetStyle();
 
@@ -133,24 +135,28 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(col_main_head, 1.00f);
     style->Colors[ImGuiCol_PlotHistogram] = ImVec4(col_main_text, 0.63f);
     style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(col_main_head, 1.00f);
-    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(col_main_head, 0.43f);
+    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(col_win_popup, 0.9f);
     style->Colors[ImGuiCol_PopupBg] = ImVec4(col_win_backg, 0.92f);
-    style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(col_main_area, 0.73f);
+    style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(col_main_area, 0.0f);
     style->Colors[ImGuiCol_Separator] = ImVec4(col_main_head, 0.73f);
     style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_SeparatorActive] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_DragDropTarget] = ImVec4(col_main_head, 0.8f);
-    style->Colors[ImGuiCol_NavHighlight] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_Tab] = ImVec4(col_main_area, 0.9f);
-    style->Colors[ImGuiCol_TabHovered] = ImVec4(col_win_backg, 0.7f);
-    style->Colors[ImGuiCol_TabActive] = ImVec4(col_win_backg, 0.7f);
+    style->Colors[ImGuiCol_TabDimmed] = ImVec4(col_main_area, 0.3f);
+    style->Colors[ImGuiCol_TabDimmedSelected] = ImVec4(col_main_area, 0.3f);
+    style->Colors[ImGuiCol_TabHovered] = ImVec4(col_win_detail, 0.9f);
+    style->Colors[ImGuiCol_TabSelectedOverline] = ImVec4(col_win_detail, 0.7f);
+    style->Colors[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(col_main_area, 0.3f);
+    style->Colors[ImGuiCol_TabSelected] = ImVec4(col_win_detail, 0.7f);
+
 
     // New colors to be customized
     //style->Colors[ImGuiCol_TabUnfocused]            = ImVec4();
     //style->Colors[ImGuiCol_TabUnfocusedActive]      = ImVec4();
     style->Colors[ImGuiCol_DockingPreview]          = ImVec4(col_main_head, .7f);
-    //style->Colors[ImGuiCol_DockingEmptyBg]          = ImVec4();
+    style->Colors[ImGuiCol_DockingEmptyBg]          = ImVec4(col_main_head, .0f);
     //style->Colors[ImGuiCol_TableHeaderBg]           = ImVec4();
     //style->Colors[ImGuiCol_TableBorderStrong]       = ImVec4();
     //style->Colors[ImGuiCol_TableBorderLight]        = ImVec4();

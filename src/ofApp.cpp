@@ -60,11 +60,28 @@ void ofApp::setup(){
     mosaicBPM = 120;
 
     // RETINA FIX
+    fontScaling = 1;
     retinaScale = dynamic_pointer_cast<ofAppGLFWWindow>(ofGetCurrentWindow())->getPixelScreenCoordScale();
     isRetina = false;
     if(retinaScale > 1){
         isRetina = true;
     }
+    pixelScreenScale = retinaScale*fontScaling;
+
+    // Screen data
+    //int count;
+    //GLFWmonitor** monitors = glfwGetMonitors(&count);
+
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+
+    const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor); // for monitor resolution
+    wRes = mode->width;
+    hRes = mode->height;
+    glfwGetMonitorContentScale(primaryMonitor, &xScreenContentScale, &yScreenContentScale);
+    glfwGetMonitorPhysicalSize(primaryMonitor, &wScreenMM, &hScreenMM);
+
+    pixelsxMM = mode->width/wScreenMM;
+    suggestedFontSize = static_cast<int>(ofMap(pixelsxMM,0,50,1,140));
 
     // LOGGER
     isInited        = false;
@@ -94,8 +111,6 @@ void ofApp::setup(){
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.MouseDrawCursor = false;
 
-    // Initialise ImGui
-
     // window config ini file
     ofFile guiIniFile(ofToDataPath("imgui.ini"));
     iniFilePath = guiIniFile.getAbsolutePath();
@@ -110,13 +125,9 @@ void ofApp::setup(){
     string absPath1 = fileToRead1.getAbsolutePath();
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
-    if(isRetina){
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),36.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),28.0f,&font_config); // GUI font
-    }else{
-        io.Fonts->AddFontFromFileTTF(absPath2.c_str(),18.0f,&font_config); // code editor font
-        io.Fonts->AddFontFromFileTTF(absPath1.c_str(),14.0f,&font_config); // GUI font
-    }
+
+    io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // code editor font
+    io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize,&font_config); // GUI font
 
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
@@ -131,11 +142,14 @@ void ofApp::setup(){
     io.FontDefault = defaultfont;
 
     mainTheme = new MosaicTheme();
+    if(isRetina){
+        mainTheme->fixForRetinaScreen();
+    }
     mainMenu.setup(mainTheme,false);
 
     visualProgramming   = new ofxVisualProgramming();
     visualProgramming->setRetina(isRetina);
-    visualProgramming->setup( &mainMenu, ofToString(VERSION_GRAPHIC) );
+    visualProgramming->setup(&mainMenu, ofToString(VERSION_GRAPHIC) );
     visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
     patchToLoad                 = "";
@@ -217,6 +231,8 @@ void ofApp::update(){
     windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
     ofSetWindowTitle(windowTitle);
 
+    pixelScreenScale = retinaScale*fontScaling;
+
     // Visual Programming Environment
     if(mosaicTiming.tick()){
         visualProgramming->update();
@@ -296,11 +312,7 @@ void ofApp::update(){
         isInited = true;
 
         // RETINA FIX
-        if(isRetina){
-            ofSetWindowShape(ofGetScreenWidth()-8,ofGetScreenHeight());
-        }else{
-            ofSetWindowShape(ofGetScreenWidth()-4,ofGetScreenHeight());
-        }
+        ofSetWindowShape(ofGetScreenWidth()-(4*retinaScale),ofGetScreenHeight());
 
         if(isRetina){
             mainTheme->fixForRetinaScreen();
@@ -377,14 +389,15 @@ void ofApp::draw(){
     // Mosaic Visual Programming
     ofSetColor(255,255,255);
     if(!visualProgramming->bLoadingNewPatch){
-        // draw main GUI interface
-        drawImGuiInterface();
 
         // Draw to vp Gui
         visualProgramming->draw();
 
-        // Manually render ImGui once ofxVP rendered to it.
-        mainMenu.draw();
+        // draw main GUI interface
+        drawImGuiInterface();
+
+        visualProgramming->closeDrawMainMenu();
+
     }
 
     // Bottom INFO BAR --------------------------------------------------------------------------------------
@@ -424,7 +437,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::drawImGuiInterface(){
 
-    mainMenu.begin();
+    //mainMenu.begin();
 
     {
 
@@ -432,8 +445,8 @@ void ofApp::drawImGuiInterface(){
         static bool showDockspace = true;
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground;
         ImGuiViewport* viewport = ImGui::GetMainViewport();
-        ImGui::SetNextWindowPos(viewport->GetWorkPos());
-        ImGui::SetNextWindowSize(ImVec2(viewport->GetWorkSize().x,viewport->GetWorkSize().y-(20*retinaScale)));
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(ImVec2(viewport->WorkSize.x,viewport->WorkSize.y-(20*retinaScale)));
         ImGui::SetNextWindowViewport(viewport->ID);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -547,25 +560,28 @@ void ofApp::drawImGuiInterface(){
                 if(ImGui::MenuItem("bang",ofToString(shortcutFunc+"+1").c_str())){
                     visualProgramming->addObject("bang",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("number",ofToString(shortcutFunc+"+2").c_str())){
+                if(ImGui::MenuItem("trigger",ofToString(shortcutFunc+"+2").c_str())){
+                    visualProgramming->addObject("trigger",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                }
+                if(ImGui::MenuItem("number",ofToString(shortcutFunc+"+3").c_str())){
                     visualProgramming->addObject("number",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("comment",ofToString(shortcutFunc+"+3").c_str())){
-                    visualProgramming->addObject("comment",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
+                if(ImGui::MenuItem("metronome",ofToString(shortcutFunc+"+4").c_str())){
+                    visualProgramming->addObject("metronome",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("video viewer",ofToString(shortcutFunc+"+4").c_str())){
+                if(ImGui::MenuItem("video viewer",ofToString(shortcutFunc+"+5").c_str())){
                     visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("signal viewer",ofToString(shortcutFunc+"+5").c_str())){
+                if(ImGui::MenuItem("signal viewer",ofToString(shortcutFunc+"+6").c_str())){
                     visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("audio analyzer",ofToString(shortcutFunc+"+6").c_str())){
+                if(ImGui::MenuItem("audio analyzer",ofToString(shortcutFunc+"+7").c_str())){
                     visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("lua script",ofToString(shortcutFunc+"+7").c_str())){
+                if(ImGui::MenuItem("lua script",ofToString(shortcutFunc+"+8").c_str())){
                     visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
-                if(ImGui::MenuItem("output window",ofToString(shortcutFunc+"+8").c_str())){
+                if(ImGui::MenuItem("output window",ofToString(shortcutFunc+"+9").c_str())){
                     visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 200,visualProgramming->canvas.getMovingPoint().y + 200));
                 }
                 ImGui::EndMenu();
@@ -684,22 +700,30 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "View")){
-                if(ImGui::Checkbox("Asset Manager",&isAssetLibraryON)){
+                if(ImGui::MenuItem("Asset Manager",ofToString(shortcutFunc+"+M").c_str())){
+                    isAssetLibraryON = !isAssetLibraryON;
                     visualProgramming->setPatchVariable("AssetManager",static_cast<int>(isAssetLibraryON));
                 }
-                if(ImGui::Checkbox("Code Editor",&isCodeEditorON)){
+                if(ImGui::MenuItem("Code Editor",ofToString(shortcutFunc+"+E").c_str())){
+                    isCodeEditorON = !isCodeEditorON;
                     visualProgramming->setPatchVariable("CodeEditor",static_cast<int>(isCodeEditorON));
                 }
-                if(ImGui::Checkbox("Inspector",&visualProgramming->inspectorActive)){
+                if(ImGui::MenuItem("Inspector",ofToString(shortcutFunc+"+I").c_str())){
+                    visualProgramming->inspectorActive = !visualProgramming->inspectorActive;
                     visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
                 }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::Checkbox("Logger",&isLoggerON)){
+                if(ImGui::MenuItem("Logger",ofToString(shortcutFunc+"+L").c_str())){
+                    isLoggerON = !isLoggerON;
                     visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
                 }
-                if(ImGui::Checkbox("Profiler",&visualProgramming->profilerActive)){
+                if(ImGui::MenuItem("Object Selector",ofToString(shortcutFunc+"+O").c_str())){
+                    showRightClickMenu = !showRightClickMenu;
+                }
+                if(ImGui::MenuItem("Profiler",ofToString(shortcutFunc+"+P").c_str())){
+                    visualProgramming->profilerActive = !visualProgramming->profilerActive;
                     visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
                 }
                 ImGui::EndMenu();
@@ -847,7 +871,7 @@ void ofApp::drawImGuiInterface(){
                         bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
 
                         ImGui::Spacing();
-                        ImGui::BeginChildFrame(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*retinaScale)), ImGuiWindowFlags_NoMove);
+                        ImGui::BeginChild(ImGui::GetID("Build Configuration"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * (18*retinaScale)), ImGuiWindowFlags_NoMove);
                         if (copy_to_clipboard){
                             ImGui::LogToClipboard();
                         }
@@ -998,7 +1022,22 @@ void ofApp::drawImGuiInterface(){
                         if (copy_to_clipboard){
                             ImGui::LogFinish();
                         }
-                        ImGui::EndChildFrame();
+                        ImGui::EndChild();
+
+                        ImGui::EndTabItem();
+                    }
+
+                    if(ImGui::BeginTabItem("Monitor")){
+                        // Monitor information
+                        ImGui::Spacing();
+                        ImGui::Text("Primary Monitor:");
+                        ImGui::Spacing();
+                        ImGui::Text("Resolution: %sx%s", ofToString(wRes).c_str(),ofToString(hRes).c_str());
+                        ImGui::Text("Physical Dimensions: %sx%s mm", ofToString(wScreenMM).c_str(),ofToString(hScreenMM).c_str());
+                        ImGui::Text("Retina Scale ( Retina Screens ): %s",ofToString(retinaScale).c_str());
+                        ImGui::Text("Screen Content Scale ( OS managed, accessibility ): %s",ofToString(xScreenContentScale).c_str());
+                        ImGui::Text("Pixel density ( Resolution over Physical Size): %s",ofToString(pixelsxMM).c_str());
+                        ImGui::Text("Suggested font size: %s",ofToString(suggestedFontSize).c_str());
 
                         ImGui::EndTabItem();
                     }
@@ -1083,7 +1122,7 @@ void ofApp::drawImGuiInterface(){
                         }
 
                         if (ImGui::BeginMenu("Find")){
-                            if (ImGui::MenuItem("Find and Replace",ofToString(shortcutFunc+"+S").c_str())){
+                            if (ImGui::MenuItem("Find and Replace")){
                                 codeEditors[editedFilesNames[actualCodeEditor]].Find();
                             }
 
@@ -1474,11 +1513,23 @@ void ofApp::drawImGuiInterface(){
 
         }
 
-        ImGui::End(); // End "DockSpace" (tocheck: shouldn't this be way more up ?)
+        // PROFILER
+        if(visualProgramming->profilerActive){
+            visualProgramming->profiler.Render(&visualProgramming->profilerActive);
+        }
+
+        // INSPECTOR
+        if(visualProgramming->inspectorActive){
+            if(visualProgramming->isCanvasVisible){
+                visualProgramming->drawInspector();
+            }
+        }
+
+        ImGui::End(); // End "DockSpace"
 
     }
 
-    mainMenu.end();
+    //mainMenu.end();
 }
 
 //--------------------------------------------------------------
@@ -1517,9 +1568,6 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
-    // find/replace inside current script ( MOD_KEY-s )
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 83 && isCodeEditorON && !codeEditors.empty()){
-        codeEditors[editedFilesNames[actualCodeEditor]].Find();
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
@@ -1527,6 +1575,8 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
         quitMosaic();
     }
     #endif
+
+    //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 
 }
 
@@ -1542,20 +1592,52 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 49){ // MOD_KEY 1
         visualProgramming->addObject("bang",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 50){ // MOD_KEY 2
-        visualProgramming->addObject("number",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("trigger",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 51){ // MOD_KEY 3
-        visualProgramming->addObject("comment",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("number",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 52){ // MOD_KEY 4
-        visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("metronome",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 53){ // MOD_KEY 5
-        visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("video viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 54){ // MOD_KEY 6
-        visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("signal viewer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 55){ // MOD_KEY 7
-        visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+        visualProgramming->addObject("audio analyzer",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }else if(e.hasModifier(MOD_KEY) && e.keycode == 56){ // MOD_KEY 8
+        visualProgramming->addObject("lua script",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
+    }else if(e.hasModifier(MOD_KEY) && e.keycode == 57){ // MOD_KEY 9
         visualProgramming->addObject("output window",ofVec2f(visualProgramming->canvas.getMovingPoint().x + 100,visualProgramming->canvas.getMovingPoint().y + 100));
     }
+    // open/close Asset Manager ( MOD_KEY-m )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 77){
+        isAssetLibraryON = !isAssetLibraryON;
+    }
+    // open/close Code Editor ( MOD_KEY-e )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 69){
+        isCodeEditorON = !isCodeEditorON;
+    }
+    // open/close Inspector ( MOD_KEY-i )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 73){
+        visualProgramming->inspectorActive = !visualProgramming->inspectorActive;
+    }
+    // open/close Logger ( MOD_KEY-l )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
+        isLoggerON = !isLoggerON;
+    }
+    // open/close Profiler ( MOD_KEY-p )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 80){
+        visualProgramming->profilerActive = !visualProgramming->profilerActive;
+    }
+    // open/close Objects Menu ( MOD_KEY-o )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
+        showRightClickMenu = !showRightClickMenu;
+    }
+    // save patch as ( MOD_KEY-s ) -- TODO
+    //else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
+    //    savePatchAs = true;
+    //}
+
+    //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 }
 
 //--------------------------------------------------------------
