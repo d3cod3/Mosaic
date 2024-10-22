@@ -8,7 +8,7 @@
 # You'll find an example setup below, fit this to your needs !
 # Each line holds 3 variables separated by tabs : Title, Url, Branch
 
-ofxAudioFile			https://github.com/d3cod3/ofxAudioFile			    master
+ofxAudioFile			https://github.com/d3cod3/ofxAudioFile          master
 ofxBTrack				https://github.com/d3cod3/ofxBTrack					master
 ofxChromaKeyShader		https://github.com/d3cod3/ofxChromaKeyShader		master
 ofxCv					https://github.com/kylemcdonald/ofxCv				master
