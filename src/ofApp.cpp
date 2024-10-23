@@ -80,8 +80,10 @@ void ofApp::setup(){
     glfwGetMonitorContentScale(primaryMonitor, &xScreenContentScale, &yScreenContentScale);
     glfwGetMonitorPhysicalSize(primaryMonitor, &wScreenMM, &hScreenMM);
 
-    pixelsxMM = mode->width/wScreenMM;
-    suggestedFontSize = static_cast<int>(ofMap(pixelsxMM,0,50,1,140));
+    pixelsxMM = mode->height/hScreenMM;
+    suggestedFontSize = static_cast<int>(ofMap(pixelsxMM,1,16,1,70));
+
+    //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;
 
     // LOGGER
     isInited        = false;
@@ -126,6 +128,7 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
 
+    // TODO - FIX FONT SIZE FOR DIFFERENTS SCREEN RESOLUTION/PIXEl DEPTH
     io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // code editor font
     io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize,&font_config); // GUI font
 
