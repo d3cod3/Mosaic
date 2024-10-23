@@ -59,16 +59,8 @@ void ofApp::setup(){
     mosaicTiming.setFramerate(mosaicFPS);
     mosaicBPM = 120;
 
-    // RETINA FIX
-    fontScaling = 1;
-    retinaScale = dynamic_pointer_cast<ofAppGLFWWindow>(ofGetCurrentWindow())->getPixelScreenCoordScale();
-    isRetina = false;
-    if(retinaScale > 1){
-        isRetina = true;
-    }
-    pixelScreenScale = retinaScale*fontScaling;
-
     // Screen data
+
     //int count;
     //GLFWmonitor** monitors = glfwGetMonitors(&count);
 
@@ -81,9 +73,19 @@ void ofApp::setup(){
     glfwGetMonitorPhysicalSize(primaryMonitor, &wScreenMM, &hScreenMM);
 
     pixelsxMM = mode->height/hScreenMM;
-    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,10,14,56));
+
+    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,14,56));
 
     //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;
+
+    // RETINA FIX
+    fontScaling = 1;
+    retinaScale = yScreenContentScale;
+    isRetina = false;
+    if(retinaScale > 1){
+        isRetina = true;
+    }
+    pixelScreenScale = retinaScale*fontScaling;
 
     // LOGGER
     isInited        = false;
@@ -128,7 +130,7 @@ void ofApp::setup(){
     ofFile fileToRead2(ofToDataPath(LIVECODING_FONT));
     string absPath2 = fileToRead2.getAbsolutePath();
 
-    // TODO - FIX FONT SIZE FOR DIFFERENTS SCREEN RESOLUTION/PIXEl DEPTH
+    // TO CHECK IN DIFFERENT MONITORS - FIX FONT SIZE FOR DIFFERENTS SCREEN RESOLUTION/PIXEl DEPTH
     io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // code editor font
     io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize,&font_config); // GUI font
 
@@ -136,9 +138,9 @@ void ofApp::setup(){
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
     ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
     if(isRetina){
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 28.0f, &icons_config, icons_ranges );
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, suggestedFontSize+(6*retinaScale), &icons_config, icons_ranges );
     }else{
-        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, 16.0f, &icons_config, icons_ranges );
+        io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, suggestedFontSize+2.0f, &icons_config, icons_ranges );
     }
 
     ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
@@ -151,7 +153,7 @@ void ofApp::setup(){
     mainMenu.setup(mainTheme,false);
 
     visualProgramming   = new ofxVisualProgramming();
-    visualProgramming->setRetina(isRetina);
+    visualProgramming->setRetina(isRetina,retinaScale);
     visualProgramming->setup(&mainMenu, ofToString(VERSION_GRAPHIC) );
     visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
 
