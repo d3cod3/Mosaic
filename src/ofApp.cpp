@@ -81,7 +81,7 @@ void ofApp::setup(){
     glfwGetMonitorPhysicalSize(primaryMonitor, &wScreenMM, &hScreenMM);
 
     pixelsxMM = mode->height/hScreenMM;
-    suggestedFontSize = static_cast<int>(ofMap(pixelsxMM,1,16,1,70));
+    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,10,14,56));
 
     //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;
 
