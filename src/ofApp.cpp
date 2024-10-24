@@ -1637,10 +1637,40 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
     }
-    // save patch as ( MOD_KEY-s ) -- TODO
-    //else if(e.hasModifier(MOD_KEY) && e.keycode == 83){
-    //    savePatchAs = true;
-    //}
+    // code-editor UNDO ( MOD_KEY-z )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 90 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Undo();
+        }
+    }
+    // code-editor REDO ( MOD_KEY-y )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 89 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Redo();
+        }
+    }
+    // code-editor COPY ( MOD_KEY-c )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 67 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Copy();
+        }
+    }
+    // code-editor CUT ( MOD_KEY-x )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 88 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Cut();
+        }
+    }
+    // code-editor PASTE ( MOD_KEY-v )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 86 && isCodeEditorON){
+        if(ImGui::GetClipboardText() != nullptr){
+            codeEditors[editedFilesNames[actualCodeEditor]].Paste();
+        }
+    }
+    // code-editor SELECT ALL ( MOD_KEY-a )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 65 && isCodeEditorON){
+        codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
+    }
 
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 }
