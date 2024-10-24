@@ -1567,12 +1567,48 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
     // new patch ( MOD_KEY-n )
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
         visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
-    // refresh/save actual editing script ( MOD_KEY-r )
-    }else if(e.hasModifier(MOD_KEY) && e.keycode == 82 && isCodeEditorON && !codeEditors.empty()){
+
+    }
+    // code-editor SAVE/RELOAD ( MOD_KEY-r )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 82 && isCodeEditorON && !codeEditors.empty()){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
+    }
+    // code-editor UNDO ( MOD_KEY-z )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 90 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Undo();
+        }
+    }
+    // code-editor REDO ( MOD_KEY-y )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 89 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Redo();
+        }
+    }
+    // code-editor COPY ( MOD_KEY-c )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 67 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Copy();
+        }
+    }
+    // code-editor CUT ( MOD_KEY-x )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 88 && isCodeEditorON){
+        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
+            codeEditors[editedFilesNames[actualCodeEditor]].Cut();
+        }
+    }
+    // code-editor PASTE ( MOD_KEY-v )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 86 && isCodeEditorON){
+        if(ImGui::GetClipboardText() != nullptr){
+            codeEditors[editedFilesNames[actualCodeEditor]].Paste();
+        }
+    }
+    // code-editor SELECT ALL ( MOD_KEY-a )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 65 && isCodeEditorON){
+        codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
     }
 
     #if defined(TARGET_LINUX) || defined(TARGET_WIN32)
@@ -1636,40 +1672,6 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // open/close Objects Menu ( MOD_KEY-o )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
-    }
-    // code-editor UNDO ( MOD_KEY-z )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 90 && isCodeEditorON){
-        if(codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()){
-            codeEditors[editedFilesNames[actualCodeEditor]].Undo();
-        }
-    }
-    // code-editor REDO ( MOD_KEY-y )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 89 && isCodeEditorON){
-        if(codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()){
-            codeEditors[editedFilesNames[actualCodeEditor]].Redo();
-        }
-    }
-    // code-editor COPY ( MOD_KEY-c )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 67 && isCodeEditorON){
-        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
-            codeEditors[editedFilesNames[actualCodeEditor]].Copy();
-        }
-    }
-    // code-editor CUT ( MOD_KEY-x )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 88 && isCodeEditorON){
-        if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
-            codeEditors[editedFilesNames[actualCodeEditor]].Cut();
-        }
-    }
-    // code-editor PASTE ( MOD_KEY-v )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 86 && isCodeEditorON){
-        if(ImGui::GetClipboardText() != nullptr){
-            codeEditors[editedFilesNames[actualCodeEditor]].Paste();
-        }
-    }
-    // code-editor SELECT ALL ( MOD_KEY-a )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 65 && isCodeEditorON){
-        codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
     }
 
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
