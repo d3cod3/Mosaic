@@ -233,7 +233,7 @@ void ofApp::update(){
     ZoneScopedN("ofApp::Update()");
     #endif
 
-    windowTitle = visualProgramming->currentPatchFile+" - "+WINDOW_TITLE;
+    windowTitle = visualProgramming->currentPatchFile+" | "+visualProgramming->currentSubpatch+" - "+WINDOW_TITLE;
     ofSetWindowTitle(windowTitle);
 
     pixelScreenScale = retinaScale*fontScaling;
@@ -271,6 +271,7 @@ void ofApp::update(){
                     isCodeEditorON = static_cast<bool>(XML.getValue("CodeEditor",0));
                     visualProgramming->inspectorActive = static_cast<bool>(XML.getValue("Inspector",0));
                     isLoggerON = static_cast<bool>(XML.getValue("Logger",0));
+                    visualProgramming->navigationActive = static_cast<bool>(XML.getValue("PatchNavigator",0));
                     visualProgramming->profilerActive = static_cast<bool>(XML.getValue("Profiler",0));
 
                     XML.popTag();
@@ -726,6 +727,10 @@ void ofApp::drawImGuiInterface(){
                 }
                 if(ImGui::MenuItem("Object Selector",ofToString(shortcutFunc+"+O").c_str())){
                     showRightClickMenu = !showRightClickMenu;
+                }
+                if(ImGui::MenuItem("Patch Navigator",ofToString(shortcutFunc+"+T").c_str())){
+                    visualProgramming->navigationActive = !visualProgramming->navigationActive;
+                    visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
                 }
                 if(ImGui::MenuItem("Profiler",ofToString(shortcutFunc+"+P").c_str())){
                     visualProgramming->profilerActive = !visualProgramming->profilerActive;
@@ -1530,6 +1535,13 @@ void ofApp::drawImGuiInterface(){
             }
         }
 
+        // PATCH NAVIGATOR
+        if(visualProgramming->navigationActive){
+            if(visualProgramming->isCanvasVisible){
+                visualProgramming->drawSubpatchNavigation();
+            }
+        }
+
         ImGui::End(); // End "DockSpace"
 
     }
@@ -1545,6 +1557,7 @@ void ofApp::exit() {
     visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
     visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
     visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
+    visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
 
     ImGui::SaveIniSettingsToDisk(iniFilePath.c_str());
 
@@ -1561,8 +1574,6 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(ofKeyEventArgs &e){
-
-    //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 
     // new patch ( MOD_KEY-n )
     if(e.hasModifier(MOD_KEY) && e.keycode == 78) {
@@ -1669,6 +1680,10 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     else if(e.hasModifier(MOD_KEY) && e.keycode == 80){
         visualProgramming->profilerActive = !visualProgramming->profilerActive;
     }
+    // open/close Patch Navigator ( MOD_KEY-t )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
+        visualProgramming->navigationActive = !visualProgramming->navigationActive;
+    }
     // open/close Objects Menu ( MOD_KEY-o )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
@@ -1681,9 +1696,9 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
 void ofApp::mousePressed(int x, int y, int button){
     unusedArgs(x,y);
 
-    if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
+    /*if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
         showRightClickMenu = true;
-    }
+    }*/
 }
 
 //--------------------------------------------------------------
