@@ -854,7 +854,7 @@ void ofApp::drawImGuiInterface(){
         if(showAboutWindow){
 
             //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(400*retinaScale,400*retinaScale), ImGuiCond_Appearing );
+            //ImGui::SetNextWindowSize(ImVec2(400*retinaScale,400*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
