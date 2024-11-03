@@ -248,6 +248,9 @@ public:
     inline void SetShowShortTabGlyphs(bool aValue) { mShowShortTabGlyphs = aValue; }
     inline bool IsShowingShortTabGlyphs() const { return mShowShortTabGlyphs; }
 
+    inline void SetShowLineNumbers(bool aValue) { mShowLineNumbers = aValue; }
+    inline bool IsShowingLineNumbers() const { return mShowLineNumbers; }
+
     inline bool IsWindowFocused() const { return mWindowIsFocused; }
 
 	void SetTabSize(int aValue);
@@ -407,6 +410,7 @@ private:
 	bool mIgnoreImGuiChild;
 	bool mShowWhitespaces;
     bool mShowShortTabGlyphs;
+    bool mShowLineNumbers;
     bool mWindowIsFocused;
     bool mCursorPositionChanged;
 	bool mCheckComments;

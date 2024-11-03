@@ -183,13 +183,12 @@ void ofApp::setup(){
     isCodeEditorON                  = false;
     isOverCodeEditor                = false;
 
-#ifdef TARGET_LINUX
-    shortcutFunc = "CTRL";
-#elif defined(TARGET_OSX)
-    shortcutFunc = "CMD";
-#elif defined(TARGET_WIN32)
-    shortcutFunc = "CTRL";
-#endif
+    // DHT CHATROOM
+    chat_message                    = "";
+    initChatModal                   = false;
+    isChatroomON                    = false;
+    isOverChatroom                  = false;
+    setFocusOnMessageInput          = false;
 
     // ASSET LIBRARY
     assetWatcher.start();
@@ -207,6 +206,19 @@ void ofApp::setup(){
     lastRelease = VERSION;
 
     isInternetAvailable = checkInternetReachability();
+
+#ifdef TARGET_LINUX
+    shortcutFunc = "CTRL";
+#elif defined(TARGET_OSX)
+    shortcutFunc = "CMD";
+#elif defined(TARGET_WIN32)
+    shortcutFunc = "CTRL";
+#endif
+
+    // INIT Mosaic DHT Chatroom
+    if(isInternetAvailable){
+        setupDHTNode();
+    }
 
     saveNewScreenshot       = false;
     lastScreenshot          = "";
@@ -341,6 +353,11 @@ void ofApp::update(){
         lastReleaseResp = ofLoadURLAsync("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md","check_release_async");
     }
 
+    // Mosaic Chatroom
+    if(dht.dhtNode.isRunning()){
+        updateDHTChat();
+    }
+
     // Screenshot
     if(saveNewScreenshot){
         if(ofGetElapsedTimeMillis()-resetScreenshotTime > waitForScreenshotTime){ // avoid imgui filebrowser
@@ -359,6 +376,9 @@ void ofApp::update(){
             }
         }
     }
+
+    // Testing
+    //ofLog(OF_LOG_NOTICE,"Editor: %i - Asset Manager: %i - Chatroom: %i",isOverCodeEditor,isOverAssetLibrary,isOverChatroom);
 
     #ifdef MOSAIC_ENABLE_PROFILING
     TracyPlotConfig("MosaicFPS", tracy::PlotFormatType::Number);
@@ -718,6 +738,10 @@ void ofApp::drawImGuiInterface(){
                     visualProgramming->inspectorActive = !visualProgramming->inspectorActive;
                     visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
                 }
+                if(ImGui::MenuItem("Patch Navigator",ofToString(shortcutFunc+"+T").c_str())){
+                    visualProgramming->navigationActive = !visualProgramming->navigationActive;
+                    visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
+                }
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
@@ -725,16 +749,18 @@ void ofApp::drawImGuiInterface(){
                     isLoggerON = !isLoggerON;
                     visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
                 }
-                if(ImGui::MenuItem("Object Selector",ofToString(shortcutFunc+"+O").c_str())){
-                    showRightClickMenu = !showRightClickMenu;
-                }
-                if(ImGui::MenuItem("Patch Navigator",ofToString(shortcutFunc+"+T").c_str())){
-                    visualProgramming->navigationActive = !visualProgramming->navigationActive;
-                    visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
-                }
                 if(ImGui::MenuItem("Profiler",ofToString(shortcutFunc+"+P").c_str())){
                     visualProgramming->profilerActive = !visualProgramming->profilerActive;
                     visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
+                }
+                if(ImGui::MenuItem("Object Selector",ofToString(shortcutFunc+"+O").c_str())){
+                    showRightClickMenu = !showRightClickMenu;
+                }
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+                if(ImGui::MenuItem("Chatroom",ofToString(shortcutFunc+"+D").c_str())){
+                    isChatroomON = !isChatroomON;
                 }
                 ImGui::EndMenu();
             }
@@ -1090,7 +1116,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_CODE "  Code Editor", &isCodeEditorON, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse) ){
 
-                isOverCodeEditor = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
+                isOverCodeEditor = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
                 if(codeEditors.size() > 0){
 
@@ -1192,7 +1218,7 @@ void ofApp::drawImGuiInterface(){
 
             if( ImGui::Begin(ICON_FA_FOLDER "  Asset Manager", &isAssetLibraryON, ImGuiWindowFlags_NoCollapse) ){
 
-                isOverAssetLibrary = ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) || ImGui::IsAnyItemHovered();
+                isOverAssetLibrary = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
                 static int selected = -1;
                 static int node_clicked = -1;
@@ -1431,6 +1457,199 @@ void ofApp::drawImGuiInterface(){
             mosaicLoggerChannel->Draw(ICON_FA_TERMINAL "  Logger", &isLoggerON);
         }
 
+        // Mosaic DHT Chatroom
+        if(isChatroomON){
+            ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
+
+            if (ImGui::Begin("Chatroom",NULL,ImGuiWindowFlags_NoScrollbar)){
+
+                isOverChatroom = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+
+                // startup modal for choosing session username
+                if(!initChatModal){
+                    initChatModal = true;
+                    ImGui::OpenPopup("Set user AKA for this chatroom session");
+                }
+
+                bool open = true;
+                ImGui::SetNextWindowPos(ImVec2(ofGetWindowWidth()/2 - 150*retinaScale,ofGetWindowHeight()/2 - 50*retinaScale), ImGuiCond_Appearing);
+                ImGui::SetNextWindowSize(ImVec2(300*retinaScale,100*retinaScale), ImGuiCond_Always);
+
+                if (ImGui::BeginPopupModal("Set user AKA for this chatroom session", &open,ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_Modal)){
+
+                    ImGui::TextColored(ImVec4(1,1,1,1),"Set user AKA for this chatroom session");
+                    ImGui::Spacing();
+
+                    ImGui::PushItemWidth(-1);
+                    if(ImGui::InputTextWithHint("###aka","Leave empty if you want a random aka",&aka,ImGuiInputTextFlags_EnterReturnsTrue)){
+                        if(aka != "" && checkAKAIsValid(aka)){ // if aka is not empty and is not already taken
+                            participants[userID] = aka;
+                        }else{
+                            participants[userID] = userID;
+                            aka = userID;
+                        }
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::PopItemWidth();
+
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+
+                    ImGui::PushStyleColor(ImGuiCol_Button, VHS_DGRAY);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_DGRAY_OVER);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_DGRAY_OVER);
+                    if (ImGui::Button("Join",ImVec2(80*retinaScale,-1))){
+                        if(aka != "" && checkAKAIsValid(aka)){ // if aka is not empty and is not already taken
+                            participants[userID] = aka;
+                        }else{
+                            participants[userID] = userID;
+                            aka = userID;
+                        }
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::PopStyleColor(3);
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ImGui::EndPopup();
+                }
+
+                // main GUI
+                static int selected = 0;
+                int counter = 0;
+                ImGui::BeginChild("participants", ImVec2((640*retinaScale)/5, 0),ImGuiChildFlags_ResizeX);
+                for(std::map<std::string,std::string>::iterator it = participants.begin(); it != participants.end(); it++ ){
+                    if (ImGui::Selectable(it->second.c_str(), selected == counter)){
+                        selected = counter;
+                    }
+                    if (ImGui::BeginPopupContextItem()){
+                        ImGui::Text("%s",it->first.c_str());
+                        ImGui::Spacing();
+                        ImGui::Text("%s",it->second.c_str());
+                        if(activeChats.find(it->first) == activeChats.end() && it->first != userID){
+                            ImGui::Spacing();
+                            ImGui::Separator();
+                            ImGui::Spacing();
+                            if(ImGui::Button("New Private Chat",ImVec2(200*retinaScale,26*retinaScale))){
+                                TextEditor newPrivateChat;
+                                newPrivateChat.SetShowWhitespaces(false);
+                                newPrivateChat.SetText("");
+                                newPrivateChat.SetReadOnly(true);
+                                newPrivateChat.SetShowLineNumbers(false);
+                                newPrivateChat.SetPalette(TextEditor::GetMosaicPalette());
+                                newPrivateChat.SetLanguageDefinition(TextEditor::LanguageDefinition::Lua());
+
+                                activeChats.insert( pair<string,TextEditor>(it->first,newPrivateChat) );
+                                ImGui::CloseCurrentPopup();
+                            }
+                        }
+
+                        ImGui::EndPopup();
+                    }
+                    counter++;
+                }
+                ImGui::EndChild();
+
+                ImGui::SameLine();
+
+                ImGui::BeginChild("chat view", ImVec2(0,0));
+                if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_Reorderable|ImGuiTabBarFlags_AutoSelectNewTabs|ImGuiTabBarFlags_TabListPopupButton)){
+
+                    //static bool opened[4] = { true, true, true, true }; // Persistent user state
+
+                    if (ImGui::BeginPopupContextWindow()){
+                        if (ImGui::MenuItem("Paste", nullptr, nullptr, ImGui::GetClipboardText() != nullptr)){
+                            chat_message = ImGui::GetClipboardText();
+                            setFocusOnMessageInput = true;
+                        }
+                        ImGui::EndPopup();
+                    }
+
+                    for(std::map<std::string,TextEditor>::iterator it = activeChats.begin(); it != activeChats.end(); it++ ){
+                        string tabName = "";
+                        if(it->first == chatname.c_str()){
+                            tabName = it->first;
+                        }else{
+                            tabName = participants[it->first];
+                        }
+
+                        if (ImGui::BeginTabItem(tabName.c_str())){
+                            string tempLabel = "###chat_"+it->first;
+
+                            //ImGui::InputTextMultiline(tempLabel.c_str(),&it->second,ImVec2(-1.0, -36*retinaScale),ImGuiInputTextFlags_ReadOnly);
+                            activeChats[it->first].Render(tempLabel.c_str(),ImVec2(-1.0, -36*retinaScale));
+
+                            if(!activeChats[it->first].IsWindowFocused()){
+                                activeChats[it->first].SetCursorPosition(TextEditor::Coordinates((int)activeChats[it->first].GetTotalLines(), 0));
+                            }
+
+                            ImGui::Spacing();
+                            ImGui::Separator();
+                            ImGui::Spacing();
+
+                            ImGui::PushItemWidth(-80*retinaScale);
+                            if(setFocusOnMessageInput){
+                                setFocusOnMessageInput = false;
+                                ImGui::SetKeyboardFocusHere();
+                            }
+                            if(ImGui::InputTextWithHint("###message","Write a message...",&chat_message,ImGuiInputTextFlags_EnterReturnsTrue)){
+
+                                if(chat_message != ""){
+                                    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+                                    if(it->first == chatname.c_str()){
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] <" + aka + ">\t" + chat_message + "\n");
+
+                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                    }else{
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"]\t" + chat_message + "\n");
+
+                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                    }
+                                }
+                                // clear previuos message
+                                chat_message = "";
+                            }
+
+                            ImGui::PopItemWidth();
+
+                            ImGui::SameLine();
+
+                            ImGui::PushStyleColor(ImGuiCol_Button, VHS_DGRAY);
+                            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, VHS_DGRAY_OVER);
+                            ImGui::PushStyleColor(ImGuiCol_ButtonActive, VHS_DGRAY_OVER);
+                            if(ImGui::Button("SEND",ImVec2(70*retinaScale,-1))){
+                                if(chat_message != ""){
+                                    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+                                    if(it->first == chatname.c_str()){
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] <" + aka + ">\t" + chat_message + "\n");
+
+                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                    }else{
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"]\t" + chat_message + "\n");
+
+                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                    }
+                                }
+                                // clear previuos message
+                                chat_message = "";
+                            }
+                            ImGui::PopStyleColor(3);
+
+                            ImGui::EndTabItem();
+                        }
+                    }
+                    ImGui::EndTabBar();
+                }
+                ImGui::EndChild();
+            }
+            ImGui::End();
+        }else{
+            isOverChatroom = false;
+            chat_message = "";
+        }
+
         // right click menu
         if(showRightClickMenu){
             ImGui::SetNextWindowSize(ImVec2(200*retinaScale,280*retinaScale), ImGuiCond_Appearing);
@@ -1566,6 +1785,8 @@ void ofApp::exit() {
         it->second->stop();
     }
 
+    closeDHTNode();
+
     codeEditors.clear();
     codeWatchers.clear();
 
@@ -1581,44 +1802,44 @@ void ofApp::keyPressed(ofKeyEventArgs &e){
 
     }
     // code-editor SAVE/RELOAD ( MOD_KEY-r )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 82 && isCodeEditorON && !codeEditors.empty()){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 82 && isCodeEditorON && isOverCodeEditor && !codeEditors.empty()){
         filesystem::path tempPath(editedFilesPaths[actualCodeEditor].c_str());
         ofBuffer buff;
         buff.set(codeEditors[editedFilesNames[actualCodeEditor]].GetText());
         ofBufferToFile(tempPath,buff,false);
     }
     // code-editor UNDO ( MOD_KEY-z )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 90 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 90 && isCodeEditorON && isOverCodeEditor){
         if(codeEditors[editedFilesNames[actualCodeEditor]].CanUndo()){
             codeEditors[editedFilesNames[actualCodeEditor]].Undo();
         }
     }
     // code-editor REDO ( MOD_KEY-y )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 89 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 89 && isCodeEditorON && isOverCodeEditor){
         if(codeEditors[editedFilesNames[actualCodeEditor]].CanRedo()){
             codeEditors[editedFilesNames[actualCodeEditor]].Redo();
         }
     }
     // code-editor COPY ( MOD_KEY-c )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 67 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 67 && isCodeEditorON && isOverCodeEditor){
         if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
             codeEditors[editedFilesNames[actualCodeEditor]].Copy();
         }
     }
     // code-editor CUT ( MOD_KEY-x )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 88 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 88 && isCodeEditorON && isOverCodeEditor){
         if(codeEditors[editedFilesNames[actualCodeEditor]].HasSelection()){
             codeEditors[editedFilesNames[actualCodeEditor]].Cut();
         }
     }
     // code-editor PASTE ( MOD_KEY-v )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 86 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 86 && isCodeEditorON && isOverCodeEditor){
         if(ImGui::GetClipboardText() != nullptr){
             codeEditors[editedFilesNames[actualCodeEditor]].Paste();
         }
     }
     // code-editor SELECT ALL ( MOD_KEY-a )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 65 && isCodeEditorON){
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 65 && isCodeEditorON && isOverCodeEditor){
         codeEditors[editedFilesNames[actualCodeEditor]].SetSelection(TextEditor::Coordinates(), TextEditor::Coordinates(codeEditors[editedFilesNames[actualCodeEditor]].GetTotalLines(), 0));
     }
 
@@ -1684,6 +1905,10 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
         visualProgramming->navigationActive = !visualProgramming->navigationActive;
     }
+    // open/close Chatroom ( MOD_KEY-d )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 68){
+        isChatroomON = !isChatroomON;
+    }
     // open/close Objects Menu ( MOD_KEY-o )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
@@ -1699,6 +1924,7 @@ void ofApp::mousePressed(int x, int y, int button){
     /*if(button == 2 && !isOverCodeEditor && !isOverAssetLibrary){ // right click
         showRightClickMenu = true;
     }*/
+
 }
 
 //--------------------------------------------------------------
@@ -2422,4 +2648,104 @@ void ofApp::removeScriptFromCodeEditor(string filename){
 
     scriptToRemoveFromCodeEditor = "";
 
+}
+
+//--------------------------------------------------------------
+void ofApp::setupDHTNode(){
+
+    dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
+
+    myChatid = dht.dhtNode.getId();
+
+    userID = myChatid.toString();
+    aka = "";
+
+    chatname = "Mosaic chatroom";
+
+    room = dht::InfoHash::get(chatname);
+
+    welcome_message = "\n\n";
+    welcome_message +=" _________________\n";
+    welcome_message +="< MOSAIC CHATROOM >\n";
+    welcome_message +=" -----------------\n";
+    welcome_message +="        \\   ^__^\n";
+    welcome_message +="         \\  (OO)\\_______\n";
+    welcome_message +="             (__)\\            )\\/\\\n";
+    welcome_message +="                    ||----w  |\n";
+    welcome_message +="                    ||        ||\n\n\n";
+
+
+    //std::cout << welcome_message << std::endl;
+
+    TextEditor newChat;
+    newChat.SetShowWhitespaces(false);
+    newChat.SetText(welcome_message);
+    newChat.SetReadOnly(true);
+    newChat.SetShowLineNumbers(false);
+    newChat.SetPalette(TextEditor::GetMosaicPalette());
+    newChat.SetLanguageDefinition(TextEditor::LanguageDefinition::Lua());
+
+    activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
+
+
+    if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
+
+    // node running thread
+    token = dht.dhtNode.listen<dht::ImMessage>(room, [&](dht::ImMessage&& msg) {
+            if (msg.from != myChatid){
+
+                // store current session participants list
+                std::map<string,string>::iterator it = participants.find(msg.from.toString());
+                if (it == participants.end()){
+                    unsigned first = msg.msg.find("<");
+                    unsigned last = msg.msg.find_last_of(">");
+                    string newAka = msg.msg.substr(first+1,last-first-1);
+                    participants[msg.from.toString()] = newAka;
+                }
+
+                // debug log
+                if(NDEBUG){
+                    std::cout << msg.from.toString() << " at " << dht.printTime(msg.date)
+                              << " (took " << dht::print_dt(std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(msg.date))
+                              << "s) " << ": " << msg.id << " - " << msg.msg << std::endl;
+                }
+
+                // update chatrooms messages
+                if(msg.to == myChatid){ // encrypted ( private message )
+                    activeChats[msg.from.toString()].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] " + msg.msg + "\n");
+                }else{
+                    activeChats[chatname].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] " + msg.msg + "\n");
+                }
+
+            }
+            return true;
+    });
+
+}
+
+//--------------------------------------------------------------
+void ofApp::updateDHTChat(){
+    participantsList = "";
+    for(std::map<std::string,std::string>::iterator it = participants.begin(); it != participants.end(); it++ ){
+        participantsList += it->second;
+        participantsList += "\n";
+    }
+}
+
+//--------------------------------------------------------------
+bool ofApp::checkAKAIsValid(std::string aka){
+     for(std::map<std::string,std::string>::iterator it = participants.begin(); it != participants.end(); it++ ){
+         if(it->second == aka){
+             return false;
+         }
+     }
+     return true;
+}
+
+//--------------------------------------------------------------
+void ofApp::closeDHTNode(){
+    if(dht.dhtNode.isRunning()){
+        dht.dhtNode.cancelListen(room, std::move(token));
+        dht.stopDHTNode();
+    }
 }

@@ -135,9 +135,9 @@ void MosaicTheme::setup(){
     style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(col_main_head, 1.00f);
     style->Colors[ImGuiCol_PlotHistogram] = ImVec4(col_main_text, 0.63f);
     style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(col_main_head, 1.00f);
-    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(col_win_popup, 0.9f);
+    style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(col_win_popup, 0.6f);
     style->Colors[ImGuiCol_PopupBg] = ImVec4(col_win_backg, 0.92f);
-    style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(col_main_area, 0.0f);
+    style->Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(col_main_area, 0.7f);
     style->Colors[ImGuiCol_Separator] = ImVec4(col_main_head, 0.73f);
     style->Colors[ImGuiCol_SeparatorHovered] = ImVec4(col_main_head, 0.f);
     style->Colors[ImGuiCol_SeparatorActive] = ImVec4(col_main_head, 0.f);

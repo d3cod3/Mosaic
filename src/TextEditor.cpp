@@ -53,6 +53,7 @@ TextEditor::TextEditor()
     , mIgnoreImGuiChild(false)
     , mShowWhitespaces(true)
     , mShowShortTabGlyphs(false)
+    , mShowLineNumbers(true)
     , mWindowIsFocused(false)
     , mCursorPositionChanged(false)
     , mCheckComments(true)
@@ -1047,8 +1048,10 @@ void TextEditor::RenderInternal(const char* aTitle)
             // Draw line number (right aligned)
             snprintf(buf, 16, "%d  ", lineNo + 1);
 
-            auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
-            drawList->AddText(ImVec2(lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y), mPalette[(int)PaletteIndex::LineNumber], buf);
+            if(mShowLineNumbers){
+                auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
+                drawList->AddText(ImVec2(lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y), mPalette[(int)PaletteIndex::LineNumber], buf);
+            }
 
             if (mState.mCursorPosition.mLine == lineNo)
             {

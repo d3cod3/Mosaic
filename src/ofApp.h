@@ -94,6 +94,12 @@ public:
     void            initNewCodeEditor(ofFile file);
     void            removeScriptFromCodeEditor(string filename);
 
+    // DHT Chatroom
+    void            setupDHTNode();
+    void            updateDHTChat();
+    bool            checkAKAIsValid(std::string aka);
+    void            closeDHTNode();
+
     // Command line arguments
     vector<string>                  arguments;
 
@@ -167,6 +173,29 @@ public:
     bool                            isInited;
     bool                            isWindowResized;
     bool                            isLoggerON;
+
+    // DHT Mosaic Chatroom
+    ofxOpenDHT                          dht;
+
+    dht::InfoHash                       room;
+    std::future<size_t>                 token;
+    dht::InfoHash                       myChatid;
+    std::string                         chatname;
+
+    std::map<std::string,TextEditor>    activeChats;
+    std::map<std::string,std::string>   participants;
+
+    std::string                         userID;
+    std::string                         aka;
+
+    std::string                         participantsList;
+    std::string                         chat_message;
+    std::string                         welcome_message;
+
+    bool                                initChatModal;
+    bool                                isChatroomON;
+    bool                                isOverChatroom;
+    bool                                setFocusOnMessageInput;
 
     // Core visual programming
     ofxVisualProgramming            *visualProgramming;

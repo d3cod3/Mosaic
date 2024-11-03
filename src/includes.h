@@ -34,8 +34,7 @@
 
 #include "ofxVisualProgramming.h"
 #include "ofxImGui.h"
-#include "ofxFFmpegRecorder.h"
-#include "ofxFastFboReader.h"
+#include "ofxOpenDHT.h"
 
 #include "MosaicTheme.h"
 #include "TextEditor.h"
