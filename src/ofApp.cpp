@@ -2674,6 +2674,13 @@ void ofApp::setupDHTNode(){
     welcome_message +="                    ||----w  |\n";
     welcome_message +="                    ||        ||\n\n\n";
 
+    welcome_message +="Welcome to the internal Mosaic Chatroom! This space is intended for Mosaic users to share knowledge and communicate.\n";
+    welcome_message +="This chat is implemented with opendht library, so it works over a distributed network, it is anonymous, and persistent until\n";
+    welcome_message +="the last Mosaic instance is closed, so if even only one user let Mosaic running, the chat history will persist.\n";
+    welcome_message +="You can communicate here in the public chatroom, or you can open a new private chat with a specific user from the list on the left,\n";
+    welcome_message +="so many as you want.\n";
+    welcome_message +="This space is not regulated, moderated or supervised, you can change your aka every time you open the software, and absolutely no user data is\n";
+    welcome_message +="stored nowhere, as the concept behind the term, this space is free, so use and enjoy it at your own pace.\n\n\n";
 
     //std::cout << welcome_message << std::endl;
 
