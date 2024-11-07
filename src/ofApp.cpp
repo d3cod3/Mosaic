@@ -74,6 +74,9 @@ void ofApp::setup(){
 
     pixelsxMM = mode->height/hScreenMM;
 
+    // testing retina screens and GUI scaling
+    //yScreenContentScale = 2;
+
     suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,10,56));
 
     //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;

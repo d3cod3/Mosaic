@@ -71,6 +71,9 @@ int main(int argc, char *argv[]){
         }
     }
 
+    float splashWinW = 428;
+    float splashWinH = 280;
+
     ofGLFWWindowSettings settings;
 #if defined(OFXVP_GL_VERSION_MAJOR) && defined(OFXVP_GL_VERSION_MINOR)
     settings.setGLVersion(OFXVP_GL_VERSION_MAJOR,OFXVP_GL_VERSION_MINOR);
@@ -99,8 +102,8 @@ int main(int argc, char *argv[]){
 
     // Splash Screen Window
     ofGLFWWindowSettings splashSettings;
-    splashSettings.setSize(428,280);
-    splashSettings.setPosition(ofVec2f(ofGetScreenWidth()/2 - 214,ofGetScreenHeight()/2 - 140));
+    splashSettings.setSize(splashWinW,splashWinH);
+    splashSettings.setPosition(ofVec2f(ofGetScreenWidth()/2 - splashWinW/2,ofGetScreenHeight()/2 - splashWinH/2));
     splashSettings.resizable = false;
     splashSettings.decorated = false;
 

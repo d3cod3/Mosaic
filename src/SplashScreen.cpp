@@ -38,15 +38,20 @@ void SplashScreen::setup(){
     ofSetEscapeQuitsApp(false);
     ofSetVerticalSync(true);
 
-    if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
-        ofSetWindowShape(854,560);
-        ofSetWindowPosition(ofGetScreenWidth()/2 - 427,ofGetScreenHeight()/2 - 280);
-        font.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),160,true,true,true);
-        fontSmall.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),48,true,true,true);
-    }else{
-        font.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),80,true,true,true);
-        fontSmall.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),24,true,true,true);
-    }
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    glfwGetMonitorContentScale(primaryMonitor, &xScreenContentScale, &yScreenContentScale);
+
+    // testing retina screens and GUI scaling
+    //xScreenContentScale = 2;
+    //yScreenContentScale = 2;
+
+    float ww = 428*xScreenContentScale;
+    float wh = 280*yScreenContentScale;
+
+    ofSetWindowShape(ww,wh);
+    ofSetWindowPosition(ofGetScreenWidth()/2 - (ww/2),ofGetScreenHeight()/2 - (wh/2));
+    font.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),80*yScreenContentScale,true,true,true);
+    fontSmall.load(ofToDataPath("fonts/IBMPlexMono-Medium.ttf"),24*yScreenContentScale,true,true,true);
 
     startTime = ofGetElapsedTimeMillis();
 
@@ -81,26 +86,18 @@ void SplashScreen::draw(){
     ofBackground(0);
     ofEnableAlphaBlending();
 
-    ofSetColor(255);
     // draw background
-    background.draw(-80,-60,splashWindow->getWidth()+160,splashWindow->getHeight()+120);
+    ofSetColor(255);
+    background.draw(-80*xScreenContentScale,-60*yScreenContentScale,splashWindow->getWidth()+(160*xScreenContentScale),splashWindow->getHeight()+(120*yScreenContentScale));
+
+    // draw logo
+    ofSetColor(255,255,255,216);
+    logo.draw(20,10,128*xScreenContentScale,128*yScreenContentScale);
 
     // draw info
-    if(ofGetScreenWidth() >= 2560 && ofGetScreenHeight() >= 1600){ // RETINA SCREEN
-        // draw logo
-        ofSetColor(255,255,255,216);
-        logo.draw(20,10,256,256);
-        ofSetColor(20,20,20,229);
-        font.drawStringAsShapes(VERSION_GRAPHIC,452,182);
-        fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-360,splashWindow->getHeight()-200);
-    }else{
-        // draw logo
-        ofSetColor(255,255,255,216);
-        logo.draw(20,10,128,128);
-        ofSetColor(20,20,20,229);
-        font.drawStringAsShapes(VERSION_GRAPHIC,226,91);
-        fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-180,splashWindow->getHeight()-100);
-    }
+    ofSetColor(20,20,20,229);
+    font.drawStringAsShapes(VERSION_GRAPHIC,226*xScreenContentScale,91*yScreenContentScale);
+    fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-(180*xScreenContentScale),splashWindow->getHeight()-(100*yScreenContentScale));
 
 }
 

@@ -54,5 +54,6 @@ public:
     size_t          startTime;
 
     shared_ptr<ofAppGLFWWindow>         splashWindow;
+    float xScreenContentScale, yScreenContentScale;
 
 };
