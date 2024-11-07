@@ -74,7 +74,7 @@ void ofApp::setup(){
 
     pixelsxMM = mode->height/hScreenMM;
 
-    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,14,56));
+    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,10,56));
 
     //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;
 
@@ -132,7 +132,7 @@ void ofApp::setup(){
 
     // TO CHECK IN DIFFERENT MONITORS - FIX FONT SIZE FOR DIFFERENTS SCREEN RESOLUTION/PIXEl DEPTH
     io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // code editor font
-    io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize,&font_config); // GUI font
+    io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // GUI font
 
     // merge in icons from Font Awesome
     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
@@ -1073,7 +1073,7 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Text("Retina Scale ( Retina Screens ): %s",ofToString(retinaScale).c_str());
                         ImGui::Text("Screen Content Scale ( OS managed, accessibility ): %s",ofToString(xScreenContentScale).c_str());
                         ImGui::Text("Pixel density ( Resolution over Physical Size): %s",ofToString(pixelsxMM).c_str());
-                        ImGui::Text("Suggested font size: %s",ofToString(suggestedFontSize).c_str());
+                        ImGui::Text("Suggested font size: %s",ofToString(suggestedFontSize+(4*retinaScale)).c_str());
 
                         ImGui::EndTabItem();
                     }
