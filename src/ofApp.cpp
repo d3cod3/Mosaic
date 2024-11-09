@@ -2334,15 +2334,20 @@ void ofApp::initDataFolderFromBundle(){
 //--------------------------------------------------------------
 bool ofApp::checkInternetReachability(){
 
-    ofHttpResponse tempResp = ofLoadURL("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md");
+    FILE *output = popen("ping -c 1 www.github.com | grep -c from","r");
 
-    if(tempResp.status == 200){
+    unsigned int i;
+    fscanf(output,"%u",&i);
+
+    if(i == 1){
         string tmpstr = "[verbose] INTERNET IS AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
+        pclose(output);
         return true;
     }else{
         string tmpstr = "INTERNET IS NOT AVAILABLE!";
         ofLog(OF_LOG_ERROR,"%s",tmpstr.c_str());
+        pclose(output);
         return false;
     }
 
