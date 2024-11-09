@@ -2337,9 +2337,10 @@ bool ofApp::checkInternetReachability(){
     FILE *output = popen("ping -c 1 www.github.com | grep -c from","r");
 
     unsigned int i;
-    fscanf(output,"%u",&i);
+    bool fsf = false;
+    if(fscanf(output,"%u",&i)) fsf = true;
 
-    if(i == 1){
+    if(i == 1 && fsf){
         string tmpstr = "[verbose] INTERNET IS AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
         pclose(output);
