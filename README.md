@@ -165,7 +165,7 @@ git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/danomatika/ofxLua
 git clone https://github.com/danomatika/ofxMidi
 git clone https://github.com/d3cod3/ofxMtlMapping2D
-git clone https://github.com/d3cod3/ofxNDI
+git clone --branch=NDI5 https://github.com/d3cod3/ofxNDI
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPDSP
 git clone https://github.com/d3cod3/ofxSyphon
@@ -238,4 +238,4 @@ Mosaic is almost completely based on [ofxVisualProgramming](https://github.com/d
 
 The Mosaic team is composed by [Emanuele Mazza](https://github.com/d3cod3) [<img src="https://avatars0.githubusercontent.com/u/141075?v=4" height=50 width=50>](https://github.com/d3cod3), [Daan de Lange](https://github.com/Daandelange) [<img src="https://avatars0.githubusercontent.com/u/1329784?v=4" height=50 width=50>](https://github.com/Daandelange) and Maria José Martínez de Pisón.
 
-Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [ffmpeg](https://github.com/FFmpeg/FFmpeg)  and code from openframeworks and all the included ofxAddons.
+Mosaic uses [ImGui](https://github.com/ocornut/imgui), [kiss_fft](https://github.com/mborgerding/kissfft), [libsamplerate](https://github.com/erikd/libsamplerate), [ffmpeg](https://github.com/FFmpeg/FFmpeg), [opendht](https://github.com/savoirfairelinux/opendht)  and code from openframeworks and all the included ofxAddons.
