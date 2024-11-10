@@ -1464,7 +1464,7 @@ void ofApp::drawImGuiInterface(){
         if(isChatroomON){
             ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
 
-            if (ImGui::Begin("Chatroom",NULL,ImGuiWindowFlags_NoScrollbar)){
+            if (ImGui::Begin("Chatroom",&isChatroomON,ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse)){
 
                 isOverChatroom = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
