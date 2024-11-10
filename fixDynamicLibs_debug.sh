@@ -5,7 +5,7 @@ APPNAME="Mosaic_debug"
 
 # to check binary dependencies: otool -L $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
 
-install_name_tool -change @rpath/libndi.3.dylib @executable_path/libndi.3.dylib $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
+install_name_tool -change @rpath/libndi.dylib @executable_path/libndi.dylib $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
 install_name_tool -change @rpath/libopendht.2.dylib @executable_path/libopendht.2.dylib $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
 install_name_tool -change @rpath/libgnutls.30.dylib @executable_path/libgnutls.30.dylib $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
 install_name_tool -change @rpath/libnettle.8.dylib @executable_path/libnettle.8.dylib $SCRIPTPATH/bin/$APPNAME.app/Contents/MacOS/$APPNAME
