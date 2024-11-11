@@ -50,7 +50,7 @@
 
 #define USER_AGENT "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:62.0) Gecko/20100101 Firefox/62.0"
 
-#define DHT_NETWORK             "Mosaic Chatroom"
+#define DHT_NETWORK             "Mosaic DHT Chatroom"
 #define DHT_PORT                4222
 
 // using https://jami.net/ as backend bootstrap ( free/libre, end-to-end encrypted, and private communication software )
