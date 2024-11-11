@@ -2670,7 +2670,7 @@ void ofApp::setupDHTNode(){
     userID = myChatid.toString();
     aka = "";
 
-    chatname = "Mosaic chatroom";
+    chatname = DHT_NETWORK;
 
     room = dht::InfoHash::get(chatname);
 

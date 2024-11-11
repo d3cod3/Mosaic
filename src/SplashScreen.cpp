@@ -97,7 +97,7 @@ void SplashScreen::draw(){
     // draw info
     ofSetColor(20,20,20,229);
     font.drawStringAsShapes(VERSION_GRAPHIC,226*xScreenContentScale,91*yScreenContentScale);
-    fontSmall.drawStringAsShapes("BETA",splashWindow->getWidth()-(180*xScreenContentScale),splashWindow->getHeight()-(100*yScreenContentScale));
+    fontSmall.drawStringAsShapes("PRE-RELEASE",splashWindow->getWidth()-(226*xScreenContentScale),splashWindow->getHeight()-(100*yScreenContentScale));
 
 }
 
