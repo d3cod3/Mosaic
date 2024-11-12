@@ -356,11 +356,6 @@ void ofApp::update(){
         lastReleaseResp = ofLoadURLAsync("https://raw.githubusercontent.com/d3cod3/Mosaic/master/RELEASE.md","check_release_async");
     }
 
-    // Mosaic Chatroom
-    if(dht.dhtNode.isRunning()){
-        updateDHTChat();
-    }
-
     // Screenshot
     if(saveNewScreenshot){
         if(ofGetElapsedTimeMillis()-resetScreenshotTime > waitForScreenshotTime){ // avoid imgui filebrowser
@@ -1601,13 +1596,21 @@ void ofApp::drawImGuiInterface(){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
                                     if(it->first == chatname.c_str()){
-                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
 
-                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
+                                            if(not ok){
+                                                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+                                            }
+                                        });
                                     }else{
-                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
 
-                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
+                                            if(not ok){
+                                                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+                                            }
+                                        });
                                     }
                                 }
                                 // clear previuos message
@@ -1626,13 +1629,21 @@ void ofApp::drawImGuiInterface(){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
                                     if(it->first == chatname.c_str()){
-                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
 
-                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
+                                            if(not ok){
+                                                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+                                            }
+                                        });
                                     }else{
-                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H-%M-%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
 
-                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now));
+                                        dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
+                                            if(not ok){
+                                                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+                                            }
+                                        });
                                     }
                                 }
                                 // clear previuos message
@@ -2704,12 +2715,12 @@ void ofApp::setupDHTNode(){
 
     activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
 
-
-    if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
+    //if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
+    ofLog(OF_LOG_NOTICE,"Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
 
     // node running thread
     token = dht.dhtNode.listen<dht::ImMessage>(room, [&](dht::ImMessage&& msg) {
-            if (msg.from != myChatid){
+            if (msg.from != myChatid && isInited){
 
                 // store current session participants list
                 std::map<string,string>::iterator it = participants.find(msg.from.toString());
@@ -2721,32 +2732,33 @@ void ofApp::setupDHTNode(){
                 }
 
                 // debug log
-                if(NDEBUG){
+                /*if(NDEBUG){
                     std::cout << msg.from.toString() << " at " << dht.printTime(msg.date)
                               << " (took " << dht::print_dt(std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(msg.date))
                               << "s) " << ": " << msg.id << " - " << msg.msg << std::endl;
-                }
+                }*/
 
                 // update chatrooms messages
                 if(msg.to == myChatid){ // encrypted ( private message )
-                    activeChats[msg.from.toString()].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] " + msg.msg + "\n");
+                    std::tm * ptm = std::localtime(&msg.date);
+                    char buffer[32];
+                    std::strftime(buffer, 32, "%H:%M:%S", ptm);
+                    std::string tmpBuff = buffer;
+                    activeChats[msg.from.toString()].InsertText("["+tmpBuff+"] " +  msg.msg + "\n");
                 }else{
-                    activeChats[chatname].InsertText("["+ofGetTimestampString("%H-%M-%S")+"] " + msg.msg + "\n");
+                    if(activeChats[chatname].GetText() != ""){
+                        std::tm * ptm = std::localtime(&msg.date);
+                        char buffer[32];
+                        std::strftime(buffer, 32, "%H:%M:%S", ptm);
+                        std::string tmpBuff = buffer;
+                        activeChats[chatname].InsertText("["+tmpBuff+"] " + msg.msg + "\n");
+                    }
                 }
 
             }
             return true;
     });
 
-}
-
-//--------------------------------------------------------------
-void ofApp::updateDHTChat(){
-    participantsList = "";
-    for(std::map<std::string,std::string>::iterator it = participants.begin(); it != participants.end(); it++ ){
-        participantsList += it->second;
-        participantsList += "\n";
-    }
 }
 
 //--------------------------------------------------------------

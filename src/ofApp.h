@@ -96,7 +96,6 @@ public:
 
     // DHT Chatroom
     void            setupDHTNode();
-    void            updateDHTChat();
     bool            checkAKAIsValid(std::string aka);
     void            closeDHTNode();
 
@@ -188,7 +187,6 @@ public:
     std::string                         userID;
     std::string                         aka;
 
-    std::string                         participantsList;
     std::string                         chat_message;
     std::string                         welcome_message;
 
