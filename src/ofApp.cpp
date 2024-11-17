@@ -56,7 +56,7 @@ void ofApp::setup(){
 
     // TIMING
     mosaicFPS = 60;
-    mosaicTiming.setFramerate(mosaicFPS);
+    mosaicTiming.setFramerate(mosaicFPS); // graphical thread
     mosaicBPM = 120;
 
     // Screen data
@@ -1483,8 +1483,8 @@ void ofApp::drawImGuiInterface(){
                         if(aka != "" && checkAKAIsValid(aka)){ // if aka is not empty and is not already taken
                             participants[userID] = aka;
                         }else{
-                            participants[userID] = userID;
-                            aka = userID;
+                            aka = random_string(12);
+                            participants[userID] = aka;
                         }
                         ImGui::CloseCurrentPopup();
                     }
@@ -1501,8 +1501,8 @@ void ofApp::drawImGuiInterface(){
                         if(aka != "" && checkAKAIsValid(aka)){ // if aka is not empty and is not already taken
                             participants[userID] = aka;
                         }else{
-                            participants[userID] = userID;
-                            aka = userID;
+                            aka = random_string(12);
+                            participants[userID] = aka;
                         }
                         ImGui::CloseCurrentPopup();
                     }
@@ -1615,6 +1615,8 @@ void ofApp::drawImGuiInterface(){
                                 }
                                 // clear previuos message
                                 chat_message = "";
+                                // focus on input message again
+                                ImGui::SetKeyboardFocusHere(-1);
                             }
 
                             ImGui::PopItemWidth();
@@ -1648,6 +1650,8 @@ void ofApp::drawImGuiInterface(){
                                 }
                                 // clear previuos message
                                 chat_message = "";
+                                // focus on input message again
+                                setFocusOnMessageInput = true;
                             }
                             ImGui::PopStyleColor(3);
 
