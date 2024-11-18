@@ -1,5 +1,20 @@
 # Mosaic CHANGELOG
 
+### 0.6.9
+
+- **OS** : develop discontinued on windows, last available release 0.6.6
+- **update** : Updated core to OF 0.12.0
+- **feature** : added internal DHT distributed chatroom, based on [OpenDHT](https://github.com/savoirfairelinux/opendht)
+- **feature** : Add main monitor information section in "About Mosaic"
+- **feature** : Added sub-patch system"
+- **update** : Added canvas reset button in menu ( system -> reset canvas )
+- **update** : Added some lua random/noise examples
+- **update** : Updated to imgui 1.91
+- **update** : Updated NDI to libndi5 and enhanced video sender/video release ndi based objects (macOS only)
+- **enhancement** : Automatic GUI font size and GUI scale from main monitor data for retina screens
+- **code cleaning** : Serious code cleanup
+- **bug fixing** : Various fixes
+
 ### 0.6.5
 
 - **update** : removed Mosaic window video exporter due to cross-compatibility issues
