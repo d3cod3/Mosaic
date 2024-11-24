@@ -134,7 +134,7 @@ void ofApp::setup(){
     string absPath2 = fileToRead2.getAbsolutePath();
 
     // TO CHECK IN DIFFERENT MONITORS - FIX FONT SIZE FOR DIFFERENTS SCREEN RESOLUTION/PIXEl DEPTH
-    io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // code editor font
+    io.Fonts->AddFontFromFileTTF(absPath2.c_str(),suggestedFontSize+2+(6*retinaScale),&font_config); // code editor font
     io.Fonts->AddFontFromFileTTF(absPath1.c_str(),suggestedFontSize+(4*retinaScale),&font_config); // GUI font
 
     // merge in icons from Font Awesome
@@ -2483,7 +2483,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
     ofVec2f objPos;
 
     if(px == -1 && py == -1){
-        glm::vec3 tempPos = visualProgramming->canvas.screenToWorld(glm::vec3(visualProgramming->canvas.getMovingPoint().x,visualProgramming->canvas.getMovingPoint().y,0));
+        glm::vec3 tempPos = visualProgramming->nextObjectPosition;
         objPos.set(tempPos.x,tempPos.y);
     }else{
         objPos.set(px,py);
