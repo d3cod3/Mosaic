@@ -2,7 +2,7 @@
 
 # [MOSAIC](https://mosaic.d3cod3.org) - an openFrameworks based Visual Patching Creative-Coding Platform
 
-![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/28_transparent_machines04.jpg)
+![Mosaic](https://github.com/d3cod3/Mosaic/raw/master/process/img/31_sintax03.jpg)
 
 [![Mosaic Forum](https://img.shields.io/badge/forum-Mosaic%20Forum-2000ff)](https://mosaicforum.cryptoriot.art/)
 
@@ -29,6 +29,10 @@ Table of Contents
 ## LINUX
 
 Check the Mosaic installer here: https://github.com/d3cod3/Mosaic-Installer
+
+or
+
+Check Flathub 1 click Mosaic installer ( if installing from flathub webcam is not working ) here: https://flathub.org/apps/org.d3cod3.Mosaic
 
 ## MACOS
 
@@ -113,6 +117,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxNDI](https://github.com/d3cod3/ofxNDI) -- Fork
 
+#### [ofxOpenDHT](https://github.com/d3cod3/ofxOpenDHT)
+
 #### [ofxPd](https://github.com/danomatika/ofxPd)
 
 #### [ofxPDSP](https://github.com/d3cod3/ofxPDSP) -- Fork
@@ -143,6 +149,7 @@ Some addons are forks of the original, due to some mods, compatibility with OF0.
   - good selection of audio synthesis modules
   - warping integrated on output window object
   - mapmap style projection mapping module
+  - internal dht distributed chatroom, based on libdht
 
 
 # OFXADDONS
@@ -166,6 +173,7 @@ git clone https://github.com/danomatika/ofxLua
 git clone https://github.com/danomatika/ofxMidi
 git clone https://github.com/d3cod3/ofxMtlMapping2D
 git clone --branch=NDI5 https://github.com/d3cod3/ofxNDI
+git clone https://github.com/d3cod3/ofxOpenDHT
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPDSP
 git clone https://github.com/d3cod3/ofxSyphon

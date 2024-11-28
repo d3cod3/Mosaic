@@ -8,7 +8,7 @@
 # You'll find an example setup below, fit this to your needs !
 # Each line holds 3 variables separated by tabs : Title, Url, Branch
 
-ofxAudioFile			https://github.com/d3cod3/ofxAudioFile          master
+ofxAudioFile			https://github.com/d3cod3/ofxAudioFile              master
 ofxBTrack				https://github.com/d3cod3/ofxBTrack					master
 ofxChromaKeyShader		https://github.com/d3cod3/ofxChromaKeyShader		master
 ofxCv					https://github.com/kylemcdonald/ofxCv				master
@@ -22,6 +22,7 @@ ofxLua					https://github.com/danomatika/ofxLua				master
 ofxMidi					https://github.com/danomatika/ofxMidi				master
 ofxMtlMapping2D			https://github.com/d3cod3/ofxMtlMapping2D			master
 ofxNDI					https://github.com/d3cod3/ofxNDI					NDI5
+ofxOpenDHT              https://github.com/d3cod3/ofxOpenDHT                master
 ofxPd					https://github.com/danomatika/ofxPd					master
 ofxPDSP					https://github.com/d3cod3/ofxPDSP					master
 ofxSyphon				https://github.com/d3cod3/ofxSyphon				    master
