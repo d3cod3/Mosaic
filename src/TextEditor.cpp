@@ -2366,7 +2366,7 @@ const TextEditor::Palette & TextEditor::GetMosaicPalette()
                                    0xff5f5758, // Comment (multi line)
                                    0xaa2b2b2b, // Background
                                    0xffe0e0e0, // Cursor
-                                   0x604f423b, // Selection
+                                   0x80a06020, // Selection
                                    0x800020ff, // ErrorMarker
                                    0x40f08000, // Breakpoint
                                    0xff666666, // Line number
@@ -2457,6 +2457,34 @@ const TextEditor::Palette & TextEditor::GetRetroBluePalette()
                                    0x40000000, // Current line fill
                                    0x40808080, // Current line fill (inactive)
                                    0x40000000, // Current line edge
+                               } };
+    return p;
+}
+
+const TextEditor::Palette & TextEditor::GetConsolePalette()
+{
+    const static Palette p = { {
+                                   0xffafafaf,	// Default
+                                   0xff3cff3c,	// Keyword <--
+                                   0xffe6b496,	// Number
+                                   0xff7070e0,	// String
+                                   0xff70a0e0, // Char literal
+                                   0xffffffff, // Punctuation
+                                   0xff408080,	// Preprocessor
+                                   0xffaaaaaa, // Identifier
+                                   0xff2d2dff, // Known identifier <--
+                                   0xff007fff, // Preproc identifier <--
+                                   0xff3cff3c, // Comment (single line) <--
+                                   0xff406020, // Comment (multi line)
+                                   0xaa101010, // Background
+                                   0xffe0e0e0, // Cursor
+                                   0x80a06020, // Selection
+                                   0x800020ff, // ErrorMarker
+                                   0x40f08000, // Breakpoint
+                                   0xff707000, // Line number
+                                   0x404f423b, // Current line fill
+                                   0x304f423b, // Current line fill (inactive)
+                                   0x00a0a0a0, // Current line edge
                                } };
     return p;
 }
@@ -3997,6 +4025,59 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::AngelScrip
         langDef.mAutoIndentation = true;
 
         langDef.mName = "AngelScript";
+
+        inited = true;
+    }
+    return langDef;
+}
+
+const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::SimpleConsole()
+{
+    static bool inited = false;
+    static LanguageDefinition langDef;
+    if (!inited)
+    {
+        static const char* const keywords[] = {
+            "pdsp","opendht","help","newpatch","patchfiles","exit"
+        };
+
+        for (auto& k : keywords){
+            langDef.mKeywords.insert(k);
+        }
+
+        static const char* const ppkeywords[] = {
+            "warning"
+        };
+
+        for (auto& pk : ppkeywords){
+            Identifier id;
+            id.mDeclaration = "warning";
+            langDef.mPreprocIdentifiers.insert(std::make_pair(std::string(pk), id));
+        }
+
+        static const char* const identifiers[] = {
+            "error", "fatal"
+        };
+        for (auto& k : identifiers)
+        {
+            Identifier id;
+            id.mDeclaration = "error";
+            langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
+        }
+
+
+        langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[0-9]+[Uu]?[lL]?[lL]?", PaletteIndex::Number));
+        langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[+-]?[0-9]+[Uu]?[lL]?[lL]?", PaletteIndex::Identifier));
+        langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[a-zA-Z_][a-zA-Z0-9_]*", PaletteIndex::Identifier));
+
+        langDef.mCommentStart = "/*";
+        langDef.mCommentEnd = "*/";
+        langDef.mSingleLineComment = "--";
+
+        langDef.mCaseSensitive = true;
+        langDef.mAutoIndentation = true;
+
+        langDef.mName = "SimpleConsole";
 
         inited = true;
     }

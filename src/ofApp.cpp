@@ -91,15 +91,22 @@ void ofApp::setup(){
     pixelScreenScale = retinaScale*fontScaling;
 
     // LOGGER
+    setupCommands();
+    mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
+    mosaicLoggerChannel->setRetinaScale(retinaScale);
+    ofAddListener(mosaicLoggerChannel->commandEvent ,this,&ofApp::sendCommand);
+
+    ofSetLoggerChannel(mosaicLoggerChannel);
+
     isInited        = false;
     isWindowResized = false;
     isLoggerON      = false;
-    mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
-    ofSetLoggerChannel(mosaicLoggerChannel);
 
+
+    // Log Mosaic info
     std::string tmp_msg = "";
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
-    tmp_msg = " an open project by Emanuele Mazza aka n3m3da";
+    tmp_msg = "an open project by Emanuele Mazza aka n3m3da";
     ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
     ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
     tmp_msg = "This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.";
@@ -446,7 +453,7 @@ void ofApp::draw(){
     }
 
     // FORCE CUSTOM VERBOSE
-    if(tmpMsg.find("[verbose]") != std::string::npos){
+    if(tmpMsg.find("--") != std::string::npos){
         ofSetColor(60, 255, 60);
     }
     visualProgramming->font->drawString(tmpMsg,100*retinaScale,ofGetHeight() - (6*retinaScale));
@@ -1931,6 +1938,14 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
     }
+    // tab autocompletion on console command
+    else if(e.keycode == 258 && isLoggerON && !isOverCodeEditor){
+        string tc = mosaicLoggerChannel->log_command;
+
+        ImGui::SetWindowFocus(NULL); // change focus to nowhere
+        mosaicLoggerChannel->setCommand(getCommandMatch(tc)); // autocomplete command
+        mosaicLoggerChannel->recoverFocus = true; // recover focus on console input command
+    }
 
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
 }
@@ -2356,7 +2371,7 @@ bool ofApp::checkInternetReachability(){
     if(fscanf(output,"%u",&i)) fsf = true;
 
     if(i == 1 && fsf){
-        string tmpstr = "[verbose] INTERNET IS AVAILABLE!";
+        string tmpstr = "------------------- INTERNET IS AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
         pclose(output);
         return true;
@@ -2376,7 +2391,7 @@ void ofApp::checkForUpdates(){
 
     string actualVersion = VERSION;
     if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) ) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) == ofToInt(string(1,lastRelease.at(2))) && ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4))) )){
-        ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC %s UPDATE AVAILABLE!",lastRelease.c_str());
+        ofLog(OF_LOG_NOTICE,"-- NEW MOSAIC %s UPDATE AVAILABLE!",lastRelease.c_str());
     }else{
         tmpstr = "NO NEW MOSAIC UPDATE AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
@@ -2570,6 +2585,68 @@ bool ofApp::checkFileUsedInPatch(string filepath){
 }
 
 //--------------------------------------------------------------
+void ofApp::setupCommands(){
+    commandsList.assign(100,MosaicCommand());
+    commandsList[0].command = "help";
+    commandsList[0].description = "Print the list with all available commands";
+    commandsList[1].command = "newpatch";
+    commandsList[1].description = "Close current patch and start a new one from scratch";
+    commandsList[2].command = "patchfiles";
+    commandsList[2].description = "List all files in patch Data/ folder";
+    commandsList[99].command = "exit";
+    commandsList[99].description = "Quit Mosaic";
+}
+
+//--------------------------------------------------------------
+void ofApp::sendCommand(string &command){
+    if(command == "help"){
+        ofLog(OF_LOG_NOTICE,"%s","-- The list of all available commands");
+        for(size_t i=0;i<commandsList.size();i++){
+            if(commandsList[i].command != ""){
+                ofLog(OF_LOG_NOTICE,"%s - %s",commandsList[i].command.c_str(),commandsList[i].description.c_str());
+            }
+        }
+    }else if(command == "newpatch"){
+        visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
+        ofFile temp(visualProgramming->currentPatchFile);
+        assetFolder.reset();
+        assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+        assetFolder.sort();
+        assetWatcher.removeAllPaths();
+        assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+    }else if(command == "patchfiles"){
+        if(assetFolder.getFiles().size() > 0){
+            ofLog(OF_LOG_NOTICE,"%s","-- The list of files inside patch Data/ folder");
+            for(size_t i=0;i<assetFolder.getFiles().size();i++){
+                if(assetFolder.getFile(i).isDirectory()){
+                    ofLog(OF_LOG_NOTICE,"%s/",assetFolder.getFile(i).getFileName().c_str());
+                }else{
+                    ofLog(OF_LOG_NOTICE,"%s",assetFolder.getFile(i).getFileName().c_str());
+                }
+            }
+        }else{
+            ofLog(OF_LOG_NOTICE,"%s","Patch Data/ folder is empty");
+        }
+
+    }else if(command == "exit"){
+        quitMosaic();
+    }else{
+        ofLog(OF_LOG_NOTICE,"%s","[error] Command not found!");
+    }
+}
+
+//--------------------------------------------------------------
+string ofApp::getCommandMatch(string text){
+    for(size_t i=0;i<commandsList.size();i++){
+        if (containString(commandsList[i].command, text)) {
+            return commandsList[i].command;
+        }
+    }
+
+    return text;
+}
+
+//--------------------------------------------------------------
 void ofApp::initScriptLanguages(){
     // ------------------------------------------- LUA
     static const char* const lua_mosaic_keywords[] = {
@@ -2720,7 +2797,7 @@ void ofApp::setupDHTNode(){
     activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
 
     //if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
-    ofLog(OF_LOG_NOTICE,"Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
+    ofLog(OF_LOG_NOTICE,"[opendht] Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
 
     // node running thread
     token = dht.dhtNode.listen<dht::ImMessage>(room, [&](dht::ImMessage&& msg) {

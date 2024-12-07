@@ -35,6 +35,14 @@
 #include "BaseTheme.h"
 #include "ofMain.h"
 
+#include "TextEditor.h"
+#include "imgui_stdlib.h"
+
+struct MosaicCommand{
+    std::string command;
+    std::string description;
+};
+
 class MosaicTheme : public ofxImGui::BaseTheme{
 
 public:
@@ -60,17 +68,44 @@ class MosaicLoggerChannel : public ofBaseLoggerChannel
 {
 public:
 
-    ImVector<char*>     Items;
-    bool                scrollToBottom;
+    ImVector<char*>             Items;
+    TextEditor                  console;
+
+    bool                        scrollToBottom;
+    bool                        recoverFocus;
+    std::string                 log_command;
+    float                       retinaScale;
+
+    ofEvent<std::string>        commandEvent;
 
     MosaicLoggerChannel() {
         scrollToBottom = true;
+        recoverFocus = false;
+        log_command = "";
+        retinaScale = 1.0f;
+
+        console.SetShowWhitespaces(false);
+        console.SetText("");
+        console.SetReadOnly(true);
+        console.SetShowLineNumbers(false);
+        console.SetPalette(TextEditor::GetConsolePalette());
+        console.SetLanguageDefinition(TextEditor::LanguageDefinition::SimpleConsole());
+    }
+
+    void setRetinaScale(float s){
+        retinaScale = s;
+    }
+
+    void setCommand(string comm){
+        log_command = comm;
     }
 
     void log( ofLogLevel level, const std::string & module, const std::string & message ){
         std::ostringstream oss;
         oss << ofGetTimestampString("%H:%M:%S:%i") << " ";
-        oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        if(ofGetLogLevelName(level, true) != "notice "){
+            oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        }
         if (module != "") {
             oss << module << ": ";
         }
@@ -88,7 +123,9 @@ public:
         // Compose the message.
         std::ostringstream oss;
         oss << ofGetTimestampString("%H:%M:%S:%i") << " ";
-        oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        if(ofGetLogLevelName(level, true) != "notice "){
+            oss << "[" << ofGetLogLevelName(level, true) << "] ";
+        }
         if (module != "") {
             oss << module << ": ";
         }
@@ -113,6 +150,7 @@ public:
         buf[IM_ARRAYSIZE(buf)-1] = 0;
         va_end(args);
         Items.push_back(strdup(buf));
+        console.InsertText(strdup(buf));
         scrollToBottom = true;
     }
 
@@ -138,24 +176,28 @@ public:
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
 
             ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-            for (int i = 0; i < Items.Size; i++){
-                const char* item = Items[i];
-                ImVec4 col = col_default_text;
-                if (strstr(item, "[notice")) col = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-                else if (strstr(item, "[warning")) col = ImColor(1.0f,0.5f,0.0f,1.0f);
-                else if (strstr(item, "[ error")) col = ImColor(1.0f,0.176f,0.176f,1.0f);
-                else if (strstr(item, "[silent")) col = ImColor(1.0f,0.78f,0.58f,1.0f);
-                else if (strncmp(item, "# ", 2) == 0) col = ImColor(1.0f,0.78f,0.58f,1.0f);
 
-                // force verbose
-                if(strstr(item, "[verbose]")){
-                    col = ImColor(0.235f,1.0f,0.235f,1.0f);
-                }
+            console.Render("Console",ImVec2(-1.0, -36*retinaScale));
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
 
-                ImGui::PushStyleColor(ImGuiCol_Text, col);
-                ImGui::TextUnformatted(item);
-                ImGui::PopStyleColor();
+            if(recoverFocus){
+                recoverFocus = false;
+                ImGui::SetKeyboardFocusHere();
             }
+            ImGui::PushStyleColor(ImGuiCol_TextSelectedBg,ImVec4(1,1,1,0.05));
+            if(ImGui::InputTextWithHint("###command","Send a command...",&log_command,ImGuiInputTextFlags_EnterReturnsTrue)){
+                if(log_command != ""){
+                    ofNotifyEvent(commandEvent,log_command);
+                }
+                // clear previuos command
+                log_command = "";
+                // focus on input command again
+                ImGui::SetKeyboardFocusHere(-1);
+            }
+            ImGui::PopStyleColor();
+
 
             if(scrollToBottom){
                 scrollToBottom = false;

@@ -89,6 +89,11 @@ public:
     void            createObjectFromFile(ofFile file,bool temp,int px=-1, int py=-1);
     bool            checkFileUsedInPatch(string filepath);
 
+    // Logger/Console
+    void            setupCommands();
+    void            sendCommand(string &command);
+    string          getCommandMatch(string text);
+
     // Code Editor
     void            initScriptLanguages();
     void            initNewCodeEditor(ofFile file);
@@ -169,6 +174,7 @@ public:
     bool                            isOverCodeEditor;
 
     // LOGGER
+    vector<MosaicCommand>           commandsList;
     bool                            isInited;
     bool                            isWindowResized;
     bool                            isLoggerON;
