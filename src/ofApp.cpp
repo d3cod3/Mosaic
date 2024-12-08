@@ -2599,6 +2599,9 @@ void ofApp::setupCommands(){
 
 //--------------------------------------------------------------
 void ofApp::sendCommand(string &command){
+    // go to the end of logger
+    mosaicLoggerChannel->console.SetCursorPosition(TextEditor::Coordinates((int)mosaicLoggerChannel->console.GetTotalLines(), 0));
+    // run command
     if(command == "help"){
         ofLog(OF_LOG_NOTICE,"%s","-- The list of all available commands");
         for(size_t i=0;i<commandsList.size();i++){
