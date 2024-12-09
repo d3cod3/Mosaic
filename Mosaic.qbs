@@ -10,6 +10,8 @@ Project{
 
     ofApp {
         name: { return FileInfo.baseName(sourceDirectory) }
+        cpp.minimumMacosVersion: '10.15'
+        cpp.cxxLanguageVersion: 'c++17'
 
         files: [
             "profiler/tracy/TracyClient.cpp",
@@ -35,7 +37,17 @@ Project{
         // flags by default to add the core libraries, search paths...
         // this flags can be augmented through the following properties:
         of.pkgConfigs: []       // list of additional system pkgs to include
-        of.includePaths: ['profiler/tracy']     // include search paths
+        of.includePaths: {
+            var paths = ['profiler/tracy'];
+            if(qbs.hostOS.contains("osx")){
+                paths = paths.concat(['of_root+'/addons/ofxFft/src']);
+            }else if(qbs.hostOS.contains("windows")){
+                paths = paths.concat([]);
+            }else if(qbs.hostOS.contains("linux")){
+                paths = paths.concat([]);
+            }
+            return paths;
+        }
         of.cFlags: []           // flags passed to the c compiler
 
 
@@ -54,7 +66,20 @@ Project{
         }
 
         // flags passed to the linker
-        of.linkerFlags: []
+        of.linkerFlags: {
+            var lFlags = [''];
+            if(qbs.hostOS.contains("osx")){
+                lFlags = lFlags.concat([
+                    '-L'+of_root+'/addons/ofxFFt/libs/fftw/lib',
+                    '-lopendht', '-lgnutls', '-lnettle', '-lfmt', // for openDHT
+                ]);
+            }else if(qbs.hostOS.contains("windows")){
+                lFlags = lFlags.concat([]);
+            }else if(qbs.hostOS.contains("linux")){
+                lFlags = lFlags.concat([]);
+            }
+            return lFlags;
+        }
 
         // defines are passed as -D to the compiler, and can be checked with #ifdef or #if in the code
         of.defines: {
@@ -125,14 +150,15 @@ Project{
             condition: qbs.targetOS.contains("osx") || qbs.targetOS.contains("macos")
             of.addons: outer.concat(['ofxSyphon'])
             of.frameworks: outer.concat(['Syphon'])
-            cpp.frameworkPaths: ['../../../addons/ofxSyphon/libs/Syphon/lib/osx/']
+            cpp.frameworkPaths: [of_root+'/addons/ofxSyphon/libs/Syphon/lib/osx/']
             // dirty fix for compiling .mm files (not auto-detected on qt)
             files: outer.concat([
-                                    '../../../addons/ofxSyphon/src/ofxSyphonClient.mm',
-                                    '../../../addons/ofxSyphon/src/ofxSyphonServer.mm',
-                                    '../../../addons/ofxSyphon/src/ofxSyphonServerDirectory.mm',
-                                    '../../../addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m',
-                                ])
+                of_root + '/addons/ofxSyphon/src/ofxSyphonClient.mm',
+                of_root + '/addons/ofxSyphon/src/ofxSyphonServer.mm',
+                of_root + '/addons/ofxSyphon/src/ofxSyphonServerDirectory.mm',
+                of_root + '/addons/ofxSyphon/src/ofxSyphonNSObject.mm',
+                of_root + '/addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m',
+            ])
         }
 
         Depends{
