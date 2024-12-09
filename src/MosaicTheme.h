@@ -140,6 +140,8 @@ public:
             free(Items[i]);
         }
         Items.clear();
+
+        console.SetText("");
     }
 
     void AddLog(const char* fmt, ...) IM_FMTARGS(2){
@@ -187,6 +189,7 @@ public:
                 ImGui::SetKeyboardFocusHere();
             }
             ImGui::PushStyleColor(ImGuiCol_TextSelectedBg,ImVec4(1,1,1,0.05));
+            ImGui::PushItemWidth(-1);
             if(ImGui::InputTextWithHint("###command","Send a command...",&log_command,ImGuiInputTextFlags_EnterReturnsTrue)){
                 if(log_command != ""){
                     ofNotifyEvent(commandEvent,log_command);
@@ -196,6 +199,7 @@ public:
                 // focus on input command again
                 ImGui::SetKeyboardFocusHere(-1);
             }
+            ImGui::PopItemWidth();
             ImGui::PopStyleColor();
 
 

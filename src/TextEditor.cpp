@@ -2476,7 +2476,7 @@ const TextEditor::Palette & TextEditor::GetConsolePalette()
                                    0xff007fff, // Preproc identifier <--
                                    0xff3cff3c, // Comment (single line) <--
                                    0xff406020, // Comment (multi line)
-                                   0xaa101010, // Background
+                                   0x88101010, // Background
                                    0xffe0e0e0, // Cursor
                                    0x80a06020, // Selection
                                    0x800020ff, // ErrorMarker
