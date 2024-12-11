@@ -93,8 +93,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxBTrack](https://github.com/d3cod3/ofxBTrack) -- Fork
 
-#### [ofxChromaKeyShader](https://github.com/d3cod3/ofxChromaKeyShader) -- Fork
-
 #### [ofxCv](https://github.com/kylemcdonald/ofxCv)
 
 #### [ofxEasing](https://github.com/arturoc/ofxEasing)
@@ -161,7 +159,6 @@ cd <your_openframeworks_release_folder>/addons
 
 git clone https://github.com/d3cod3/ofxAudioFile
 git clone https://github.com/d3cod3/ofxBTrack
-git clone https://github.com/d3cod3/ofxChromaKeyShader
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
