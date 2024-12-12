@@ -1603,7 +1603,9 @@ void ofApp::drawImGuiInterface(){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
                                     if(it->first == chatname.c_str()){
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1611,7 +1613,9 @@ void ofApp::drawImGuiInterface(){
                                             }
                                         });
                                     }else{
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1638,7 +1642,9 @@ void ofApp::drawImGuiInterface(){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
                                     if(it->first == chatname.c_str()){
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1646,7 +1652,9 @@ void ofApp::drawImGuiInterface(){
                                             }
                                         });
                                     }else{
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -2828,14 +2836,18 @@ void ofApp::setupDHTNode(){
                     char buffer[32];
                     std::strftime(buffer, 32, "%H:%M:%S", ptm);
                     std::string tmpBuff = buffer;
+                    activeChats[msg.from.toString()].SetReadOnly(false);
                     activeChats[msg.from.toString()].InsertText("["+tmpBuff+"] " +  msg.msg + "\n");
+                    activeChats[msg.from.toString()].SetReadOnly(true);
                 }else{
                     if(activeChats[chatname].GetText() != ""){
                         std::tm * ptm = std::localtime(&msg.date);
                         char buffer[32];
                         std::strftime(buffer, 32, "%H:%M:%S", ptm);
                         std::string tmpBuff = buffer;
+                        activeChats[chatname].SetReadOnly(false);
                         activeChats[chatname].InsertText("["+tmpBuff+"] " + msg.msg + "\n");
+                        activeChats[chatname].SetReadOnly(true);
                     }
                 }
 
