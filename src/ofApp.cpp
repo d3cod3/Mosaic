@@ -1531,7 +1531,7 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Text("%s",it->first.c_str());
                         ImGui::Spacing();
                         ImGui::Text("%s",it->second.c_str());
-                        if(activeChats.find(it->first) == activeChats.end() && it->first != userID){
+                        /*if(activeChats.find(it->first) == activeChats.end() && it->first != userID){
                             ImGui::Spacing();
                             ImGui::Separator();
                             ImGui::Spacing();
@@ -1547,7 +1547,7 @@ void ofApp::drawImGuiInterface(){
                                 activeChats.insert( pair<string,TextEditor>(it->first,newPrivateChat) );
                                 ImGui::CloseCurrentPopup();
                             }
-                        }
+                        }*/
 
                         ImGui::EndPopup();
                     }
