@@ -1531,7 +1531,7 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Text("%s",it->first.c_str());
                         ImGui::Spacing();
                         ImGui::Text("%s",it->second.c_str());
-                        /*if(activeChats.find(it->first) == activeChats.end() && it->first != userID){
+                        if(activeChats.find(it->first) == activeChats.end() && it->first != userID){
                             ImGui::Spacing();
                             ImGui::Separator();
                             ImGui::Spacing();
@@ -1547,7 +1547,7 @@ void ofApp::drawImGuiInterface(){
                                 activeChats.insert( pair<string,TextEditor>(it->first,newPrivateChat) );
                                 ImGui::CloseCurrentPopup();
                             }
-                        }*/
+                        }
 
                         ImGui::EndPopup();
                     }
@@ -1602,6 +1602,7 @@ void ofApp::drawImGuiInterface(){
                                 if(chat_message != ""){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
+                                    // Mosaic chatroom
                                     if(it->first == chatname.c_str()){
                                         activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
@@ -1612,6 +1613,7 @@ void ofApp::drawImGuiInterface(){
                                                 ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
                                             }
                                         });
+                                    // Private chatroom
                                     }else{
                                         activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
@@ -2793,7 +2795,7 @@ void ofApp::setupDHTNode(){
     welcome_message +="You can communicate here in the public chatroom, or you can open a new private chat with a specific user from the list on the left,\n";
     welcome_message +="so many as you want.\n";
     welcome_message +="This space is not regulated, moderated or supervised, you can change your aka every time you open the software, and absolutely no user data is\n";
-    welcome_message +="stored nowhere, as the concept behind the term, this space is free, so use and enjoy it at your own pace.\n\n\n";
+    welcome_message +="stored anywhere, as the concept behind the term, this space is free, so use and enjoy it at your own pace.\n\n\n";
 
     //std::cout << welcome_message << std::endl;
 
@@ -2821,6 +2823,23 @@ void ofApp::setupDHTNode(){
                     unsigned last = msg.msg.find_last_of(">");
                     string newAka = msg.msg.substr(first+1,last-first-1);
                     participants[msg.from.toString()] = newAka;
+                }
+
+                // remove exited users
+                if(containString(msg.msg,"leaved Mosaic Chatroom!!!")){
+                    unsigned first = msg.msg.find("<");
+                    unsigned last = msg.msg.find_last_of(">");
+                    string byeAka = msg.msg.substr(first+1,last-first-1);
+                    std::map<string,string>::iterator temp_it = participants.find(msg.from.toString());
+                    if (temp_it != participants.end()){
+                        participants.erase(temp_it);
+
+                        // remove private chat with exited user ( if there was one )
+                        std::map<std::string,TextEditor>::iterator temp_it2 = activeChats.find(msg.from.toString());
+                        if (temp_it2 != activeChats.end()){
+                            activeChats.erase(temp_it2);
+                        }
+                    }
                 }
 
                 // debug log
@@ -2870,6 +2889,14 @@ bool ofApp::checkAKAIsValid(std::string aka){
 //--------------------------------------------------------------
 void ofApp::closeDHTNode(){
     if(dht.dhtNode.isRunning()){
+        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        // send goodbye message
+        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> leaved Mosaic Chatroom!!!"), now), [](bool ok){
+            if(not ok){
+                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+            }
+        });
+
         dht.dhtNode.cancelListen(room, std::move(token));
         dht.stopDHTNode();
     }
