@@ -1919,26 +1919,32 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // open/close Asset Manager ( MOD_KEY-m )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 77){
         isAssetLibraryON = !isAssetLibraryON;
+        visualProgramming->setPatchVariable("AssetManager",static_cast<int>(isAssetLibraryON));
     }
     // open/close Code Editor ( MOD_KEY-e )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 69){
         isCodeEditorON = !isCodeEditorON;
+        visualProgramming->setPatchVariable("CodeEditor",static_cast<int>(isCodeEditorON));
     }
     // open/close Inspector ( MOD_KEY-i )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 73){
         visualProgramming->inspectorActive = !visualProgramming->inspectorActive;
+        visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
     }
     // open/close Logger ( MOD_KEY-l )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
         isLoggerON = !isLoggerON;
+        visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
     }
     // open/close Profiler ( MOD_KEY-p )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 80){
         visualProgramming->profilerActive = !visualProgramming->profilerActive;
+        visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
     }
     // open/close Patch Navigator ( MOD_KEY-t )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
         visualProgramming->navigationActive = !visualProgramming->navigationActive;
+        visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
     }
     // open/close Chatroom ( MOD_KEY-d )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 68){
