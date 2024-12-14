@@ -91,15 +91,22 @@ void ofApp::setup(){
     pixelScreenScale = retinaScale*fontScaling;
 
     // LOGGER
+    setupCommands();
+    mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
+    mosaicLoggerChannel->setRetinaScale(retinaScale);
+    ofAddListener(mosaicLoggerChannel->commandEvent ,this,&ofApp::sendCommand);
+
+    ofSetLoggerChannel(mosaicLoggerChannel);
+
     isInited        = false;
     isWindowResized = false;
     isLoggerON      = false;
-    mosaicLoggerChannel = shared_ptr<MosaicLoggerChannel>(new MosaicLoggerChannel());
-    ofSetLoggerChannel(mosaicLoggerChannel);
 
+
+    // Log Mosaic info
     std::string tmp_msg = "";
     ofLog(OF_LOG_NOTICE,"%s | %s <%s>",WINDOW_TITLE,DESCRIPTION,MOSAIC_WWW);
-    tmp_msg = " an open project by Emanuele Mazza aka n3m3da";
+    tmp_msg = "an open project by Emanuele Mazza aka n3m3da";
     ofLog(OF_LOG_NOTICE,"%s",tmp_msg.c_str());
     ofLog(OF_LOG_NOTICE,"Developers: %s",MOSAIC_DEVELOPERS);
     tmp_msg = "This project deals with the idea of integrate/amplify human-machine communication, offering a real-time flowchart based visual interface for high level creative coding.";
@@ -446,7 +453,7 @@ void ofApp::draw(){
     }
 
     // FORCE CUSTOM VERBOSE
-    if(tmpMsg.find("[verbose]") != std::string::npos){
+    if(tmpMsg.find("--") != std::string::npos){
         ofSetColor(60, 255, 60);
     }
     visualProgramming->font->drawString(tmpMsg,100*retinaScale,ofGetHeight() - (6*retinaScale));
@@ -1595,16 +1602,22 @@ void ofApp::drawImGuiInterface(){
                                 if(chat_message != ""){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
+                                    // Mosaic chatroom
                                     if(it->first == chatname.c_str()){
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
                                                 ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
                                             }
                                         });
+                                    // Private chatroom
                                     }else{
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1631,7 +1644,9 @@ void ofApp::drawImGuiInterface(){
                                     auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
                                     if(it->first == chatname.c_str()){
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"] <" + aka + ">\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1639,7 +1654,9 @@ void ofApp::drawImGuiInterface(){
                                             }
                                         });
                                     }else{
+                                        activeChats[it->first].SetReadOnly(false);
                                         activeChats[it->first].InsertText("["+ofGetTimestampString("%H:%M:%S")+"]\t" + chat_message + "\n");
+                                        activeChats[it->first].SetReadOnly(true);
 
                                         dht.dhtNode.putEncrypted(room, dht::InfoHash(it->first), dht::ImMessage(rand_id(rd), std::move("<"+aka+"> "+chat_message), now), [](bool ok){
                                             if(not ok){
@@ -1902,26 +1919,32 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // open/close Asset Manager ( MOD_KEY-m )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 77){
         isAssetLibraryON = !isAssetLibraryON;
+        visualProgramming->setPatchVariable("AssetManager",static_cast<int>(isAssetLibraryON));
     }
     // open/close Code Editor ( MOD_KEY-e )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 69){
         isCodeEditorON = !isCodeEditorON;
+        visualProgramming->setPatchVariable("CodeEditor",static_cast<int>(isCodeEditorON));
     }
     // open/close Inspector ( MOD_KEY-i )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 73){
         visualProgramming->inspectorActive = !visualProgramming->inspectorActive;
+        visualProgramming->setPatchVariable("Inspector",static_cast<int>(visualProgramming->inspectorActive));
     }
     // open/close Logger ( MOD_KEY-l )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 76){
         isLoggerON = !isLoggerON;
+        visualProgramming->setPatchVariable("Logger",static_cast<int>(isLoggerON));
     }
     // open/close Profiler ( MOD_KEY-p )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 80){
         visualProgramming->profilerActive = !visualProgramming->profilerActive;
+        visualProgramming->setPatchVariable("Profiler",static_cast<int>(visualProgramming->profilerActive));
     }
     // open/close Patch Navigator ( MOD_KEY-t )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 84){
         visualProgramming->navigationActive = !visualProgramming->navigationActive;
+        visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
     }
     // open/close Chatroom ( MOD_KEY-d )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 68){
@@ -1930,6 +1953,14 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
     // open/close Objects Menu ( MOD_KEY-o )
     else if(e.hasModifier(MOD_KEY) && e.keycode == 79){
         showRightClickMenu = !showRightClickMenu;
+    }
+    // tab autocompletion on console command
+    else if(e.keycode == 258 && isLoggerON && !isOverCodeEditor){
+        string tc = mosaicLoggerChannel->log_command;
+
+        ImGui::SetWindowFocus(NULL); // change focus to nowhere
+        mosaicLoggerChannel->setCommand(getCommandMatch(tc)); // autocomplete command
+        mosaicLoggerChannel->recoverFocus = true; // recover focus on console input command
     }
 
     //ofLog(OF_LOG_NOTICE,"%i",e.keycode);
@@ -2356,7 +2387,7 @@ bool ofApp::checkInternetReachability(){
     if(fscanf(output,"%u",&i)) fsf = true;
 
     if(i == 1 && fsf){
-        string tmpstr = "[verbose] INTERNET IS AVAILABLE!";
+        string tmpstr = "------------------- INTERNET IS AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
         pclose(output);
         return true;
@@ -2376,7 +2407,7 @@ void ofApp::checkForUpdates(){
 
     string actualVersion = VERSION;
     if(ofToInt(string(1,actualVersion.at(0))) < ofToInt(string(1,lastRelease.at(0))) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) < ofToInt(string(1,lastRelease.at(2))) ) || ( ofToInt(string(1,actualVersion.at(0))) == ofToInt(string(1,lastRelease.at(0))) && ofToInt(string(1,actualVersion.at(2))) == ofToInt(string(1,lastRelease.at(2))) && ofToInt(string(1,actualVersion.at(4))) < ofToInt(string(1,lastRelease.at(4))) )){
-        ofLog(OF_LOG_NOTICE,"[verbose]NEW MOSAIC %s UPDATE AVAILABLE!",lastRelease.c_str());
+        ofLog(OF_LOG_NOTICE,"-- NEW MOSAIC %s UPDATE AVAILABLE!",lastRelease.c_str());
     }else{
         tmpstr = "NO NEW MOSAIC UPDATE AVAILABLE!";
         ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
@@ -2570,6 +2601,71 @@ bool ofApp::checkFileUsedInPatch(string filepath){
 }
 
 //--------------------------------------------------------------
+void ofApp::setupCommands(){
+    commandsList.assign(100,MosaicCommand());
+    commandsList[0].command = "help";
+    commandsList[0].description = "Print the list with all available commands";
+    commandsList[1].command = "newpatch";
+    commandsList[1].description = "Close current patch and start a new one from scratch";
+    commandsList[2].command = "patchfiles";
+    commandsList[2].description = "List all files in patch Data/ folder";
+    commandsList[99].command = "exit";
+    commandsList[99].description = "Quit Mosaic";
+}
+
+//--------------------------------------------------------------
+void ofApp::sendCommand(string &command){
+    // go to the end of logger
+    mosaicLoggerChannel->console.SetCursorPosition(TextEditor::Coordinates((int)mosaicLoggerChannel->console.GetTotalLines(), 0));
+    // run command
+    if(command == "help"){
+        ofLog(OF_LOG_NOTICE,"%s","-- The list of all available commands");
+        for(size_t i=0;i<commandsList.size();i++){
+            if(commandsList[i].command != ""){
+                ofLog(OF_LOG_NOTICE,"%s - %s",commandsList[i].command.c_str(),commandsList[i].description.c_str());
+            }
+        }
+    }else if(command == "newpatch"){
+        visualProgramming->newPatch(ofToString(VERSION_GRAPHIC));
+        ofFile temp(visualProgramming->currentPatchFile);
+        assetFolder.reset();
+        assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+        assetFolder.sort();
+        assetWatcher.removeAllPaths();
+        assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+    }else if(command == "patchfiles"){
+        if(assetFolder.getFiles().size() > 0){
+            ofLog(OF_LOG_NOTICE,"%s","-- The list of files inside patch Data/ folder");
+            for(size_t i=0;i<assetFolder.getFiles().size();i++){
+                if(assetFolder.getFile(i).isDirectory()){
+                    ofLog(OF_LOG_NOTICE,"%s/",assetFolder.getFile(i).getFileName().c_str());
+                }else{
+                    ofLog(OF_LOG_NOTICE,"%s",assetFolder.getFile(i).getFileName().c_str());
+                }
+            }
+        }else{
+            ofLog(OF_LOG_NOTICE,"%s","Patch Data/ folder is empty");
+        }
+
+    }else if(command == "exit"){
+        quitMosaic();
+    }else{
+        ofLog(OF_LOG_NOTICE,"%s","[error] Command not found!");
+    }
+}
+
+//--------------------------------------------------------------
+string ofApp::getCommandMatch(string text){
+    for(size_t i=0;i<commandsList.size();i++){
+        if (containString(commandsList[i].command, text)) {
+            return commandsList[i].command;
+        }
+    }
+
+    return text;
+}
+
+//--------------------------------------------------------------
 void ofApp::initScriptLanguages(){
     // ------------------------------------------- LUA
     static const char* const lua_mosaic_keywords[] = {
@@ -2705,7 +2801,7 @@ void ofApp::setupDHTNode(){
     welcome_message +="You can communicate here in the public chatroom, or you can open a new private chat with a specific user from the list on the left,\n";
     welcome_message +="so many as you want.\n";
     welcome_message +="This space is not regulated, moderated or supervised, you can change your aka every time you open the software, and absolutely no user data is\n";
-    welcome_message +="stored nowhere, as the concept behind the term, this space is free, so use and enjoy it at your own pace.\n\n\n";
+    welcome_message +="stored anywhere, as the concept behind the term, this space is free, so use and enjoy it at your own pace.\n\n\n";
 
     //std::cout << welcome_message << std::endl;
 
@@ -2720,7 +2816,7 @@ void ofApp::setupDHTNode(){
     activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
 
     //if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
-    ofLog(OF_LOG_NOTICE,"Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
+    ofLog(OF_LOG_NOTICE,"[opendht] Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
 
     // node running thread
     token = dht.dhtNode.listen<dht::ImMessage>(room, [&](dht::ImMessage&& msg) {
@@ -2733,6 +2829,23 @@ void ofApp::setupDHTNode(){
                     unsigned last = msg.msg.find_last_of(">");
                     string newAka = msg.msg.substr(first+1,last-first-1);
                     participants[msg.from.toString()] = newAka;
+                }
+
+                // remove exited users
+                if(containString(msg.msg,"leaved Mosaic Chatroom!!!")){
+                    unsigned first = msg.msg.find("<");
+                    unsigned last = msg.msg.find_last_of(">");
+                    string byeAka = msg.msg.substr(first+1,last-first-1);
+                    std::map<string,string>::iterator temp_it = participants.find(msg.from.toString());
+                    if (temp_it != participants.end()){
+                        participants.erase(temp_it);
+
+                        // remove private chat with exited user ( if there was one )
+                        std::map<std::string,TextEditor>::iterator temp_it2 = activeChats.find(msg.from.toString());
+                        if (temp_it2 != activeChats.end()){
+                            activeChats.erase(temp_it2);
+                        }
+                    }
                 }
 
                 // debug log
@@ -2748,14 +2861,18 @@ void ofApp::setupDHTNode(){
                     char buffer[32];
                     std::strftime(buffer, 32, "%H:%M:%S", ptm);
                     std::string tmpBuff = buffer;
+                    activeChats[msg.from.toString()].SetReadOnly(false);
                     activeChats[msg.from.toString()].InsertText("["+tmpBuff+"] " +  msg.msg + "\n");
+                    activeChats[msg.from.toString()].SetReadOnly(true);
                 }else{
                     if(activeChats[chatname].GetText() != ""){
                         std::tm * ptm = std::localtime(&msg.date);
                         char buffer[32];
                         std::strftime(buffer, 32, "%H:%M:%S", ptm);
                         std::string tmpBuff = buffer;
+                        activeChats[chatname].SetReadOnly(false);
                         activeChats[chatname].InsertText("["+tmpBuff+"] " + msg.msg + "\n");
+                        activeChats[chatname].SetReadOnly(true);
                     }
                 }
 
@@ -2778,6 +2895,14 @@ bool ofApp::checkAKAIsValid(std::string aka){
 //--------------------------------------------------------------
 void ofApp::closeDHTNode(){
     if(dht.dhtNode.isRunning()){
+        auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        // send goodbye message
+        dht.dhtNode.putSigned(room, dht::ImMessage(rand_id(rd), std::move("<"+aka+"> leaved Mosaic Chatroom!!!"), now), [](bool ok){
+            if(not ok){
+                ofLog(OF_LOG_ERROR,"%s","Chat message publishing failed !");
+            }
+        });
+
         dht.dhtNode.cancelListen(room, std::move(token));
         dht.stopDHTNode();
     }

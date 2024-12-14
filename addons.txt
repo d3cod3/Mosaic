@@ -10,7 +10,6 @@
 
 ofxAudioFile			https://github.com/d3cod3/ofxAudioFile              master
 ofxBTrack				https://github.com/d3cod3/ofxBTrack					master
-ofxChromaKeyShader		https://github.com/d3cod3/ofxChromaKeyShader		master
 ofxCv					https://github.com/kylemcdonald/ofxCv				master
 ofxEasing				https://github.com/arturoc/ofxEasing				master
 ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
