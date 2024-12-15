@@ -1,12 +1,24 @@
 # Mosaic CHANGELOG
 
+### 0.7.0
+
+- **gui** : Drag and drop objects to subpatch on subpatches list to move them
+- **gui** : Save canvas displacement position in patch, to always restore last view
+- **gui** : Modified actual logger for passing commands, add selectable text and copy/paste
+- **addition** : Added multi-slider object with variable number of sliders and multi toggle object with variable number of toggles
+- **update** : Modified number object, include internal trigger to on/off data flow ( from internal menu )
+- **update** : Modified number and slider object, to set and save variable name, for usability
+- **examples** : Added some new visual programming patches examples
+
+
+
 ### 0.6.9
 
 - **OS** : develop discontinued on windows, last available release 0.6.6
 - **update** : Updated core to OF 0.12.0
 - **feature** : added internal DHT distributed chatroom, based on [OpenDHT](https://github.com/savoirfairelinux/opendht)
 - **feature** : Add main monitor information section in "About Mosaic"
-- **feature** : Added sub-patch system"
+- **feature** : Added sub-patch system
 - **update** : Added canvas reset button in menu ( system -> reset canvas )
 - **update** : Added some lua random/noise examples
 - **update** : Updated to imgui 1.91
