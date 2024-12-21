@@ -2492,13 +2492,13 @@ void ofApp::createDirectoryNode(ofFile file){
 #endif
                         string menuName = file.getBaseName()+"."+file.getExtension();
                         if(ImGui::MenuItem(menuName.c_str())){
-                            createObjectFromFile(file,true);
+                            createObjectFromFile(file,false);
                         }
                     }
                 }else{
                     string menuName = file.getBaseName()+"."+file.getExtension();
                     if(ImGui::MenuItem(menuName.c_str())){
-                        createObjectFromFile(file,true);
+                        createObjectFromFile(file,false);
                     }
                 }
 
@@ -2535,16 +2535,15 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
                 if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
                     if(temp){
                         visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
-                        ofFile temp(visualProgramming->currentPatchFile);
+                        ofFile tempfile(visualProgramming->currentPatchFile);
                         assetFolder.reset();
-                        assetFolder.listDir(temp.getEnclosingDirectory()+"data/");
+                        assetFolder.listDir(tempfile.getEnclosingDirectory()+"data/");
                         assetFolder.sort();
                         assetWatcher.removeAllPaths();
-                        assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+                        assetWatcher.addPath(tempfile.getEnclosingDirectory()+"data/");
                     }else{
                         patchToLoad = file.getAbsolutePath();
                         loadNewPatch = true;
-                        //visualProgramming->preloadPatch(file.getAbsolutePath());
                     }
                 }else{
                     ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
