@@ -2498,7 +2498,7 @@ void ofApp::createDirectoryNode(ofFile file){
                 }else{
                     string menuName = file.getBaseName()+"."+file.getExtension();
                     if(ImGui::MenuItem(menuName.c_str())){
-                        createObjectFromFile(file,false);
+                        createObjectFromFile(file,true);
                     }
                 }
 
