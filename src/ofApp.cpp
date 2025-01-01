@@ -399,19 +399,9 @@ void ofApp::draw(){
     ZoneScopedN("ofApp::Draw()");
     #endif
 
+    // BACKGROUND GUI
     ofBackground(20);
     ofFill();
-    ofSetLineWidth(1);
-
-    // BACKGROUND GUI
-
-    // canvas grid (TouchDesigner style)
-    ofSetColor(255,255,255,6);
-    ofSetLineWidth(1);
-    for(int i=0;i<60;i++){
-        ofDrawLine(ofGetWindowWidth()/30 * i,0,ofGetWindowWidth()/30 * i,ofGetWindowHeight());
-        ofDrawLine(0,ofGetWindowWidth()/30 * i,ofGetWindowWidth(),ofGetWindowWidth()/30 * i);
-    }
 
     // Logo
     ofSetColor(255,255,255,16);
@@ -508,6 +498,7 @@ void ofApp::drawImGuiInterface(){
                     assetFolder.sort();
                     assetWatcher.removeAllPaths();
                     assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+                    visualProgramming->resetCanvas();
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -1240,7 +1231,7 @@ void ofApp::drawImGuiInterface(){
                 if (ImGui::Button(ICON_FA_UPLOAD "  Add to patch") && selectedFile != ""){
                     ofFile tmpf(selectedFile);
                     if(tmpf.isFile()){
-                        glm::vec3 temp = visualProgramming->canvas.screenToWorld(glm::vec3(ofGetWindowWidth()/2,ofGetWindowHeight()/2 + 100,0));
+                        glm::vec3 temp = visualProgramming->nextObjectPosition;
                         createObjectFromFile(tmpf,true,static_cast<int>(temp.x),static_cast<int>(temp.y));
                     }
                 }
