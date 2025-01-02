@@ -101,6 +101,7 @@ void ofApp::setup(){
     isInited        = false;
     isWindowResized = false;
     isLoggerON      = false;
+    isOverLogger    = false;
 
 
     // Log Mosaic info
@@ -174,6 +175,12 @@ void ofApp::setup(){
     showRightClickMenu          = false;
     createSearchedObject        = false;
     showAboutWindow             = false;
+
+    isOverAboutWindow           = false;
+    isOverObjectsMenu           = false;
+    isOverInspector             = false;
+    isOverProfiler              = false;
+    isOverSubpatchNavigator     = false;
 
     // LOGO
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
@@ -264,6 +271,7 @@ void ofApp::update(){
     if(mosaicTiming.tick()){
         visualProgramming->update();
         visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
+        visualProgramming->isCanvasActive = !this->getIsOverSomeWindow();
         refreshScriptTabs();
     }
 
@@ -876,9 +884,11 @@ void ofApp::drawImGuiInterface(){
         if(showAboutWindow){
 
             //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
-            //ImGui::SetNextWindowSize(ImVec2(400*retinaScale,400*retinaScale), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(600*retinaScale,400*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
+
+                isOverAboutWindow = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
                 if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
                     float ratio = (150.f*retinaScale) / mosaicLogo->getWidth();
@@ -1104,6 +1114,8 @@ void ofApp::drawImGuiInterface(){
                 }
             }
             ImGui::End(); // end showAboutWindow
+        }else{
+            isOverAboutWindow = false;
         }
 
         // code editor
@@ -1451,6 +1463,9 @@ void ofApp::drawImGuiInterface(){
         if(isLoggerON){
             ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
             mosaicLoggerChannel->Draw(ICON_FA_TERMINAL "  Logger", &isLoggerON);
+            isOverLogger = mosaicLoggerChannel->isOverLogger;
+        }else{
+            isOverLogger = false;
         }
 
         // Mosaic DHT Chatroom
@@ -1683,6 +1698,8 @@ void ofApp::drawImGuiInterface(){
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
+                isOverObjectsMenu = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+
                 static ImGuiTextFilter filter;
                 filter.Draw("Search");
                 bool bIsFiltering = filter.IsActive();
@@ -1766,25 +1783,36 @@ void ofApp::drawImGuiInterface(){
 
             ImGui::End(); // End  "Objects"
 
+        }else{
+            isOverObjectsMenu = false;
         }
 
         // PROFILER
         if(visualProgramming->profilerActive){
             visualProgramming->profiler.Render(&visualProgramming->profilerActive);
+            isOverProfiler = visualProgramming->isOverProfiler;
+        }else{
+            isOverProfiler = false;
         }
 
         // INSPECTOR
         if(visualProgramming->inspectorActive){
             if(visualProgramming->isCanvasVisible){
                 visualProgramming->drawInspector();
+                isOverInspector = visualProgramming->isOverInspector;
             }
+        }else{
+            isOverInspector = false;
         }
 
         // PATCH NAVIGATOR
         if(visualProgramming->navigationActive){
             if(visualProgramming->isCanvasVisible){
                 visualProgramming->drawSubpatchNavigation();
+                isOverSubpatchNavigator = visualProgramming->isOverSubpatchNavigator;
             }
+        }else{
+            isOverSubpatchNavigator = false;
         }
 
         ImGui::End(); // End "DockSpace"
@@ -2586,6 +2614,16 @@ bool ofApp::checkFileUsedInPatch(string filepath){
         if(it->second->getFilepath() == filepath){
             return true;
         }
+    }
+    return false;
+}
+
+//--------------------------------------------------------------
+bool ofApp::getIsOverSomeWindow(){
+    if(isOverAboutWindow || isOverAssetLibrary || isOverChatroom || isOverCodeEditor || isOverInspector || isOverLogger || isOverObjectsMenu || isOverProfiler || isOverSubpatchNavigator){
+        return true;
+    }else{
+       return false;
     }
     return false;
 }
