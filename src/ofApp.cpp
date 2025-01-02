@@ -884,7 +884,7 @@ void ofApp::drawImGuiInterface(){
         if(showAboutWindow){
 
             //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(600*retinaScale,400*retinaScale), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(440*retinaScale,400*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
@@ -894,6 +894,7 @@ void ofApp::drawImGuiInterface(){
                     float ratio = (150.f*retinaScale) / mosaicLogo->getWidth();
                     ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
                 }
+
                 ImGui::Text( "%s", PACKAGE);
                 ImGui::Text( "Version %s (%s)", VERSION, VERSION_GRAPHIC );
                 ImGui::Spacing();
