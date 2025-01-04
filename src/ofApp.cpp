@@ -763,7 +763,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Chatroom",ofToString(shortcutFunc+"+D").c_str())){
+                if(ImGui::MenuItem("Chatroom",ofToString(shortcutFunc+"+G").c_str())){
                     isChatroomON = !isChatroomON;
                 }
                 ImGui::EndMenu();
@@ -1966,8 +1966,8 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
         visualProgramming->navigationActive = !visualProgramming->navigationActive;
         visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
     }
-    // open/close Chatroom ( MOD_KEY-d )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 68){
+    // open/close Chatroom ( MOD_KEY-g )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 71){
         isChatroomON = !isChatroomON;
     }
     // open/close Objects Menu ( MOD_KEY-o )
