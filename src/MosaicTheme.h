@@ -70,9 +70,11 @@ public:
 
     ImVector<char*>             Items;
     TextEditor                  console;
+    std::string                 fake;
 
     bool                        scrollToBottom;
     bool                        recoverFocus;
+    bool                        looseFocus;
     bool                        isOverLogger;
     std::string                 log_command;
     float                       retinaScale;
@@ -82,6 +84,7 @@ public:
     MosaicLoggerChannel() {
         scrollToBottom = true;
         recoverFocus = false;
+        looseFocus = false;
         log_command = "";
         retinaScale = 1.0f;
 
@@ -171,6 +174,15 @@ public:
             isOverLogger = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
             if (ImGui::Button("Clear")) Clear();
+
+            if(looseFocus){
+                looseFocus = false;
+                ImGui::SetKeyboardFocusHere();
+            }
+            ImGui::SameLine();
+            ImGui::PushItemWidth(1);
+            ImGui::InputTextWithHint("##empty","",&fake,ImGuiInputTextFlags_ReadOnly);
+            ImGui::PopItemWidth();
 
             ImGui::Separator();
             if (ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar) ){
