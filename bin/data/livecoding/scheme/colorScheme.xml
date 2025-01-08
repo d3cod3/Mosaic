@@ -1,0 +1,39 @@
+<!-- css colors http://www.w3schools.com/cssref/css_colornames.asp -->
+<colorscheme>
+	<text>
+		<gray>255</gray>
+	</text>
+	<string>
+		<r>0</r>
+		<g>128</g>
+		<b>0</b>
+	</string>
+	<number>
+		<gray>255</gray>
+	</number>
+	<comment>
+		<r>120</r>
+		<g>128</g>
+		<b>120</b>
+	</comment>
+	<preprocessor>
+		<r>230</r>
+		<g>121</g>
+		<b>57</b>
+	</preprocessor>
+	<keyword>
+		<r>246</r>
+		<g>70</g>
+		<b>185</b>
+	</keyword>
+	<typename>
+		<r>246</r>
+		<g>70</g>
+		<b>185</b>
+	</typename>
+	<function>
+		<r>11</r>
+		<g>179</g>
+		<b>244</b>
+	</function>
+</colorscheme>
