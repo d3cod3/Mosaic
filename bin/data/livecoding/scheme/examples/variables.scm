@@ -15,3 +15,5 @@
 (define px (- (/ (OUTPUT_WIDTH) 2) (/ (OUTPUT_WIDTH) 4) ) )
 (define py (- (/ (OUTPUT_HEIGHT) 2) (/ (OUTPUT_HEIGHT) 4) ) )
 (draw-image 0 "test.png" px py (/ (OUTPUT_WIDTH) 2) (/ (OUTPUT_HEIGHT) 2))
+
+

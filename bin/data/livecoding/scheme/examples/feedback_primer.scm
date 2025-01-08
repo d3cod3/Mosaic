@@ -9,9 +9,11 @@
 
 
 ; feedback primer
-(background 0 0 0)
+(background-alpha 0 0 0 0.1)
 (set-color 1 0 0 0.99)
-(draw-circle (random 1920) (random 1200) 100 6)
+(draw-circle (random (OUTPUT_WIDTH)) (random (OUTPUT_HEIGHT)) 100 6)
 
 (set-color 1 1 1 0.9)
-(draw-screen 0 0 (* 1920 0.99) (* 1200 0.99))
+(draw-screen 0 0 (* (OUTPUT_WIDTH) 0.99) (* (OUTPUT_HEIGHT) 0.99))
+
+

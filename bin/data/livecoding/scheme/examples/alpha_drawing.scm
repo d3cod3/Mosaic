@@ -26,5 +26,6 @@
 (draw-cube (* (OUTPUT_HEIGHT) (sin (/ (time) 10000))) 1)
 (pop)
 
-;(draw-circle (random (OUTPUT_WIDTH)) (random (OUTPUT_HEIGHT)) (loop 51 0 200 3) 6)
 ;(draw-circle (MOUSE_X) (MOUSE_Y) (loop 52 0 200 3) 6)
+
+

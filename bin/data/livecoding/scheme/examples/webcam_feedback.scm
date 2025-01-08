@@ -7,10 +7,12 @@
 ;
 ; (CC)Cleft 2024
 
-(background-alpha 0 0 0 0.99)
 
-(set-color 1 1 1 0.9)
-(draw-camera 0 0 0 1920 1200)
+; Webcam Feedback
 
-(set-color 1 1 1 0.95)
-(draw-screen 0 0 (* 1920 0.999) (* 1200 0.999))
+(set-color 1 1 1 0.99)
+(draw-camera 0 0 0 (OUTPUT_WIDTH) (OUTPUT_HEIGHT))
+
+(draw-screen 10 10 (* (OUTPUT_WIDTH) 0.99) (* (OUTPUT_HEIGHT) 0.99))
+
+

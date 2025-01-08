@@ -8,7 +8,8 @@
 ; (CC)Cleft 2024
 
 
-; A Mosaic general example
+; A Mosaic general example, receiving data from patch
+; with mosaic_data_inlet vector<float> 
 
 ; define variables
 (define num_bands 23)
@@ -26,14 +27,13 @@
 (background-alpha 0.0 0.0 0.0 0.01)
 
 
-; draw MEL Bands audio analisys from Mosaic patch
-(set-color 1.0 0.6 0.55 0.09)
+; draw MEL Bands audio analysis from Mosaic patch
+(set-color 1.0 0.6 0.55 0.5)
 (fill)
 (melbands num_bands)
 
 (set-color 1 1 1 0.9)
-(draw-screen 0 0 (* (OUTPUT_WIDTH) 0.99) (* (OUTPUT_HEIGHT) 0.99))
-
+(draw-screen 0 0 (* (OUTPUT_WIDTH) (+ (random 0.02) 0.97)) (* (OUTPUT_HEIGHT) 0.99))
 
 
 
