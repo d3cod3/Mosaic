@@ -8,8 +8,6 @@
 
 [![Discord Mosaic Visual Programming](https://img.shields.io/badge/discord-Mosaic%20Visual%20Programming-2000ff)](https://discord.com/invite/sPJr6EEpyG)
 
-[<img src="https://api.gitsponsors.com/api/badge/img?id=134846180" height="20">](https://api.gitsponsors.com/api/badge/link?p=dMqP9vpAXQqNCcXDZ8HCrXqoMAzQTLn3PLipIXjpgMgT/j0nr03wX9TNuCeomLa3nWV/mhmltqXC0VqKI7wb0sOoRAPW/wdozpJa3HvNnmrqKJseFkyuKbZMi1rhuya+)
-
 __
 
 Table of Contents
