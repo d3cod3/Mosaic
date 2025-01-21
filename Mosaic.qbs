@@ -71,7 +71,6 @@ Project{
             if(qbs.hostOS.contains("osx")){
                 lFlags = lFlags.concat([
                                            '-L'+of_root+'/addons/ofxFFt/libs/fftw/lib',  // for ofxFft
-                                           '-lopendht', '-lgnutls', '-lnettle', '-lfmt', // for openDHT
                                        ]);
             }else if(qbs.hostOS.contains("windows")){
                 lFlags = lFlags.concat([]);
