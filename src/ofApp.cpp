@@ -893,7 +893,7 @@ void ofApp::drawImGuiInterface(){
         if(showAboutWindow){
 
             //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
-            ImGui::SetNextWindowSize(ImVec2(440*retinaScale,400*retinaScale), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(440*retinaScale,680*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
 
@@ -1079,9 +1079,11 @@ void ofApp::drawImGuiInterface(){
                         ImGui::EndTabItem();
                     }
 
-                    if(ImGui::BeginTabItem("Monitor")){
-                        // Monitor information
+                    // Runtime information
+                    if(ImGui::BeginTabItem("Runtime")){
                         ImGui::Spacing();
+
+                        ImGui::SeparatorText("Monitors");
                         ImGui::Text("Primary Monitor:");
                         ImGui::Spacing();
                         ImGui::Text("Resolution: %sx%s", ofToString(wRes).c_str(),ofToString(hRes).c_str());
@@ -1090,6 +1092,31 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Text("Screen Content Scale ( OS managed, accessibility ): %s",ofToString(xScreenContentScale).c_str());
                         ImGui::Text("Pixel density ( Resolution over Physical Size): %s",ofToString(pixelsxMM).c_str());
                         ImGui::Text("Suggested font size: %s",ofToString(suggestedFontSize+(4*retinaScale)).c_str());
+                        ImGui::Spacing();
+
+                        // Directories & file permissions
+                        ImGui::SeparatorText("Directories");
+                    #ifdef OF_USING_STD_FS
+                        auto permissions = std::filesystem::status(mosaicPath).permissions();
+                        ImGui::SameLine();
+                        ImGui::TextDisabled("[%s,%s,%s]", (std::filesystem::perms::owner_read & permissions) == std::filesystem::perms::owner_read?"r":" ", (std::filesystem::perms::owner_write & permissions) == std::filesystem::perms::owner_write?"w":" ", (std::filesystem::perms::owner_exec & permissions) == std::filesystem::perms::owner_read?"x":" ");
+                    #endif
+                        ImGui::Text("Mosaic data  \t\t: %s", mosaicPath.c_str());
+                        ImGui::Text("Plugins path \t\t: %s", mosaicPluginsPath.c_str());
+                        ImGui::Text("Examples path \t: %s", examplesRoot.getOriginalDirectory().c_str());
+                        ImGui::Text("User home   \t\t: %s", userHome.c_str());
+                        ImGui::Text("ofDataPath   \t\t: %s", ofToDataPath("", true).c_str());
+
+                    #if defined(TARGET_OSX) && defined(OF_USING_STD_FS)
+                        // ofDirectory::listDir() seems to have some permission issues on osx with traversing a directory
+                        // This code reproduces the error and warns on osx.
+                        try{
+                            of::filesystem::directory_iterator testIt(mosaicPath);
+                        }
+                        catch(...){
+                            ImGui::TextWrapped("Warning! OpenFrameworks seems to have a permissions-related directory traversal issue !");
+                        }
+                    #endif
 
                         ImGui::EndTabItem();
                     }
