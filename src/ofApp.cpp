@@ -2146,7 +2146,8 @@ void ofApp::initDataFolderFromBundle(){
     ){
         std::string gitBinPath = ofDirectory(*appPathStr + "/../../bin/").getAbsolutePath();
         ofLog(OF_LOG_VERBOSE, "%s","Mosaic Build: Detected a custom git build application, setting application paths accordingly.");
-        _bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
+        //_bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
+        _bundleDataPath = gitBinPath + "/data/"; // the absolute path to the resources folder
         _bundleExamplesPath = gitBinPath + "/examples/";
         _bundlePluginsPath = gitBinPath + "/plugins/";
     }
