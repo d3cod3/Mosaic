@@ -2803,7 +2803,18 @@ void ofApp::removeScriptFromCodeEditor(string filename){
 //--------------------------------------------------------------
 void ofApp::setupDHTNode(){
 
-    dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
+    // This throws on osx when a 2nd instance of Mosaic is started/runs simultanously.
+    try {
+        dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
+    }
+    catch(std::exception& e){ // other errors
+        ofLog(OF_LOG_ERROR, "setupDHTNode() :: Couldn't start OpenDHT ! (Is another Mosaic instance already running ?) Error: %s", e.what());
+        return;
+    }
+    catch(...){
+        ofLog(OF_LOG_ERROR, "setupDHTNode() :: Couldn't start OpenDHT !  (Is another Mosaic instance already running ?)");
+        return;
+    }
 
     myChatid = dht.dhtNode.getId();
 
