@@ -2808,11 +2808,11 @@ void ofApp::setupDHTNode(){
         dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
     }
     catch(std::exception& e){ // other errors
-        ofLog(OF_LOG_ERROR, "setupDHTNode() :: Couldn't start OpenDHT ! (Is another Mosaic instance already running ?) Error: %s", e.what());
+        ofLog(OF_LOG_ERROR, "%s", "setupDHTNode() :: Couldn't start OpenDHT ! (Is another Mosaic instance already running ?) Error: %s", e.what());
         return;
     }
     catch(...){
-        ofLog(OF_LOG_ERROR, "setupDHTNode() :: Couldn't start OpenDHT !  (Is another Mosaic instance already running ?)");
+        ofLog(OF_LOG_ERROR, "%s", "setupDHTNode() :: Couldn't start OpenDHT !  (Is another Mosaic instance already running ?)");
         return;
     }
 
