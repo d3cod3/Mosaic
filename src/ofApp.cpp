@@ -623,7 +623,9 @@ void ofApp::drawImGuiInterface(){
                 #else
                 examplesRoot.listDir(ofToDataPath("../examples"));
                 #endif
-                examplesRoot.sort();
+                if(examplesRoot.size() > 0){
+                    examplesRoot.sort();
+                }
                 for(size_t i=0;i<examplesRoot.getFiles().size();i++){
                     createDirectoryNode(examplesRoot.getFiles().at(i));
                 }
@@ -2278,7 +2280,17 @@ void ofApp::initDataFolderFromBundle(){
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 
-    examplesRoot.listDir(mosaicExamplesPath.string());
+    try {
+        examplesRoot.listDir(mosaicExamplesPath.string());
+    }
+    catch(std::exception& e){
+        ofLog(OF_LOG_WARNING, "%s", "Cannot access the Mosaic examples folder `%s`! %s", mosaicExamplesPath.c_str(), e.what());
+        examplesRoot.reset();
+    }
+    catch(...){
+        ofLog(OF_LOG_WARNING, "%s", "Cannot access the Mosaic examples folder `%s`! %s", mosaicExamplesPath.c_str());
+        examplesRoot.reset();
+    }
 
     #elif defined(TARGET_LINUX)
 
@@ -2393,7 +2405,9 @@ void ofApp::initDataFolderFromBundle(){
 
     #endif
 
-    examplesRoot.sort();
+    if(examplesRoot.size() > 0){
+        examplesRoot.sort();
+    }
 
 }
 
