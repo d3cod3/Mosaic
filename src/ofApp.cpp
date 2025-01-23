@@ -122,7 +122,12 @@ void ofApp::setup(){
     // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    io.IniFilename = nullptr;
+
+    // Before gui.setup(), IO needs to have tooltips disabled (or setup errors can crash mosaic)
+    // Moveme: Should be handled in ofxImGui
+    io.ConfigErrorRecoveryEnableTooltip = false;
+
+    //io.IniFilename = nullptr;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.MouseDrawCursor = false;
 
@@ -154,8 +159,10 @@ void ofApp::setup(){
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, suggestedFontSize+2.0f, &icons_config, icons_ranges );
     }
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
-    io.FontDefault = defaultfont;
+    if(io.Fonts->Fonts.Size>0){
+        ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
+        io.FontDefault = defaultfont;
+    }
 
     mainTheme = new MosaicTheme();
     if(isRetina){
