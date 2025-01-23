@@ -625,16 +625,20 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "Examples")){
-                #if defined(TARGET_OSX)
-                examplesRoot.listDir(mosaicExamplesPath.string());
-                #else
-                examplesRoot.listDir(ofToDataPath("../examples"));
-                #endif
-                if(examplesRoot.size() > 0){
-                    examplesRoot.sort();
-                }
-                for(size_t i=0;i<examplesRoot.getFiles().size();i++){
-                    createDirectoryNode(examplesRoot.getFiles().at(i));
+                try{
+                    #if defined(TARGET_OSX)
+                    examplesRoot.listDir(mosaicExamplesPath.string());
+                    #else
+                    examplesRoot.listDir(ofToDataPath("../examples"));
+                    #endif
+                    if(examplesRoot.size() > 0){
+                        examplesRoot.sort();
+                    }
+                    for(size_t i=0;i<examplesRoot.getFiles().size();i++){
+                        createDirectoryNode(examplesRoot.getFiles().at(i));
+                    }
+                } catch(...){
+                    ImGui::TextDisabled("Example folder scan issue...");
                 }
 
                 ImGui::EndMenu();
