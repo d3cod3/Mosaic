@@ -86,7 +86,7 @@ Project{
             // defs = defs.concat(['OFXIMGUI_DEBUG']);  // Uncomment to debug ofxImGui
             defs = defs.concat([]);
             if(qbs.configurationName.contains('Debug')){
-                defs = defs.concat(['MOSAIC_DEBUG']);
+                defs = defs.concat(['MOSAIC_DEBUG','OFXVP_DEBUG']);
             }else if(qbs.configurationName.contains('Release')){
                 defs = defs.concat([]);
             }else if(qbs.configurationName.contains('Profiling')){
