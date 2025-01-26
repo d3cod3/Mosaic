@@ -2908,7 +2908,6 @@ void ofApp::setupDHTNode(){
 
     activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
 
-    //if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
     ofLog(OF_LOG_NOTICE,"[opendht] Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
 
     // node running thread
@@ -2942,11 +2941,11 @@ void ofApp::setupDHTNode(){
                 }
 
                 // debug log
-                /*if(NDEBUG){
+                #ifdef MOSAIC_DEBUG
                     std::cout << msg.from.toString() << " at " << dht.printTime(msg.date)
                               << " (took " << dht::print_dt(std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(msg.date))
                               << "s) " << ": " << msg.id << " - " << msg.msg << std::endl;
-                }*/
+                #endif
 
                 // update chatrooms messages
                 if(msg.to == myChatid){ // encrypted ( private message )
