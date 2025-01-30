@@ -36,10 +36,22 @@ Project{
         // additional flags for the project. the of module sets some
         // flags by default to add the core libraries, search paths...
         // this flags can be augmented through the following properties:
-        of.pkgConfigs: []       // list of additional system pkgs to include
+        of.pkgConfigs: {
+            var configs = [];
+            if(qbs.hostOS.contains("osx") || qbs.targetOS.contains("macos")){
+                configs = configs.concat([]);
+            }else if(qbs.hostOS.contains("windows")){
+                configs = configs.concat([]);
+            }else if(qbs.hostOS.contains("linux")){
+                configs = configs.concat(["/usr/local/lib/pkgconfig/opendht.pc"]);
+            }
+
+            return configs;
+        }
+
         of.includePaths: {
             var paths = ['profiler/tracy'];
-            if(qbs.hostOS.contains("osx")){
+            if(qbs.hostOS.contains("osx") || qbs.targetOS.contains("macos")){
                 paths = paths.concat([of_root+'/addons/ofxFft/src']);
             }else if(qbs.hostOS.contains("windows")){
                 paths = paths.concat([]);
@@ -68,7 +80,7 @@ Project{
         // flags passed to the linker
         of.linkerFlags: {
             var lFlags = [];
-            if(qbs.hostOS.contains("osx")){
+            if(qbs.hostOS.contains("osx") || qbs.targetOS.contains("macos")){
                 lFlags = lFlags.concat([
                                            '-L'+of_root+'/addons/ofxFFt/libs/fftw/lib',  // for ofxFft
                                        ]);
@@ -101,7 +113,7 @@ Project{
         // static libraries
         of.staticLibraries: {
             var libs = [];
-            if(qbs.hostOS.contains("osx")){
+            if(qbs.hostOS.contains("osx") || qbs.targetOS.contains("macos")){
                 libs = libs.concat([]);
             }else if(qbs.hostOS.contains("windows")){
                 libs = libs.concat([]);
@@ -115,7 +127,7 @@ Project{
         // dynamic libraries
         of.dynamicLibraries: {
             var libs = [];
-            if(qbs.hostOS.contains("osx")){
+            if(qbs.hostOS.contains("osx") || qbs.targetOS.contains("macos")){
                 libs = libs.concat([]);
             }else if(qbs.hostOS.contains("windows")){
                 libs = libs.concat(['openal','mpg123','libsndfile','pd']);
@@ -151,6 +163,13 @@ Project{
                                     of_root + '/addons/ofxSyphon/src/ofxSyphonServerDirectory.mm',
                                     of_root + '/addons/ofxSyphon/libs/Syphon/src/SyphonNameboundClient.m',
                                 ])
+        }
+
+        // OSX + openDHT support
+        Properties {
+            condition: qbs.targetOS.contains("osx") || qbs.targetOS.contains("macos")
+            of.dynamicLibraries: outer.concat(['opendht'])
+            cpp.systemIncludePaths: outer.concat(['/usr/local/include/'])
         }
 
         Depends{
