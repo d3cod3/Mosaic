@@ -14,7 +14,6 @@ ofxCv					https://github.com/kylemcdonald/ofxCv				master
 ofxEasing				https://github.com/arturoc/ofxEasing				master
 ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
 ofxFft					https://github.com/kylemcdonald/ofxFft				master
-ofxJSON					https://github.com/jeffcrouse/ofxJSON				master
 ofxImGui				https://github.com/d3cod3/ofxImGui					master
 ofxInfiniteCanvas		https://github.com/d3cod3/ofxInfiniteCanvas			master
 ofxLua					https://github.com/danomatika/ofxLua				master
