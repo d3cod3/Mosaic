@@ -2691,6 +2691,10 @@ void ofApp::setupCommands(){
     commandsList[1].description = "Close current patch and start a new one from scratch";
     commandsList[2].command = "patchfiles";
     commandsList[2].description = "List all files in patch Data/ folder";
+    commandsList[3].command = "random_example";
+    commandsList[3].description = "Load and run a random patch example";
+    commandsList[4].command = "browser";
+    commandsList[4].description = "Open your predefined internet browser";
     commandsList[99].command = "exit";
     commandsList[99].description = "Quit Mosaic";
 }
@@ -2729,6 +2733,45 @@ void ofApp::sendCommand(string &command){
             ofLog(OF_LOG_NOTICE,"%s","Patch Data/ folder is empty");
         }
 
+    }else if(command == "random_example"){
+        ofDirectory temp;
+        #if defined(TARGET_OSX)
+        temp.listDir(mosaicExamplesPath.string());
+        #else
+        temp.listDir(ofToDataPath("../examples/visualprogramming"));
+        #endif
+
+        std::vector<ofFile> patches;
+
+        for(size_t i=0;i<temp.getFiles().size();i++){ // categories
+            if(temp.getFiles().at(i).isDirectory()){
+                ofDirectory temp2;
+                temp2.listDir(temp.getFiles().at(i));
+                for(size_t s=0;s<temp2.getFiles().size();s++){ // cat. examples folders
+                    if(temp2.getFiles().at(s).isDirectory()){
+                        ofDirectory temp3;
+                        temp3.listDir(temp2.getFiles().at(s));
+                        for(size_t e=0;e<temp3.getFiles().size();e++){ // example folder
+                            if(temp3.getFiles().at(e).isFile()){
+                                string fileExtension = ofToUpper(temp3.getFiles().at(e).getExtension());
+                                if(fileExtension == "XML"){
+                                    patches.push_back(temp3.getFiles().at(e));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(patches.size() > 0){
+            ofFile of = patches.at(static_cast<int>(floor(ofRandom(patches.size()))));
+            createObjectFromFile(of,true);
+            ofLog(OF_LOG_NOTICE,"Opening example: %s.%s", of.getBaseName().c_str(),of.getExtension().c_str());
+        }
+
+    }else if(command == "browser"){
+        ofLaunchBrowser("https://www.duckduckgo.com");
     }else if(command == "exit"){
         quitMosaic();
     }else{
