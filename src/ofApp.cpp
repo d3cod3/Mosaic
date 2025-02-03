@@ -101,6 +101,7 @@ void ofApp::setup(){
     isInited        = false;
     isWindowResized = false;
     isLoggerON      = false;
+    isOverLogger    = false;
 
 
     // Log Mosaic info
@@ -121,7 +122,12 @@ void ofApp::setup(){
     // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    io.IniFilename = nullptr;
+
+    // Before gui.setup(), IO needs to have tooltips disabled (or setup errors can crash mosaic)
+    // Moveme: Should be handled in ofxImGui
+    io.ConfigErrorRecoveryEnableTooltip = false;
+
+    //io.IniFilename = nullptr;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.MouseDrawCursor = false;
 
@@ -153,8 +159,10 @@ void ofApp::setup(){
         io.Fonts->AddFontFromFileTTF( FONT_ICON_FILE_NAME_FAS, suggestedFontSize+2.0f, &icons_config, icons_ranges );
     }
 
-    ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
-    io.FontDefault = defaultfont;
+    if(io.Fonts->Fonts.Size>0){
+        ImFont* defaultfont = io.Fonts->Fonts[io.Fonts->Fonts.Size - 1];
+        io.FontDefault = defaultfont;
+    }
 
     mainTheme = new MosaicTheme();
     if(isRetina){
@@ -174,6 +182,12 @@ void ofApp::setup(){
     showRightClickMenu          = false;
     createSearchedObject        = false;
     showAboutWindow             = false;
+
+    isOverAboutWindow           = false;
+    isOverObjectsMenu           = false;
+    isOverInspector             = false;
+    isOverProfiler              = false;
+    isOverSubpatchNavigator     = false;
 
     // LOGO
     mosaicLogo = new ofImage("images/logo_1024_bw.png");
@@ -264,6 +278,7 @@ void ofApp::update(){
     if(mosaicTiming.tick()){
         visualProgramming->update();
         visualProgramming->canvasViewport.set(glm::vec2(0,20*retinaScale), glm::vec2(ofGetWidth(), ofGetHeight()-(20*retinaScale)));
+        visualProgramming->isCanvasActive = !this->getIsOverSomeWindow();
         refreshScriptTabs();
     }
 
@@ -399,19 +414,9 @@ void ofApp::draw(){
     ZoneScopedN("ofApp::Draw()");
     #endif
 
+    // BACKGROUND GUI
     ofBackground(20);
     ofFill();
-    ofSetLineWidth(1);
-
-    // BACKGROUND GUI
-
-    // canvas grid (TouchDesigner style)
-    ofSetColor(255,255,255,6);
-    ofSetLineWidth(1);
-    for(int i=0;i<60;i++){
-        ofDrawLine(ofGetWindowWidth()/30 * i,0,ofGetWindowWidth()/30 * i,ofGetWindowHeight());
-        ofDrawLine(0,ofGetWindowWidth()/30 * i,ofGetWindowWidth(),ofGetWindowWidth()/30 * i);
-    }
 
     // Logo
     ofSetColor(255,255,255,16);
@@ -508,6 +513,7 @@ void ofApp::drawImGuiInterface(){
                     assetFolder.sort();
                     assetWatcher.removeAllPaths();
                     assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+                    visualProgramming->resetCanvas();
                 }
                 ImGui::Separator();
                 if(ImGui::MenuItem( "Open patch" )){
@@ -619,14 +625,20 @@ void ofApp::drawImGuiInterface(){
             }
 
             if(ImGui::BeginMenu( "Examples")){
-                #if defined(TARGET_OSX)
-                examplesRoot.listDir(mosaicExamplesPath.string());
-                #else
-                examplesRoot.listDir(ofToDataPath("../examples"));
-                #endif
-                examplesRoot.sort();
-                for(size_t i=0;i<examplesRoot.getFiles().size();i++){
-                    createDirectoryNode(examplesRoot.getFiles().at(i));
+                try{
+                    #if defined(TARGET_OSX)
+                    examplesRoot.listDir(mosaicExamplesPath.string());
+                    #else
+                    examplesRoot.listDir(ofToDataPath("../examples"));
+                    #endif
+                    if(examplesRoot.size() > 0){
+                        examplesRoot.sort();
+                    }
+                    for(size_t i=0;i<examplesRoot.getFiles().size();i++){
+                        createDirectoryNode(examplesRoot.getFiles().at(i));
+                    }
+                } catch(...){
+                    ImGui::TextDisabled("Example folder scan issue...");
                 }
 
                 ImGui::EndMenu();
@@ -764,7 +776,7 @@ void ofApp::drawImGuiInterface(){
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
-                if(ImGui::MenuItem("Chatroom",ofToString(shortcutFunc+"+D").c_str())){
+                if(ImGui::MenuItem("Chatroom",ofToString(shortcutFunc+"+G").c_str())){
                     isChatroomON = !isChatroomON;
                 }
                 ImGui::EndMenu();
@@ -885,14 +897,17 @@ void ofApp::drawImGuiInterface(){
         if(showAboutWindow){
 
             //ImGui::SetNextWindowPos(ImVec2((ofGetWidth()-(400*retinaScale))*.5f,(ofGetHeight()-(400*retinaScale))*.5f), ImGuiCond_Appearing );
-            //ImGui::SetNextWindowSize(ImVec2(400*retinaScale,400*retinaScale), ImGuiCond_Appearing );
+            ImGui::SetNextWindowSize(ImVec2(440*retinaScale,680*retinaScale), ImGuiCond_Appearing );
 
             if( ImGui::Begin("About Mosaic", &showAboutWindow, ImGuiWindowFlags_NoCollapse ) ){
+
+                isOverAboutWindow = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
                 if(mosaicLogo && mosaicLogo->isAllocated() && mosaicLogoID && mosaicLogo->getWidth()!=0 ){
                     float ratio = (150.f*retinaScale) / mosaicLogo->getWidth();
                     ImGui::Image(GetImTextureID(mosaicLogoID), ImVec2(mosaicLogo->getWidth()*ratio, mosaicLogo->getHeight()*ratio));
                 }
+
                 ImGui::Text( "%s", PACKAGE);
                 ImGui::Text( "Version %s (%s)", VERSION, VERSION_GRAPHIC );
                 ImGui::Spacing();
@@ -1068,9 +1083,11 @@ void ofApp::drawImGuiInterface(){
                         ImGui::EndTabItem();
                     }
 
-                    if(ImGui::BeginTabItem("Monitor")){
-                        // Monitor information
+                    // Runtime information
+                    if(ImGui::BeginTabItem("Runtime")){
                         ImGui::Spacing();
+
+                        ImGui::SeparatorText("Monitors");
                         ImGui::Text("Primary Monitor:");
                         ImGui::Spacing();
                         ImGui::Text("Resolution: %sx%s", ofToString(wRes).c_str(),ofToString(hRes).c_str());
@@ -1079,6 +1096,31 @@ void ofApp::drawImGuiInterface(){
                         ImGui::Text("Screen Content Scale ( OS managed, accessibility ): %s",ofToString(xScreenContentScale).c_str());
                         ImGui::Text("Pixel density ( Resolution over Physical Size): %s",ofToString(pixelsxMM).c_str());
                         ImGui::Text("Suggested font size: %s",ofToString(suggestedFontSize+(4*retinaScale)).c_str());
+                        ImGui::Spacing();
+
+                        // Directories & file permissions
+                        ImGui::SeparatorText("Directories");
+                    #ifdef OF_USING_STD_FS
+                        auto permissions = std::filesystem::status(mosaicPath).permissions();
+                        ImGui::SameLine();
+                        ImGui::TextDisabled("[%s,%s,%s]", (std::filesystem::perms::owner_read & permissions) == std::filesystem::perms::owner_read?"r":" ", (std::filesystem::perms::owner_write & permissions) == std::filesystem::perms::owner_write?"w":" ", (std::filesystem::perms::owner_exec & permissions) == std::filesystem::perms::owner_read?"x":" ");
+                    #endif
+                        ImGui::Text("Mosaic data  \t\t: %s", mosaicPath.c_str());
+                        ImGui::Text("Plugins path \t\t: %s", mosaicPluginsPath.c_str());
+                        ImGui::Text("Examples path \t: %s", examplesRoot.getOriginalDirectory().c_str());
+                        ImGui::Text("User home   \t\t: %s", userHome.c_str());
+                        ImGui::Text("ofDataPath   \t\t: %s", ofToDataPath("", true).c_str());
+
+                    #if defined(TARGET_OSX) && defined(OF_USING_STD_FS)
+                        // ofDirectory::listDir() seems to have some permission issues on osx with traversing a directory
+                        // This code reproduces the error and warns on osx.
+                        try{
+                            of::filesystem::directory_iterator testIt(mosaicPath);
+                        }
+                        catch(...){
+                            ImGui::TextWrapped("Warning! OpenFrameworks seems to have a permissions-related directory traversal issue !");
+                        }
+                    #endif
 
                         ImGui::EndTabItem();
                     }
@@ -1113,6 +1155,8 @@ void ofApp::drawImGuiInterface(){
                 }
             }
             ImGui::End(); // end showAboutWindow
+        }else{
+            isOverAboutWindow = false;
         }
 
         // code editor
@@ -1240,7 +1284,7 @@ void ofApp::drawImGuiInterface(){
                 if (ImGui::Button(ICON_FA_UPLOAD "  Add to patch") && selectedFile != ""){
                     ofFile tmpf(selectedFile);
                     if(tmpf.isFile()){
-                        glm::vec3 temp = visualProgramming->canvas.screenToWorld(glm::vec3(ofGetWindowWidth()/2,ofGetWindowHeight()/2 + 100,0));
+                        glm::vec3 temp = visualProgramming->nextObjectPosition;
                         createObjectFromFile(tmpf,true,static_cast<int>(temp.x),static_cast<int>(temp.y));
                     }
                 }
@@ -1460,6 +1504,9 @@ void ofApp::drawImGuiInterface(){
         if(isLoggerON){
             ImGui::SetNextWindowSize(ImVec2(640*retinaScale,320*retinaScale), ImGuiCond_Appearing);
             mosaicLoggerChannel->Draw(ICON_FA_TERMINAL "  Logger", &isLoggerON);
+            isOverLogger = mosaicLoggerChannel->isOverLogger;
+        }else{
+            isOverLogger = false;
         }
 
         // Mosaic DHT Chatroom
@@ -1692,6 +1739,8 @@ void ofApp::drawImGuiInterface(){
 
             if(ImGui::Begin("Objects", &showRightClickMenu,ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse) ){
 
+                isOverObjectsMenu = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+
                 static ImGuiTextFilter filter;
                 filter.Draw("Search");
                 bool bIsFiltering = filter.IsActive();
@@ -1775,25 +1824,36 @@ void ofApp::drawImGuiInterface(){
 
             ImGui::End(); // End  "Objects"
 
+        }else{
+            isOverObjectsMenu = false;
         }
 
         // PROFILER
         if(visualProgramming->profilerActive){
             visualProgramming->profiler.Render(&visualProgramming->profilerActive);
+            isOverProfiler = visualProgramming->isOverProfiler;
+        }else{
+            isOverProfiler = false;
         }
 
         // INSPECTOR
         if(visualProgramming->inspectorActive){
             if(visualProgramming->isCanvasVisible){
                 visualProgramming->drawInspector();
+                isOverInspector = visualProgramming->isOverInspector;
             }
+        }else{
+            isOverInspector = false;
         }
 
         // PATCH NAVIGATOR
         if(visualProgramming->navigationActive){
             if(visualProgramming->isCanvasVisible){
                 visualProgramming->drawSubpatchNavigation();
+                isOverSubpatchNavigator = visualProgramming->isOverSubpatchNavigator;
             }
+        }else{
+            isOverSubpatchNavigator = false;
         }
 
         ImGui::End(); // End "DockSpace"
@@ -1946,8 +2006,8 @@ void ofApp::keyReleased(ofKeyEventArgs &e){
         visualProgramming->navigationActive = !visualProgramming->navigationActive;
         visualProgramming->setPatchVariable("PatchNavigator",static_cast<int>(visualProgramming->navigationActive));
     }
-    // open/close Chatroom ( MOD_KEY-d )
-    else if(e.hasModifier(MOD_KEY) && e.keycode == 68){
+    // open/close Chatroom ( MOD_KEY-g )
+    else if(e.hasModifier(MOD_KEY) && e.keycode == 71){
         isChatroomON = !isChatroomON;
     }
     // open/close Objects Menu ( MOD_KEY-o )
@@ -2124,7 +2184,8 @@ void ofApp::initDataFolderFromBundle(){
     ){
         std::string gitBinPath = ofDirectory(*appPathStr + "/../../bin/").getAbsolutePath();
         ofLog(OF_LOG_VERBOSE, "%s","Mosaic Build: Detected a custom git build application, setting application paths accordingly.");
-        _bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
+        //_bundleDataPath = gitBinPath + "/../../bin/data/"; // the absolute path to the resources folder
+        _bundleDataPath = gitBinPath + "/data/"; // the absolute path to the resources folder
         _bundleExamplesPath = gitBinPath + "/examples/";
         _bundlePluginsPath = gitBinPath + "/plugins/";
     }
@@ -2258,7 +2319,17 @@ void ofApp::initDataFolderFromBundle(){
 
     ofSetDataPathRoot(mosaicPath); // tell OF to look for resources here
 
-    examplesRoot.listDir(mosaicExamplesPath.string());
+    try {
+        examplesRoot.listDir(mosaicExamplesPath.string());
+    }
+    catch(std::exception& e){
+        ofLog(OF_LOG_WARNING, "%s", "Cannot access the Mosaic examples folder `%s`! %s", mosaicExamplesPath.c_str(), e.what());
+        examplesRoot.reset();
+    }
+    catch(...){
+        ofLog(OF_LOG_WARNING, "%s", "Cannot access the Mosaic examples folder `%s`! %s", mosaicExamplesPath.c_str());
+        examplesRoot.reset();
+    }
 
     #elif defined(TARGET_LINUX)
 
@@ -2373,7 +2444,9 @@ void ofApp::initDataFolderFromBundle(){
 
     #endif
 
-    examplesRoot.sort();
+    if(examplesRoot.size() > 0){
+        examplesRoot.sort();
+    }
 
 }
 
@@ -2600,6 +2673,16 @@ bool ofApp::checkFileUsedInPatch(string filepath){
 }
 
 //--------------------------------------------------------------
+bool ofApp::getIsOverSomeWindow(){
+    if(isOverAboutWindow || isOverAssetLibrary || isOverChatroom || isOverCodeEditor || isOverInspector || isOverLogger || isOverObjectsMenu || isOverProfiler || isOverSubpatchNavigator){
+        return true;
+    }else{
+       return false;
+    }
+    return false;
+}
+
+//--------------------------------------------------------------
 void ofApp::setupCommands(){
     commandsList.assign(100,MosaicCommand());
     commandsList[0].command = "help";
@@ -2608,6 +2691,10 @@ void ofApp::setupCommands(){
     commandsList[1].description = "Close current patch and start a new one from scratch";
     commandsList[2].command = "patchfiles";
     commandsList[2].description = "List all files in patch Data/ folder";
+    commandsList[3].command = "random_example";
+    commandsList[3].description = "Load and run a random patch example";
+    commandsList[4].command = "browser";
+    commandsList[4].description = "Open your predefined internet browser";
     commandsList[99].command = "exit";
     commandsList[99].description = "Quit Mosaic";
 }
@@ -2646,6 +2733,45 @@ void ofApp::sendCommand(string &command){
             ofLog(OF_LOG_NOTICE,"%s","Patch Data/ folder is empty");
         }
 
+    }else if(command == "random_example"){
+        ofDirectory temp;
+        #if defined(TARGET_OSX)
+        temp.listDir(mosaicExamplesPath.string());
+        #else
+        temp.listDir(ofToDataPath("../examples/visualprogramming"));
+        #endif
+
+        std::vector<ofFile> patches;
+
+        for(size_t i=0;i<temp.getFiles().size();i++){ // categories
+            if(temp.getFiles().at(i).isDirectory()){
+                ofDirectory temp2;
+                temp2.listDir(temp.getFiles().at(i));
+                for(size_t s=0;s<temp2.getFiles().size();s++){ // cat. examples folders
+                    if(temp2.getFiles().at(s).isDirectory()){
+                        ofDirectory temp3;
+                        temp3.listDir(temp2.getFiles().at(s));
+                        for(size_t e=0;e<temp3.getFiles().size();e++){ // example folder
+                            if(temp3.getFiles().at(e).isFile()){
+                                string fileExtension = ofToUpper(temp3.getFiles().at(e).getExtension());
+                                if(fileExtension == "XML"){
+                                    patches.push_back(temp3.getFiles().at(e));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(patches.size() > 0){
+            ofFile of = patches.at(static_cast<int>(floor(ofRandom(patches.size()))));
+            createObjectFromFile(of,true);
+            ofLog(OF_LOG_NOTICE,"Opening example: %s.%s", of.getBaseName().c_str(),of.getExtension().c_str());
+        }
+
+    }else if(command == "browser"){
+        ofLaunchBrowser("https://www.duckduckgo.com");
     }else if(command == "exit"){
         quitMosaic();
     }else{
@@ -2773,7 +2899,18 @@ void ofApp::removeScriptFromCodeEditor(string filename){
 //--------------------------------------------------------------
 void ofApp::setupDHTNode(){
 
-    dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
+    // This throws on osx when a 2nd instance of Mosaic is started/runs simultanously.
+    try {
+        dht.setupDHTNode(DHT_NETWORK,DHT_PORT,DHT_BOOTSTRAP_NODE);
+    }
+    catch(std::exception& e){ // other errors
+        ofLog(OF_LOG_ERROR, "%s", "setupDHTNode() :: Couldn't start OpenDHT ! (Is another Mosaic instance already running ?) Error: %s", e.what());
+        return;
+    }
+    catch(...){
+        ofLog(OF_LOG_ERROR, "%s", "setupDHTNode() :: Couldn't start OpenDHT !  (Is another Mosaic instance already running ?)");
+        return;
+    }
 
     myChatid = dht.dhtNode.getId();
 
@@ -2814,7 +2951,6 @@ void ofApp::setupDHTNode(){
 
     activeChats.insert( pair<string,TextEditor>(chatname,newChat) );
 
-    //if(NDEBUG) std::cout << "Joining h(" << chatname << ") = " << room << std::endl;
     ofLog(OF_LOG_NOTICE,"[opendht] Joining h(%s) = %s",chatname.c_str(),room.toString().c_str());
 
     // node running thread
@@ -2848,11 +2984,11 @@ void ofApp::setupDHTNode(){
                 }
 
                 // debug log
-                /*if(NDEBUG){
+                #ifdef MOSAIC_DEBUG
                     std::cout << msg.from.toString() << " at " << dht.printTime(msg.date)
                               << " (took " << dht::print_dt(std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(msg.date))
                               << "s) " << ": " << msg.id << " - " << msg.msg << std::endl;
-                }*/
+                #endif
 
                 // update chatrooms messages
                 if(msg.to == myChatid){ // encrypted ( private message )

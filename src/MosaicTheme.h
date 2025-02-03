@@ -70,9 +70,12 @@ public:
 
     ImVector<char*>             Items;
     TextEditor                  console;
+    std::string                 fake;
 
     bool                        scrollToBottom;
     bool                        recoverFocus;
+    bool                        looseFocus;
+    bool                        isOverLogger;
     std::string                 log_command;
     float                       retinaScale;
 
@@ -81,6 +84,7 @@ public:
     MosaicLoggerChannel() {
         scrollToBottom = true;
         recoverFocus = false;
+        looseFocus = false;
         log_command = "";
         retinaScale = 1.0f;
 
@@ -165,56 +169,66 @@ public:
 
     void Draw(const char* title, bool* active){
 
-        if (!ImGui::Begin(title,active,ImGuiWindowFlags_NoCollapse))
-        {
-            ImGui::End();
-            return;
-        }
-        if (ImGui::Button("Clear")) Clear();
+        if (ImGui::Begin(title,active,ImGuiWindowFlags_NoCollapse)){
 
-        ImGui::Separator();
-        if (ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar) ){
+            isOverLogger = ImGui::IsWindowHovered(ImGuiHoveredFlags_RootWindow) || ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
 
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
+            if (ImGui::Button("Clear")) Clear();
 
-            ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-
-            console.Render("Console",ImVec2(-1.0, -36*retinaScale));
-            ImGui::Spacing();
-            ImGui::Separator();
-            ImGui::Spacing();
-
-            if(recoverFocus){
-                recoverFocus = false;
+            if(looseFocus){
+                looseFocus = false;
                 ImGui::SetKeyboardFocusHere();
             }
-            ImGui::PushStyleColor(ImGuiCol_TextSelectedBg,ImVec4(1,1,1,0.05));
-            ImGui::PushItemWidth(-1);
-            if(ImGui::InputTextWithHint("###command","Send a command...",&log_command,ImGuiInputTextFlags_EnterReturnsTrue)){
-                if(log_command != ""){
-                    ofNotifyEvent(commandEvent,log_command);
-                }
-                // clear previuos command
-                log_command = "";
-                // focus on input command again
-                ImGui::SetKeyboardFocusHere(-1);
-            }
+            ImGui::SameLine();
+            ImGui::PushItemWidth(1);
+            ImGui::InputTextWithHint("##empty","",&fake,ImGuiInputTextFlags_ReadOnly);
             ImGui::PopItemWidth();
-            ImGui::PopStyleColor();
+
+            ImGui::Separator();
+            if (ImGui::BeginChild("scrolling", ImVec2(0,0), false, ImGuiWindowFlags_HorizontalScrollbar) ){
+
+                ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4,1)); // Tighten spacing
+
+                ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+
+                console.Render("Console",ImVec2(-1.0, -36*retinaScale));
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                if(recoverFocus){
+                    recoverFocus = false;
+                    ImGui::SetKeyboardFocusHere();
+                }
+                ImGui::PushStyleColor(ImGuiCol_TextSelectedBg,ImVec4(1,1,1,0.05));
+                ImGui::PushItemWidth(-1);
+                if(ImGui::InputTextWithHint("###command","Send a command...",&log_command,ImGuiInputTextFlags_EnterReturnsTrue)){
+                    if(log_command != ""){
+                        ofNotifyEvent(commandEvent,log_command);
+                    }
+                    // clear previuos command
+                    log_command = "";
+                    // focus on input command again
+                    ImGui::SetKeyboardFocusHere(-1);
+                }
+                ImGui::PopItemWidth();
+                ImGui::PopStyleColor();
 
 
-            if(scrollToBottom){
-                scrollToBottom = false;
-                ImGui::SetScrollHereY(1.0f);
+                if(scrollToBottom){
+                    scrollToBottom = false;
+                    ImGui::SetScrollHereY(1.0f);
+                }
+
+                ImGui::PopStyleVar(1);
+
             }
 
-            ImGui::PopStyleVar(1);
+            ImGui::EndChild();
+
+            ImGui::End();
 
         }
-
-        ImGui::EndChild();
-
-        ImGui::End();
     }
 
 };

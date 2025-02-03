@@ -101,8 +101,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFft](https://github.com/kylemcdonald/ofxFft)
 
-#### [ofxJSON](https://github.com/jeffcrouse/ofxJSON)
-
 #### [ofxImGui](https://github.com/d3cod3/ofxImGui) -- Fork
 
 #### [ofxInfiniteCanvas](https://github.com/d3cod3/ofxInfiniteCanvas) -- Fork
@@ -163,7 +161,6 @@ git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/kylemcdonald/ofxFft
-git clone https://github.com/jeffcrouse/ofxJSON
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/danomatika/ofxLua

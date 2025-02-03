@@ -88,6 +88,7 @@ public:
     void            createDirectoryNode(ofFile file);
     void            createObjectFromFile(ofFile file,bool temp,int px=-1, int py=-1);
     bool            checkFileUsedInPatch(string filepath);
+    bool            getIsOverSomeWindow();
 
     // Logger/Console
     void            setupCommands();
@@ -139,7 +140,9 @@ public:
     string                          shortcutFunc;
     bool                            createSearchedObject;
     bool                            showAboutWindow;
+    bool                            isOverAboutWindow;
     bool                            showRightClickMenu;
+    bool                            isOverObjectsMenu;
     bool                            openPatch;
     bool                            openAutoloadPatch;
     bool                            savePatchAs;
@@ -178,6 +181,7 @@ public:
     bool                            isInited;
     bool                            isWindowResized;
     bool                            isLoggerON;
+    bool                            isOverLogger;
 
     // DHT Mosaic Chatroom
     ofxOpenDHT                          dht;
@@ -209,6 +213,9 @@ public:
     string                          windowTitle;
     string                          patchToLoad;
     bool                            loadNewPatch;
+    bool                            isOverSubpatchNavigator;
+    bool                            isOverProfiler;
+    bool                            isOverInspector;
 
     // Autoload
     ofFile                          _apf;

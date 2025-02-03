@@ -4038,7 +4038,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::SimpleCons
     if (!inited)
     {
         static const char* const keywords[] = {
-            "pdsp","opendht","help","newpatch","patchfiles","exit"
+            "pdsp","opendht","help","newpatch","patchfiles","random_example","browser","exit"
         };
 
         for (auto& k : keywords){
