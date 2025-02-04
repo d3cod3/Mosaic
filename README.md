@@ -101,6 +101,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFft](https://github.com/kylemcdonald/ofxFft)
 
+#### [ofxGLEditor](https://github.com/Akira-Hayasaka/ofxGLEditor)
+
 #### [ofxImGui](https://github.com/d3cod3/ofxImGui) -- Fork
 
 #### [ofxInfiniteCanvas](https://github.com/d3cod3/ofxInfiniteCanvas) -- Fork
@@ -118,6 +120,8 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 #### [ofxPd](https://github.com/danomatika/ofxPd)
 
 #### [ofxPDSP](https://github.com/d3cod3/ofxPDSP) -- Fork
+
+#### [ofxScheme](https://github.com/d3cod3/ofxScheme)
 
 #### [ofxSyphon](https://github.com/d3cod3/ofxSyphon) -- Fork
 
@@ -161,6 +165,7 @@ git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
 git clone https://github.com/kylemcdonald/ofxFft
+git clone https://github.com/Akira-Hayasaka/ofxGLEditor
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
 git clone https://github.com/danomatika/ofxLua
@@ -170,6 +175,7 @@ git clone --branch=NDI5 https://github.com/d3cod3/ofxNDI
 git clone https://github.com/d3cod3/ofxOpenDHT
 git clone https://github.com/danomatika/ofxPd
 git clone https://github.com/d3cod3/ofxPDSP
+git clone https://github.com/d3cod3/ofxScheme
 git clone https://github.com/d3cod3/ofxSyphon
 git clone https://github.com/d3cod3/ofxTimeline
 git clone https://github.com/d3cod3/ofxVisualProgramming
