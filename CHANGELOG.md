@@ -1,5 +1,30 @@
 # Mosaic CHANGELOG
 
+### 0.7.2
+
+- **addition** : Added new sound objects, **quantizer**, **parametric eq**, **address sequencer**, **polyphonic oscillator**, **summing mixer**
+- **addition** : Added new gui object, **piano keyboard**, to visualize MIDI notes from external devices and/or play notes ( outputs pitch/pitches )
+- **addition** : Added **scheme live coding** object with live coding on output window
+- **update** : Update **midi receiver** object to receive multiple midi message simultaneously ( for chords, etc... )
+- **gui** : Manage canvas drag/zoom with imgui ( reference: [https://github.com/onurae/core-nodes/](https://github.com/onurae/core-nodes/) ).
+    - right click, reset zoom to standard
+    - right click with drag, drag the canvas
+    - mouse scroll, zoom in/out the canvas
+    - click on node header, drag the node
+- **gui** : Add patch canvas interaction from imgui ( select nodes for group drag, duplicate, delete )
+    - drag mouse --> select nodes
+    - click on canvas --> deselect nodes
+    - click and drag over selected nodes --> move nodes
+    - BACKSPACE_KEY --> delete selected nodes/delete selected links
+    - MOD_KEY-D --> duplicate selected nodes
+    - CTRL-click links -> select links
+    - click on canvas --> deselect links
+    - SHIFT-click links --> deactivate/activate links
+- **update** : Add external panning control for mixer object
+- **enhancement** : Duplicate filepath in objects with loaded file when duplicate
+- **addition** : Added new commands to the logger/console
+-  **bug fixing** : various macos fixing by @Daandelange
+
 ### 0.7.0
 
 - **gui** : Drag and drop objects to subpatch on subpatches list to move them
