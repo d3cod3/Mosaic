@@ -211,7 +211,7 @@ Mosaic is open to anybody, contributions of any kind are welcome.
 
 Check the [@d3cod3Channel](https://www.youtube.com/@d3cod3Channel) on youtube
 
-[![Watch the video](https://img.youtube.com/vi/_hn5jUJpou4/maxresdefault.jpg)](https://youtu.be/_hn5jUJpou4)
+[![Watch the video](https://img.youtube.com/vi/_hn5jUJpou4/maxresdefault.jpg)](https://www.youtube.com/watch?v=_hn5jUJpou4&list=PLCCudLYpJ19rKU1-FAisswdLhBM4t9snf)
 
 # SCREENSHOTS
 
