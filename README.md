@@ -21,6 +21,7 @@ Table of Contents
    * [DESCRIPTION](#description)
    * [SPECIFICATIONS](#specifications)
    * [CONTRIBUTING](#contributing)
+   * [TUTORIALS](#tutorials)
    * [SCREENSHOTS](#screenshots)
    * [LICENSE](#license)
    * [CREDITS](#credits)
@@ -205,6 +206,12 @@ You can find the repo of the plugin template here: [ofxMosaicPlugin](https://git
 
 If you're curious, please try out Mosaic and don't hesitate to get in touch.
 Mosaic is open to anybody, contributions of any kind are welcome.
+
+# TUTORIALS
+
+Check the [@d3cod3Channel](https://www.youtube.com/@d3cod3Channel) on youtube
+
+[![Watch the video](https://img.youtube.com/vi/_hn5jUJpou4/maxresdefault.jpg)](https://youtu.be/_hn5jUJpou4)
 
 # SCREENSHOTS
 
