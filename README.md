@@ -8,7 +8,7 @@
 
 [![Discord Mosaic Visual Programming](https://img.shields.io/badge/discord-Mosaic%20Visual%20Programming-2000ff)](https://discord.com/invite/sPJr6EEpyG)
 
-[![Youtube @d3cod3Channel](https://img.shields.io/badge/Youtube%20d3cod3Channel)](https://www.youtube.com/@d3cod3Channel)
+[![Youtube @d3cod3Channel](https://img.shields.io/badge/Youtube-d3cod3Channel)](https://www.youtube.com/@d3cod3Channel)
 
 __
 
