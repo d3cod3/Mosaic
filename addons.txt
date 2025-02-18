@@ -14,6 +14,7 @@ ofxCv					https://github.com/kylemcdonald/ofxCv				master
 ofxEasing				https://github.com/arturoc/ofxEasing				master
 ofxFFmpegRecorder		https://github.com/d3cod3/ofxFFmpegRecorder			master
 ofxFft					https://github.com/kylemcdonald/ofxFft				master
+ofxGlEditor             https://github.com/Akira-Hayasaka/ofxGLEditor       master
 ofxImGui				https://github.com/d3cod3/ofxImGui					master
 ofxInfiniteCanvas		https://github.com/d3cod3/ofxInfiniteCanvas			master
 ofxLua					https://github.com/danomatika/ofxLua				master
@@ -23,6 +24,7 @@ ofxNDI					https://github.com/d3cod3/ofxNDI					NDI5
 ofxOpenDHT              https://github.com/d3cod3/ofxOpenDHT                master
 ofxPd					https://github.com/danomatika/ofxPd					master
 ofxPDSP					https://github.com/d3cod3/ofxPDSP					master
+ofxScheme               https://github.com/d3cod3/ofxScheme                 master  
 ofxSyphon				https://github.com/d3cod3/ofxSyphon				    master
 ofxTimeline				https://github.com/d3cod3/ofxTimeline				master
 ofxVisualProgramming	https://github.com/d3cod3/ofxVisualProgramming		master
