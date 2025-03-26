@@ -296,25 +296,16 @@ void ofApp::update(){
             assetFolder.sort();
             assetWatcher.removeAllPaths();
             assetWatcher.addPath(temp.getEnclosingDirectory()+"data/");
+
             // load patch gui windows config
-            ofxXmlSettings XML;
-#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
-            if (XML.loadFile(patchToLoad)){
-#else
-            if (XML.load(patchToLoad)){
-#endif
-                if (XML.pushTag("settings")){
-                    isAssetLibraryON = static_cast<bool>(XML.getValue("AssetManager",0));
-                    isCodeEditorON = static_cast<bool>(XML.getValue("CodeEditor",0));
-                    visualProgramming->inspectorActive = static_cast<bool>(XML.getValue("Inspector",0));
-                    isLoggerON = static_cast<bool>(XML.getValue("Logger",0));
-                    visualProgramming->navigationActive = static_cast<bool>(XML.getValue("PatchNavigator",0));
-                    visualProgramming->profilerActive = static_cast<bool>(XML.getValue("Profiler",0));
+            visualProgramming->ofxVPXml.loadMosaicPatch(patchToLoad);
+            isAssetLibraryON = visualProgramming->ofxVPXml.getMosaicConfigBool("AssetManager");
+            isCodeEditorON = visualProgramming->ofxVPXml.getMosaicConfigBool("CodeEditor");
+            visualProgramming->inspectorActive = visualProgramming->ofxVPXml.getMosaicConfigBool("Inspector");
+            isLoggerON = visualProgramming->ofxVPXml.getMosaicConfigBool("Logger");
+            visualProgramming->navigationActive = visualProgramming->ofxVPXml.getMosaicConfigBool("PatchNavigator");
+            visualProgramming->profilerActive = visualProgramming->ofxVPXml.getMosaicConfigBool("Profiler");
 
-                    XML.popTag();
-                }
-
-            }
         }
     }
 
@@ -827,20 +818,16 @@ void ofApp::drawImGuiInterface(){
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
-                        ofxXmlSettings XML;
-#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
-                        if (XML.loadFile(file.getAbsolutePath())){
-#else
-                        if (XML.load(file.getAbsolutePath())){
-#endif
 
-                            if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                                patchToLoad = file.getAbsolutePath();
-                                loadNewPatch = true;
-                            }else{
-                                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                            }
+                        visualProgramming->ofxVPXml.loadMosaicPatch(file.getAbsolutePath());
+
+                        if (visualProgramming->ofxVPXml.isPatchOK()){
+                            patchToLoad = file.getAbsolutePath();
+                            loadNewPatch = true;
+                        }else{
+                            ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
                         }
+
                     }
                 }
             }
@@ -851,19 +838,16 @@ void ofApp::drawImGuiInterface(){
                 if (file.exists()){
                     string fileExtension = ofToUpper(file.getExtension());
                     if(fileExtension == "XML") {
-                        ofxXmlSettings XML;
-#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
-                        if (XML.loadFile(file.getAbsolutePath())){
-#else
-                        if (XML.load(file.getAbsolutePath())){
-#endif
-                            if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                                autoloadPatchFile = file.getAbsolutePath();
-                                _apf.open(autoloadPatchFile);
-                            }else{
-                                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
-                            }
+
+                        visualProgramming->ofxVPXml.loadMosaicPatch(file.getAbsolutePath());
+
+                        if (visualProgramming->ofxVPXml.isPatchOK()){
+                            autoloadPatchFile = file.getAbsolutePath();
+                            _apf.open(autoloadPatchFile);
+                        }else{
+                            ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
                         }
+
                     }
                 }
             }
@@ -2598,29 +2582,23 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
         //ofLog(OF_LOG_NOTICE,"%s : %s",file.getEnclosingDirectory().substr(tempstr.find_last_of('/')+1,file.getEnclosingDirectory().find_last_of('/')-tempstr.find_last_of('/')-1).c_str(), file.getFileName().substr(0,file.getFileName().find_last_of('.')).c_str());
         string fileExtension = ofToUpper(file.getExtension());
         if(fileExtension == "XML") {
-            ofxXmlSettings XML;
+            visualProgramming->ofxVPXml.loadMosaicPatch(file.getAbsolutePath());
 
-#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
-            if (XML.loadFile(file.getAbsolutePath())){
-#else
-            if (XML.load(file.getAbsolutePath())){
-#endif
-                if (XML.getValue("www","") == "https://mosaic.d3cod3.org"){
-                    if(temp){
-                        visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
-                        ofFile tempfile(visualProgramming->currentPatchFile);
-                        assetFolder.reset();
-                        assetFolder.listDir(tempfile.getEnclosingDirectory()+"data/");
-                        assetFolder.sort();
-                        assetWatcher.removeAllPaths();
-                        assetWatcher.addPath(tempfile.getEnclosingDirectory()+"data/");
-                    }else{
-                        patchToLoad = file.getAbsolutePath();
-                        loadNewPatch = true;
-                    }
+            if (visualProgramming->ofxVPXml.isPatchOK()){
+                if(temp){
+                    visualProgramming->newTempPatchFromFile(file.getAbsolutePath());
+                    ofFile tempfile(visualProgramming->currentPatchFile);
+                    assetFolder.reset();
+                    assetFolder.listDir(tempfile.getEnclosingDirectory()+"data/");
+                    assetFolder.sort();
+                    assetWatcher.removeAllPaths();
+                    assetWatcher.addPath(tempfile.getEnclosingDirectory()+"data/");
                 }else{
-                    ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
+                    patchToLoad = file.getAbsolutePath();
+                    loadNewPatch = true;
                 }
+            }else{
+                ofLog(OF_LOG_ERROR, "The opened file: %s, is not a Mosaic patch!",file.getAbsolutePath().c_str());
             }
         }else if(fileExtension == "MOV" || fileExtension == "MP4" || fileExtension == "MPEG" || fileExtension == "MPG" || fileExtension == "AVI"){
             visualProgramming->addObject("video player",objPos);
@@ -2803,31 +2781,20 @@ void ofApp::initScriptLanguages(){
         luaLang.mPreprocIdentifiers.insert(std::make_pair(std::string(lua_mosaic_keywords[i]), id));
     }
 
-    ofxXmlSettings XML;
+    pugi::xpath_node_set methods = visualProgramming->ofxVPXml.getScriptLanguageMethods(ofToDataPath("livecoding/lua_mosaic_language.xml"));
 
+    // Load all the lua_of_mosaic methods
+    if(!methods.empty()){
+        for(auto & met: methods){
+            auto m = met.node();
+            std::string methname = m.child("name").text().as_string();
+            //std::string methdesc = m.child("desc").text().as_string();
 
-#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
-    if (XML.loadFile("livecoding/lua_mosaic_language.xml")){
-#else
-    if (XML.load("livecoding/lua_mosaic_language.xml")){
-#endif
-        int totalMethods = XML.getNumTags("method");
-
-        // Load all the lua_of_mosaic methods
-        for(int i=0;i<totalMethods;i++){
-            if(XML.pushTag("method", i)){
-                string methname = XML.getValue("name","");
-                string methdesc = XML.getValue("desc","");
-
-                TextEditor::Identifier id;
-                //id.mDeclaration = fix_newlines(methdesc).c_str();
-                id.mDeclaration = "";
-                luaLang.mIdentifiers.insert(std::make_pair(std::string(methname.c_str()), id));
-
-                XML.popTag();
-            }
+            TextEditor::Identifier id;
+            //id.mDeclaration = fix_newlines(methdesc).c_str();
+            id.mDeclaration = "";
+            luaLang.mIdentifiers.insert(std::make_pair(std::string(methname.c_str()), id));
         }
-
     }
 
 }
