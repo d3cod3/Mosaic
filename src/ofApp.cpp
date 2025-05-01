@@ -2642,7 +2642,7 @@ void ofApp::createObjectFromFile(ofFile file,bool temp,int px, int py){
 
 //--------------------------------------------------------------
 bool ofApp::checkFileUsedInPatch(string filepath){
-    for(map<int,shared_ptr<PatchObject>>::iterator it = visualProgramming->patchObjects.begin(); it != visualProgramming->patchObjects.end(); it++ ){
+    for(std::map<int,std::shared_ptr<PatchObject>>::iterator it = visualProgramming->patchObjects.begin(); it != visualProgramming->patchObjects.end(); it++ ){
         if(it->second->getFilepath() == filepath){
             return true;
         }
