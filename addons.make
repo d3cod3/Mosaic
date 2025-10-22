@@ -1,2 +1,3 @@
 ofxInfiniteCanvas
 ofxVisualProgramming
+ofxXmlSettings

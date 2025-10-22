@@ -102,8 +102,6 @@ Mosaic, ofxVisualProgramming, openframeworks, linux, macOS, windows, creative-co
 
 #### [ofxFFmpegRecorder](https://github.com/d3cod3/ofxFFmpegRecorder) -- Fork
 
-#### [ofxFft](https://github.com/kylemcdonald/ofxFft)
-
 #### [ofxGLEditor](https://github.com/Akira-Hayasaka/ofxGLEditor)
 
 #### [ofxImGui](https://github.com/d3cod3/ofxImGui) -- Fork
@@ -167,7 +165,6 @@ git clone https://github.com/d3cod3/ofxBTrack
 git clone https://github.com/kylemcdonald/ofxCv
 git clone https://github.com/arturoc/ofxEasing
 git clone https://github.com/d3cod3/ofxFFmpegRecorder
-git clone https://github.com/kylemcdonald/ofxFft
 git clone https://github.com/Akira-Hayasaka/ofxGLEditor
 git clone https://github.com/d3cod3/ofxImGui
 git clone https://github.com/d3cod3/ofxInfiniteCanvas
