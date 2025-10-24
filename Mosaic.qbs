@@ -30,7 +30,8 @@ Project{
         ]
 
         of.addons: [
-            'ofxInfiniteCanvas','ofxVisualProgramming'
+            'ofxVisualProgramming',
+            'ofxInfiniteCanvas','ofxXmlSettings'
         ]
 
         // additional flags for the project. the of module sets some

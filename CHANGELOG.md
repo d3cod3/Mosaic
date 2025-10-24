@@ -1,5 +1,15 @@
 # Mosaic CHANGELOG
 
+### 0.7.3
+
+- **update** : switched to pugiXML, added ofxVP xml engine based on pugiXML
+- **addition** : added internal Fft implementation, reduced addons dependencies
+- **addition** : added A-Chaos non-linear strange attractors library
+- **addition** : added OrderedMap class, original code from Memo Akten, updated for ofxVP
+- **code cleaning** : added std:: namespace where needed ( readability )
+- **addition** : added new object category GENERATIVE, whit his first new object, **strange attractors**
+- **update** : standard texture resolution set at HD res. 1920x1080 ( it was time )
+
 ### 0.7.2
 
 - **addition** : Added new sound objects, **quantizer**, **parametric eq**, **address sequencer**, **polyphonic oscillator**, **summing mixer**
