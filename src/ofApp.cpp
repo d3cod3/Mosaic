@@ -226,6 +226,11 @@ void ofApp::setup(){
     isInternetAvailable = false;
     isCheckingRelease = false;
 
+    // SPAWN PHP SERVER
+    std::string tempCmd = "php -S localhost:"+std::to_string(PHP_SERVER_PORT)+" -t "+WWW_FOLDER;
+    php_server_process = new ThreadedCommand(tempCmd);
+    php_server_process->start_thread(1);
+
     // Check for updates
     lastRelease = VERSION;
 
@@ -1865,6 +1870,8 @@ void ofApp::exit() {
     }
 
     closeDHTNode();
+
+    php_server_process->terminate_thread();
 
     codeEditors.clear();
     codeWatchers.clear();

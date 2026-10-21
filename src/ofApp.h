@@ -79,6 +79,9 @@ public:
     // TIMING
     void            setMosaicFrameRate(float fps);
 
+    // PHP SERVER
+    void            startPHPThread();
+
     // UTILS
     void            initDataFolderFromBundle();
     bool            checkInternetReachability();
@@ -234,6 +237,8 @@ public:
 
 private:
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
+
+    ThreadedCommand                     *php_server_process;
 
     string                              lastScreenshot;
     bool                                takeScreenshot;
