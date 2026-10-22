@@ -84,7 +84,6 @@ public:
 
     // UTILS
     void            initDataFolderFromBundle();
-    bool            checkInternetReachability();
     void            checkForUpdates();
     void            checkAutoloadConfig();
     void            setAutoloadConfig();
@@ -236,6 +235,8 @@ public:
 
 
 private:
+    asio::io_context                    asio_io_context;
+
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
 
     ThreadedCommand                     *php_server_process;

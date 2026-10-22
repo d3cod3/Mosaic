@@ -40,6 +40,7 @@
 #include "TextEditor.h"
 #include "SynchTimer.h"
 #include "ThreadedCommand.h"
+#include "NetworkUtils.h"
 #include "PathWatcher.h"
 
 #include "imgui_stdlib.h"

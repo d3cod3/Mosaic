@@ -234,7 +234,22 @@ void ofApp::setup(){
     // Check for updates
     lastRelease = VERSION;
 
-    isInternetAvailable = checkInternetReachability();
+    InternetChecker::check(asio_io_context, [this](bool connected) {
+        isInternetAvailable = connected;
+        string tmpstr= "";
+        // INIT Mosaic DHT Chatroom
+        if(isInternetAvailable){
+            tmpstr = "------------------- INTERNET IS AVAILABLE!";
+            ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
+            setupDHTNode();
+        }else{
+            tmpstr = "INTERNET IS NOT AVAILABLE!";
+            ofLog(OF_LOG_ERROR,"%s",tmpstr.c_str());
+        }
+
+    });
+
+    asio_io_context.run();
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -244,10 +259,6 @@ void ofApp::setup(){
     shortcutFunc = "CTRL";
 #endif
 
-    // INIT Mosaic DHT Chatroom
-    if(isInternetAvailable){
-        setupDHTNode();
-    }
 
     saveNewScreenshot       = false;
     lastScreenshot          = "";
@@ -2437,29 +2448,6 @@ void ofApp::initDataFolderFromBundle(){
 
     if(examplesRoot.size() > 0){
         examplesRoot.sort();
-    }
-
-}
-
-//--------------------------------------------------------------
-bool ofApp::checkInternetReachability(){
-
-    FILE *output = popen("ping -c 1 www.github.com | grep -c from","r");
-
-    unsigned int i;
-    bool fsf = false;
-    if(fscanf(output,"%u",&i)) fsf = true;
-
-    if(i == 1 && fsf){
-        string tmpstr = "------------------- INTERNET IS AVAILABLE!";
-        ofLog(OF_LOG_NOTICE,"%s",tmpstr.c_str());
-        pclose(output);
-        return true;
-    }else{
-        string tmpstr = "INTERNET IS NOT AVAILABLE!";
-        ofLog(OF_LOG_ERROR,"%s",tmpstr.c_str());
-        pclose(output);
-        return false;
     }
 
 }

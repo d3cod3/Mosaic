@@ -23,6 +23,7 @@ Project{
             "src/TextEditor.h",
             "src/SynchTimer.h",
             "src/ThreadedCommand.h",
+            "src/NetworkUtils.h",
             "src/config.h",
             "src/includes.h",
             'src/main.cpp',
