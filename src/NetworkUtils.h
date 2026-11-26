@@ -39,15 +39,18 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <vector>
+#include <string>
+#include <random>
 
 
 //------------------------------------------------------------------------------------------
 class InternetChecker : public std::enable_shared_from_this<InternetChecker> {
 public:
     // Iniciamos la verificación asíncrona pasándole el contexto de ejecución y el callback
-    static void check(asio::io_context& ctx, std::function<void(bool)> callback) {
+    static void check(asio::io_context& ctx, int sec, std::function<void(bool)> callback) {
         auto checker = std::shared_ptr<InternetChecker>(new InternetChecker(ctx, callback));
-        checker->start();
+        checker->start(sec);
     }
 
 private:
@@ -63,9 +66,9 @@ private:
           endpoint_(asio::ip::make_address("202.61.236.67"), 443),
           callback_(callback) {}
 
-    void start() {
-        // 1. Configuramos un temporizador para controlar el tiempo límite (Timeout) de 3 segundos
-        timer_.expires_after(std::chrono::seconds(3));
+    void start(int seconds) {
+        // 1. Configuramos un temporizador para controlar el tiempo límite
+        timer_.expires_after(std::chrono::seconds(seconds));
         timer_.async_wait(std::bind(&InternetChecker::handle_timeout, shared_from_this(), std::placeholders::_1));
 
         // 2. Iniciamos el intento de conexión TCP asíncrono
@@ -82,9 +85,9 @@ private:
 
         if (!ec) {
             socket_.close();
-            callback_(true);  // ¡Conectado!
+            callback_(true);  // conected
         } else {
-            callback_(false); // Falló la conexión (p. ej. red inalcanzable)
+            callback_(false); // conexion fault
         }
     }
 
@@ -119,4 +122,48 @@ inline bool checkInternetReachability(){ // Linux/macOS only
         pclose(output);
         return false;
     }
+}
+
+//--------------------------------------------------------------
+inline std::string getRandomUserAgent(std::string response){
+    // plan B useragents strings
+    static const std::vector<std::string> commonUserAgents = {
+            "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_6; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27"
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/605.1.15",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+    };
+
+    static std::random_device rd;
+    static std::mt19937 generator(rd());
+
+    pugi::xml_document      xml;
+    bool isLoaded;
+    std::string s = response;
+    isLoaded = xml.load_string(s.c_str()) != pugi::status_ok;
+    if(isLoaded){
+        pugi::xpath_node_set ua = xml.select_nodes("//useragent");
+        std::vector<std::string> uas;
+        for (pugi::xpath_node xpath_node : ua) {
+            pugi::xml_node node = xpath_node.node();
+            pugi::xml_attribute attr = node.attribute("useragent");
+            if (attr && std::strlen(attr.value()) > 0) {
+                uas.push_back(attr.value());
+            }
+            //std::cout << "UA: " << attr.value() << std::endl;
+        }
+
+        // locally store the useragents xml file
+        bool xmlSaved = xml.save_file(ofToDataPath("www/gecko/useragentswitcher.xml","true").c_str());
+
+        std::uniform_int_distribution<size_t> distribution(0, uas.size() - 1);
+        return uas[distribution(generator)];
+    }
+
+    std::uniform_int_distribution<size_t> distribution(0, commonUserAgents.size() - 1);
+    return commonUserAgents[distribution(generator)];
 }
