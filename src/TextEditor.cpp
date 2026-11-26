@@ -953,7 +953,7 @@ void TextEditor::RenderInternal(const char* aTitle)
     assert(mLineBuffer.empty());
 #endif
 
-    auto contentSize = ImGui::GetContentRegionAvail() - ImGui::GetCursorPos();
+    auto contentSize = ImVec2(ImGui::GetContentRegionAvail().x - ImGui::GetCursorPos().x,ImGui::GetContentRegionAvail().y - ImGui::GetCursorPos().y);
     auto drawList = ImGui::GetWindowDrawList();
     float longest(mTextStart);
 
