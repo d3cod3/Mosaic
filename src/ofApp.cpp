@@ -74,10 +74,8 @@ void ofApp::setup(){
 
     pixelsxMM = mode->height/hScreenMM;
 
-    // testing retina screens and GUI scaling
-    //yScreenContentScale = 2;
-
-    suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,10,56));
+    //suggestedFontSize = static_cast<int>(ofMap(yScreenContentScale,1,8,10,56));
+    suggestedFontSize = 10;
 
     //std::cout << pixelsxMM << ":" << suggestedFontSize << std::endl;
 
@@ -122,6 +120,15 @@ void ofApp::setup(){
     // ImGui
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+
+    // Automatically rescale fonts dynamically when moving windows between monitors
+    io.ConfigDpiScaleFonts = true;
+    io.ConfigDpiScaleViewports = true;
+
+    // Scale UI padding, borders, and widget sizes
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(yScreenContentScale);
+    style.FontScaleDpi = yScreenContentScale;
 
     // Before gui.setup(), IO needs to have tooltips disabled (or setup errors can crash mosaic)
     // Moveme: Should be handled in ofxImGui
@@ -234,7 +241,7 @@ void ofApp::setup(){
     // Check for updates
     lastRelease = VERSION;
 
-    InternetChecker::check(asio_io_context, [this](bool connected) {
+    InternetChecker::check(asio_io_context, 3, [this](bool connected) {
         isInternetAvailable = connected;
         string tmpstr= "";
         // INIT Mosaic DHT Chatroom
@@ -250,6 +257,12 @@ void ofApp::setup(){
     });
 
     asio_io_context.run();
+
+    // Load Network variables
+
+    // defaults
+    session_user_agent = "";
+    ofLoadURLAsync("https://techpatterns.com/downloads/firefox/useragentswitcher.xml","get_useragents_async");
 
 #ifdef TARGET_LINUX
     shortcutFunc = "CTRL";
@@ -2062,10 +2075,15 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 //--------------------------------------------------------------
 void ofApp::urlResponse(ofHttpResponse & response) {
-    if (response.status==200 && response.request.name == "check_release_async") {
-        // check for updates
-        lastRelease = response.data.getText();
-        checkForUpdates();
+    if (response.status==200) {
+        if(response.request.name == "check_release_async"){
+            // check for updates
+            lastRelease = response.data.getText();
+            checkForUpdates();
+        }else if(response.request.name == "get_useragents_async"){
+            session_user_agent = getRandomUserAgent(response.data.getText());
+            //ofLog(OF_LOG_NOTICE,"Random UserAgent for this session: %s",session_user_agent.c_str());
+        }
     }
 }
 

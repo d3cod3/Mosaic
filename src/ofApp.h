@@ -240,6 +240,7 @@ private:
     shared_ptr<MosaicLoggerChannel>     mosaicLoggerChannel;
 
     ThreadedCommand                     *php_server_process;
+    std::string                         session_user_agent;
 
     string                              lastScreenshot;
     bool                                takeScreenshot;
